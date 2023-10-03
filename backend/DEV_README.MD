@@ -142,4 +142,106 @@ exports.deleteExample = factory.deleteOne(Example);
 
 By following these guidelines and understanding the provided `handlerFactory`, you can efficiently handle basic CRUD operations in our project. Always exercise caution and tailor the functions based on the specific needs of your application. Happy coding!
 
+
+Certainly! Here's a README file that explains how to use the `APIFeatures` class and how to structure your API request URLs according to the regular expressions used in the provided methods.
+
+---
+
+# APIFeatures Class
+
+The `APIFeatures` class is a utility for building query pipelines to handle API requests with functionalities like filtering, sorting, limiting fields, and pagination.
+
+## Usage
+
+1. **Import the `APIFeatures` class:**
+
+    Import the `APIFeatures` class into your file where you intend to use it.
+
+    ```javascript
+    const APIFeatures = require('./path/to/APIFeatures');
+    ```
+
+2. **Instantiate the `APIFeatures` class:**
+
+    Create a new instance of the `APIFeatures` class, passing the base query object and the request query string as parameters.
+
+    ```javascript
+    const features = new APIFeatures(Model.find(filter), req.query);
+    ```
+
+3. **Filtering:**
+
+    Use the `filter` method to filter the query based on the request query parameters.
+
+    - Filtering uses comparison operators: `$eq`, `$gt`, `$gte`, `$lt`, `$lte`.
+
+    **URL Example:**
+    
+    ```
+    /api/endpoint?price[gte]=1000&rating[gte]=4
+    ```
+
+4. **Sorting:**
+
+    Utilize the `sort` method to sort the query results based on the specified sorting parameters.
+
+    - Multiple sorting parameters can be comma-separated.
+
+    **URL Example:**
+
+    ```
+    /api/endpoint?sort=price,-rating
+    ```
+
+5. **Limiting Fields:**
+
+    Apply the `limitFields` method to select specific fields from the query result based on the request.
+
+    - Specify fields to include or exclude using the `fields` parameter.
+
+    **URL Example:**
+
+    ```
+    /api/endpoint?fields=name,price
+    ```
+
+6. **Pagination:**
+
+    Use the `paginate` method to handle pagination, specifying the page number and the limit of results per page.
+
+    - Defaults to page 1 and limit 100 if not specified.
+
+    **URL Example:**
+
+    ```
+    /api/endpoint?page=2&limit=10
+    ```
+
+7. **Execute the Query:**
+
+    After chaining the desired methods, access the modified query using `features.query`.
+
+    ```javascript
+    const doc = await features.query;
+    ```
+
+8. **Complete Example:**
+
+    ```javascript
+    let filter = {};
+    if (req.params.tourId) filter = { tour: req.params.tourId };
+
+    const features = new APIFeatures(Model.find(filter), req.query)
+        .filter()
+        .sort()
+        .limitFields()
+        .paginate();
+
+    const doc = await features.query;
+    ```
+
+---
+
+Feel free to adapt this README according to your project structure and specific API endpoints.
+
 ## Lastly: dont open any PR unless you tested it manually, dont request to merge untestable code. Use prettier to format your files as well, please.
