@@ -5,7 +5,5 @@ const doctorController = require('../controllers/doctorController');
 const router = express.Router();
 
 router.route("/addAdmin").post(adminController.addAdmin);
-router.route("/deleteUser/:id").delete(userController.deleteUser);
-router.route("/getDoctor/:id").get(doctorController.getDoctor);
 
 module.exports = router;
