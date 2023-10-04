@@ -107,8 +107,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     if (!username || !user.correctPassword(password, user.password)) {
        return next(new AppError("Invalid Credentials",401));
     }
-    if(user.role === 'doctor') {
-      if(!doctor.find({user:user.id}).isApproved) {
+    if((user.role === 'doctor') && (!doctor.find({user:user.id}).isApproved)){
         return next(new AppError("Doctor is not approved",400));
     }
       
