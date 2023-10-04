@@ -9,7 +9,9 @@ const patientController = require('../controllers/patientController');
 const doctorController = require('../controllers/doctorController');
 const enums = require('../constants/enums');
 
-const doctor = require('./../models/doctor');
+const doctor = require('./../models/doctorModel');
+const Patient = require('../models/patientModel');
+const Doctor = require('./../models/doctorModel');
 
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -49,6 +51,7 @@ exports.signup = catchAsync(async (req, res, next) => {
           }
 
         token = req.cookies?.jwt;
+        console.log(token);
         const err = new AppError("You are not authorized to create an admin account", 401);
 
         if(!token) return next(err)
@@ -68,20 +71,23 @@ exports.signup = catchAsync(async (req, res, next) => {
       }); 
 
     req.body.user = newUser.id;
-     
-    let responded;
-    if(req.body?.role === undefined || req.body?.role === enums.ROLE.PATIENT )
-        responded = patientController.createPatient(req,res,next);
+     try {
+        if(req.body?.role === undefined || req.body?.role === enums.ROLE.PATIENT )
+            await Patient.create(req.body)
 
-    if(req.body.role ===  enums.ROLE.DOCTOR) 
-        responded = doctorController.createDoctor(req,res,next);
-    
-    if(responded === true) {
-        User.deleteOne({username: newUser.username})
-        return;
-    }
-  
-    createSendToken(newUser, 201, req, res);
+        if(req.body.role ===  enums.ROLE.DOCTOR) 
+            await Doctor.create(req.body)
+            createSendToken(newUser, 201, req, res);
+        }
+      catch(err) {
+            await User.deleteOne({username: newUser.username})
+            res.status(400).json({
+                status: "fail",
+                data : {
+                  data: err
+                }
+            })
+          }
   });
  
 
@@ -143,14 +149,14 @@ exports.restrictTo = (...roles) => {
   };
 
   exports.login= catchAsync(async (req, res, next)=> {
-      const {email,password}=req.body;
+    const {username,password}=req.body;
 
-    if(!email || !password) {
-        return next(new AppError('Please provide an email address and a password', 400));
+    if(!username || !password) {
+        return next(new AppError('Please provide a username and a password', 400));
     }
-    const user= User.findById({username}).select(+'password')
+    const user= await User.findOne({username}).select('+password')
 
-    if (!username || !user.correctPassword(password, user.password)) {
+    if (!username || ! (await user.correctPassword(password, user.password))) {
        return next(new AppError("Invalid Credentials",401));
     }
     if((user.role === 'doctor') && (!doctor.find({user:user.id}).isApproved)){
@@ -158,5 +164,5 @@ exports.restrictTo = (...roles) => {
     }
     createSendToken(user, 200, req, res);
     }
-     )
+ );
   

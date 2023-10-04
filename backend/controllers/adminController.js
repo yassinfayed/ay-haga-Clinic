@@ -5,6 +5,3 @@ const AppError = require('../utils/appError');
 const doctorModel = require('../models/doctorModel');
 const patientModel = require('../models/patientModel');
 
-exports.addAdmin = catchAsync(async (req, res, next) => {
-    //TODO: Add admin
-});
