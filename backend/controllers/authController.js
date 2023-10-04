@@ -110,8 +110,6 @@ exports.protect = catchAsync(async (req, res, next) => {
     if((user.role === 'doctor') && (!doctor.find({user:user.id}).isApproved)){
         return next(new AppError("Doctor is not approved",400));
     }
-      
-    }
     createSendToken(user, 200, req, res);
     }
      )
