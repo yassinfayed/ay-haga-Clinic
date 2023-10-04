@@ -5,6 +5,7 @@ const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const Email = require('./../utils/email');
+const doctor = require('./../models/doctor');
 
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -94,3 +95,25 @@ exports.protect = catchAsync(async (req, res, next) => {
       next();
     };
   };
+
+  exports.login= catchAsync(async (req, res, next)=> {
+      const {email,password}=req.body;
+
+    if(!email || !password) {
+        return next(new AppError('Please provide an email address and a password', 400));
+    }
+    const user= User.findById({username}).select(+'password')
+
+    if (!username || !user.correctPassword(password, user.password)) {
+       return next(new AppError("Invalid Credentials",401));
+    }
+    if(user.role === 'doctor') {
+      if(!doctor.find({user:user.id}).isApproved) {
+        return next(new AppError("Doctor is not approved",400));
+    }
+      
+    }
+    createSendToken(user, 200, req, res);
+    }
+     )
+  
