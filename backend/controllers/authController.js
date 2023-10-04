@@ -5,6 +5,10 @@ const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const Email = require('./../utils/email');
+const patientController = require('../controllers/patientController');
+const doctorController = require('../controllers/doctorController');
+const enums = require('../constants/enums');
+
 
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -16,7 +20,7 @@ const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
   res.cookie('jwt', token, {
-    expires: new Date(
+    Expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
@@ -35,15 +39,57 @@ const createSendToken = (user, statusCode, req, res) => {
   });
 };
 
+exports.signup = catchAsync(async (req, res, next) => {  
+    if(req.body.role === enums.ROLE.ADMIN) {
+        let token;
+        if ( req.headers.authorization && req.headers.authorization.startsWith('Bearer'))
+          {
+            token = req.headers.authorization.split(' ')[1];
+          }
 
+        token = req.cookies?.jwt;
+        const err = new AppError("You are not authorized to create an admin account", 401);
+
+        if(!token) return next(err)
+
+        const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+        const currentUser = await User.findById(decoded.id);
+        
+        if(!currentUser || currentUser.role !==  enums.ROLE.ADMIN) return next(err)
+    } 
+
+    const newUser = await User.create({
+        name: req.body.name,
+        username: req.body.username,
+        password: req.body.password,
+        passwordConfirm: req.body.passwordConfirm,
+        role : req.body.role
+      }); 
+
+    req.body.user = newUser.id;
+     
+    let responded;
+    if(req.body?.role === undefined || req.body?.role === enums.ROLE.PATIENT )
+        responded = patientController.createPatient(req,res,next);
+
+    if(req.body.role ===  enums.ROLE.DOCTOR) 
+        responded = doctorController.createDoctor(req,res,next);
+    
+    if(responded === true) {
+        User.deleteOne({username: newUser.username})
+        return;
+    }
+  
+    createSendToken(newUser, 201, req, res);
+  });
+ 
 
 
 exports.protect = catchAsync(async (req, res, next) => {
     // 1) Getting token and check of it's there
     let token;
     if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
+      req.headers.authorization && req.headers.authorization.startsWith('Bearer')
     ) {
       token = req.headers.authorization.split(' ')[1];
     } else if (req.cookies.jwt) {
@@ -83,7 +129,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     next();
   });
 
-  exports.restrictTo = (...roles) => {
+exports.restrictTo = (...roles) => {
     return (req, res, next) => {
       if (!roles.includes(req.user.role)) {
         return next(

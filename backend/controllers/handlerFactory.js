@@ -1,6 +1,9 @@
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const APIFeatures = require('./../utils/apiFeatures');
+const User = require('../models/userModel');
+const Patient = require('../models/patientModel');
+const Doctor = require('../models/doctorModel');
 
 exports.deleteOne = Model =>
     catchAsync(async (req, res, next) => {
@@ -38,6 +41,8 @@ exports.updateOne = Model =>
 exports.createOne = Model =>
     catchAsync(async (req, res, next) => {
         const doc = await Model.create(req.body);
+
+        if(Model === Doctor || Model === Patient) return;
 
         res.status(201).json({
             status: 'success',
