@@ -9,9 +9,12 @@ const compression = require('compression');
 const cors = require('cors');
 const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController');
- 
+
 // Start express app
 const app = express();
+const adminRouter = require('./routes/adminRoutes.js');
+const doctorRouter = require('./routes/doctorRoutes.js');
+const userRouter = require('./routes/userRoutes.js');
 const exampleRouter = require('./routes/exampleRoutes.js');
 
 app.enable('trust proxy');
@@ -36,7 +39,7 @@ const limiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try again in an hour!'
 });
-if(process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use('/api', limiter);
 }
 
@@ -54,9 +57,10 @@ app.use(xss());
 app.use(compression());
 
 //Please use the following format when adding new routers, this means that any request begining with this route  /api/v1/exampleRouter after the domain will be handled by the handlers of routes inside this router
-app.use('/api/v1/exampleRouter', exampleRouter);
-
-
+app.use('/api/v1/example', exampleRouter);
+app.use('/api/v1/admin', adminRouter);
+app.use('/api/v1/doctor', doctorRouter);
+app.use('/api/v1/user', userRouter);
 //404 Error , YOU MUST PUT YOUR ROUTERS ABOVE THAT COMMENT 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
