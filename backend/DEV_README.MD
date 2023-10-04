@@ -65,8 +65,8 @@ Make sure to configure the following environment variables in your `config.env` 
 ## Usage Guidelines
 
 - **Use `catchAsync` for Error Handling**: Wrap all asynchronous handlers in controllers using the `catchAsync` utility.
- ## It takes an arrow ASYNC function as  paramameter and catches any unexpected errors in that function. Also you can return errors safely inside that function, they will be caught. I suggest however to use 
- ## next(new AppError(name,code)) when returning a new AppError, this will let the errorController middleware to handle the response for you. This way we won't have repeated try catch blocks
+ ### It takes an arrow ASYNC function as  parameter and catches any unexpected errors in that function. Also you can return errors safely inside that function, they will be caught. I suggest however to use 
+ ### next(new AppError(name,code)) when returning a new AppError, this will let the errorController middleware to handle the response for you. This way we won't have repeated try catch blocks
 
 - **Error Handling**: When encountering errors, use `next(new AppError(message, statusCode))` to pass the error to the error handler. The error controller will handle these errors automatically. Be mindful of potential future specific error handling needs, such as JWT errors. We will need to handle them in errorController in the future.
 
