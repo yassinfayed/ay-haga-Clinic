@@ -9,6 +9,7 @@ const patientController = require('../controllers/patientController');
 const doctorController = require('../controllers/doctorController');
 const enums = require('../constants/enums');
 
+const doctor = require('./../models/doctor');
 
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -140,3 +141,22 @@ exports.restrictTo = (...roles) => {
       next();
     };
   };
+
+  exports.login= catchAsync(async (req, res, next)=> {
+      const {email,password}=req.body;
+
+    if(!email || !password) {
+        return next(new AppError('Please provide an email address and a password', 400));
+    }
+    const user= User.findById({username}).select(+'password')
+
+    if (!username || !user.correctPassword(password, user.password)) {
+       return next(new AppError("Invalid Credentials",401));
+    }
+    if((user.role === 'doctor') && (!doctor.find({user:user.id}).isApproved)){
+        return next(new AppError("Doctor is not approved",400));
+    }
+    createSendToken(user, 200, req, res);
+    }
+     )
+  
