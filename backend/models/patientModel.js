@@ -43,8 +43,14 @@ const patientSchema = new mongoose.Schema({
       type: String,
       required: true
     }
-  }
+  },
+  healthRecords: [
+    {
+      type: String
+    }
+  ]
 });
+
 
 const Patient = mongoose.model('Patient', patientSchema);
 

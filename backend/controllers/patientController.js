@@ -1,8 +1,11 @@
+const handlerFactory = require('./handlerFactory');
 const Patient = require('../models/patientModel');
 const Prescription = require('../models/prescriptionModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory')
 const mongoose = require('mongoose');
+
+exports.getPatient = handlerFactory.getOne(Patient);
 
 const getPatientIdFromUserId = catchAsync(async (userId) => {
     const patient = await Patient.findOne({user: userId});
@@ -13,7 +16,7 @@ const getPatientIdFromUserId = catchAsync(async (userId) => {
 exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
     const patientId = await getPatientIdFromUserId(req.user._id);
     req.query['patientId'] = {"eq": patientId};
-    factory.getAll(Prescription)(req, res, next);
+    handlerFactory.getAll(Prescription)(req, res, next);
 });
 
-exports.getPrescription = catchAsync(factory.getOne(Prescription));
+exports.getPrescription = catchAsync(handlerFactory.getOne(Prescription));

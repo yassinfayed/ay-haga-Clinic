@@ -1,12 +1,11 @@
 const express = require('express');
-const exampleController = require('../controllers/exampleController');
-const { getAllPrescriptions, getPrescription } = require('../controllers/patientController');
+const patientController = require('../controllers/patientController');
+const router = express.Router();
 const { protect } = require('../controllers/authController');
 
-const router = express.Router();
-
 router.use(protect);
-router.get('/prescriptions', getAllPrescriptions);
-router.get('/prescription/:id', getPrescription);
+router.route("/getPatient/:id").get(patientController.getPatient);
+router.get('/prescriptions', patientController.getAllPrescriptions);
+router.get('/prescription/:id', patientController.getPrescription);
 
 module.exports = router;
