@@ -4,6 +4,9 @@ const Prescription = require('../models/prescriptionModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory')
 const mongoose = require('mongoose');
+const AppError = require('../utils/appError');
+const patientModel = require('../models/patientModel');
+const Appointment=require('../models/appointmentModel');
 
 exports.getPatient = handlerFactory.getOne(Patient);
 
@@ -20,12 +23,6 @@ exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
 });
 
 exports.getPrescription = catchAsync(handlerFactory.getOne(Prescription));
-const catchAsync = require('../utils/catchAsync');
-const factory = require('./handlerFactory');
-const AppError = require('../utils/appError');
-const patientModel = require('../models/patientModel');
-const handlerFactory=require('./handlerFactory');
-const Appointment=require('../models/appointmentModel');
 
 exports.viewAllPatients =catchAsync(async (req, res, next) => {
     handlerFactory.getAll(patientModel)(req,res,next);
