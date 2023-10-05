@@ -5,9 +5,9 @@ const enums = {
       PENDING: 'PENDING'
     },
     ROLE: {
-      ADMIN: 'ADMIN',
-      USER: 'USER',
-      GUEST: 'GUEST'
+      ADMIN: 'administrator',
+      PATIENT: 'patient',
+      DOCTOR: 'doctor'
     },
     CATEGORY: {
       TECH: 'TECHNOLOGY',

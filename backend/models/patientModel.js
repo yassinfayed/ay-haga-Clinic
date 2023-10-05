@@ -23,7 +23,7 @@ const patientSchema = new mongoose.Schema({
   },
   gender: {
     type: String,
-    enum: ['Male', 'Female'],
+    enum: ['male', 'female'],
     required: true
   },
   package: {
@@ -43,8 +43,14 @@ const patientSchema = new mongoose.Schema({
       type: String,
       required: true
     }
-  }
+  },
+  healthRecords: [
+    {
+      type: String
+    }
+  ]
 });
+
 
 const Patient = mongoose.model('Patient', patientSchema);
 
