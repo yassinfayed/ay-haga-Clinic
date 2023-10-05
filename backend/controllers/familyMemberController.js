@@ -1,9 +1,11 @@
 const { validationResult } = require('express-validator');
 const FamilyMember = require('../models/familyMembersModel');
 const handlerFactory = require('./handlerFactory');
+const patientController = require('./patientController');
+const Patient = require('../models/patientModel');
 
 exports.addFamilyMembers = async (req, res) => {
-  const { name, nationalId, age, gender, relationToPatient, patientId } = req.body;
+  const { name, nationalId, age, gender, relationToPatient} = req.body;
 
   try {
     // Check for validation errors
@@ -14,6 +16,10 @@ exports.addFamilyMembers = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
+    // const patientId = await patientController.getPatientIdFromUserId(req.user._id);
+    const patient = await Patient.findOne({user: req.user._id});
+    const patientId = patient._id
+
     // Create a new family member instance using the Mongoose model
     const familyMember = new FamilyMember({
       name,
@@ -21,7 +27,7 @@ exports.addFamilyMembers = async (req, res) => {
       age,
       gender,
       relationToPatient,
-      patientId,
+      patientId : patientId
     });
 
     // Save the family member to the database
@@ -37,7 +43,8 @@ exports.addFamilyMembers = async (req, res) => {
 };
 
 exports.viewRegisteredFamilyMembers = async (req, res,next) => {
+    const patient = await Patient.findOne({user: req.user._id});
+    const patientId = patient._id
+    req.query["patientId"] = { "eq": patientId };
     handlerFactory.getAll(FamilyMember)(req,res,next);
-    console.log("successful");
-
 };
