@@ -14,6 +14,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const app = express();
 const adminRouter = require('./routes/adminRoutes.js');
 const doctorRouter = require('./routes/doctorRoutes.js');
+const patientRouter = require('./routes/patientRoutes.js');
 const userRouter = require('./routes/userRoutes.js');
 const exampleRouter = require('./routes/exampleRoutes.js');
 
@@ -61,6 +62,7 @@ app.use('/api/v1/example', exampleRouter);
 app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/doctor', doctorRouter);
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/patient', patientRouter);
 //404 Error , YOU MUST PUT YOUR ROUTERS ABOVE THAT COMMENT 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
