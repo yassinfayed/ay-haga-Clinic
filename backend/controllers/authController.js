@@ -149,11 +149,11 @@ exports.restrictTo = (...roles) => {
     }
     const user= await User.findOne({username}).select('+password')
 
-    if (!username || ! (await user.correctPassword(password, user.password))) {
+    if (!user || ! (await user.correctPassword(password, user.password))) {
        return next(new AppError("Invalid Credentials",401));
     }
-    if((user.role === 'doctor') && (!doctor.find({user:user.id}).isApproved)){
-        return next(new AppError("Doctor is not approved",400));
+    if((user.role === 'doctor') && (! await (doctor.find({user:user.id})).isApproved)){
+        // return next(new AppError("Doctor is not approved",400));
     }
     createSendToken(user, 200, req, res);
     }
