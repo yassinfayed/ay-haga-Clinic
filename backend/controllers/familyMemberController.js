@@ -7,7 +7,6 @@ const Patient = require('../models/patientModel');
 exports.addFamilyMembers = async (req, res) => {
   const { name, nationalId, age, gender, relationToPatient} = req.body;
 
-  try {
     // Check for validation errors
     const errors = validationResult(req);
 
@@ -34,12 +33,13 @@ exports.addFamilyMembers = async (req, res) => {
     await familyMember.save();
 
     // Respond with a success message
-    res.json({ message: 'Family member added successfully' });
-  } catch (err) {
-    // Handle errors, e.g., database errors
-    console.error(err);
-    res.status(500).json({ error: 'An error occurred while adding the family member' });
-  }
+    res.status(200).json({
+        status: "success",
+        data: {
+          data:familyMember
+        }
+      })
+     
 };
 
 exports.viewRegisteredFamilyMembers = async (req, res,next) => {
