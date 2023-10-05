@@ -16,6 +16,7 @@ const adminRouter = require('./routes/adminRoutes.js');
 const doctorRouter = require('./routes/doctorRoutes.js');
 const patientRouter = require('./routes/patientRoutes.js');
 const userRouter = require('./routes/userRoutes.js');
+const patientRouter = require('./routes/patientRoutes');
 const exampleRouter = require('./routes/exampleRoutes.js');
 
 app.enable('trust proxy');
