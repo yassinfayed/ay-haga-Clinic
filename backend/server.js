@@ -29,7 +29,7 @@ const server = app.listen(port, () => {
 });
 
 process.on('unhandledRejection', err => {//handle unhandled errors like mongoDB authentication/promise erros etc..
-    console.log(err.name, err.message);
+    console.log(err.name, err.message, err.stack);
     console.log('Shutting down')
     server.close(() => {
         process.exit(1);
@@ -37,7 +37,7 @@ process.on('unhandledRejection', err => {//handle unhandled errors like mongoDB 
 });
 
 process.on('uncaughtException', err => {
-    console.log(err.name, err.message);
+    console.log(err.name, err.message, err.stack);
     console.log('Shutting down')
     server.close(() => { 
         process.exit(1);
