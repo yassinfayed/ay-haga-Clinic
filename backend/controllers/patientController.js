@@ -4,38 +4,54 @@ const Patient = require('../models/patientModel');
 const Prescription = require('../models/prescriptionModel');
 const Appointment=require('../models/appointmentModel');
 const Doctor = require('../models/doctorModel');
+const AppError = require('../utils/appError');
 
+
+//TODO: Retrieve only my patient
 exports.getPatient = handlerFactory.getOne(Patient);
+
 
 exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
     const patient = await Patient.findOne({user: req.user._id});
     const patientId = patient._id;
     req.query['patientId'] = {"eq": patientId};
-    
     handlerFactory.getAll(Prescription)(req, res, next);
 });
 
-exports.getPrescription = catchAsync(handlerFactory.getOne(Prescription));
+exports.getPrescription =catchAsync(async (req, res, next) => {
+  const patient = await Patient.findOne({user: req.user._id});
+  const patientId = patient._id;
 
-exports.viewAllPatients =catchAsync(async (req, res, next) => {
+  const data = await Prescription.findOne({patientId: patientId, _id: req.params.id});
+  res.status(200).json({
+    status :"success",
+    data: {
+      data
+    }
+  })
+});
+
+exports.viewMyPatients =catchAsync(async (req, res, next) => {
     const doctor = await Doctor.findOne({user: req.user._id});
     const doctorId = doctor._id;
-      let appointments = await Appointment.find({doctorId}).populate("patient");
+    let appointments = await Appointment.find({doctorId}).populate("patient");
+    let data =  appointments.map(appointment => appointment.patient);
+    if(req.query.name)
+         data = data.filter( pat => `${pat.name}`.includes(req.query.name))
     res.status(200).json({
       status: "success",
-      results: appointments?.length,
+      results: data?.length,
       data: {
-        data: appointments.map(appointment => appointment.patient)
+        data: data
       }
-    })
+    });
 
  
 });
 
 
-exports.SearchPatientByName =catchAsync(async (req, res, next) => {
-    handlerFactory.getAll(Patient)(req,res,next);
-});
+exports.getAllPatients =handlerFactory.getAll(Patient)
+
 
 
 exports.FilterPatientsBasedOnUpcomimgAppointments =catchAsync(async (req, res, next) => {

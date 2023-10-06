@@ -43,7 +43,7 @@ const prescriptionSchema = new mongoose.Schema({
     },
     prescriptionDate:{
         type:Date,
-        default:Date.now,
+        default: Date.now()
     },
     filled_unfilled:{
         type: Boolean,

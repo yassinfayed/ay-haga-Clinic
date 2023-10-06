@@ -22,6 +22,7 @@ const FamilyMembersSchema = new mongoose.Schema({
     },
     relationToPatient:{
         type:String,
+        enum: ['child', 'wife','husband'],
         required:[true, "Please enter your family member relation to you"]
     },
     patientId:{

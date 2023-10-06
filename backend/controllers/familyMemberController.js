@@ -3,8 +3,9 @@ const FamilyMember = require('../models/familyMembersModel');
 const handlerFactory = require('./handlerFactory');
 const patientController = require('./patientController');
 const Patient = require('../models/patientModel');
+const catchAsync = require('../utils/catchAsync');
 
-exports.addFamilyMembers = async (req, res) => {
+exports.addFamilyMembers = catchAsync(async (req, res) => {
     const { name, nationalId, age, gender, relationToPatient} = req.body;
     // const patientId = await patientController.getPatientIdFromUserId(req.user._id);
     const patient = await Patient.findOne({user: req.user._id});
@@ -31,11 +32,11 @@ exports.addFamilyMembers = async (req, res) => {
         }
       })
      
-};
+});
 
-exports.viewRegisteredFamilyMembers = async (req, res,next) => {
+exports.viewRegisteredFamilyMembers = catchAsync(async (req, res,next) => {
     const patient = await Patient.findOne({user: req.user._id});
     const patientId = patient._id
     req.query["patientId"] = { "eq": patientId };
     handlerFactory.getAll(FamilyMember)(req,res,next);
-};
+});

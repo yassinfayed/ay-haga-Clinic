@@ -36,6 +36,9 @@ appointmentSchema.virtual('doctor', {
     justOne: true
 });
 
+appointmentSchema.set('toObject', { virtuals: true });
+appointmentSchema.set('toJSON', { virtuals: true });
+
 const appointment = mongoose.model('Appointment', appointmentSchema);
 
 module.exports = appointment;

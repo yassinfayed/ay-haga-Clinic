@@ -18,10 +18,10 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
     await userModel.findByIdAndDelete(req.params.id);
 
     if (role === 'doctor') {
-        await Doctor.findByIdAndDelete(req.params.id);
+        await Doctor.findOneAndDelete( {user: req.params.id});
     }
     if (role === 'patient') {
-        await Patient.findByIdAndDelete(req.params.id);
+        await Patient.findOneAndDelete( {user: req.params.id});
     }
 
     res.status(204).json({
