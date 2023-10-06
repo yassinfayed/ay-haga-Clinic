@@ -1,15 +1,9 @@
-const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
-const Email = require('./../utils/email');
-const patientController = require('../controllers/patientController');
-const doctorController = require('../controllers/doctorController');
 const enums = require('../constants/enums');
-
-const doctor = require('./../models/doctorModel');
 const Patient = require('../models/patientModel');
 const Doctor = require('./../models/doctorModel');
 
@@ -151,8 +145,8 @@ exports.restrictTo = (...roles) => {
     if (!user || ! (await user.correctPassword(password, user.password))) {
        return next(new AppError("Invalid Credentials",401));
     }
-    if((user.role === 'doctor') && (! await (doctor.find({user:user.id})).isApproved)){
-        // return next(new AppError("Doctor is not approved",400));
+    if((user.role === enums.ROLE.DOCTOR) && (! await (Doctor.find({user:user.id})).isApproved)){
+        return next(new AppError("Doctor is not approved",400));
     }
     createSendToken(user, 200, req, res);
     }

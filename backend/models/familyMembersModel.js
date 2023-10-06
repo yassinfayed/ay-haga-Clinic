@@ -1,28 +1,28 @@
 const mongoose = require('mongoose');
-
+const enums = require('../constants/enums')
 const FamilyMembersSchema = new mongoose.Schema({
     name:{
         type:String,
-        required:true
+        required: [true, "Please enter your family member name"]
     },
     nationalId:{
         type:String,
-        required:true,
+        required:[true, "Please enter your family member nationalID"],
         min:10,
         max:20
     },
     age:{
         type:Number,
-        required:true
+        required:[true, "Please enter your family member age"]
     },
     gender:{
         type:String,
-        enum:['Male','Female'],
-        required:true
+        enum:[enums.GENDER.MALE,enums.GENDER.FEMALE],
+        required:[true, "Please enter your family member gender"]
     },
     relationToPatient:{
         type:String,
-        required:true
+        required:[true, "Please enter your family member relation to you"]
     },
     patientId:{
         type:mongoose.Schema.Types.ObjectId,

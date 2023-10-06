@@ -1,4 +1,5 @@
 const handlerFactory = require('./handlerFactory');
+const Doctor = require('../models/doctorModel');
 const doctorModel = require('../models/doctorModel');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
