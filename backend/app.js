@@ -9,6 +9,8 @@ const compression = require('compression');
 const cors = require('cors');
 const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController');
+const dotenv = require('dotenv');
+dotenv.config({ path: './config.env' });
 
 // Start express app
 const app = express();
@@ -18,7 +20,8 @@ const patientRouter = require('./routes/patientRoutes.js');
 const userRouter = require('./routes/userRoutes.js');
 const exampleRouter = require('./routes/exampleRoutes.js');
 const familyMembersRouter=require('./routes/familyMembersRoutes.js');
-const healthPackagesRouter =require('./routes/healthPackagesRoutes');
+const healthPackagesRouter =require('./routes/healthPackagesRoutes.js');
+const appointmentRouter = require('./routes/appointmentRoutes.js')
 
 app.enable('trust proxy');
 
@@ -65,6 +68,7 @@ app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/doctor', doctorRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/patient',patientRouter);
+app.use('/api/v1/appointment',appointmentRouter);
 app.use('/api/v1/familyMembers',familyMembersRouter);
 app.use('/api/v1/healthPackages', healthPackagesRouter);
 
