@@ -1,4 +1,4 @@
 const handlerFactory = require('./handlerFactory');
-const doctorModel = require('../models/doctorModel');
+const Doctor = require('../models/doctorModel');
 
-exports.getDoctor = handlerFactory.getOne(doctorModel);
+exports.getDoctor = handlerFactory.getOne(Doctor);

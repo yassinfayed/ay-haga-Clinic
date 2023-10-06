@@ -29,6 +29,13 @@ appointmentSchema.virtual('patient', {
     justOne: true
 });
 
+appointmentSchema.virtual('doctor', {
+    ref: 'Doctor',
+    localField: 'doctorId',
+    foreignField: '_id',
+    justOne: true
+});
+
 const appointment = mongoose.model('Appointment', appointmentSchema);
 
 module.exports = appointment;

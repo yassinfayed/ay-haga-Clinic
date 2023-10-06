@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
         type: 'string',
         unique: true,
         lowercase: true,
-        required : true
+        required : [true, "please provide a username"]
     },
     role: {
         type: String,

@@ -5,16 +5,7 @@ const patientController = require('./patientController');
 const Patient = require('../models/patientModel');
 
 exports.addFamilyMembers = async (req, res) => {
-  const { name, nationalId, age, gender, relationToPatient} = req.body;
-
-    // Check for validation errors
-    const errors = validationResult(req);
-
-    // If there are validation errors, respond with a 400 Bad Request status and the error messages
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
+    const { name, nationalId, age, gender, relationToPatient} = req.body;
     // const patientId = await patientController.getPatientIdFromUserId(req.user._id);
     const patient = await Patient.findOne({user: req.user._id});
     const patientId = patient._id

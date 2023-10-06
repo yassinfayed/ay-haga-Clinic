@@ -1,19 +1,13 @@
 const enums = {
-    STATUS: {
-      ACTIVE: 'ACTIVE',
-      INACTIVE: 'INACTIVE',
-      PENDING: 'PENDING'
-    },
     ROLE: {
       ADMIN: 'administrator',
       PATIENT: 'patient',
       DOCTOR: 'doctor'
     },
-    CATEGORY: {
-      TECH: 'TECHNOLOGY',
-      SPORTS: 'SPORTS',
-      MUSIC: 'MUSIC'
-    }
+    GENDER: {
+      MALE: "male",
+      FEMALE: "female",
+    },
   };
   
   module.exports = enums;

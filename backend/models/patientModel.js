@@ -2,29 +2,32 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const patientSchema = new mongoose.Schema({
-  user: {
+ user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: [true, 'User ID is required']
   },
   name: {
     type: String,
-    required: true
+    required: [true, 'Name is required']
   },
   email: {
     type: String,
-    required: true,
+    required: [true, 'Email is required'],
     unique: true,
-    validate: [validator.isEmail, 'Please provide a valid email']
+    validate: {
+      validator: validator.isEmail,
+      message: 'Please provide a valid email'
+    }
   },
   dateOfBirth: {
     type: Date,
-    required: true
+    required: [true, 'Date of Birth is required']
   },
   gender: {
     type: String,
     enum: ['male', 'female'],
-    required: true
+    required: [true, 'Gender is required']
   },
   package: {
     type: mongoose.Schema.ObjectId,
@@ -32,25 +35,31 @@ const patientSchema = new mongoose.Schema({
   },
   mobileNumber: {
     type: String,
-    required: true
+    required: [true, 'Mobile number is required']
   },
   emergencyContact: {
     fullName: {
       type: String,
-      required: true
+      required: [true, 'Emergency contact full name is required']
     },
     mobileNumber: {
       type: String,
-      required: true
+      required: [true, 'Emergency contact mobile number is required']
     }
   },
   healthRecords: [
     {
       type: String
     }
-  ]
+  ],
 });
 
+patientSchema.virtual('helathPackage', {
+  ref: 'healthPackage',
+  localField: 'package',
+  foreignField: '_id',
+  justOne: true
+});
 
 const Patient = mongoose.model('Patient', patientSchema);
 

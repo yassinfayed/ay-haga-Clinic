@@ -1,6 +1,4 @@
 const handlerFactory = require('./handlerFactory');
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
 const HealthPackage = require('../models/healthPackages');
 
 exports.createHealthPackage = handlerFactory.createOne(HealthPackage);

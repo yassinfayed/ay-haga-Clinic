@@ -1,6 +1,4 @@
 const handlerFactory = require('./handlerFactory');
-const catchAsync = require('../utils/catchAsync');
+const Appointment = require('../models/appointmentModel');
 
-exports.viewAllAppointments=catchAsync(async(req,res,next)=>{
-    handlerFactory.getAll(Appointment)(req,res,next);
-})
+exports.viewAllAppointments = handlerFactory.getAll(Appointment);
