@@ -1,0 +1,31 @@
+Patient:
+1-Register
+2-login
+3-add family members
+4-view registered family members
+5-get my appointments filter by date/status
+6-view list of all drs with price
+7-search dr by name
+8-filter a dr by speciality and/or availability on a date at a specific time
+9-get one dr
+10- view list of all my presciprtions
+11- filter """
+12- get one presciprtion
+
+Doctor:
+1-request to Register
+2-edit me
+3-filter my app by date/status
+4- view my patients
+5- search my patients by name
+6- filter based on upcoming appointments
+7- get one
+
+Administrator:
+1-add another Administrator
+2-remove doc/pat/Administrator
+3-view all of the info of drs
+4-remove pat/dr
+
+
+//search improvment
