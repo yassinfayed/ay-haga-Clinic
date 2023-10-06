@@ -45,7 +45,6 @@ exports.signup = catchAsync(async (req, res, next) => {
           }
 
         token = req.cookies?.jwt;
-        console.log(token);
         const err = new AppError("You are not authorized to create an admin account", 401);
 
         if(!token) return next(err)

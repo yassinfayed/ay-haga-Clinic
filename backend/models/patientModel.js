@@ -54,12 +54,20 @@ const patientSchema = new mongoose.Schema({
   ],
 });
 
+
 patientSchema.virtual('helathPackage', {
   ref: 'healthPackage',
   localField: 'package',
   foreignField: '_id',
   justOne: true
 });
+
+
+// Apply the virtual field to the schema
+patientSchema.set('toObject', { virtuals: true });
+patientSchema.set('toJSON', { virtuals: true });
+
+
 
 const Patient = mongoose.model('Patient', patientSchema);
 
