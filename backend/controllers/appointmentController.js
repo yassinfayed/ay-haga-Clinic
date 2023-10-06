@@ -17,8 +17,6 @@ exports.getAllPatientAppointments = catchAsync(async (req, res, next) => {
 
 exports.getAllDoctorAppointments = catchAsync(async (req, res, next) => {
     const doctor = await Doctor.findOne({user: req.user._id});
-    console.log(req.user._id)
-    console.log(doctor)
     const doctorId = doctor._id;
     req.query['doctorId'] = {"eq": doctorId};
     
