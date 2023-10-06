@@ -37,6 +37,15 @@ const DoctorSchema = new mongoose.Schema({
     isApproved: {
         type: Boolean,
         default: false
+    },
+    speciality: {
+        type: String,
+        required: [true, 'Please specify your speciality']
+    },
+    availableDates: {
+        type: [Date],
+        required: true,
+        default: []
     }
 });
 
