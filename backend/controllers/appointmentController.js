@@ -27,4 +27,8 @@ exports.getAllDoctorAppointments = catchAsync(async (req, res, next) => {
     handlerFactory.getAll(Appointment)(req, res, next);
 });
 
+exports.createAppointment = handlerFactory.createOne(Appointment);
+exports.updateAppointment = handlerFactory.updateOne(Appointment);
+exports.deleteAppointment = handlerFactory.deleteOne(Appointment);
+
 

@@ -9,6 +9,8 @@ router.get('/get-patient-appointments', appointmentController.getAllPatientAppoi
 router.get('/get-doctor-appointments', appointmentController.getAllDoctorAppointments);
 
 router.get('/:id', appointmentController.getAppointment);
-
+router.post('/newAppointment', appointmentController.createAppointment);
+router.patch('/update/:id', appointmentController.updateAppointment);
+router.delete('/delete/:id', appointmentController.deleteAppointment);
 
 module.exports = router;
