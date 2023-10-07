@@ -9,6 +9,8 @@ router.get('/get-patient-appointments', appointmentController.getAllPatientAppoi
 router.get('/get-doctor-appointments', appointmentController.getAllDoctorAppointments);
 
 router.get('/:id', appointmentController.getAppointment);
+
+//This will be deleted in sprints 2 & 3 as it will involve much more complexity, payment refund etc.../ Will be used for now to seed dummy data if we wanted to
 router.post('/newAppointment', appointmentController.createAppointment);
 router.patch('/update/:id', appointmentController.updateAppointment);
 router.delete('/delete/:id', appointmentController.deleteAppointment);
