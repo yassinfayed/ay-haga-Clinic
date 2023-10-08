@@ -13,6 +13,9 @@ export const getDrsForPatientsReducer = (state = {}, action) => {
           error: null,
         };
       case DOCTORS_VIEW_SUCCESS:{
+        console.log(action.payload.data)
+        console.log("heyy")
+
         return {
           ...state,
           doctors: action.payload,

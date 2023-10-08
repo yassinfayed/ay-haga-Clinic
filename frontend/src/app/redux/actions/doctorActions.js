@@ -22,9 +22,14 @@ export const getDoctorsForPatientAction = (queryObj) => async (dispatch) => {
     };
 
     const queryStr = formulateQueryString(queryObj)
-  
+    let url;
+
+    if(!queryObj) 
+      url = `${baseURL}/api/v1/doctor/getAllDoctors`
+    else
+      url= `${baseURL}/api/v1/doctor/getAllDoctors?${queryStr}`
     const { data } = await axios.get(
-      `${baseURL}/api/v1/doctor/getallDoctors?${queryStr}`,
+      url,
       config
     );
 
@@ -34,6 +39,7 @@ export const getDoctorsForPatientAction = (queryObj) => async (dispatch) => {
     });
 
   } catch (error) {
+    console.log(error)
     dispatch({
       type: DOCTORS_VIEW_FAIL,
       payload: error.response
