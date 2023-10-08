@@ -27,9 +27,19 @@ app.enable('trust proxy');
 
 
 // 1) GLOBAL MIDDLEWARES
-app.use(cors());
+// app.use(cors());
 
-app.options('*', cors());
+// app.options('*', cors());
+
+var corsOptions = {
+  origin: ['http://localhost:3000'],
+  credentials: true,
+  optionsSuccessStatus: 200 
+}
+app.use(cors(corsOptions));
+
+// app.options('*', cors());
+
 
 // Set secure HTTP headers
 app.use(helmet());

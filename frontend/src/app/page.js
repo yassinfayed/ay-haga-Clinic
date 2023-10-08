@@ -4,6 +4,9 @@ import useFilter from '../../hooks/useFilter';
 import { Button } from '../../components/Button';
 import { Table } from '../../components/Table';
 import { Card } from '../../components/Card';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;// to send cookies
 
 export default function Home() {
   const tableHeaders = ['Name', 'Age', 'Country', 'Occupation'];
