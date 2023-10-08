@@ -1,6 +1,34 @@
+.global-text{
+    color: #140836;     
+}
 .hover-button:hover {
     background-color: #e0e0e0;
 }
 .link-hover:hover {
-    color: #190c3d; 
+    color: #140836; 
 }
+.text-size-200{
+    font-size: 150px;
+    color: #140836;     
+}
+.intro-section {
+    background-image: url('/doctors.jpeg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    padding: 100px; /* Add padding to adjust the content position */
+    color: white; /* Set text color to contrast with the background */
+    margin: auto;
+  }
+
+  .shape-background {
+    text-align: center;
+    height: 150px;
+    width: 150px;
+    position: relative;
+    background-color: #3498db; /* Set your desired background color */
+    padding: 20px; /* Adjust padding as needed */
+    color: #fff; /* Set text color */
+    overflow: hidden; /* Hide the overflowing parts of the diamond */
+  }
+    
+  
