@@ -11,7 +11,7 @@ exports.getAllDoctors = handlerFactory.getAll(Doctor)
 
 
 exports.getallDoctorsForPatient = catchAsync( async (req,res,next) => {
-    const patient = await Patient.findOne({ _id: req.params.id }).populate('package');
+    const patient = await Patient.findOne({ user: req.user._id }).populate('package');
     const features = new APIFeatures(Doctor.find({}), req.query).filter();
     const results = await features.query;
 
