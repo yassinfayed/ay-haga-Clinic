@@ -1,4 +1,4 @@
-function Button(props) {
+export default const Button = (props) => {
     const {text} = props;
     return (
         <button {...props} onClick={props.onClick} className={`btn btn-${props.variant || 'lg'} btn-primary mx-2 my-2 ${props.className}`}>
@@ -6,7 +6,3 @@ function Button(props) {
         </button>
     )
 };
-
-module.exports = {
-    Button
-}

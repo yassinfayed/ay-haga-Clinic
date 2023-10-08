@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Table(props) {
+export default Table = (props) => {
     const { headers, data, itemsPerPageOptions } = props;
 
     // State for pagination
@@ -69,7 +69,3 @@ function Table(props) {
         </>
     );
 }
-
-module.exports = {
-    Table
-};
