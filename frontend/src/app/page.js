@@ -5,6 +5,7 @@ import { Table } from '../../components/Table'
 import { Card } from '../../components/Card'
 import useFilter from '../../hooks/useFilter';
 
+
 export default function Home() {
   const tableHeaders = ['Name', 'Age', 'Country', 'Occupation'];
   const initialValues = [
