@@ -1,97 +1,37 @@
+"use client"
 import Image from 'next/image'
-import styles from './page.module.css'
+import useFilter from '../../hooks/useFilter';
+import { Button } from '../../components/Button';
+import { Table } from '../../components/Table';
+import { Card } from '../../components/Card';
+import axios from 'axios';
 
+axios.defaults.withCredentials = true;// to send cookies
 
 export default function Home() {
+  const tableHeaders = ['Name', 'Age', 'Country', 'Occupation'];
+  const initialValues = [
+    ['John Doe', 30, 'USA', 'Software Engineer'],
+    ['Alither Smith', 25, 'Canada', 'Data Analyst'],
+    ['Bob Johnson', 35, 'UK', 'Product Manager'],
+    ['Catherine Lee', 30, 'Australia', 'UX Designer']
+  ];
 
-  return (  
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+  const [tableData, setTableData, filterTableData, sortTableData] = useFilter(tableHeaders, initialValues);
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+  return (
+    <>
+      <Button text="Hello" onClick={() => { sortTableData('Age') }} />
+      <Table headers={
+        tableHeaders
+      } data={
+        tableData
+      }
+        itemsPerPageOptions={[3,5,10,20]}
+      />
+      <Card headerText="Hello" title="Hello World" subtitle="Hello America" text="Testing this card" buttonText='Hello World' onClick={() => { }}>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      </Card>
+    </>
   )
 }
