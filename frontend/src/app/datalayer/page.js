@@ -6,9 +6,9 @@ import { addFamilyMembers} from '../redux/actions/FamilyMembersAction';
 
 const Home = () => {
    const dispatch = useDispatch();
-   dispatch(login("sysadmin","pass1234"))
-   const selector = useSelector(state => state.loginReducer.user)
-   console.log(selector)
+   dispatch(login("omarDoe","passwors123"))
+  //  const selector = useSelector(state => state.loginReducer.user)
+  //  console.log(selector)
   //  console.log(selector)
   dispatch(addFamilyMembers({
     name: "Farida",
@@ -17,8 +17,8 @@ const Home = () => {
     gender: "Female",
     relationToPatient: "child"
   }))
-  const consoleSelector =useSelector(state=>state.addFamilyMembersReducer)
-  console.log(consoleSelector);
+  // const consoleSelector =useSelector(state=>state.addFamilyMembersReducer)
+  // console.log(consoleSelector);
 
   return (
     <div>home</div>
