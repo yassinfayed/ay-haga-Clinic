@@ -1,8 +1,15 @@
-export default const Button = (props) => {
-    const {text} = props;
+function Button (props) {
+    const { text, onClick, variant, className } = props;
     return (
-        <button {...props} onClick={props.onClick} className={`btn btn-${props.variant || 'lg'} btn-primary mx-2 my-2 ${props.className}`}>
+        <button
+            onClick={onClick}
+            className={`btn btn-${variant || 'lg'} btn-primary mx-2 my-2 ${className}`}
+        >
             {text}
         </button>
-    )
+    );
 };
+
+module.exports = {
+    Button
+}

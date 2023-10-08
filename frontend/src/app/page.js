@@ -1,10 +1,9 @@
 "use client"
 import Image from 'next/image'
 import useFilter from '../../hooks/useFilter';
-import Table from '../../components/Table';
-import Button from '../../components/Button';
-import Card from '../../components/Card';
-
+import { Button } from '../../components/Button';
+import { Table } from '../../components/Table';
+import { Card } from '../../components/Card';
 
 export default function Home() {
   const tableHeaders = ['Name', 'Age', 'Country', 'Occupation'];

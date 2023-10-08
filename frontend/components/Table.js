@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default Table = (props) => {
+function Table(props) {
     const { headers, data, itemsPerPageOptions } = props;
 
     // State for pagination
@@ -37,7 +37,7 @@ export default Table = (props) => {
                     {currentItems.map((row, index) => (
                         <tr key={`tr${index}`}>
                             {row.map((node, index2) => (
-                                <td key={`td${index * row.length + index2}`}>{node}</td>
+                                <td key={`td${index}-${index2}`}>{node}</td>
                             ))}
                         </tr>
                     ))}
@@ -48,24 +48,26 @@ export default Table = (props) => {
             <div className="pagination mx-2 my-2">
                 <span>Items per page:</span>
                 <select value={itemsPerPage} onChange={handleItemsPerPageChange}>
-                    {itemsPerPageOptions.map(option => (
-                        <option key={option} value={option}>{option}</option>
+                    {itemsPerPageOptions.map((option, index) => (
+                        <option key={"opt" + index} value={option}>{option}</option>
                     ))}
                 </select>
 
                 <span>Page:</span>
                 {Array.from({ length: Math.ceil(data.length / itemsPerPage) }, (_, index) => (
-                    <>
-                        <a
-                            key={`page${index + 1}`}
-                            onClick={() => handlePageChange(index + 1)}
-                            className={currentPage === index + 1 ? 'active' : ''}
-                        >
-                            {index + 1}
-                        </a>&nbsp;
-                    </>
+                    <a
+                        key={`page${index + 1}`}
+                        onClick={() => handlePageChange(index + 1)}
+                        className={`${currentPage === index + 1 ? 'active' : ''} mx-1`}
+                    >
+                        {index + 1}
+                    </a>
                 ))}
             </div>
         </>
     );
+}
+
+module.exports = {
+    Table
 }

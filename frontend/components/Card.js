@@ -1,6 +1,6 @@
 const { Button } = require("./Button");
 
-export default Card = ({ title, subtitle, text, image = "", buttonText = "", headerText="", onClick, onClickButton, children }) => {
+function Card ({ title, subtitle, text, image = "", buttonText = "", headerText = "", onClick, onClickButton, children }) {
 
     return (
         <>
@@ -17,4 +17,8 @@ export default Card = ({ title, subtitle, text, image = "", buttonText = "", hea
             </div>
         </>
     )
+}
+
+module.exports = {
+    Card
 }
