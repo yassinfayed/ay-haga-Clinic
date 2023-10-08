@@ -12,7 +12,6 @@ import baseURL from '../baseURL';
 
 export const login = (username, password) => async (dispatch) => {
   try {
-    console.log("hey")
     dispatch({
       type: USER_LOGIN_REQUEST,
     });
