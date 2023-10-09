@@ -20,7 +20,7 @@ const Testing = () => {
   // const selector = useSelector(state => state.listHealthPackagesReducer)
   // const selector = useSelector(state => state.listHealthPackageDetailsReducer)
   // const selector = useSelector(state => state.deleteHealthPackageReducer)
-  // const selector = useSelector(state => state.createHealthPackageReducer)
+  const selector = useSelector(state => state.createHealthPackageReducer)
   // const selector = useSelector(state => state.updateHealthPackageReducer)
 
   //   name :{
@@ -50,16 +50,16 @@ const Testing = () => {
   useEffect(() => {
     // dispatch(login("sysAdmin", "pass1234"))
     // dispatch(getDoctorsForPatientAction({}))
-    // dispatch(listHealthPackages())
+    dispatch(listHealthPackages())
     // dispatch(listHealthPackageDetails("60f6b0c6f4d7b5b8e0f5b7f6"))
     // dispatch(deleteHealthPackage("60f6b0c6f4d7b5b8e0f5b7f6"))
-    dispatch(createHealthPackage({
-      name: "gooooooo",
-      price: 100,
-      doctorDiscount: 10,
-      medicineDiscount: 10,
-      familyMemberSubDiscount: 10
-    }))
+    // dispatch(createHealthPackage({
+    //   name: "goooo1ooo",
+    //   price: 100,
+    //   doctorDiscount: 10,
+    //   medicineDiscount: 10,
+    //   familyMemberSubDiscount: 10
+    // }))
     // dispatch(updateHealthPackage("60f6b0c6f4d7b5b8e0f5b7f6", { name: "test" }))
   }
 
@@ -69,13 +69,10 @@ const Testing = () => {
 
     <div>
       {/* <h1 dr={selector}>Testing</h1> */}
-     
+
       <h1 >
 
       </h1>
-
-
-
     </div>
   )
 }

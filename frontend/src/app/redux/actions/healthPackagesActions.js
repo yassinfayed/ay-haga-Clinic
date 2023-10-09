@@ -25,7 +25,7 @@ import {
 
 
 export const listHealthPackages = () => async (dispatch) => {
-    console.log("listHealthPackages")
+
     try {
         dispatch({ type: HEALTH_PACKAGES_LIST_REQUEST });
         const config = {
@@ -41,7 +41,6 @@ export const listHealthPackages = () => async (dispatch) => {
             payload: data.data,
         });
     } catch (error) {
-        console.log(error)
         dispatch({
             type: HEALTH_PACKAGES_LIST_FAIL,
             payload: error.response
@@ -52,7 +51,7 @@ export const listHealthPackages = () => async (dispatch) => {
 }
 
 export const listHealthPackageDetails = (id) => async (dispatch) => {
-    console.log("listHealthPackageDetails")
+
     try {
         dispatch({ type: HEALTH_PACKAGE_DETAILS_REQUEST });
 
@@ -70,7 +69,6 @@ export const listHealthPackageDetails = (id) => async (dispatch) => {
             payload: data.data,
         });
     } catch (error) {
-        console.log(error)
         dispatch({
             type: HEALTH_PACKAGE_DETAILS_FAIL,
             payload: error.response
@@ -81,7 +79,7 @@ export const listHealthPackageDetails = (id) => async (dispatch) => {
 }
 
 export const deleteHealthPackage = (id) => async (dispatch, getState) => {
-    console.log("deleteHealthPackage")
+
     try {
         dispatch({
             type: HEALTH_PACKAGE_DELETE_REQUEST,
@@ -97,13 +95,11 @@ export const deleteHealthPackage = (id) => async (dispatch, getState) => {
             `${baseURL}/api/v1/healthPackages/${id}`,
             config
         );
-        console.log(data.data + "data")
         dispatch({
             type: HEALTH_PACKAGE_DELETE_SUCCESS,
             payload: data.data,
         });
     } catch (error) {
-        console.log(error)
         dispatch({
             type: HEALTH_PACKAGE_DELETE_FAIL,
             payload: error.response
@@ -114,7 +110,6 @@ export const deleteHealthPackage = (id) => async (dispatch, getState) => {
 }
 
 export const createHealthPackage = (healthPackage) => async (dispatch, getState) => {
-    console.log("createHealthPackage")
     try {
         dispatch({
             type: HEALTH_PACKAGE_CREATE_REQUEST,
@@ -126,7 +121,6 @@ export const createHealthPackage = (healthPackage) => async (dispatch, getState)
             },
             withCredentials: true
         };
-        console.log(healthPackage)
 
         const { data } = await axios.post(
             `${baseURL}/api/v1/healthPackages`,
@@ -140,7 +134,6 @@ export const createHealthPackage = (healthPackage) => async (dispatch, getState)
             payload: data.data,
         });
     } catch (error) {
-        console.log(error)
         dispatch({
             type: HEALTH_PACKAGE_CREATE_FAIL,
             payload: error.response
