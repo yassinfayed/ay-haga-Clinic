@@ -3,6 +3,9 @@ import {
   FAMILY_MEMBERS_REQUEST,
   FAMILY_MEMBERS_SUCCESS,
   FAMILY_MEMBERS_FAIL,
+  VIEW_FAMILY_MEMBERS_REQUEST,
+  VIEW_FAMILY_MEMBERS_SUCCESS,
+  VIEW_FAMILY_MEMBERS_FAIL,
 } from '../constants/FamilyMembersConstants';
 import baseURL from '../baseURL';
 
@@ -18,6 +21,7 @@ export const addFamilyMembers = (reqBody) => async (dispatch) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      withCredentials: true
     };
     const { data } = await axios.post(
       `${baseURL}/api/v1/familyMembers`,
@@ -32,12 +36,46 @@ export const addFamilyMembers = (reqBody) => async (dispatch) => {
 
     localStorage.setItem('userInfo', JSON.stringify(data)); 
   } catch (error) {
-    console.log("hhhhhhhhh");
+    console.log(error);
     dispatch({
       type: FAMILY_MEMBERS_FAIL,
       payload: error.response
         ? error.response.data.message
         : 'adding a family member failed. Please try again.',
+    });
+  }
+};
+
+export const viewFamilyMembers = () => async (dispatch) => {
+  try {
+    console.log("hey")
+    dispatch({
+      type: VIEW_FAMILY_MEMBERS_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true
+    };
+    const { data } = await axios.get(
+      `${baseURL}/api/v1/familyMembers`,
+      config
+    );
+
+    dispatch({
+      type: VIEW_FAMILY_MEMBERS_SUCCESS,
+      payload: data.data,
+    });
+ 
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: VIEW_FAMILY_MEMBERS_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'viewing family members failed. Please try again.',
     });
   }
 };

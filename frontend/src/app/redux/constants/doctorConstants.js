@@ -1,0 +1,3 @@
+export const DOCTOR_REQUEST = 'DOCTOR_REQUEST';
+export const DOCTOR_SUCCESS = 'DOCTOR_SUCCESS';
+export const DOCTOR_FAIL = 'DOCTOR_FAIL';

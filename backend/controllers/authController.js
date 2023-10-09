@@ -155,7 +155,8 @@ exports.restrictTo = (...roles) => {
     if (!user || ! (await user.correctPassword(password, user.password))) {
        return next(new AppError("Invalid Credentials",401));
     }
-    if((user.role === enums.ROLE.DOCTOR) && (! await (Doctor.find({user:user.id})).isApproved)){
+    const doct = await (Doctor.find({user:user._id}))
+    if((user.role === enums.ROLE.DOCTOR) && (doct.isApproved ===false)){
         return next(new AppError("Doctor is not approved",400));
     }
     createSendToken(user, 200, req, res);
