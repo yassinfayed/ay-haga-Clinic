@@ -144,9 +144,9 @@ export const getDoctorAppointments = (queryObj) => async (dispatch) => {
     let url;
 
     if (!queryObj)
-      url = `${baseURL}/api/v1/doctor/get-doctor-appointments`
+      url = `${baseURL}/api/v1/appointment/get-doctor-appointments`
     else
-      url = `${baseURL}/api/v1/doctor/get-doctor-appointments?${queryStr}`
+      url = `${baseURL}/api/v1/appointment/get-doctor-appointments?${queryStr}`
     const { data } = await axios.get(
       url,
       config
