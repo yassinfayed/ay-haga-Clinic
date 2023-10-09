@@ -25,7 +25,7 @@ const LandingPage = () => {
       <section className="container m-5 p-5">
         <div className="row pb-5">
           <div className="col-md-6">
-            <h1 className='text-size-200'>Clinic</h1>
+            <h1 className='text-size-200 text-primary'>Clinic</h1>
             <h2>
               Convenient healthcare at your
               fingertips.
@@ -46,9 +46,13 @@ const LandingPage = () => {
       {/* About Us Section */}
       <section id='about' className="bg-light py-5">
         <div className="container py-5">
-        <h2 className='text-primary pb-3'><strong>About Us</strong></h2>
           <div className="row">
-            <div className="bg-light card col-md-6 border-0 shadow" >
+            <div className="col-md-6">
+              {/* Image here! */}
+            </div>
+            <div className='col-md-6'>
+            <h2 className='text-primary pb-3'><strong>About Us</strong></h2>
+            <div className="bg-light card border-0 shadow" >
               <div className="card-body">
               <h5 className="card-title text-primary">XClinics</h5>
               <p className="card-text">
@@ -58,8 +62,6 @@ const LandingPage = () => {
               </p>
             </div>
             </div>
-            <div className="col-md-6">
-              {/* Image here! */}
             </div>
           </div>
         </div>
@@ -73,9 +75,11 @@ const LandingPage = () => {
         <div className='cotainer'>
         <div className="row">
             <div className="col-md-6">
-            <div className="card" >
+            <div className="card relative-div" >
               <div className="card-body">
-              <h5 className="card-title text-primary">Online Appointments</h5>
+              <Image src='/appointment.svg' height={45} width={45} className='absolute-icon rounded-circle bg-white shadow'/>
+              <h5 className="card-title text-primary ms-4 ps-1">
+                Online Appointments</h5>
               <h6 className="card-subtitle mb-2 text-muted">Hate the clinic commute? We've got you!</h6>
               <p className="card-text">Say goodbye to unnecessary trips to clinics, with XClinic you can now have video-calls with your doctors for regular checkups!</p>
             </div>
@@ -83,9 +87,11 @@ const LandingPage = () => {
             <br />
             </div>
             <div className="col-md-6">
-            <div className="card" >
+            <div className="card relative-div" >
               <div className="card-body">
-              <h5 className="card-title text-primary">Medical Emergencies!</h5>
+              <Image src='/emergency.svg' height={45} width={45} className='absolute-icon rounded-circle bg-white shadow'/>
+              <h5 className="card-title text-primary ms-4 ps-1">
+                Medical Emergencies!</h5>
               <h6 className="card-subtitle mb-2 text-muted">Got a time-sensitive medical emmergency?</h6>
               <p className="card-text">Our specialized doctors are available 24/7 to accomodate for any medical emergencies and walk you through handling them.</p>
             </div>
@@ -95,9 +101,11 @@ const LandingPage = () => {
         </div>
         <div className="row">
         <div className="col-md-6">
-            <div className="card" >
+            <div className="card relative-div" >
               <div className="card-body">
-              <h5 className="card-title text-primary">Virtual Diagnosis</h5>
+              <Image src='/diagnosis.svg' height={45} width={45} className='absolute-icon rounded-circle bg-white shadow'/>
+              <h5 className="card-title text-primary ms-4 ps-1">
+              Virtual Diagnosis</h5>
               <h6 className="card-subtitle mb-2 text-muted">Feeling unwell and need a quick diagnosis? </h6>
               <p className="card-text">No more guessing! Get a full diagnosis and prescription for your symptoms from proffesionals, at the click of a button!</p>
             </div>
@@ -105,9 +113,11 @@ const LandingPage = () => {
             <br />
             </div>
             <div className="col-md-6">
-            <div className="card" >
+            <div className="card relative-div" >
               <div className="card-body">
-              <h5 className="card-title text-primary">Chronic Disease Management</h5>
+              <Image src='/heartbeat.svg' height={45} width={45} className='absolute-icon rounded-circle bg-white shadow'/>
+              <h5 className="card-title text-primary ms-4 ps-1">
+                Chronic Disease Management</h5>
               <h6 className="card-subtitle mb-2 text-muted">Need frequent checkups? Your health is our top priority!</h6>
               <p className="card-text">Chronical illnesses made a easier with our frequent and prioritized management services.</p>
             </div>
