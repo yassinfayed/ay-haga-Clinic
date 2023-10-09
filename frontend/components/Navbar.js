@@ -15,7 +15,7 @@ const Navbar = () => {
         <div className="logo"></div>
         <h1>
         <a className="navbar-brand" href="/">
-            Clinic
+        XClinics
         </a>
         </h1>
           <button
