@@ -126,6 +126,7 @@ export const createHealthPackage = (healthPackage) => async (dispatch, getState)
             },
             withCredentials: true
         };
+        console.log(healthPackage)
 
         const { data } = await axios.post(
             `${baseURL}/api/v1/healthPackages`,

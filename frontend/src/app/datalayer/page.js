@@ -20,19 +20,25 @@ const Testing = () => {
   // const selector = useSelector(state => state.listHealthPackagesReducer)
   // const selector = useSelector(state => state.listHealthPackageDetailsReducer)
   // const selector = useSelector(state => state.deleteHealthPackageReducer)
-  const selector = useSelector(state => state.createHealthPackageReducer)
+  // const selector = useSelector(state => state.createHealthPackageReducer)
   // const selector = useSelector(state => state.updateHealthPackageReducer)
 
 
 
   useEffect(() => {
-    dispatch(login("omarDoe", "password123"))
-    dispatch(getDoctorsForPatientAction({}))
-    dispatch(listHealthPackages())
-    dispatch(listHealthPackageDetails("60f6b0c6f4d7b5b8e0f5b7f6"))
-    dispatch(deleteHealthPackage("60f6b0c6f4d7b5b8e0f5b7f6"))
-    dispatch(createHealthPackage({ name: "test" }))
-    dispatch(updateHealthPackage("60f6b0c6f4d7b5b8e0f5b7f6", { name: "test" }))
+    // dispatch(login("sysadmin", "pass1234"))
+    // dispatch(getDoctorsForPatientAction({}))
+    // dispatch(listHealthPackages())
+    // dispatch(listHealthPackageDetails("60f6b0c6f4d7b5b8e0f5b7f6"))
+    dispatch(deleteHealthPackage("651f0ed713e11453381bab1a"))
+  //   dispatch(createHealthPackage({
+  //     "name": "Plat Package5",
+  //     "price": 100,
+  //     "doctorDiscount": 10,
+  //     "medicineDiscount": 5,
+  //      "familyMemberSubDiscount": 15
+  //  }))
+    // dispatch(updateHealthPackage("60f6b0c6f4d7b5b8e0f5b7f6", { name: "test" }))
   }
 
     , [dispatch])
@@ -40,9 +46,8 @@ const Testing = () => {
   return (
 
     <div>
-      <h1 dr={selector}>Testing</h1>
-      {/* print the out */}
-      {/* status */}
+      {/* <h1 dr={selector}>Testing</h1> */}
+     
       <h1 >
 
       </h1>

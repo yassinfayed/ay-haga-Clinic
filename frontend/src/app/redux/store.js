@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import {loginReducer, registerReducer} from './reducers/authReducer';
 import {removeUserReducer} from './reducers/userReducer';
 import {getDrsForPatientsReducer} from './reducers/doctorReducer';
+import {getHealthPackageReducer, createHealthPackageReducer,updateHealthPackageReducer,deleteHealthPackageReducer} from './reducers/healthPackagesReducer'
 
 const store = configureStore({
   reducer: {
@@ -9,6 +10,11 @@ const store = configureStore({
     registerReducer,
     removeUserReducer,
     getDrsForPatientsReducer,
+    getHealthPackageReducer,
+    createHealthPackageReducer,
+    updateHealthPackageReducer,
+    deleteHealthPackageReducer
+
   },
 });
 

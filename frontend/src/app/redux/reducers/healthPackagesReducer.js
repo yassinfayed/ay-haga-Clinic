@@ -1,12 +1,11 @@
-import e from 'express';
 import {
-    HEALTH_PACKAGES_REQUEST,
-    HEALTH_PACKAGES_SUCCESS,
-    HEALTH_PACKAGES_FAIL,
+    HEALTH_PACKAGES_LIST_REQUEST,
+    HEALTH_PACKAGES_LIST_SUCCESS,
+    HEALTH_PACKAGES_LIST_FAIL,
 
-    HEALTH_PACKAGE_REQUEST,
-    HEALTH_PACKAGE_SUCCESS,
-    HEALTH_PACKAGE_FAIL,
+    HEALTH_PACKAGE_DETAILS_REQUEST,
+    HEALTH_PACKAGE_DETAILS_SUCCESS,
+    HEALTH_PACKAGE_DETAILS_FAIL,
 
     HEALTH_PACKAGE_CREATE_REQUEST,
     HEALTH_PACKAGE_CREATE_SUCCESS,
@@ -49,13 +48,13 @@ const deleteHealthPackageInitialState = {
 
 export const getHealthPackagesReducer = (state = getHealthPackagesInitialState, action) => {
     switch (action.type) {
-        case HEALTH_PACKAGES_REQUEST:
+        case HEALTH_PACKAGES_LIST_REQUEST:
             return {
                 ...state,
                 loading: true,
                 error: null,
             };
-        case HEALTH_PACKAGES_SUCCESS: {
+        case HEALTH_PACKAGES_LIST_SUCCESS: {
             return {
                 ...state,
                 healthPackages: action.payload,
@@ -63,7 +62,7 @@ export const getHealthPackagesReducer = (state = getHealthPackagesInitialState, 
                 error: null,
             }
         };
-        case HEALTH_PACKAGES_FAIL:
+        case HEALTH_PACKAGES_LIST_FAIL:
             return {
                 ...state,
                 loading: false,
@@ -75,20 +74,20 @@ export const getHealthPackagesReducer = (state = getHealthPackagesInitialState, 
 }
 export const getHealthPackageReducer = (state = getHealthPackageInitialState, action) => {
     switch (action.type) {
-        case HEALTH_PACKAGE_REQUEST:
+        case HEALTH_PACKAGE_DETAILS_REQUEST:
             return {
                 ...state,
                 loading: true,
                 error: null,
             };
-        case HEALTH_PACKAGE_SUCCESS:
+        case HEALTH_PACKAGE_DETAILS_SUCCESS:
             return {
                 ...state,
                 healthPackage: action.payload,
                 loading: false,
                 error: null,
             };
-        case HEALTH_PACKAGE_FAIL:
+        case HEALTH_PACKAGE_DETAILS_FAIL:
             return {
                 ...state,
                 loading: false,
