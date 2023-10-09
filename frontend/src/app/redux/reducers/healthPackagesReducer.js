@@ -55,13 +55,14 @@ export const getHealthPackagesReducer = (state = getHealthPackagesInitialState, 
                 loading: true,
                 error: null,
             };
-        case HEALTH_PACKAGES_SUCCESS:
+        case HEALTH_PACKAGES_SUCCESS: {
             return {
                 ...state,
                 healthPackages: action.payload,
                 loading: false,
                 error: null,
-            };
+            }
+        };
         case HEALTH_PACKAGES_FAIL:
             return {
                 ...state,
