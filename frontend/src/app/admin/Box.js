@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Box.css"
 import Link from 'next/link'
-const Box = ({head,dest}) => {
+const Box = ({head,dest,link}) => {
     const [isHovered, setIsHovered] =  useState(false);
     
 
@@ -24,8 +24,8 @@ const Box = ({head,dest}) => {
         
         >
           <h3 className={`hea ${isHovered ? 'hea-hovered' : ''}`}>{head}</h3>
-          <Link href="http://localhost:3000/admin/doctorapps" style={linkStyle}
-          className="box-button">Explore</Link>
+          {link && <Link href={link} style={linkStyle}
+          className="box-button">View</Link>}
         </div>
       );
 };

@@ -4,24 +4,23 @@ function DoctorAppsTable(props) {
     const { headers, data, itemsPerPageOptions } = props;
 
     // State for pagination
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]);
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]);
 
     // Calculate the index of the first and last item to display based on pagination
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+    const currentItems = data;
 
     // Change the current page
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
+    // const handlePageChange = (page) => {
+    //     setCurrentPage(page);
+    // };
 
-    // Change the number of items per page
-    const handleItemsPerPageChange = (e) => {
-        setItemsPerPage(parseInt(e.target.value, 10));
-        setCurrentPage(1); // Reset to the first page when changing items per page
-    };
+    // // Change the number of items per page
+    // const handleItemsPerPageChange = (e) => {
+    //     setItemsPerPage(parseInt(e.target.value, 10));
+    //     setCurrentPage(1); // Reset to the first page when changing items per page
+   // };
 
     return (
         <>
@@ -37,7 +36,7 @@ function DoctorAppsTable(props) {
                     {currentItems.map((row, index) => (
                         
                         <tr key={`tr${index}`}>
-                            {row.map((node, index2) => (
+                            {Object.values(row).map((node, index2) => (
                                 <td key={`td${index}-${index2}`}>{node}</td>
                             ))}
                         </tr>

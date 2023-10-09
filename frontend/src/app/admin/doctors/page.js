@@ -1,23 +1,21 @@
 "use client"
-import React from 'react';
-import { DoctorAppsTable } from './DoctorAppsTable';
+import React, { useEffect } from 'react';
+
 import { Button } from '../../../../components/Button';
-import AdminNavbar from './AdminNavbar';
+import AdminNavbar from '../doctorapps/AdminNavbar';
 import { Card } from '../../../../components/Card';
 
 
-export default function DoctorApps() {
+export default function Doctors() {
     const button = <div style={{
         fontSize: '1px', 
       }}>
-    <Button text='Approve' variant='xs' onClick={()=>{
-      
-    }}></Button>
+    <Button text='Approve' variant='xs' ></Button>
     <Button text='Reject' variant='xs'
   ></Button>
     </div>
     
-  const tableHeaders = ['Name','Username','Email','Date of Birth','Affiliation', 'Hourly Rate', 'Educational Background', 'Approval'];
+ // const tableHeaders = ['Name','Username','Email','Date of Birth','Affiliation', 'Hourly Rate', 'Educational Background', 'Approval'];
 
   const initialValues = [
     {
@@ -28,7 +26,7 @@ export default function DoctorApps() {
       affiliation: 'Ramses Hospital',
       hourlyRate: '12$',
       educationalBackground: 'Software Engineer',
-      isApproved : false
+      isApproved : true
     },
     {
       name: 'John Doe',
@@ -38,7 +36,7 @@ export default function DoctorApps() {
       affiliation: 'Ramses Hospital',
       hourlyRate: '12$',
       educationalBackground: 'Software Engineer',
-      isApproved : false
+      isApproved : true
     },
     {
       name: 'John Doe',
@@ -48,7 +46,7 @@ export default function DoctorApps() {
       affiliation: 'Ramses Hospital',
       hourlyRate: '12$',
       educationalBackground: 'Software Engineer',
-      isApproved : false
+      isApproved : true
     },
     {
       name: 'John Doe',
@@ -58,11 +56,23 @@ export default function DoctorApps() {
       affiliation: 'Ramses Hospital',
       hourlyRate: '12$',
       educationalBackground: 'Software Engineer',
-      isApproved : false
+      isApproved : true
       
     }
   ]
+// useEffect(()=>{
 
+// },[initialValues])
+
+// const onClickRemove = (id)=>{
+//   initialValues.filter((value)=>{
+//    if(value.username!==id)
+//    return true;
+//   })
+// }
+// useEffect(()=>{
+
+// },[initialValues])
 
   return (
     <>
@@ -70,9 +80,9 @@ export default function DoctorApps() {
     <div className="d-flex justify-content-center align-items-center min-vh-100">
       <div className='row'>
       {initialValues.map((person)=>{
-        return <Card key={person.username} className="col-lg-4 offset-lg-1" title={person.name} subtitle="Doctor's Info"  text={
+        return  <Card key={person.username} className="col-lg-4 offset-lg-1" title={person.name} subtitle="Doctor's Info"  text={
           <div className="">
-         <h8 style={{ fontWeight: 'bold' }}> Username: </h8>{person.username}
+          <h8 style={{ fontWeight: 'bold' }}> Username: </h8>{person.username}
           <br />
           <h8 style={{ fontWeight: 'bold' }}>email: </h8>{person.email}
           <br />
@@ -85,8 +95,8 @@ export default function DoctorApps() {
           <h8 style={{ fontWeight: 'bold' }}>educationalBackground: </h8>{person.educationalBackground}
           <br />
           </div>
-        }>
-       {button}
+        } buttonText='Remove' >
+       
         </Card>
        
       })
