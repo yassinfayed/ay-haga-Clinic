@@ -13,7 +13,7 @@ const LandingPage = () => {
           name="viewport"
           content="width=device-width, initial-scale=1.0"
         />
-        <title>Clinic Landing Page</title>
+        <title>XClinics</title>
         {/* Add Bootstrap CSS link */}
         <link
           rel="stylesheet"
@@ -25,7 +25,7 @@ const LandingPage = () => {
       <section className="container m-5 p-5">
         <div className="row pb-5">
           <div className="col-md-6">
-            <h1 className='text-size-200 text-primary'>Clinic</h1>
+            <h1 className='text-size-200 text-primary'>XClinics</h1>
             <h2>
               Convenient healthcare at your
               fingertips.
@@ -130,11 +130,72 @@ const LandingPage = () => {
 
       {/* Testimonial Section (with Bootstrap Carousel) */}
       <section className="bg-light py-5">
-        <div className="container">
-          <h2>Testimonials</h2>
-            {/* Testimonial carousel here */}
+      <div className="container">
+        <h2 className="text-center text-primary pb-4">
+          <strong>Testimonials</strong>
+        </h2>
+        <div className="row">
+          <div className="col-md-8 mx-auto">
+            <div id="testimonialCarousel" className="carousel slide" data-ride="carousel">
+              <ul className="carousel-indicators d-flex flex-row justify-content-center align-items-center">
+                <li className="active col-md-1" data-target="#testimonialCarousel" data-slide-to="0"></li>
+                <li className="col-md-1" data-target="#testimonialCarousel" data-slide-to="1"></li>
+                <li className="col-md-1" data-target="#testimonialCarousel" data-slide-to="2"></li>
+              </ul>
+              <div className="carousel-inner">
+                <div className="carousel-item active">
+                  <div className="card border-0 shadow p-5">
+                    <div className="card-body">
+                      <p className="card-text">
+                        "Testimonial 1 text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                      </p>
+                      <h5 className="card-title text-primary">
+                        <strong>John Doe</strong>
+                      </h5>
+                      <p className="card-subtitle">Happy Patient</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="carousel-item">
+                  <div className="card border-0 shadow p-5">
+                    <div className="card-body">
+                      <p className="card-text">
+                        "Testimonial 2 text goes here. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                      </p>
+                      <h5 className="card-title text-primary">
+                        <strong>Jane Smith</strong>
+                      </h5>
+                      <p className="card-subtitle">Satisfied Customer</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="carousel-item">
+                  <div className="card border-0 shadow p-5">
+                    <div className="card-body">
+                      <p className="card-text">
+                        "Testimonial 3 text goes here. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+                      </p>
+                      <h5 className="card-title text-primary">
+                        <strong>David Johnson</strong>
+                      </h5>
+                      <p className="card-subtitle">Another Happy Patient</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a className="carousel-control-prev" href="#testimonialCarousel" role="button" data-slide="prev">
+                <span className="carousel-control-prev-icon bg-primary rounded-circle" aria-hidden="true"></span>
+                <span className="sr-only">Previous</span>
+              </a>
+              <a className="carousel-control-next" href="#testimonialCarousel" role="button" data-slide="next">
+                <span className="carousel-control-next-icon bg-primary rounded-circle" aria-hidden="true"></span>
+                <span className="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* Statistics Section */}
       <section className="container p-5 ">
