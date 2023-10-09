@@ -10,7 +10,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light w-100">
-      <div className="container d-flex flex-row justify-content-between w-100">
+      <div className="container d-flex flex-row justify-content-between align-items-center w-100">
         <div className="title col-md-6">
         <div className="logo"></div>
         <h1>
@@ -27,7 +27,7 @@ const Navbar = () => {
           </button>
         </div>
         <div
-          className={`links&buttons collapse navbar-collapse col-md-6 align-self-end ${isMenuOpen ? 'show' : ''}`}
+          className={`links&buttons collapse navbar-collapse col-md-6 ${isMenuOpen ? 'show' : ''}`}
         >
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
@@ -52,12 +52,12 @@ const Navbar = () => {
               </a>
             </li>
             <li className="nav-item">
-              <a className="btn btn-primary ms-2 mx-1" href="/login">
+              <a className="btn btn-light text-primary ms-3 mx-1" href="/login">
                 Login
               </a>
             </li>
-            <li className="nav-item">
-              <a className="btn btn-light mx-1" href="/signup">
+            <li className="nav-item rounded">
+              <a className="btn btn-primary text-light mx-1" href="/signup">
                 Sign Up
               </a>
             </li>
