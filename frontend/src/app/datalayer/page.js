@@ -13,7 +13,7 @@ const Testing = () => {
   // dispatch(listHealthPackages())
   // dispatch(listHealthPackageDetails("60f6b0c6f4d7b5b8e0f5b7f6"))
   // dispatch(deleteHealthPackage("60f6b0c6f4d7b5b8e0f5b7f6"))
-  dispatch(createHealthPackage({ name: "test" }))
+  // dispatch(createHealthPackage({ name: "test" }))
   // dispatch(updateHealthPackage("60f6b0c6f4d7b5b8e0f5b7f6", { name: "test" }))
   // const selector = useSelector(state => state.authReducer)
   // const selector = useSelector(state => state.getDrsForPatientsReducer.doctors)
@@ -23,21 +23,43 @@ const Testing = () => {
   // const selector = useSelector(state => state.createHealthPackageReducer)
   // const selector = useSelector(state => state.updateHealthPackageReducer)
 
-
+  //   name :{
+  //     type:  String,
+  //     unique: true,
+  //     required: [true, "A name is required"],
+  //     // enum : ['silver','gold','platinum']
+  // },
+  // price: {
+  //     type: Number,
+  //     required: [true, "A price is required"],
+  //     //TODO: Default
+  // },
+  // doctorDiscount: {
+  //     type: Number,
+  //     required: [true, "Please enter the doctor discount"],
+  // },
+  // medicineDiscount:{
+  //     type: Number,
+  //     required: [true, "Please enter the medicine discount"],
+  // },
+  // familyMemberSubDiscount:{
+  //     type: Number,
+  //     required: [true, "Please enter the family member subsription discount"],
+  // }
 
   useEffect(() => {
-    // dispatch(login("sysadmin", "pass1234"))
+    // dispatch(login("sysAdmin", "pass1234"))
     // dispatch(getDoctorsForPatientAction({}))
     // dispatch(listHealthPackages())
     // dispatch(listHealthPackageDetails("60f6b0c6f4d7b5b8e0f5b7f6"))
-    dispatch(deleteHealthPackage("651f0ed713e11453381bab1a"))
-  //   dispatch(createHealthPackage({
-  //     "name": "Plat Package5",
-  //     "price": 100,
-  //     "doctorDiscount": 10,
-  //     "medicineDiscount": 5,
-  //      "familyMemberSubDiscount": 15
-  //  }))
+    // dispatch(deleteHealthPackage("60f6b0c6f4d7b5b8e0f5b7f6"))
+    dispatch(createHealthPackage({
+      name: "gooooooo",
+      price: 100,
+      doctorDiscount: 10,
+      medicineDiscount: 10,
+      familyMemberSubDiscount: 10
+    }))
     // dispatch(updateHealthPackage("60f6b0c6f4d7b5b8e0f5b7f6", { name: "test" }))
   }
 
