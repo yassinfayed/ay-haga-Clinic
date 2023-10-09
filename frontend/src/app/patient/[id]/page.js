@@ -18,7 +18,6 @@ export default function patientProfile({ params }) {
     },
     healthRecords: ["Record 1", "Record 2"],
   });
-  const permission = "patient";
   const id = params.id;
 
   function HealthRecords() {
