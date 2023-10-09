@@ -52,7 +52,7 @@ export const viewDoctorPatientsReducer = (state = {}, action) => {
     case DOCTORS_VIEWPATIENTSINFO_SUCCESS: {
       return {
         ...state,
-        doctors: action.payload,
+        patients: action.payload,
         loading: false,
         error: null,
       }
@@ -75,6 +75,7 @@ export const updateDoctorsReducer = (state = {}, action) => {
       return {
         ...state,
         loading: false,
+        doctor: action.payload,
         error: null,
       };
       break;
@@ -108,7 +109,7 @@ export const viewDoctorsAppointmentsReducer = (state ={}, action) => {
     case DOCTORS_FILTERAPPOINTMENTS_SUCCESS: {
       return {
         ...state,
-        doctors: action.payload,
+        appointments: action.payload,
         loading: false,
         error: null,
       }

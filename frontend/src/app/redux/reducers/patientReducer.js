@@ -1,6 +1,6 @@
 import { PATIENTS_FILTERAPPOINTMENTS_FAIL, PATIENTS_FILTERAPPOINTMENTS_REQUEST, PATIENTS_FILTERAPPOINTMENTS_SUCCESS } from "../constants/patientConstants";
 
-export const viewPatientsAppointmentsReduceer = (state ={}, action) => {
+export const viewPatientsAppointmentsReducer = (state ={}, action) => {
     switch (action.type) {
       case PATIENTS_FILTERAPPOINTMENTS_REQUEST:
         return {
@@ -11,7 +11,7 @@ export const viewPatientsAppointmentsReduceer = (state ={}, action) => {
       case PATIENTS_FILTERAPPOINTMENTS_SUCCESS: {
         return {
           ...state,
-          doctors: action.payload,
+          appointments: action.payload,
           loading: false,
           error: null,
         }
