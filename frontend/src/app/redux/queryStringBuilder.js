@@ -1,6 +1,10 @@
 export function formulateQueryString(queryObj) {
+  if(!queryObj){
+    return;
+  }
   const excludedFields = ['fields',"limit",'sort',"page"]; 
   const filteredQueryObj = { ...queryObj };
+
 
   excludedFields.forEach((field) => {
     delete filteredQueryObj[field];
