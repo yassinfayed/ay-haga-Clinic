@@ -1,3 +1,9 @@
 .hover-button:hover {
     background-color: #e0e0e0;
 }
+.link-hover:hover {
+    color: #190c3d; 
+}
+.btn-navy{
+    background-color: #190c3d;
+}

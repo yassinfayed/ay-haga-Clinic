@@ -5,11 +5,11 @@ import { useDispatch,useSelector } from 'react-redux';
 import { login } from '../redux/actions/authActions';
 import { addFamilyMembers} from '../redux/actions/FamilyMembersAction';
 import { viewFamilyMembers } from '../redux/actions/FamilyMembersAction';
-import { viewPatients } from '../redux/actions/PatientsActions';
+// import { viewPatients } from '../redux/actions/PatientsActions';
 import { viewDoctorDetails } from '../redux/actions/doctorActions';
 import { viewPrescriptionsDetails } from '../redux/actions/prescriptionsActions';
 import { viewALLPrescriptions } from '../redux/actions/prescriptionsActions';
-import {filterPatientsBasedOnUpcomingAppointments} from '../redux/actions/patientsActions';
+// import {filterPatientsBasedOnUpcomingAppointments} from '../redux/actions/patientsActions';
 
 const Home = () => {
    const dispatch = useDispatch();
@@ -49,12 +49,20 @@ const Home = () => {
   
 
   return (
-    <div>home</div>
+
+    <div>
+      {/* <h1 dr={selector}>Testing</h1> */}
+
+      <h1 >
+
+      </h1>
+    </div>
   )
 }
 const DoctorDetails = () => {
   const dispatch = useDispatch();
 
+<<<<<<< HEAD
   // Login user (if not already logged in)
   useEffect(() => {
     dispatch(login("sysadmin", "pass1234"));
@@ -100,3 +108,7 @@ const DoctorDetails = () => {
 };
 
 export default DoctorDetails
+=======
+export default Testing
+
+>>>>>>> main

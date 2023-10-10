@@ -8,6 +8,13 @@ import { doctorReducer } from './reducers/doctorReducers';
 import { prescriptionReducer } from './reducers/prescriptionsReducers';
 import { viewAllPrescriptionsReducer } from './reducers/prescriptionsReducers';
 import { filterPatientsBasedOnUpcomingAppointmentsReducer } from './reducers/patientsReducers';
+import {getDrsForPatientsReducer} from './reducers/doctorReducer';
+import { viewPatientsAppointmentsReducer } from './reducers/patientReducer';
+import { viewDoctorPatientsReducer } from './reducers/doctorReducer';
+import { updateDoctorsReducer } from './reducers/doctorReducer';
+import { viewDoctorsAppointmentsReducer } from './reducers/doctorReducer';
+import { createHealthPackageReducer, getHealthPackagesReducer, getHealthPackageReducer, updateHealthPackageReducer, deleteHealthPackageReducer } from './reducers/healthPackagesReducer';
+
 
 const store = configureStore({
   reducer: {
@@ -20,7 +27,17 @@ const store = configureStore({
     doctorReducer,
     prescriptionReducer,
     viewAllPrescriptionsReducer,
-    filterPatientsBasedOnUpcomingAppointmentsReducer
+    filterPatientsBasedOnUpcomingAppointmentsReducer,
+    getDrsForPatientsReducer,
+    viewPatientsAppointmentsReducer,
+    viewDoctorPatientsReducer,
+    updateDoctorsReducer,
+    viewDoctorsAppointmentsReducer,
+    createHealthPackageReducer,
+    getHealthPackagesReducer,
+    getHealthPackageReducer,
+    updateHealthPackageReducer,
+    deleteHealthPackageReducer
   },
 });
 
