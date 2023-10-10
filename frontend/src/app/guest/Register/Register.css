@@ -1,4 +1,4 @@
-.container{
+.containerz{
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -15,24 +15,24 @@
     width: 100%;
     margin-top: 30px;
 }
-.text{
+.textz{
     color: blue;
     font-size: 48px;
     font-weight: 700;
 }
-.underline{
+.underlinez{
     width: 61px;
     height: 6px;
     background: black;
     border-radius: 9px;
 }
-.inputs{
+.inputsz{
     margin-top: 55px;
     display: flex;
     flex-direction: column;
     gap: 25px;
 }
-.input{
+.inputz{
     display: flex;
     align-items: center;
     margin: auto;
@@ -41,7 +41,7 @@
     background: #eaeaea;
     border-radius: 6px;
 }
-.input input{
+.inputz input{
     height: 50px;
     width: 400px;
     background: transparent;
@@ -50,22 +50,22 @@
     color: #797979;
     font-size: 18px;
 }
-.forgot-password{
+.forgot-passwordz{
     padding-left: 62px;
     margin-top: 27px;
     color: #797979;
     font-size: 18px;
 }
-.forgot-password span{
+.forgot-passwordz span{
     color: #4c00b4;
     cursor: pointer;
 }
-.submit-container{
+.submit-containerz{
     display: flex;
     gap: 30px;
     margin: 60px auto;
 }
-.submit{
+.submitz{
     display: flex;
     justify-content: center;
     align-items: center;
