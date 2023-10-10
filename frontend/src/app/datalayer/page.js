@@ -1,19 +1,19 @@
-"use client"
-import React from 'react'
-import{ useEffect } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
-import { login } from '../redux/actions/authActions';
-import { addFamilyMembers} from '../redux/actions/FamilyMembersAction';
-import { viewFamilyMembers } from '../redux/actions/FamilyMembersAction';
+"use client";
+import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../redux/actions/authActions";
+import { addFamilyMembers } from "../redux/actions/FamilyMembersAction";
+import { viewFamilyMembers } from "../redux/actions/FamilyMembersAction";
 // import { viewPatients } from '../redux/actions/PatientsActions';
-import { viewDoctorDetails } from '../redux/actions/doctorActions';
-import { viewPrescriptionsDetails } from '../redux/actions/prescriptionsActions';
-import { viewALLPrescriptions } from '../redux/actions/prescriptionsActions';
+import { viewDoctorDetails } from "../redux/actions/doctorActions";
+import { viewPrescriptionsDetails } from "../redux/actions/prescriptionsActions";
+import { viewALLPrescriptions } from "../redux/actions/prescriptionsActions";
 // import {filterPatientsBasedOnUpcomingAppointments} from '../redux/actions/patientsActions';
 
 const Home = () => {
-   const dispatch = useDispatch();
-   dispatch(login("sysadmin","pass1234"))//admin :sysadmin pass:pass1234/ patient : omarDoe pass:password123
+  const dispatch = useDispatch();
+  dispatch(login("sysadmin", "pass1234")); //admin :sysadmin pass:pass1234/ patient : omarDoe pass:password123
   //  const selector = useSelector(state => state.loginReducer.user)
   //  console.log(selector)
   //  console.log(selector)
@@ -28,9 +28,7 @@ const Home = () => {
   // dispatch(viewFamilyMembers({
   // }))
 
-  dispatch(filterPatientsBasedOnUpcomingAppointments({
-
-  }))
+  dispatch(filterPatientsBasedOnUpcomingAppointments({}));
   // const consoleSelector =useSelector(state=>state.addFamilyMembersReducer)
   // console.log(consoleSelector);
   /*useEffect(() => {
@@ -46,23 +44,18 @@ const Home = () => {
   //   prescriptionDate: "2023-10-02T10:15:00.000Z"};
   //   dispatch(viewALLPrescriptions(queryObj));
   // }, [dispatch]);
-  
 
   return (
-
     <div>
       {/* <h1 dr={selector}>Testing</h1> */}
 
-      <h1 >
-
-      </h1>
+      <h1></h1>
     </div>
-  )
-}
+  );
+};
 const DoctorDetails = () => {
   const dispatch = useDispatch();
 
-<<<<<<< HEAD
   // Login user (if not already logged in)
   useEffect(() => {
     dispatch(login("sysadmin", "pass1234"));
@@ -82,7 +75,9 @@ const DoctorDetails = () => {
 
   // Selector example to access state
   const doctor = useSelector((state) => state.doctorReducer.doctor);
-  const prescription=useSelector((state)=>state.prescriptionReducer.prescription);
+  const prescription = useSelector(
+    (state) => state.prescriptionReducer.prescription
+  );
 
   return (
     <div>
@@ -97,18 +92,14 @@ const DoctorDetails = () => {
         <p>Loading doctor details...</p>
       )}
       <h1>Prescription Deatils</h1>
-      {prescription?(
-      <p>instructions:{prescription.instructions}</p>
-      ):(
+      {prescription ? (
+        <p>instructions:{prescription.instructions}</p>
+      ) : (
         <h1>Loading presc details</h1>
-      )};
+      )}
+      ;
     </div>
-    
   );
 };
 
-export default DoctorDetails
-=======
-export default Testing
-
->>>>>>> main
+export default DoctorDetails;
