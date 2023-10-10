@@ -135,61 +135,62 @@ const LandingPage = () => {
           <strong>Testimonials</strong>
         </h2>
         <div className="row">
-          <div className="col-md-8 mx-auto">
+          <div className="col-md-8 mx-auto ">
             <div id="testimonialCarousel" className="carousel slide" data-ride="carousel">
-              <ul className="carousel-indicators d-flex flex-row justify-content-center align-items-center">
-                <li className="active col-md-1" data-target="#testimonialCarousel" data-slide-to="0"></li>
-                <li className="col-md-1" data-target="#testimonialCarousel" data-slide-to="1"></li>
-                <li className="col-md-1" data-target="#testimonialCarousel" data-slide-to="2"></li>
+              <ul className="carousel-indicators d-flex flex-row justify-content-center align-items-center text-center me-auto">
+                <li className="active col-md-1 align-self-center" data-target="#testimonialCarousel" data-slide-to="0"></li>
+                <li className="col-md-1 align-self-center" data-target="#testimonialCarousel" data-slide-to="1"></li>
+                <li className="col-md-1 align-self-center" data-target="#testimonialCarousel" data-slide-to="2"></li>
               </ul>
               <div className="carousel-inner">
-                <div className="carousel-item active">
-                  <div className="card border-0 shadow p-5">
-                    <div className="card-body">
-                      <p className="card-text">
-                        "Testimonial 1 text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                      </p>
+                <div className="carousel-item card-height active">
+                  <div className="card border-0 shadow p-5 relative-div mt-5">
+                    <div className="card-body mx-4 ">
+                  <Image src='/John-Doe.jpg' height={100} width={100} className='absolute-testimonial-image rounded-circle bg-white shadow'/>
                       <h5 className="card-title text-primary">
                         <strong>John Doe</strong>
                       </h5>
                       <p className="card-subtitle">Happy Patient</p>
+                      <hr className='w-75'/>
+                      <p className="card-text">
+                      "XClinics has made healthcare so convenient. I can now consult with my doctor from the comfort of my home. It's a game-changer!"                      </p>
                     </div>
                   </div>
                 </div>
-                <div className="carousel-item">
-                  <div className="card border-0 shadow p-5">
-                    <div className="card-body">
-                      <p className="card-text">
-                        "Testimonial 2 text goes here. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                      </p>
+                <div className="carousel-item card-height">
+                  <div className="card border-0 shadow p-5 relative-div mt-5">
+                    <div className="card-body mx-4">
+                    <Image src='/Jane-Smith.jpg' height={100} width={100} className='absolute-testimonial-image rounded-circle bg-white shadow'/>
                       <h5 className="card-title text-primary">
                         <strong>Jane Smith</strong>
                       </h5>
-                      <p className="card-subtitle">Satisfied Customer</p>
+                      <p className="card-subtitle">Satisfied Patient</p>
+                      <hr className='w-75'/>
+                      <p className="card-text">
+                      "As a busy professional, XClinics saved me so much time. No more waiting rooms or commutes. I highly recommend it."                      </p>
                     </div>
                   </div>
                 </div>
-                <div className="carousel-item">
-                  <div className="card border-0 shadow p-5">
-                    <div className="card-body">
-                      <p className="card-text">
-                        "Testimonial 3 text goes here. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-                      </p>
+                <div className="carousel-item card-height">
+                  <div className="card border-0 shadow p-5 relative-div mt-5">
+                    <div className="card-body mx-4">
+                    <Image src='/David-Johnson.jpg' height={100} width={100} className='absolute-testimonial-image rounded-circle bg-white shadow'/>
                       <h5 className="card-title text-primary">
                         <strong>David Johnson</strong>
                       </h5>
-                      <p className="card-subtitle">Another Happy Patient</p>
+                      <p className="card-subtitle text-muted">Another Happy Patient</p>
+                      <hr className='w-75'/>
+                      <p className="card-text">
+                      "I was skeptical about virtual diagnoses, but the doctors at XClinics have been incredibly accurate. It's like having a doctor in your pocket."                      </p>
                     </div>
                   </div>
                 </div>
               </div>
               <a className="carousel-control-prev" href="#testimonialCarousel" role="button" data-slide="prev">
                 <span className="carousel-control-prev-icon bg-primary rounded-circle" aria-hidden="true"></span>
-                <span className="sr-only">Previous</span>
               </a>
               <a className="carousel-control-next" href="#testimonialCarousel" role="button" data-slide="next">
                 <span className="carousel-control-next-icon bg-primary rounded-circle" aria-hidden="true"></span>
-                <span className="sr-only">Next</span>
               </a>
             </div>
           </div>
@@ -199,8 +200,8 @@ const LandingPage = () => {
 
       {/* Statistics Section */}
       <section className="container p-5 ">
-      <h2 className="text-center py-3">Get to know our success, but in numbers..</h2>
-      <div className="row pb-3">
+      <h2 className="text-center py-3"><strong>Get to know our success, but in numbers..</strong></h2>
+      <div className="row pb-3 my-5">
         <div className="col-md-4 d-flex align-items-center justify-content-center">
           <div className="statistic shape-background rounded shadow text-center">
             <h2>5000+</h2>
@@ -226,18 +227,19 @@ const LandingPage = () => {
       {/* Sign Up Section */}
       <section className="bg-light py-5" >
         <div className="container text-center">
-          <h2>
+          <h2 className='py-3'>
+            <strong>
             Sign up and never worry about your
             healthcare again!
-          </h2>
-          <a
-            href="#"
-            className="btn btn-primary text-light mt-3 p-3"
-          >
-            <strong >
-            Sign Up Now
             </strong>
-          </a>
+          </h2>
+            <div className="">
+              <a
+              href="#"
+              className="btn btn-primary text-light mt-3 p-3 px-4">
+              <strong>Sign Up Now</strong>
+              </a>
+            </div>
         </div>
       </section>
       <Footer/>

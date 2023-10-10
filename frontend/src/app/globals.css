@@ -20,13 +20,29 @@
     color: #fff; /* Set text color */
     overflow: hidden; /* Hide the overflowing parts of the diamond */
   }
+.z-index-0{
+    z-index: 0;
+}
 .relative-div{
     position: relative;
+    z-index: 0;
+    overflow: visible;
+}
+.absolute-testimonial-image{
+    position: absolute;
+    top: -30px;
+    left: 300px;
+    z-index: 1000;
 }
 .absolute-icon{
     position: absolute;
     top: -10px;
     left: -10px;
+}
+.absolute-btn{
+    position: absolute;
+    top: 35%;
+    left: 42%;
 }
 .active{
     color: black;
@@ -34,6 +50,6 @@
 }
 .text-gray{
     color: gray;
-}
+} 
     
   
