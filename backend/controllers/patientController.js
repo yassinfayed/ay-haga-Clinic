@@ -52,6 +52,14 @@ exports.getAllPatients = handlerFactory.getAll(Patient)
 
 
 
+<<<<<<< HEAD
+exports.FilterPatientsBasedOnUpcomimgAppointments =catchAsync(async (req, res, next) => {
+    const doctor = await Doctor.findOne({user: req.user._id});
+    const doctorId = doctor?._id;    
+    const upcomingAppointments = await Appointment.find({doctorId: doctorId,
+      status: "Upcoming", // Find appointments with dates greater than or equal to the current date
+    });
+=======
 exports.FilterPatientsBasedOnUpcomimgAppointments = catchAsync(async (req, res, next) => {
   const doctor = await Doctor.findOne({ user: req.user._id });
   const doctorId = doctor._id;
@@ -59,6 +67,7 @@ exports.FilterPatientsBasedOnUpcomimgAppointments = catchAsync(async (req, res, 
     doctorId: doctorId,
     status: "Upcoming", // Find appointments with dates greater than or equal to the current date
   });
+>>>>>>> main
 
   // Extract patient IDs from upcomingAppointments
   const patientIds = upcomingAppointments.map((appointment) => appointment.patientId);
