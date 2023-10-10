@@ -7,10 +7,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../../../../components/Navbar';
 import Footer from '../../../../components/Footer';
 import ViewPrescription from './ViewPrescriptionModal';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 function prescriptions() {
     const [modalShow, setModalShow] = useState(false);
     const [selectedPrescription, setSelectedPrescription] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedStatus, setSelectedStatus] = useState(null);
+    const [name, setName] = useState('');
     const prescriptions = [
         {
           _id: 1,
@@ -120,12 +125,40 @@ function prescriptions() {
       };
 
 
+      const handleDateChange = (date) => {
+        setSelectedDate(date);
+      };
+      const handleStatusChange = (event) => {
+        setSelectedStatus(event.target.value); 
+      };
 
 
       return (
         <div>
           <Navbar />
           <div className="container-fluid my-3">
+            <div className="row">
+          <select onChange={handleStatusChange} className='mx-lg-3 col-lg-2 mx-lg-1'>
+            <option value="">Filter by status</option>
+            <option value="filled">Filled</option>
+            <option value="unfilled">Unfilled</option>
+          </select>
+          <DatePicker
+          selected={selectedDate}
+          onChange={handleDateChange}
+          dateFormat="yyyy-MM-dd"
+          placeholderText="Filter by date"
+          className='col-lg-2 mx-lg-3 my-3'
+        />
+        <input
+              type="text"
+              className="my-1  mx-lg-3 col-lg-2"
+              id="name"
+              placeholder="Filter by name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            </div>
             {prescriptions.map((prescription) => (
               <Card
                 className="my-2"
@@ -165,4 +198,3 @@ function prescriptions() {
 }
 
 export default prescriptions;
-
