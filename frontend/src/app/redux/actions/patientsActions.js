@@ -25,7 +25,14 @@ export const viewPatients = (queryObj) => async (dispatch) => {
     };
 
     const queryStr = formulateQueryString(queryObj);
-    const url = `${baseURL}/api/v1/patient${queryStr ? `?${queryStr}` : ''}`;
+
+    let url =""
+    console.log("heyyyyyyyyyy")
+    console.log(JSON.parse(localStorage.getItem('userInfo')).role)
+    if(JSON.parse(localStorage.getItem('userInfo')).role === 'admin')
+      url = `${baseURL}/api/v1/patient${queryStr ? `?${queryStr}` : ''}`;
+    else
+      url = `${baseURL}/api/v1/patient/view-Patients${queryStr ? `?${queryStr}` : ''}`;
     console.log(url);
 
     const { data } = await axios.get(url, config);
