@@ -47,7 +47,6 @@ export const viewPatients = (queryObj) => async (dispatch) => {
 
 export const filterPatientsBasedOnUpcomingAppointments = () => async (dispatch) => {
   try {
-    console.log("hey")
     dispatch({
       type: FILTER_PATIENTS_REQUEST,
     });

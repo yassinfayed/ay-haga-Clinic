@@ -48,7 +48,6 @@ export const addFamilyMembers = (reqBody) => async (dispatch) => {
 
 export const viewFamilyMembers = () => async (dispatch) => {
   try {
-    console.log("hey")
     dispatch({
       type: VIEW_FAMILY_MEMBERS_REQUEST,
     });

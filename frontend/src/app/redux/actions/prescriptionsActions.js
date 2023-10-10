@@ -38,7 +38,7 @@ export const viewPrescriptionsDetails = (prescrId) => async (dispatch) => {
       type: PRESCRIPTIONS_FAIL,
       payload: error.response
         ? error.response.data.message
-        : 'Fetching doctor details failed. Please try again.',
+        : 'Fetching prescription details failed. Please try again.',
     });
   }
 };
@@ -72,7 +72,7 @@ export const viewALLPrescriptions = (queryObj) => async (dispatch) => {
       type: VIEW_PRESCRIPTIONS_FAIL,
       payload: error.response
         ? error.response.data.message
-        : 'Fetching patients failed. Please try again.',
+        : 'Fetching prescription failed. Please try again.',
     });
   }
 };
