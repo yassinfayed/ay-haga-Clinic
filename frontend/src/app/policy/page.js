@@ -8,7 +8,7 @@ const PolicyPage = () => {
       <Navbar />
       <div className="page-div container justify-content-center align-items-center m-5 mx-auto">
         <h1 className="text-primary text-center"><strong>Company Policy</strong></h1>
-        <h3 className='text-center'>XClinic Clinics</h3>
+        <h3 className='text-center'>XClinics Clinic</h3>
         <div className='d-flex justify-content-center align-items-center'><hr className='w-50'/></div>
         <div className="card bg-light rounded shadow p-5 m-5 border-0 align-self-center mx-auto">
         <h4 className='text-primary'>Data Collection</h4>
