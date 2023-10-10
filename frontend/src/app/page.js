@@ -14,31 +14,25 @@ const LandingPage = () => {
           content="width=device-width, initial-scale=1.0"
         />
         <title>XClinics</title>
-        {/* Add Bootstrap CSS link */}
         <link
           rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         />
       </Head>
       <Navbar/>
+
       {/* Clinic Name and Image Section */}
       <section className="container m-5 p-5">
         <div className="row pb-5">
-          <div className="col-md-6">
+          <div className="col-md-9 slide-top">
             <h1 className='text-size-200 text-primary'>XClinics</h1>
             <h2>
               Convenient healthcare at your
               fingertips.
             </h2>
           </div>
-          <div className="col-md-6">
-            {/* <Image
-              src="/doctors.jpeg" // Replace with your image path
-              alt="Clinic Image"
-              width={650}
-              height={400}
-              className='rounded '
-            /> */}
+          <div className="col-md-3 slide-top">
+          <Image src='/doctor-phone.PNG' height={450} width={267} className='rounded'/>
           </div>
         </div>
       </section>
@@ -46,13 +40,13 @@ const LandingPage = () => {
       {/* About Us Section */}
       <section id='about' className="bg-light py-5">
         <div className="container py-5">
-          <div className="row">
+          <div className="row align-items-center">
             <div className="col-md-6">
-              {/* Image here! */}
+            <Image src='/happy-patient.jpg' height={328} width={500} className='rounded shadow'/>
             </div>
             <div className='col-md-6'>
             <h2 className='text-primary pb-3'><strong>About Us</strong></h2>
-            <div className="bg-light card border-0 shadow" >
+            <div className="bg-light card border-0 shadow " >
               <div className="card-body">
               <h5 className="card-title text-primary">XClinics</h5>
               <p className="card-text">
@@ -167,7 +161,7 @@ const LandingPage = () => {
                       <p className="card-subtitle">Satisfied Patient</p>
                       <hr className='w-75'/>
                       <p className="card-text">
-                      "As a busy professional, XClinics saved me so much time. No more waiting rooms or commutes. I highly recommend it."                      </p>
+                      "As a busy college professor, XClinics saved me so much time!! No more waiting rooms or commutes. Made my life a whole lot easier, I highly recommend it."                      </p>
                     </div>
                   </div>
                 </div>
@@ -201,23 +195,30 @@ const LandingPage = () => {
       {/* Statistics Section */}
       <section className="container p-5 ">
       <h2 className="text-center py-3"><strong>Get to know our success, but in numbers..</strong></h2>
+      <hr className='w-75 mx-auto'/>
       <div className="row pb-3 my-5">
-        <div className="col-md-4 d-flex align-items-center justify-content-center">
+        <div className="col-md-3 d-flex align-items-center justify-content-center mx-auto">
           <div className="statistic shape-background rounded shadow text-center">
             <h2>5000+</h2>
             <h4>Happy Patients</h4>
           </div>
         </div>
-        <div className="col-md-4 d-flex align-items-center justify-content-center">
+        <div className="col-md-3 d-flex align-items-center justify-content-center mx-auto mt-5">
           <div className="statistic shape-background rounded shadow text-center">
             <h2>400+</h2>
-            <h4>Doctors</h4>
+            <h4>Specialized Doctors</h4>
           </div>
         </div>
-        <div className="col-md-4 d-flex align-items-center justify-content-center">
+        <div className="col-md-3 d-flex align-items-center justify-content-center mx-auto">
           <div className="statistic shape-background rounded shadow text-center">
             <h2>30+</h2>
             <h4>Affiliate Hospitals</h4>
+          </div>
+        </div>
+        <div className="col-md-3 d-flex align-items-start justify-content-center mx-auto mt-5">
+          <div className="statistic shape-background rounded shadow text-center">
+            <h2>20+</h2>
+            <h4>Partner Countries</h4>
           </div>
         </div>
       </div>
