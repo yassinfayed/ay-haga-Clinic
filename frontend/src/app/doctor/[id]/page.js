@@ -8,6 +8,7 @@ import { viewDoctorDetails } from "../../redux/actions/doctorActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../../../components/Card";
 import { Button } from "../../../../components/Button";
+
 import { updateDoctor } from "../../redux/actions/doctorActions"; // Import your update action
 
 export default function DoctorProfile({ params }) {
@@ -30,7 +31,10 @@ export default function DoctorProfile({ params }) {
 
   //permissions whether patient or doctor
   let permission;
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  let userInfo;
+  if (localStorage) {
+    userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  }
 
   if (userInfo) {
     permission = userInfo.data.user.role;

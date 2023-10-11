@@ -17,6 +17,7 @@ export default function patientProfile({ params }) {
   }, [dispatch]);
 
   const patients = useSelector((state) => state.patientsReducer.patients.data);
+  console.log(patients);
   let patient;
   if (patients) {
     patient = patients[0];
