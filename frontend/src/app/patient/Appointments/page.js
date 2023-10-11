@@ -136,7 +136,6 @@ function appointments() {
 
       return(
         <div className="container-fluid">
-        <Navbar></Navbar>
         <div className="rows">
             <h3 className='my-4'>My Appointments</h3>
             <div className="row my-3">
@@ -159,7 +158,6 @@ function appointments() {
           </div>
         </div>
         <Table headers={headers} data={dummyAppointments}/>
-        <Footer></Footer>
         </div>
       )
       

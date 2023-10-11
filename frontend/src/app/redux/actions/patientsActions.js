@@ -29,7 +29,7 @@ export const viewPatients = (queryObj) => async (dispatch) => {
     let url =""
     console.log("heyyyyyyyyyy")
     console.log(JSON.parse(localStorage.getItem('userInfo')).role)
-    if(JSON.parse(localStorage.getItem('userInfo')).role === 'admin')
+    if(JSON.parse(localStorage.getItem('userInfo')).data.user.role === 'administrator')
       url = `${baseURL}/api/v1/patient${queryStr ? `?${queryStr}` : ''}`;
     else
       url = `${baseURL}/api/v1/patient/view-Patients${queryStr ? `?${queryStr}` : ''}`;

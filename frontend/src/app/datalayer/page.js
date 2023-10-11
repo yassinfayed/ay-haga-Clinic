@@ -9,6 +9,7 @@ import { viewPatients } from '../redux/actions/patientsActions';
 import { viewDoctorDetails } from "../redux/actions/doctorActions";
 import { viewPrescriptionsDetails } from "../redux/actions/prescriptionsActions";
 import { viewALLPrescriptions } from "../redux/actions/prescriptionsActions";
+import { getAllUsers } from "../redux/actions/userActions";
 // import {filterPatientsBasedOnUpcomingAppointments} from '../redux/actions/patientsActions';
 
 const Home = () => {
@@ -58,8 +59,10 @@ const DoctorDetails = () => {
 
   // Login user (if not already logged in)
   useEffect(() => {
-    dispatch(login("farida", "password1234"));
-    dispatch(viewPatients({}));
+    dispatch(login("sysadmin", "pass1234"));
+    dispatch(getAllUsers())
+    // dispatch(login("farida", "password1234"));
+    // dispatch(viewPatients({}));
   }, [dispatch]);
 
   // View doctor details
