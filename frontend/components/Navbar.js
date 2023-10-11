@@ -10,12 +10,12 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light w-100">
-      <div className="container d-flex flex-row justify-content-between w-100">
+      <div className="container d-flex flex-row justify-content-between align-items-center w-100">
         <div className="title col-md-6">
         <div className="logo"></div>
         <h1>
         <a className="navbar-brand" href="/">
-            Clinic
+        XClinics
         </a>
         </h1>
           <button
@@ -27,16 +27,16 @@ const Navbar = () => {
           </button>
         </div>
         <div
-          className={`links&buttons collapse navbar-collapse col-md-6 align-self-end ${isMenuOpen ? 'show' : ''}`}
+          className={`links&buttons collapse navbar-collapse col-md-6 ${isMenuOpen ? 'show' : ''}`}
         >
-          <ul className="navbar-nav ml-auto">
+          <ul className="navbar-nav container d-flex justify-content-end me-auto">
             <li className="nav-item">
               <a className="nav-link" href="/">
                 Home
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/#About">
+              <a className="nav-link" href="/#about">
                 About Us
               </a>
             </li>
@@ -44,20 +44,20 @@ const Navbar = () => {
               <a className="nav-link" href="/services">Services</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/careers">Careers</a>
+              <a className="nav-link" href="/doctor/Register">Careers</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/policy">
                 Policy
               </a>
             </li>
-            <li className="nav-item">
-              <a className="btn btn-primary ms-2 mx-1" href="/login">
+            <li className="nav-item ">
+              <a className="btn btn-light text-primary ms-3 mx-1" href="/guest/Login">
                 Login
               </a>
             </li>
-            <li className="nav-item">
-              <a className="btn btn-light mx-1" href="/signup">
+            <li className="nav-item rounded">
+              <a className="btn btn-primary text-light mx-1" href="/guest/Register">
                 Sign Up
               </a>
             </li>

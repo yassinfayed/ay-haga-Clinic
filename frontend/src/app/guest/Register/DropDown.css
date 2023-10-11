@@ -1,0 +1,21 @@
+.gender-dropdown {
+    font-family: Arial, sans-serif;
+    margin-bottom: 20px;
+  }
+  
+  .label {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .select {
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .selected-gender {
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
