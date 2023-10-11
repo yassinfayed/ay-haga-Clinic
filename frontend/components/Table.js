@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 function Table(props) {
     const { headers, data } = props;
+    console.log(data)
 
     const currentItems = data;
 
@@ -16,7 +17,7 @@ function Table(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentItems.map((row, index) => (
+                    {currentItems?.map((row, index) => (
                         <tr key={`tr${index}`}>
                             {Object.values(row).map((node, index2) => (
                                 <td key={`td${index}-${index2}`}>{node}</td>
