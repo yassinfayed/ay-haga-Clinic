@@ -65,14 +65,19 @@ function appointments() {
 
   const apps = useMemo(() => {
     if (appointmentsData && appointmentsData.data) {
+      console.log(appointmentsData)
+      console.log(appointmentsData.data);
       return appointmentsData.data.map((value) => ({
         date: new Date(value.date).toLocaleDateString(), 
-        doctorId: value.doctor.name,
+        doctorname: value.doctorId.name,
         status: value.status,
       }));
     }
     return [];
   }, [appointmentsData]);
+
+
+  console.log(apps);
 
 
   const handleClearFilters = () => {
@@ -83,7 +88,7 @@ function appointments() {
   
 
 
-      const headers = ['Date', 'Doctor ID', 'Status'];
+      const headers = ['Date', 'Doctor Name', 'Status'];
 
 
       return(
