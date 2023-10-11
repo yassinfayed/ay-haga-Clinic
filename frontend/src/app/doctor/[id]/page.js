@@ -13,7 +13,7 @@ import { updateDoctor } from "../../redux/actions/doctorActions"; // Import your
 export default function DoctorProfile({ params }) {
   // redux
   const dispatch = useDispatch();
-  // dispatch(login("omarDoe", "password123"));
+  dispatch(login("faridaAhmed", "password123"));
 
   //states
   const [edit, setedit] = useState(false);
@@ -29,8 +29,12 @@ export default function DoctorProfile({ params }) {
 
   const doctor = useSelector((state) => state.doctorReducer.doctor);
   //CONTINUE PERMISSIONS
-  const permission = JSON.stringify(localStorage.getItem("userInfo"));
-  console.log(permission);
+  let permission;
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+  if (userInfo) {
+    permission = userInfo.data.user.role;
+  }
   const id = params.id;
 
   function DateCardList() {
