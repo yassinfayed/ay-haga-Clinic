@@ -1,4 +1,7 @@
 import { PATIENTS_FILTERAPPOINTMENTS_FAIL, PATIENTS_FILTERAPPOINTMENTS_REQUEST, PATIENTS_FILTERAPPOINTMENTS_SUCCESS } from "../constants/patientConstants";
+import { formulateQueryString } from '../queryStringBuilder';
+import baseURL from '../baseURL';
+import axios from 'axios';
 
 export const getPatientAppointments = (queryObj) => async (dispatch) => {
     try {
@@ -13,7 +16,9 @@ export const getPatientAppointments = (queryObj) => async (dispatch) => {
         withCredentials: true
       };
   
+      console.log(queryObj);
       const queryStr = formulateQueryString(queryObj)
+      console.log(queryStr);
       let url;
   
       if (!queryObj)

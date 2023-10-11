@@ -7,61 +7,47 @@ import AddFamily from './AddFamilyMemberModal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../../../../components/Navbar';
 import Footer from '../../../../components/Footer';
+import { useDispatch, useSelector } from 'react-redux';
+import { viewFamilyMembers } from '@/app/redux/actions/FamilyMembersAction';
+import { useEffect } from 'react';
+import { useMemo } from 'react';
+import { login } from '@/app/redux/actions/authActions';
 
 
 
 function Familymembers() {
     const [modalShow, setModalShow] = useState(false);
-    const familymembers = [
-        {
-            _id:'qowicnq3ic',
-            name: 'John Doe',
-            nationalId: '1234567890',
-            age: 30,
-            gender: 'Male',
-            relationToPatient: 'husband',
-            patientId: 'yourPatientIdHere1', // Replace with the actual patient ID
-          },
-          {
-            _id:'qowicnreq34vgq3ic',
-            name: 'Jane Doe',
-            nationalId: '9876543210',
-            age: 28,
-            gender: 'Female',
-            relationToPatient: 'wife',
-            patientId: 'yourPatientIdHere1', // Replace with the actual patient ID
-          },
-          {
-            _id:'qowicnqwcqwvq3ic',
-            name: 'Alice Smith',
-            nationalId: '5555555555',
-            age: 45,
-            gender: 'Female',
-            relationToPatient: 'mother',
-            patientId: 'yourPatientIdHere2', // Replace with the actual patient ID
-          },
-          {
-            _id:'wqwpcomqwcpq',
-            name: 'Bob Johnson',
-            nationalId: '7777777777',
-            age: 50,
-            gender: 'Male',
-            relationToPatient: 'father',
-            patientId: 'yourPatientIdHere2', // Replace with the actual patient ID
-          },
-     
-    ];
-      
-      
-      
+    const dispatch = useDispatch();
 
 
 
+    const familyMembers = useSelector((state) => state.viewFamilyMembersReducer.familyMember);
 
+
+    useEffect(() => {
+      dispatch(login('faridashetta','password123'))
+      dispatch(viewFamilyMembers());
+    }, [dispatch]);
+
+    
+
+    const fam = useMemo(() => {
+      if (familyMembers && familyMembers.data) {
+        return familyMembers.data.map((value) => ({
+          name: value.name, 
+          nationalId: value.nationalId,
+          age: value.age,
+          gender: value.gender,
+          relationToPatient: value.relationToPatient,
+        }));
+      }
+      return [];
+    }, [familyMembers,modalShow]);
 
   return (
     <div>
 
+      <Navbar></Navbar>
 
         <div className="container-fluid my-3">
             <Button text="Add New Family Member"  onClick={() => setModalShow(true)}/>
@@ -77,7 +63,7 @@ function Familymembers() {
 
        
        
-      {familymembers.map((familymember) => (
+      {fam.map((familymember) => (
         <Card
           className="my-2"
           key={familymember._id}
@@ -95,6 +81,7 @@ function Familymembers() {
       ))}
       
     </div>
+    <Footer></Footer>
     </div>
   );
  
