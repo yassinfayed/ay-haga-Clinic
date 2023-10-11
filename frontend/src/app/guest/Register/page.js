@@ -6,8 +6,8 @@ import { useState } from 'react';
 import Navbar from '../../../../components/Navbar';
 import Footer from '../../../../components/Footer';
 import { Button } from "../../../../components/Button";
-import GenderDropdown from "../../../../components/DropDownmenu";
-import "./DropDown.css";
+//import GenderDropdown from "../../../../components/DropDownmenu";
+//import "./DropDown.css";
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -97,10 +97,10 @@ const Register = () => {
                             onChange={handleInputChange}
                         />
                     </div>
-                    <div>
+                    {/* <div>
       <h1>Gender Selection</h1>
       <GenderDropdown />
-    </div>
+    </div> */}
                 </div>
        <div className="submit-containerz">
                     <Button
