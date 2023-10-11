@@ -6,31 +6,37 @@ export default function useFilter(headers, initialValue) {
 
     const filterData = (key, op, value) => {
         const newData = data.filter((arr) => {
-            const headerIndex = headers.indexOf(key);
-            const filterCheck = arr[headerIndex];
-
+          const headerIndex = headers.indexOf(key);
+          const filterCheck = arr[headerIndex];
+      
+          // Add a check to ensure filterCheck is defined and is a string
+          if (typeof filterCheck === 'string') {
             switch (op) {
-                case '==':
-                    return filterCheck === value;
-                case '!=':
-                    return filterCheck !== value;
-                case '>':
-                    return filterCheck > value;
-                case '>=':
-                    return filterCheck >= value;
-                case '<':
-                    return filterCheck < value;
-                case '<=':
-                    return filterCheck <= value;
-                case '%':
-                    return filterCheck.includes(value);
-                default:
-                    return filterCheck === value;
+              case '==':
+                return filterCheck === value;
+              case '!=':
+                return filterCheck !== value;
+              case '>':
+                return filterCheck > value;
+              case '>=':
+                return filterCheck >= value;
+              case '<':
+                return filterCheck < value;
+              case '<=':
+                return filterCheck <= value;
+              case '%':
+                return filterCheck.includes(value);
+              default:
+                return filterCheck === value;
             }
+          }
+      
+          return false; // Return false for non-string values or undefined
         });
-
+      
         setData(newData);
-    }
+      };
+      
 
     const sortData = useCallback((key, direction = 'ASC') => {
         const headerIndex = headers.indexOf(key);
