@@ -1,25 +1,44 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import React from "react";
+import { useEffect } from "react";
+import { login } from "../../redux/actions/authActions";
+import { viewDoctorDetails } from "../../redux/actions/doctorActions";
+import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../../../components/Card";
 import { Button } from "../../../../components/Button";
 
+import { updateDoctor } from "../../redux/actions/doctorActions"; // Import your update action
+
 export default function DoctorProfile({ params }) {
+  // redux
+  const dispatch = useDispatch();
+  // dispatch(login("faridaAhmed", "password123"));
+
+  //states
   const [edit, setedit] = useState(false);
   const [newEmail, setNewEmail] = useState("");
   const [newHourlyRate, setNewHourlyRate] = useState("");
   const [newAffiliation, setNewAffiliation] = useState("");
-  const [doctor, setDoctor] = useState({
-    Name: "Doctor. Hazem",
-    speciality: "Dentistry",
-    HourlyRate: 300,
-    affiliation: "idk2",
-    eduactionalBackground: "teb asnan",
-    DateOfbirth: "23/07/2002",
-    email: "hazemabdelghany43@gmail.com",
-    availableDates: ["22/07/2023", "22/07/2023"],
-  });
-  const permission = "doctor";
+  const [newdoctor, setNewDoctor] = useState({});
+
+  useEffect(() => {
+    dispatch(viewDoctorDetails(params.id));
+  }, [dispatch]);
+
+  const doctor = useSelector((state) => state.doctorReducer.doctor);
+
+  //permissions whether patient or doctor
+  let permission;
+  let userInfo;
+  if (localStorage) {
+    userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  }
+
+  if (userInfo) {
+    permission = userInfo.data.user.role;
+  }
   const id = params.id;
 
   function DateCardList() {
@@ -56,7 +75,7 @@ export default function DoctorProfile({ params }) {
 
   const handleSubmit = () => {
     // Create a copy of the current doctor object
-    let updatedDoctor = { ...doctor };
+    let updatedDoctor = { ...newdoctor };
 
     // Check each condition and update the copy if necessary
     if (newEmail) {
@@ -71,8 +90,10 @@ export default function DoctorProfile({ params }) {
       updatedDoctor.affiliation = newAffiliation;
     }
 
-    // Update the doctor object with the accumulated changes
-    setDoctor(updatedDoctor);
+    // CONTINUE DOCTOR POST
+    setNewDoctor(updatedDoctor);
+    // console.log(updatedDoctor);
+    dispatch(updateDoctor(updatedDoctor));
     // Clear input fields
     setNewEmail("");
     setNewHourlyRate("");
@@ -80,110 +101,117 @@ export default function DoctorProfile({ params }) {
   };
 
   return (
-    <div className=" p-5 d-flex">
-      <div className=" w-25 border-end">
-        <div className="p-3 border-bottom">
-          <div>
-            <Image src="/profile.svg" height={200} width={200} />
-          </div>
-        </div>
+    <>
+      {doctor ? (
+        <div className=" p-5 d-flex">
+          <div className=" w-25 border-end">
+            <div className="p-3 border-bottom">
+              <div>
+                <Image src="/profile.svg" height={200} width={200} />
+              </div>
+            </div>
+            <div className="py-2 d-flex">
+              <span className="fw-bold w-25">Date Of Birth: </span>
 
-        <div className="py-2 d-flex">
-          <span className="fw-bold w-25">Date Of Birth: </span>
-          <span>{doctor.DateOfbirth}</span>
-        </div>
-      </div>
-      <div className="p-3 w-75">
-        <div className="border-bottom d-flex">
-          <div className="w-75">
-            <h1>{doctor.Name}</h1>
-            <p className="px-3 text-secondary">{doctor.speciality}</p>
+              <span>{doctor.DateOfbirth}</span>
+            </div>
           </div>
-          <div className="w-25">
-            {permission == "doctor" && (
+          <div className="p-3 w-75">
+            <div className="border-bottom d-flex">
+              <div className="w-75">
+                <h1>{doctor.name}</h1>
+                <p className="px-3 text-secondary">{doctor.speciality}</p>
+              </div>
+              <div className="w-25">
+                {permission == "doctor" && (
+                  <Button
+                    text="Edit Information"
+                    variant="small"
+                    onClick={() => {
+                      setedit(true);
+                      console.log("new doctor", newdoctor);
+                    }}
+                  ></Button>
+                )}
+              </div>
+            </div>
+            <div className="p-2 border-bottom">
+              <div className="text-body-secondary fw-bold small p-3 ">
+                Doctor Information
+              </div>
+              <div className="p-3">
+                <div className="py-3 d-flex">
+                  <span className="fw-bold w-25">Email: </span>
+                  <span className="w-50">{doctor.email}</span>
+                  <span className="w-25">
+                    {!edit || (
+                      <input
+                        type="email"
+                        className="form-control"
+                        placeholder="New Email"
+                        value={newEmail}
+                        onChange={handleEmailChange}
+                      />
+                    )}
+                  </span>
+                </div>
+                <div className="py-3 d-flex">
+                  <span className="fw-bold w-25">Hourly Rate: </span>
+                  <span className="w-50">{doctor.HourlyRate}</span>
+                  <span className="w-25">
+                    {!edit || (
+                      <input
+                        type="email"
+                        className="form-control"
+                        placeholder="New Hourly Rate"
+                        value={newHourlyRate}
+                        onChange={handleHourlyRateChange}
+                      />
+                    )}
+                  </span>
+                </div>
+                <div className="py-3 d-flex">
+                  <span className="fw-bold w-25">Affiliation: </span>
+                  <span className="w-50">{doctor.affiliation}</span>
+                  <span className="w-25">
+                    {!edit || (
+                      <input
+                        type="email"
+                        className="form-control"
+                        placeholder="New Affiliation"
+                        value={newAffiliation}
+                        onChange={handleAffiliationChange}
+                      />
+                    )}
+                  </span>
+                </div>
+                <div className="py-2 d-flex">
+                  <span className="fw-bold w-25">Eduactional Background: </span>
+                  <span>{doctor.educationalbackground}</span>
+                </div>
+              </div>
+              <div>
+                <div className="text-body-secondary fw-bold small p-3 ">
+                  Available Dates
+                </div>
+                <DateCardList />
+              </div>
+            </div>
+            {!edit || (
               <Button
-                text="Edit Information"
+                text="Submit"
                 variant="small"
                 onClick={() => {
-                  setedit(true);
+                  handleSubmit();
+                  setedit(false);
                 }}
               ></Button>
             )}
           </div>
         </div>
-        <div className="p-2 border-bottom">
-          <div className="text-body-secondary fw-bold small p-3 ">
-            Doctor Information
-          </div>
-          <div className="p-3">
-            <div className="py-3 d-flex">
-              <span className="fw-bold w-25">Email: </span>
-              <span className="w-50">{doctor.email}</span>
-              <span className="w-25">
-                {!edit || (
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="New Email"
-                    value={newEmail}
-                    onChange={handleEmailChange}
-                  />
-                )}
-              </span>
-            </div>
-            <div className="py-3 d-flex">
-              <span className="fw-bold w-25">Hourly Rate: </span>
-              <span className="w-50">{doctor.HourlyRate}</span>
-              <span className="w-25">
-                {!edit || (
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="New Hourly Rate"
-                    value={newHourlyRate}
-                    onChange={handleHourlyRateChange}
-                  />
-                )}
-              </span>
-            </div>
-            <div className="py-3 d-flex">
-              <span className="fw-bold w-25">Affiliation: </span>
-              <span className="w-50">{doctor.affiliation}</span>
-              <span className="w-25">
-                {!edit || (
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="New Affiliation"
-                    value={newAffiliation}
-                    onChange={handleAffiliationChange}
-                  />
-                )}
-              </span>
-            </div>
-            <div className="py-2 d-flex">
-              <span className="fw-bold w-25">Eduactional Background: </span>
-              <span>{doctor.eduactionalBackground}</span>
-            </div>
-          </div>
-          <div>
-            <div className="text-body-secondary fw-bold small p-3 ">
-              Available Dates
-            </div>
-            <DateCardList />
-          </div>
-        </div>
-        {!edit || (
-          <Button
-            text="Submit"
-            variant="small"
-            onClick={() => {
-              handleSubmit();
-              setedit(false);
-            }}
-          ></Button>
-        )}
-      </div>
-    </div>
+      ) : (
+        <div>hello</div>
+      )}
+    </>
   );
 }
