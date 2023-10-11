@@ -68,21 +68,22 @@ exports.FilterPatientsBasedOnUpcomimgAppointments = catchAsync(
     const patients = await Patient.find({ _id: { $in: patientIds } });
 
     // Create a response object that combines patient details with their appointment details
-    const response = patients.map((patient) => {
-      const matchingAppointment = upcomingAppointments.find(
-        (appointment) =>
-          appointment.patientId.toString() === patient._id.toString()
-      );
-      return {
-        patient,
-        appointment: matchingAppointment,
-      };
-    });
+    // const response = patients.map((patient) => {
+    //   const matchingAppointment = upcomingAppointments.find(
+    //     (appointment) =>
+    //       appointment.patientId.toString() === patient._id.toString()
+    //   );
+    //   return 
+    //     patient
+    //     // appointment: matchingAppointment,
+      
+    // });
+    // console.log()
     res.status(200).json({
       status: "success",
-      results: response?.length,
+      // results: response?.length,
       data: {
-        data: response,
+        data: patients,
       },
     });
   }
