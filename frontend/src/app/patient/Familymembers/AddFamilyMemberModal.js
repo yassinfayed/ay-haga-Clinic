@@ -1,21 +1,31 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { addFamilyMembers } from '@/app/redux/actions/FamilyMembersAction';
+import { useDispatch } from 'react-redux';
 
 function AddFamily(props) {
   const { title, subheader, onHide } = props;
 
   // State variables for form input values
-  const [name, setName] = useState(null);
-  const [nationalId, setNationalId] = useState(null);
-  const [age, setAge] = useState(null);
-  const [gender, setGender] = useState(null);
-  const [relationToPatient, setRelationToPatient] = useState(null);
+  const [name, setName] = useState('');
+  const [nationalId, setNationalId] = useState('');
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState('');
+  const [relationToPatient, setRelationToPatient] = useState('');
+  const dispatch = useDispatch();
 
 
   // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(addFamilyMembers({
+      "name" : name,
+      "nationalId" : nationalId,
+      "age" : age ,
+      "gender" : gender ,
+      "relationToPatient" : relationToPatient
+  }));
 
     
   };
@@ -83,7 +93,7 @@ function AddFamily(props) {
               onChange={(e) => setRelationToPatient(e.target.value)}
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
             Submit
           </button>
         </form>

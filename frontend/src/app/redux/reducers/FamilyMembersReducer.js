@@ -54,10 +54,12 @@ import {
           error: null,
         };
       case VIEW_FAMILY_MEMBERS_SUCCESS:{
+        console.log(action.payload);
+        console.log("iwufq");
         console.log("success")
         return {
           ...state,
-          familyMember: action.payload.data,
+          familyMember: action.payload,
           loading: false,
           error: null,
         }};

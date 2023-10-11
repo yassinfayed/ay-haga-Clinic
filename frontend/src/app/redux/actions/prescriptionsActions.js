@@ -57,6 +57,7 @@ export const viewALLPrescriptions = (queryObj) => async (dispatch) => {
     };
 
     const queryStr = formulateQueryString(queryObj);
+    
     const url = `${baseURL}/api/v1/patient/prescription${queryStr ? `?${queryStr}` : ''}`;
     console.log(url);
 

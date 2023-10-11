@@ -7,20 +7,61 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ViewPrescription from './ViewPrescriptionModal';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { viewALLPrescriptions } from '@/app/redux/actions/prescriptionsActions'; // Import the correct action
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import Navbar from '../../../../components/Navbar';
+import Footer from '../../../../components/Footer';
+import { login } from '@/app/redux/actions/authActions';
+
 
 function prescriptions() {
     const [modalShow, setModalShow] = useState(false);
-    const [selectedPrescription, setSelectedPrescription] = useState(null);
-<<<<<<< HEAD
     const [selectedDate, setSelectedDate] = useState(null);
+    const [name,setName] = useState('');
     const [selectedStatus, setSelectedStatus] = useState(null);
-    const [name, setName] = useState('');
-=======
-    const [name, setName] = useState('');
-    const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState(null);
+    const [selectedPrescription,setSelectedPrescription] = useState(null);
+
+
+    const dispatch = useDispatch();
+
+    const prescriptions = useSelector((state) => state.viewAllPrescriptionsReducer.prescription);
+
+
+
+    const formatDateToISOString = (date) => {
+      if (!date) return ''; // Return an empty string if date is falsy
+      const utcDate = new Date(Date.UTC(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      ));
+      const selected =  utcDate.toUTCString();
+      return selected;
+    };
+
+    useEffect(() => {
+      dispatch(login('faridashetta', 'password123'));
+    
+      // Construct the query object based on the filter values
+      const queryObj = {
+        prescriptionDate: formatDateToISOString(selectedDate),
+        name,
+        filled_unfilled: selectedStatus,
+      };
+    
+      // Remove properties with empty string values
+      const filteredQueryObj = Object.keys(queryObj).reduce((acc, key) => {
+        if (queryObj[key] !== '') {
+          acc[key] = queryObj[key];
+        }
+        return acc;
+      }, {});
+    
+      dispatch(viewALLPrescriptions(filteredQueryObj));
+    }, [dispatch, selectedDate, name, selectedStatus]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -28,155 +69,49 @@ function prescriptions() {
   const handleStatusChange = (event) => {
     setSelectedStatus(event.target.value);
   };
->>>>>>> 729a11ebcd431010619a3afd65c1b665a3b4f670
-    const prescriptions = [
-        {
-          _id: 1,
-          patientId: 'yourPatientIdHere1',
-          doctorId: 'yourDoctorIdHere1',
-          medicines: [
-            {
-              medicine: 'Medicine 1',
-              dosage: '10mg',
-              frequency: 'Twice daily',
-              startDate: new Date(),
-              endDate: new Date(),
-            },
-            {
-                medicine: 'Medicine 2',
-                dosage: '20mg',
-                frequency: 'Once daily',
-                startDate: new Date(),
-                endDate: new Date(),
-              },
-            // Add more medicines if needed
-          ],
-          instructions: 'Take as directed',
-          prescriptionDate: new Date(),
-          filled_unfilled: true,
-        },
-        {
-          _id: 2,
-          patientId: 'yourPatientIdHere2',
-          doctorId: 'yourDoctorIdHere2',
-          medicines: [
-            {
-              medicine: 'Medicine 2',
-              dosage: '20mg',
-              frequency: 'Once daily',
-              startDate: new Date(),
-              endDate: new Date(),
-            },
-            // Add more medicines if needed
-          ],
-          instructions: 'Take with food',
-          prescriptionDate: new Date(),
-          filled_unfilled: false,
-        },
-        {
-          _id: 3,
-          patientId: 'yourPatientIdHere3',
-          doctorId: 'yourDoctorIdHere3',
-          medicines: [
-            {
-              medicine: 'Medicine 3',
-              dosage: '5mg',
-              frequency: 'Three times daily',
-              startDate: new Date(),
-              endDate: new Date(),
-            },
-            // Add more medicines if needed
-          ],
-          instructions: 'Take on an empty stomach',
-          prescriptionDate: new Date(),
-          filled_unfilled: true,
-        },
-        {
-          _id: 4,
-          patientId: 'yourPatientIdHere4',
-          doctorId: 'yourDoctorIdHere4',
-          medicines: [
-            {
-              medicine: 'Medicine 4',
-              dosage: '15mg',
-              frequency: 'Once daily',
-              startDate: new Date(),
-              endDate: new Date(),
-            },
-            // Add more medicines if needed
-          ],
-          instructions: 'Take before bedtime',
-          prescriptionDate: new Date(),
-          filled_unfilled: true,
-        },
-        {
-          _id: 5,
-          patientId: 'yourPatientIdHere5',
-          doctorId: 'yourDoctorIdHere5',
-          medicines: [
-            {
-              medicine: 'Medicine 5',
-              dosage: '25mg',
-              frequency: 'Once daily',
-              startDate: new Date(),
-              endDate: new Date(),
-            },
-            // Add more medicines if needed
-          ],
-          instructions: 'Take with plenty of water',
-          prescriptionDate: new Date(),
-          filled_unfilled: false,
-        },
-        // Add more prescription objects as needed
-      ];
-      
-      
-      
-      const handleViewPrescription = (prescription) => {
-        setSelectedPrescription(prescription);
-        setModalShow(true);
-      };
+
+  const presc = useMemo(() => {
+    if (prescriptions && prescriptions.data) {
+      return prescriptions.data.map((value) => ({
+        medicines: value.medicines, 
+        instructions: value.instructions,
+        prescriptionDate: new Date(value.prescriptionDate).toLocaleDateString(),
+        filled_unfilled: value.filled_unfilled,
+      }));
+    }
+    return [];
+  }, [prescriptions]);
 
 
-      const handleDateChange = (date) => {
-        setSelectedDate(date);
-      };
-      const handleStatusChange = (event) => {
-        setSelectedStatus(event.target.value); 
-      };
+  const handleViewPrescription = (prescription) => {
+    setSelectedPrescription(prescription);
+    setModalShow(true);
+  };
+
+  const handleClearFilters = () =>{
+    setName('');
+    setSelectedDate(null);
+    setSelectedStatus(null);
+  }
+
 
 
       return (
         <div>
+          <Navbar></Navbar>
           <div className="container-fluid my-3">
             <div className="row">
-<<<<<<< HEAD
-          <select onChange={handleStatusChange} className='mx-lg-3 col-lg-2 mx-lg-1'>
-            <option value="">Filter by status</option>
-            <option value="filled">Filled</option>
-            <option value="unfilled">Unfilled</option>
-          </select>
-          <DatePicker
-=======
             <DatePicker
->>>>>>> 729a11ebcd431010619a3afd65c1b665a3b4f670
           selected={selectedDate}
           onChange={handleDateChange}
           dateFormat="yyyy-MM-dd"
           placeholderText="Filter by date"
           className='col-lg-2 mx-lg-3 my-3'
         />
-<<<<<<< HEAD
-        <input
-              type="text"
-              className="my-1  mx-lg-3 col-lg-2"
-              id="name"
-              placeholder="Filter by name"
-=======
         <select onChange={handleStatusChange} className='col-lg-2 mx-lg-3'>
             <option value="">Filter by status</option>
-            <option value="filled">Filled</option>
-            <option value="unfilled">Unfilled</option>
+            <option value="true">Filled</option>
+            <option value="false">Unfilled</option>
           </select>
           </div>
           <div className="row my-2 mx-lg-1">
@@ -185,23 +120,23 @@ function prescriptions() {
               className="col-lg-2"
               id="name"
               placeholder="Filter by Doctor Name"
->>>>>>> 729a11ebcd431010619a3afd65c1b665a3b4f670
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             </div>
-            {prescriptions.map((prescription) => (
+            <Button text="Clear Filters" className="col-lg-3"onClick={handleClearFilters}></Button>
+            {presc.map((prescription) => (
               <Card
                 className="my-2"
                 key={prescription._id}
-                title={`Doctor: ${prescription.doctorId}`}
+                title={`Doctor: ${prescription.name}`}
                 subtitle=""
                 text={
                   <>
                     <strong>Instructions:</strong> {prescription.instructions}
                     <br />
                     <strong>Prescription Date:</strong>{' '}
-                    {prescription.prescriptionDate.toLocaleDateString()}
+                    {prescription.prescriptionDate}
                     <br />
                     <strong>Filled/Unfilled:</strong>{' '}
                     {prescription.filled_unfilled ? 'Filled' : 'Unfilled'}
@@ -222,6 +157,7 @@ function prescriptions() {
               prescription={selectedPrescription}
             />
           )}
+          <Footer></Footer>
         </div>
       );
  
