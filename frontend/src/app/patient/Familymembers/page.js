@@ -62,7 +62,6 @@ function Familymembers() {
   return (
     <div>
 
-        <Navbar></Navbar>
 
         <div className="container-fluid my-3">
             <Button text="Add New Family Member"  onClick={() => setModalShow(true)}/>
@@ -96,7 +95,6 @@ function Familymembers() {
       ))}
       
     </div>
-    <Footer></Footer>
     </div>
   );
  

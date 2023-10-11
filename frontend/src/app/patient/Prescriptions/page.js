@@ -4,8 +4,8 @@ import {useState} from 'react' ;
 import { Card} from '../../../../components/Card'; 
 import { Button } from '../../../../components/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../../../../components/Navbar';
-import Footer from '../../../../components/Footer';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import ViewPrescription from './ViewPrescriptionModal';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -13,9 +13,22 @@ import 'react-datepicker/dist/react-datepicker.css';
 function prescriptions() {
     const [modalShow, setModalShow] = useState(false);
     const [selectedPrescription, setSelectedPrescription] = useState(null);
+<<<<<<< HEAD
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState(null);
     const [name, setName] = useState('');
+=======
+    const [name, setName] = useState('');
+    const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+  const handleStatusChange = (event) => {
+    setSelectedStatus(event.target.value);
+  };
+>>>>>>> 729a11ebcd431010619a3afd65c1b665a3b4f670
     const prescriptions = [
         {
           _id: 1,
@@ -135,26 +148,44 @@ function prescriptions() {
 
       return (
         <div>
-          <Navbar />
           <div className="container-fluid my-3">
             <div className="row">
+<<<<<<< HEAD
           <select onChange={handleStatusChange} className='mx-lg-3 col-lg-2 mx-lg-1'>
             <option value="">Filter by status</option>
             <option value="filled">Filled</option>
             <option value="unfilled">Unfilled</option>
           </select>
           <DatePicker
+=======
+            <DatePicker
+>>>>>>> 729a11ebcd431010619a3afd65c1b665a3b4f670
           selected={selectedDate}
           onChange={handleDateChange}
           dateFormat="yyyy-MM-dd"
           placeholderText="Filter by date"
           className='col-lg-2 mx-lg-3 my-3'
         />
+<<<<<<< HEAD
         <input
               type="text"
               className="my-1  mx-lg-3 col-lg-2"
               id="name"
               placeholder="Filter by name"
+=======
+        <select onChange={handleStatusChange} className='col-lg-2 mx-lg-3'>
+            <option value="">Filter by status</option>
+            <option value="filled">Filled</option>
+            <option value="unfilled">Unfilled</option>
+          </select>
+          </div>
+          <div className="row my-2 mx-lg-1">
+          <input
+              type="text"
+              className="col-lg-2"
+              id="name"
+              placeholder="Filter by Doctor Name"
+>>>>>>> 729a11ebcd431010619a3afd65c1b665a3b4f670
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -184,7 +215,6 @@ function prescriptions() {
               />
             ))}
           </div>
-          <Footer />
           {selectedPrescription && (
             <ViewPrescription
               show={modalShow}
