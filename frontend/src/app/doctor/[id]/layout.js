@@ -2,6 +2,8 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import '../../node_modules/bootstrap/dist/css/bootstrap.css'
 import { ReduxProvider } from './redux/provider'
+import NavbarDoc from '../../components/NavbarDoc'
+import FooterDoc from '../../components/FooterDoc'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,8 +16,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`global-text ${inter.className}`}> 
-      
+        <NavbarDoc/>
         <ReduxProvider> {children} </ReduxProvider>
+        <FooterDoc/>
       </body>
     </html>
   )
