@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import {loginReducer, registerReducer} from './reducers/authReducer';
-import {removeUserReducer} from './reducers/userReducer';
+import {removeUserReducer, getUsersReducer} from './reducers/userReducer';
 import {addFamilyMembersReducer} from './reducers/FamilyMembersReducer';
 import { viewFamilyMembersReducer } from './reducers/FamilyMembersReducer';
 import { patientsReducer } from './reducers/patientsReducers';
@@ -37,7 +37,8 @@ const store = configureStore({
     getHealthPackagesReducer,
     getHealthPackageReducer,
     updateHealthPackageReducer,
-    deleteHealthPackageReducer
+    deleteHealthPackageReducer,
+    getUsersReducer,
   },
 });
 

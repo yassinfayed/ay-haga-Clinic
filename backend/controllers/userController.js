@@ -29,3 +29,5 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
         data: null
     });
 });
+
+exports.getAllUsers = factory.getAll(userModel)

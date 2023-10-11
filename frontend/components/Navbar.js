@@ -15,7 +15,7 @@ const Navbar = () => {
         <div className="logo"></div>
         <h1>
         <a className="navbar-brand" href="/">
-            Clinic
+        XClinics
         </a>
         </h1>
           <button
@@ -29,14 +29,14 @@ const Navbar = () => {
         <div
           className={`links&buttons collapse navbar-collapse col-md-6 ${isMenuOpen ? 'show' : ''}`}
         >
-          <ul className="navbar-nav ml-auto">
+          <ul className="navbar-nav container d-flex justify-content-end me-auto">
             <li className="nav-item">
               <a className="nav-link" href="/">
                 Home
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/#About">
+              <a className="nav-link" href="/#about">
                 About Us
               </a>
             </li>
@@ -44,20 +44,20 @@ const Navbar = () => {
               <a className="nav-link" href="/services">Services</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/careers">Careers</a>
+              <a className="nav-link" href="/doctor/Register">Careers</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/policy">
                 Policy
               </a>
             </li>
-            <li className="nav-item">
-              <a className="btn btn-light text-primary ms-3 mx-1" href="/login">
+            <li className="nav-item ">
+              <a className="btn btn-light text-primary ms-3 mx-1" href="/guest/Login">
                 Login
               </a>
             </li>
             <li className="nav-item rounded">
-              <a className="btn btn-primary text-light mx-1" href="/signup">
+              <a className="btn btn-primary text-light mx-1" href="/guest/Register">
                 Sign Up
               </a>
             </li>

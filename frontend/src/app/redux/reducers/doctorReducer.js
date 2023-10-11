@@ -14,6 +14,7 @@ import {
 } from '../constants/doctorConstants';
 
 export const getDrsForPatientsReducer = (state = {}, action) => {
+ 
   switch (action.type) {
     case DOCTORS_VIEW_REQUEST:
       return {

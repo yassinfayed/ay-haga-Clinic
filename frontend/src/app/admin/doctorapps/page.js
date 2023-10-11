@@ -1,77 +1,55 @@
 "use client"
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DoctorAppsTable } from './DoctorAppsTable';
 import { Button } from '../../../../components/Button';
 import AdminNavbar from './AdminNavbar';
 import { Card } from '../../../../components/Card';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDoctorsForPatientAction } from '@/app/redux/actions/doctorActions';
+import { removeUser } from '@/app/redux/actions/userActions';
 
 
 export default function DoctorApps() {
-    const button = <div style={{
-        fontSize: '1px', 
-      }}>
-    <Button text='Approve' variant='xs' onClick={()=>{
-      
-    }}></Button>
-    <Button text='Reject' variant='xs'
-  ></Button>
-    </div>
+  const dispatch=useDispatch();
+  const doctors=useSelector(state=>state.getDrsForPatientsReducer.doctors);
+  const isLoading=useSelector(state=>state.removeUserReducer.loading)
+  useEffect(()=>{
+   // dispatch(login("sysadmin","pass1234"));
+    dispatch(getDoctorsForPatientAction());
     
-  const tableHeaders = ['Name','Username','Email','Date of Birth','Affiliation', 'Hourly Rate', 'Educational Background', 'Approval'];
 
-  const initialValues = [
-    {
-      name: 'John Doe',
-      username:'JohnDoe123',
-      email: 'johndoe@hotmail.com',
-      dob: "12/12/2023",
-      affiliation: 'Ramses Hospital',
-      hourlyRate: '12$',
-      educationalBackground: 'Software Engineer',
-      isApproved : false
-    },
-    {
-      name: 'John Doe',
-      username:'JohnDoe123',
-      email: 'johndoe@hotmail.com',
-      dob: "12/12/2023",
-      affiliation: 'Ramses Hospital',
-      hourlyRate: '12$',
-      educationalBackground: 'Software Engineer',
-      isApproved : false
-    },
-    {
-      name: 'John Doe',
-      username:'JohnDoe123',
-      email: 'johndoe@hotmail.com',
-      dob: "12/12/2023",
-      affiliation: 'Ramses Hospital',
-      hourlyRate: '12$',
-      educationalBackground: 'Software Engineer',
-      isApproved : false
-    },
-    {
-      name: 'John Doe',
-      username:'JohnDoe123',
-      email: 'johndoe@hotmail.com',
-      dob: "12/12/2023",
-      affiliation: 'Ramses Hospital',
-      hourlyRate: '12$',
-      educationalBackground: 'Software Engineer',
-      isApproved : false
-      
-    }
-  ]
+  },[isLoading])
+
+  const button = <div style={{
+      fontSize: '1px', 
+    }}>
+  <Button text='Approve' variant='xs' ></Button>
+  <Button text='Reject' variant='xs'
+></Button>
+  </div>
+
+  const onRemoveHandler = (id)=>{
+    //console.log(id)
+    dispatch(removeUser(id))
+
+  }
+    
+ 
+
+
 
 
   return (
     <>
     <AdminNavbar/>
-    <div className="d-flex justify-content-center align-items-center min-vh-100">
+    <div className="justify-content-center align-items-center min-vh-100">
       <div className='row'>
-      {initialValues.map((person)=>{
-        return <Card key={person.username} className="col-lg-4 offset-lg-1" title={person.name} subtitle="Doctor's Info"  text={
-          <div className="">
+      {doctors?.data?.map((person)=>{
+        if(person.isApproved)
+        return
+        return <Card key={person.username} className="col-lg-4 offset-lg-1" title={person.name} subtitle="Doctor's Info">
+       {/* {button} */}
+         <div className="">
          <h8 style={{ fontWeight: 'bold' }}> Username: </h8>{person.username}
           <br />
           <h8 style={{ fontWeight: 'bold' }}>email: </h8>{person.email}
@@ -85,8 +63,6 @@ export default function DoctorApps() {
           <h8 style={{ fontWeight: 'bold' }}>educationalBackground: </h8>{person.educationalBackground}
           <br />
           </div>
-        }>
-       {button}
         </Card>
        
       })
