@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/authActions";
 import { addFamilyMembers } from "../redux/actions/FamilyMembersAction";
 import { viewFamilyMembers } from "../redux/actions/FamilyMembersAction";
-// import { viewPatients } from '../redux/actions/PatientsActions';
+import { viewPatients } from '../redux/actions/patientsActions';
 import { viewDoctorDetails } from "../redux/actions/doctorActions";
 import { viewPrescriptionsDetails } from "../redux/actions/prescriptionsActions";
 import { viewALLPrescriptions } from "../redux/actions/prescriptionsActions";
@@ -14,7 +14,7 @@ import { getAllUsers } from "../redux/actions/userActions";
 
 const Home = () => {
   const dispatch = useDispatch();
-  dispatch(login("sysadmin", "pass1234")); //admin :sysadmin pass:pass1234/ patient : omarDoe pass:password123
+  // dispatch(login("sysadmin", "pass1234")); //admin :sysadmin pass:pass1234/ patient : omarDoe pass:password123
   //  const selector = useSelector(state => state.loginReducer.user)
   //  console.log(selector)
   //  console.log(selector)
@@ -29,7 +29,7 @@ const Home = () => {
   // dispatch(viewFamilyMembers({
   // }))
 
-  dispatch(filterPatientsBasedOnUpcomingAppointments({}));
+  // dispatch(filterPatientsBasedOnUpcomingAppointments({}));
   // const consoleSelector =useSelector(state=>state.addFamilyMembersReducer)
   // console.log(consoleSelector);
   /*useEffect(() => {
@@ -61,6 +61,8 @@ const DoctorDetails = () => {
   useEffect(() => {
     dispatch(login("sysadmin", "pass1234"));
     dispatch(getAllUsers())
+    // dispatch(login("farida", "password1234"));
+    // dispatch(viewPatients({}));
   }, [dispatch]);
 
   // View doctor details
