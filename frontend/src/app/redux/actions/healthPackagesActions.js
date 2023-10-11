@@ -35,7 +35,7 @@ export const listHealthPackages = () => async (dispatch) => {
             withCredentials: true
         };
         const { data } = await axios.get(`${baseURL}/api/v1/healthPackages`, config);
-        console.log(data.data + "data")
+        //console.log(data.data + "data")
         dispatch({
             type: HEALTH_PACKAGES_LIST_SUCCESS,
             payload: data.data,
@@ -143,7 +143,7 @@ export const createHealthPackage = (healthPackage) => async (dispatch, getState)
     }
 }
 
-export const updateHealthPackage = (id) => async (dispatch, getState) => {
+export const updateHealthPackage = (id,reqbody) => async (dispatch, getState) => {
     console.log("updateHealthPackage")
     try {
         dispatch({
@@ -159,6 +159,7 @@ export const updateHealthPackage = (id) => async (dispatch, getState) => {
         };
         const { data } = await axios.patch(
             `${baseURL}/api/v1/healthPackages/${id}`,
+            reqbody,
             config
         );
         console.log(data.data + "data")

@@ -72,11 +72,12 @@ export const getDoctorsForPatientAction = (queryObj) => async (dispatch) => {
 
     const queryStr = formulateQueryString(queryObj)
     let url;
-
-    if (!queryObj)
-      url = `${baseURL}/api/v1/doctor/getAllDoctors`
+    console.log(JSON.parse(localStorage.getItem('userInfo')).data.user.role);
+    if(JSON.parse(localStorage.getItem('userInfo')).data.user.role === 'administrator')
+      { 
+        url = `${baseURL}/api/v1/doctor${queryStr ?`  ?${queryStr}` : ''}`;}
     else
-      url = `${baseURL}/api/v1/doctor/getAllDoctors?${queryStr}`
+      url = `${baseURL}/api/v1/doctor/getAllDoctors${queryStr ? `? ${queryStr}` : ''}`
     const { data } = await axios.get(
       url,
       config

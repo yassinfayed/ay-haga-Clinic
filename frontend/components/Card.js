@@ -10,7 +10,7 @@ function Card ({ title, subtitle, text, className, image = "", buttonText = "", 
                 <div className="card-body">
                     {title && <h5 className="card-title">{title}</h5>}
                     {subtitle && <h6 className="card-subtitle mb-2 text-muted">{subtitle}</h6>}
-                    {text && <p className="card-text">{text}</p>}
+                    {text && <h8 className="card-text">{text}</h8>}
                     {children}
                     {buttonText && <Button onClick={onClickButton} text={buttonText} variant="md" />}
                 </div>
