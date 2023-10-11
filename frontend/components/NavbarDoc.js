@@ -36,12 +36,12 @@ const NavbarDoc = () => {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/">
+              <a className="nav-link" href="/doctor/:id">
                 My Profile
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/">Appointments</a>
+              <a className="nav-link" href="/doctor/:id/appointments">Appointments</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/">Patients</a>

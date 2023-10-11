@@ -47,9 +47,10 @@ const Register = () => {
         <>
             <Navbar />
             <div className="containerz">
-                <div className="headerz">
-                    <div className="textz">{action}</div>
+                <div className="headerz text-center">
+                    <div className="textz text-primary">{action}</div>
                     <div className="underlinez"></div>
+                    <div className="textsub text-muted"> Join us as a Patient!</div>
                 </div>
                 <div className="inputsz">
                     <div className="inputz">
@@ -64,7 +65,7 @@ const Register = () => {
                     <div className="inputz">
                         <input
                             type="text"
-                            placeholder='Name'
+                            placeholder=' Name'
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}

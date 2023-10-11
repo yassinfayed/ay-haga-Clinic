@@ -37,9 +37,10 @@ const SignUp = () => {
         <>
             <Navbar />
             <div className="containerz">
-                <div className="headerz">
-                    <div className="textz">{action}</div>
+                <div className="headerz text-center">
+                    <div className="textz text-primary">{action}</div>
                     <div className="underlinez"></div>
+                    <div className="textsub text-muted"> Join us as a Doctor!</div>
                 </div>
                 <div className="inputsz">
                     <div className="inputz">

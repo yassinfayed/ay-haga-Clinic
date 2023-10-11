@@ -32,8 +32,8 @@ function LoginForm() {
     <Navbar/> 
     <div className="containerz">
       <div className="headerz">
-        <div className="textz">Login</div>
-        <div className="underlinez"></div>
+        <div className="text-primary textz">Login</div>
+          <div className="underlinez"></div>
       </div>
       <div className="inputsz">
         <div className="inputz">
@@ -56,7 +56,7 @@ function LoginForm() {
         </div>
       </div>
       <div className="forgot-passwordz">
-        Lost password?<span> Click Here!</span>
+        Lost password?<span className='text-primary'> Click Here!</span>
       </div>
       <div className="submit-containerz">
         <Button
