@@ -4,13 +4,23 @@ import {useState} from 'react' ;
 import { Card} from '../../../../components/Card'; 
 import { Button } from '../../../../components/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../../../../components/Navbar';
-import Footer from '../../../../components/Footer';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import ViewPrescription from './ViewPrescriptionModal';
 
 function prescriptions() {
     const [modalShow, setModalShow] = useState(false);
     const [selectedPrescription, setSelectedPrescription] = useState(null);
+    const [name, setName] = useState('');
+    const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+  const handleStatusChange = (event) => {
+    setSelectedStatus(event.target.value);
+  };
     const prescriptions = [
         {
           _id: 1,
@@ -124,8 +134,31 @@ function prescriptions() {
 
       return (
         <div>
-          <Navbar />
           <div className="container-fluid my-3">
+            <div className="row">
+            <DatePicker
+          selected={selectedDate}
+          onChange={handleDateChange}
+          dateFormat="yyyy-MM-dd"
+          placeholderText="Filter by date"
+          className='col-lg-2 mx-lg-3 my-3'
+        />
+        <select onChange={handleStatusChange} className='col-lg-2 mx-lg-3'>
+            <option value="">Filter by status</option>
+            <option value="filled">Filled</option>
+            <option value="unfilled">Unfilled</option>
+          </select>
+          </div>
+          <div className="row my-2 mx-lg-1">
+          <input
+              type="text"
+              className="col-lg-2"
+              id="name"
+              placeholder="Filter by Doctor Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            </div>
             {prescriptions.map((prescription) => (
               <Card
                 className="my-2"
@@ -151,7 +184,6 @@ function prescriptions() {
               />
             ))}
           </div>
-          <Footer />
           {selectedPrescription && (
             <ViewPrescription
               show={modalShow}
