@@ -1,72 +1,43 @@
 'use client'
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useState} from 'react' ;
-import { Card} from '../../../components/Card'; 
-import { Button} from '../../../components/Button'; 
+import { Card} from '../../../../components/Card'; 
+import { Button} from '../../../../components/Button'; 
 
 
 
 import './page.css' ;
+import { useDispatch, useSelector } from 'react-redux';
+import { getDoctorsForPatientAction } from '@/app/redux/actions/doctorActions';
+import { login } from '@/app/redux/actions/authActions';
 
 
 
 function DoctorList() {
-  const [selectedSpecialty, setSelectedSpecialty] = useState(null); 
+  const dispatch=useDispatch();
+  
+  const [selectedSpecialty, setSelectedSpecialty] = useState(null);
+  const[name,setName] =useState({});
   const [value, onChange] = useState(new Date());
   const handleSpecialtyChange = (event) => {
     setSelectedSpecialty(event.target.value); 
   };
 
-  const doctors = [
-    {
-      id: 1,
-      name: 'Dr. John Smith',
-      specialty: 'Cardiologist',
-      sessionPrice: '$150',
-      image: 'https://mehtahospital.com/wp-content/uploads/2023/03/doctor.jpg',
-    },
-    {
-      id: 2,
-      name: 'Dr. Jane Doe',
-      specialty: 'Pediatrician',
-      sessionPrice: '$120',
-      image: 'https://mehtahospital.com/wp-content/uploads/2023/03/doctor.jpg',
-    },
-    {
-      id: 3,
-      name: 'Dr. Sarah Johnson',
-      specialty: 'Dermatologist',
-      sessionPrice: '$180',
-      image: 'https://mehtahospital.com/wp-content/uploads/2023/03/doctor.jpg',
-    },
-    {
-      id: 4,
-      name: 'Dr. Michael Brown',
-      specialty: 'Orthopedic Surgeon',
-      sessionPrice: '$200',
-      image: 'https://mehtahospital.com/wp-content/uploads/2023/03/doctor.jpg',
-    },
-    {
-      id: 5,
-      name: 'Dr. Emily Wilson',
-      specialty: 'Psychiatrist',
-      sessionPrice: '$160',
-      // image: 'doctor5.jpg',
-    },
-    {
-      id: 6,
-      name: 'Dr. David Lee',
-      specialty: 'Ophthalmologist',
-      sessionPrice: '$175',
-      // image: 'doctor6.jpg',
-    },
-    // Add more doctor objects as needed
-  ];
+  const handleCardClick = (medicine) => {
+   //go to hazem 
+  };
 
-  const allSpecialties = Array.from(
-    new Set(doctors.flatMap((doctor) => doctor.specialty))
-  );
+  const doctors = useSelector(state => state.getDrsForPatientsReducer.doctors)
+
+  // const allSpecialties = Array.from(
+  //   new Set(doctors.flatMap((doctor) => doctor.specialty))
+  // );
     
+useEffect(()=>{
+  //dispatch(login("faridashetta","password123"))
+  dispatch(getDoctorsForPatientAction({...name}))
+ 
+  },[dispatch,name])
 
 
 
@@ -79,8 +50,9 @@ function DoctorList() {
         type="text"
         placeholder="Search For Doctor"
         className="search-input"
+        onChange={ (e)=> setName( {"name": {"regex": e.target.value }} )}
       />
-      <Button text="Search"  className="search-button" onClick={() => console.log('Button clicked')} />
+      
       </div>
       <div className='container-fluid'>
     <span className="mr-2">Filter by appointment date and time : </span>
@@ -95,11 +67,11 @@ function DoctorList() {
             <span className="mr-2">Filter by specialty use:</span>
           <select onChange={handleSpecialtyChange} className='col-lg-2 mx-lg-1' value={selectedSpecialty || ''}>
             <option value="">All</option>
-            {allSpecialties.map((specialty) => (
+            {/* {allSpecialties.map((specialty) => (
                 <option key={specialty} value={specialty}>
                   {specialty}
                 </option>
-              ))}
+              ))} */}
           </select>
         </div>
         
@@ -113,13 +85,15 @@ function DoctorList() {
     <div className="container-fluid ">
            <div className="row">
     
-      {doctors.map((doctor) => (
+      {doctors?.data?.map((doctor) => (
         <Card
         className="col-lg-4"
           key={doctor.id}
           title={doctor.name}
           subtitle={doctor.specialty}
           text={`Session Price: ${doctor.sessionPrice}`}
+          onClickButton={() => handleCardClick(doctor)}
+          buttonText={'Details'}
           image={<img src={doctor.image}  alt="DoctorImage"  style={{ maxHeight: '150px' , maxWidth: '100px'}} />}
         />
       ))}
