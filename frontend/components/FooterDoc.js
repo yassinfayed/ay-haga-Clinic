@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-const Footer = () => {
+const FooterDoc = () => {
   return (
     <footer className="bg-primary text-white pt-4 pb-1">
       <div className="container">
@@ -19,30 +19,23 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="/#About" className="text-white text-decoration-none">
+                <a href="/" className="text-white text-decoration-none">
                 <div className="link-hover">
-                    About Us
+                    My Profile
                 </div>
                 </a>
               </li>
               <li>
-                <a href="/services" className="text-white text-decoration-none">
+                <a href="/" className="text-white text-decoration-none">
                 <div className="link-hover">
-                    Services
+                    Appointments
                 </div>
                 </a>
               </li>
               <li>
-                <a href="/careers" className="text-white text-decoration-none">
+                <a href="/" className="text-white text-decoration-none">
                 <div className="link-hover">
-                    Careers
-                </div>
-                </a>
-              </li>
-              <li>
-                <a href="/policy" className="text-white text-decoration-none link-hover"> 
-               <div className="link-hover">
-                    Policy
+                    Patients
                 </div>
                 </a>
               </li>
@@ -86,4 +79,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default FooterDoc;
