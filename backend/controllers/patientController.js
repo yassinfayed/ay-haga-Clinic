@@ -44,9 +44,15 @@ exports.getPrescription = catchAsync(async (req, res, next) => {
 
 exports.viewMyPatients = catchAsync(async (req, res, next) => {
   const doctor = await Doctor.findOne({ user: req.user._id });
-  const doctorId = doctor._id;
-  let appointments = await Appointment.find({ doctorId }).populate("patient");
-  let data = appointments.map((appointment) => appointment.patient);
+  let doctorId;
+  let appointments;
+  let data;
+  if (doctor) {
+    doctorId = doctor._id;
+    appointments = await Appointment.find({ doctorId }).populate("patient");
+    data = appointments.map((appointment) => appointment.patient);
+  }
+
   if (req.query.name)
     data = data.filter((pat) => `${pat.name}`.includes(req.query.name));
   res.status(200).json({
@@ -78,21 +84,22 @@ exports.FilterPatientsBasedOnUpcomimgAppointments = catchAsync(
     const patients = await Patient.find({ _id: { $in: patientIds } });
 
     // Create a response object that combines patient details with their appointment details
-    const response = patients.map((patient) => {
-      const matchingAppointment = upcomingAppointments.find(
-        (appointment) =>
-          appointment.patientId.toString() === patient._id.toString()
-      );
-      return {
-        patient,
-        appointment: matchingAppointment,
-      };
-    });
+    // const response = patients.map((patient) => {
+    //   const matchingAppointment = upcomingAppointments.find(
+    //     (appointment) =>
+    //       appointment.patientId.toString() === patient._id.toString()
+    //   );
+    //   return 
+    //     patient
+    //     // appointment: matchingAppointment,
+      
+    // });
+    // console.log()
     res.status(200).json({
       status: "success",
-      results: response?.length,
+      // results: response?.length,
       data: {
-        data: response,
+        data: patients,
       },
     });
   }

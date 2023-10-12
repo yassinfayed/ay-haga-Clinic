@@ -1,20 +1,39 @@
+import { registerAction } from '@/app/redux/actions/authActions';
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useDispatch } from 'react-redux';
 function CenteredModalAdmin(props) {
+  const dispatch=useDispatch();
   const { title, subheader, onHide } = props;
 
   const [usernameValue, setUsernameValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
-
+  const [passwordconfirmValue, setPasswordConfrimValue] = useState('');
   const handleUsernameChange = (e) => {
     setUsernameValue(e.target.value);
-    console.log(e.target.value)
+    //console.log(e.target.value)
   };
 
   const handlePasswordChange = (e) => {
     setPasswordValue(e.target.value);
   };
+
+  const handlePasswordConfrimChange = (e) => {
+    setPasswordConfrimValue(e.target.value);
+  };
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    
+    dispatch(registerAction({
+      "username": usernameValue,
+      "password": passwordValue,
+      "passwordConfirm": passwordconfirmValue,
+      "role": "administrator"
+    }))
+props.onHide()
+  }
+
 
   return (
     <Modal
@@ -31,7 +50,7 @@ function CenteredModalAdmin(props) {
       <Modal.Body>
         <h4>{subheader}</h4>
         <p>
-          <form>
+          <form onSubmit={(e)=>handleSubmit(e)}>
             <div className="form-group my-3">
               <label htmlFor="usernameInput">Username</label>
               <input
@@ -52,6 +71,17 @@ function CenteredModalAdmin(props) {
                 id="passwordInput"
                 placeholder="Password"
                 value={passwordValue}
+              />
+            </div>
+            <div className="form-group my-3">
+              <label htmlFor="passwordInput">Confrim Password</label>
+              <input
+                onChange={handlePasswordConfrimChange}
+                type="password"
+                className="form-control my-1"
+                id="passwordInput"
+                placeholder="Password"
+                value={passwordconfirmValue}
               />
             </div>
 

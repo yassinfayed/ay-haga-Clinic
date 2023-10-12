@@ -1,0 +1,18 @@
+/* page.css */
+
+.patient-table-container {
+    max-width: 800px; /* Adjust the maximum width as needed */
+    margin: 0 auto; /* Center-align the container */
+    padding: 0 20px; /* Add padding at both sides for white space */
+  }
+  
+  /* Add any additional styles for the .patient-table-container */
+  
+
+  .search-container {
+    display: flex; /* Use flexbox layout */
+    align-items: center; /* Vertically center elements */
+    justify-content: flex-start; /* Center elements horizontally */
+    margin-top: 20px; /* Add some top margin as needed */
+    margin-left: 10px;
+  }

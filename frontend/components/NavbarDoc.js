@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 
-const Navbar = () => {
+const NavbarDoc = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -29,36 +29,26 @@ const Navbar = () => {
         <div
           className={`links&buttons collapse navbar-collapse col-md-6 ${isMenuOpen ? 'show' : ''}`}
         >
-          <ul className="navbar-nav container d-flex justify-content-end me-auto">
+          <ul className=" navbar-nav container d-flex justify-content-end me-auto">
             <li className="nav-item">
               <a className="nav-link" href="/">
                 Home
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/#about">
-                About Us
+              <a className="nav-link" href="/doctor/:id">
+                My Profile
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/services">Services</a>
+              <a className="nav-link" href="/doctor/:id/appointments">Appointments</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/doctor/Register">Careers</a>
+              <a className="nav-link" href="/">Patients</a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/policy">
-                Policy
-              </a>
-            </li>
-            <li className="nav-item ">
-              <a className="btn btn-light text-primary ms-3 mx-1" href="/guest/Login">
-                Login
-              </a>
-            </li>
-            <li className="nav-item rounded">
-              <a className="btn btn-primary text-light mx-1" href="/guest/Register">
-                Sign Up
+            <li className="nav-item rounded ms-2">
+              <a className="btn btn-primary text-light mx-1" href="/">
+              Log Out
               </a>
             </li>
           </ul>
@@ -68,4 +58,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarDoc;

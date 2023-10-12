@@ -1,165 +1,179 @@
-const { promisify } = require('util');
-const jwt = require('jsonwebtoken');
-const User = require('./../models/userModel');
-const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
-const enums = require('../constants/enums');
-const Patient = require('../models/patientModel');
-const Doctor = require('./../models/doctorModel');
+const { promisify } = require("util");
+const jwt = require("jsonwebtoken");
+const User = require("./../models/userModel");
+const catchAsync = require("./../utils/catchAsync");
+const AppError = require("./../utils/appError");
+const enums = require("../constants/enums");
+const Patient = require("../models/patientModel");
+const Doctor = require("./../models/doctorModel");
 
-const signToken = id => {
+const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN
+    expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
 
-const createSendToken = (user, statusCode, req, res) => {
+const createSendToken = async (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
-  res.cookie('jwt', token, {
+  res.cookie("jwt", token, {
     Expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
-    secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
+    secure: req.secure || req.headers["x-forwarded-proto"] === "https",
   });
 
   // Remove password from output
   user.password = undefined;
-
-  res.status(statusCode).json({
-    status: 'success',
-    token,
-    data: {
-      user
-    }
-  });
+  if (user.role === "patient") {
+    const patient = await Patient.findOne({ user: user._id });
+    res.status(statusCode).json({
+      status: "success",
+      token,
+      data: {
+        user,
+        userPatient: patient._id,
+      },
+    });
+  }
+  if (user.role === "doctor") {
+    const doctor = await Doctor.findOne({ user: user._id });
+    res.status(statusCode).json({
+      status: "success",
+      token,
+      data: {
+        user,
+        userDoctor: doctor._id,
+      },
+    });
+  }
 };
 
-exports.signup = catchAsync(async (req, res, next) => {  
-    if(req.body.role === enums.ROLE.ADMIN) {
-        let token;
-        if ( req.headers.authorization && req.headers.authorization.startsWith('Bearer'))
-          {
-            token = req.headers.authorization.split(' ')[1];
-          }
-
-        token = req.cookies?.jwt;
-        const err = new AppError("You are not authorized to create an admin account", 401);
-
-        if(!token) return next(err)
-
-        const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-        const currentUser = await User.findById(decoded.id);
-        
-        if(!currentUser || currentUser.role !==  enums.ROLE.ADMIN) return next(err)
-    } 
-
-    const newUser = await User.create({
-        name: req.body.name,
-        username: req.body.username,
-        password: req.body.password,
-        passwordConfirm: req.body.passwordConfirm,
-        role : req.body.role
-      }); 
-
-    req.body.user = newUser.id;
-
-    if(req.body.role === enums.ROLE.ADMIN) {
-      res.status(400).json({
-        status: "success",
-        data : {
-          data: newUser
-        }
-    })
-    return;
-  }
-     try {
-        if(req.body?.role === undefined || req.body?.role === enums.ROLE.PATIENT )
-            await Patient.create(req.body)
-
-        if(req.body.role ===  enums.ROLE.DOCTOR) 
-            await Doctor.create(req.body)
-            createSendToken(newUser, 201, req, res);
-        }
-      catch(err) {
-            await User.deleteOne({username: newUser.username})
-            res.status(400).json({
-                status: "fail",
-                data : {
-                  data: err
-                }
-            })
-          }
-  });
- 
-
-
-exports.protect = catchAsync(async (req, res, next) => {
-    // 1) Getting token and check of it's there
+exports.signup = catchAsync(async (req, res, next) => {
+  if (req.body.role === enums.ROLE.ADMIN) {
     let token;
     if (
-      req.headers.authorization && req.headers.authorization.startsWith('Bearer')
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
     ) {
-      token = req.headers.authorization.split(' ')[1];
-    } else if (req.cookies.jwt) {
-      token = req.cookies.jwt;
+      token = req.headers.authorization.split(" ")[1];
     }
-  
-    if (!token) {
-      return next(
-        new AppError('You are not logged in! Please log in to get access.', 401)
-      );
-    }
-  
-    // 2) Verification token
+
+    token = req.cookies?.jwt;
+    const err = new AppError(
+      "You are not authorized to create an admin account",
+      401
+    );
+
+    if (!token) return next(err);
+
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  
-    // 3) Check if user still exists
     const currentUser = await User.findById(decoded.id);
-    if (!currentUser) {
-      return next(
-        new AppError(
-          'The user belonging to this token does no longer exist.',
-          401
-        )
-      );
-    }
-  
-    // GRANT ACCESS TO PROTECTED ROUTE
-    req.user = currentUser;
-    res.locals.user = currentUser;
-    next();
+
+    if (!currentUser || currentUser.role !== enums.ROLE.ADMIN) return next(err);
+  }
+
+  const newUser = await User.create({
+    name: req.body.name,
+    username: req.body.username,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm,
+    role: req.body.role,
   });
 
+  req.body.user = newUser.id;
+
+  if (req.body.role === enums.ROLE.ADMIN) {
+    res.status(400).json({
+      status: "success",
+      data: {
+        data: newUser,
+      },
+    });
+    return;
+  }
+  try {
+    if (req.body?.role === undefined || req.body?.role === enums.ROLE.PATIENT)
+      await Patient.create(req.body);
+
+    if (req.body.role === enums.ROLE.DOCTOR) await Doctor.create(req.body);
+    createSendToken(newUser, 201, req, res);
+  } catch (err) {
+    await User.deleteOne({ username: newUser.username });
+    res.status(400).json({
+      status: "fail",
+      data: {
+        data: err,
+      },
+    });
+  }
+});
+
+exports.protect = catchAsync(async (req, res, next) => {
+  // 1) Getting token and check of it's there
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+  }
+
+  if (!token) {
+    return next(
+      new AppError("You are not logged in! Please log in to get access.", 401)
+    );
+  }
+
+  // 2) Verification token
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  // 3) Check if user still exists
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser) {
+    return next(
+      new AppError(
+        "The user belonging to this token does no longer exist.",
+        401
+      )
+    );
+  }
+
+  // GRANT ACCESS TO PROTECTED ROUTE
+  req.user = currentUser;
+  res.locals.user = currentUser;
+  next();
+});
+
 exports.restrictTo = (...roles) => {
-    return (req, res, next) => {
-      if (!roles.includes(req.user.role)) {
-        return next(
-          new AppError('You do not have permission to perform this action', 403)
-        );
-      }
-  
-      next();
-    };
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError("You do not have permission to perform this action", 403)
+      );
+    }
+
+    next();
   };
+};
 
-  exports.login= catchAsync(async (req, res, next)=> {
-    const {username,password}=req.body;
+exports.login = catchAsync(async (req, res, next) => {
+  const { username, password } = req.body;
 
-    if(!username || !password) {
-        return next(new AppError('Please provide a username and a password', 400));
-    }
-    const user= await User.findOne({username}).select('+password')
+  if (!username || !password) {
+    return next(new AppError("Please provide a username and a password", 400));
+  }
+  const user = await User.findOne({ username }).select("+password");
 
-    if (!user || ! (await user.correctPassword(password, user.password))) {
-       return next(new AppError("Invalid Credentials",401));
-    }
-    const doct = await (Doctor.find({user:user._id}))
-    if((user.role === enums.ROLE.DOCTOR) && (doct.isApproved ===false)){
-        return next(new AppError("Doctor is not approved",400));
-    }
-    createSendToken(user, 200, req, res);
-    }
- );
-  
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    return next(new AppError("Invalid Credentials", 401));
+  }
+  const doct = await Doctor.find({ user: user._id });
+  if (user.role === enums.ROLE.DOCTOR && doct.isApproved === false) {
+    return next(new AppError("Doctor is not approved", 400));
+  }
+  createSendToken(user, 200, req, res);
+});
