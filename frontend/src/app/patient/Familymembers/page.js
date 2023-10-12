@@ -22,12 +22,18 @@ function Familymembers() {
 
 
     const familyMembers = useSelector((state) => state.viewFamilyMembersReducer.familyMember);
+    const isLoading = useSelector((state) => state.viewFamilyMembersReducer.loading);
 
 
-    useEffect(() => {
-      dispatch(login('faridashetta','password123'))
+    async function fetchData() {
+      dispatch(login('faridashetta', 'password123'));
       dispatch(viewFamilyMembers());
+    }
+    
+    useEffect(() => {
+      fetchData();
     }, [dispatch]);
+    
 
     
 

@@ -29,6 +29,7 @@ function appointments() {
   };
 
   const appointmentsData = useSelector((state) => state.viewPatientsAppointmentsReducer.appointments);
+  const isLoading = useSelector((state) => state.viewPatientsAppointmentsReducer.loading);
 
   const formatDateToISOString = (date) => {
     if (!date) return ''; // Return an empty string if date is falsy
@@ -41,32 +42,32 @@ function appointments() {
     return selected;
   };
 
-  useEffect(() => {
-
-    
-
+  async function fetchData() {
+    await dispatch(login('faridashetta', 'password123'));
+  
     const queryObj = {
       date: formatDateToISOString(selectedDate),
       status: selectedStatus,
     };
-
+  
     const filteredQueryObj = Object.keys(queryObj).reduce((acc, key) => {
       if (queryObj[key] !== '') {
         acc[key] = queryObj[key];
       }
       return acc;
     }, {});
-
-    dispatch(login('omarDoe','password123'));
-
+  
     dispatch(getPatientAppointments(filteredQueryObj));
-  }, [dispatch,selectedDate, selectedStatus]);
+  }
+  
+  useEffect(() => {
+    fetchData();
+  }, [dispatch, selectedDate, selectedStatus]);
+  
 
 
   const apps = useMemo(() => {
     if (appointmentsData && appointmentsData.data) {
-      console.log(appointmentsData)
-      console.log(appointmentsData.data);
       return appointmentsData.data.map((value) => ({
         date: new Date(value.date).toLocaleDateString(), 
         doctorname: value.doctorId.name,

@@ -4,16 +4,26 @@ const Patient = require("../models/patientModel");
 const Prescription = require("../models/prescriptionModel");
 const Appointment = require("../models/appointmentModel");
 const Doctor = require("../models/doctorModel");
+const APIFeatures = require('../utils/apiFeatures');
 const AppError = require("../utils/appError");
 
 //TODO: Retrieve only my patient
 exports.getPatient = handlerFactory.getOne(Patient);
 
 exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
+  console.log(req.user._id);
   const patient = await Patient.findOne({ user: req.user._id });
   const patientId = patient._id;
-  req.query["patientId"] = { eq: patientId };
-  handlerFactory.getAll(Prescription)(req, res, next);
+  const features = new APIFeatures(Prescription.find({ patientId: patientId }).populate("doctorId"), req.query).filter();
+  const presc = await features.query;
+
+    res.status(200).json({
+        status: 'success',
+        results: presc.length,
+        data: {
+            data: presc
+        }
+    });
 });
 
 exports.getPrescription = catchAsync(async (req, res, next) => {
