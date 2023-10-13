@@ -67,6 +67,14 @@ DoctorSchema.statics.getAllSpecialities = async function () {
     }
 };
 
+DoctorSchema.pre(/^find/, function(next) {
+    this.populate({
+      path: 'user',
+    //   select: 'username email'  // Specify the fields you want to select from the referenced User model
+    });
+    next();
+  });
+
 const Doctor = mongoose.model('Doctor', DoctorSchema);
 
 module.exports = Doctor;

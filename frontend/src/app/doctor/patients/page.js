@@ -6,12 +6,14 @@ import './page.css' ;
 import { useDispatch, useSelector } from 'react-redux';
 import { filterPatientsBasedOnUpcomingAppointments, viewPatients } from '@/app/redux/actions/patientsActions';
 import { login } from '@/app/redux/actions/authActions';
+import { Navbar } from 'react-bootstrap';
+import NavbarDoc from '../../../../components/NavbarDoc';
 
 
 
 
 function PatientsList() {
-  const tableHeaders = ['id','name','email','date of birth','gender', 'phone number']; // Add a new column header
+  const tableHeaders = ['id','name','email','date of birth','gender', 'phone number','go to patient']; // Add a new column header
 
   // const initialValues = [
   //   ['John Doe', '0123456789', <Button text="View Details" onClick={() => console.log('Button clicked')} />],
@@ -28,9 +30,19 @@ function PatientsList() {
   const [name,setName] = useState({});
   const [upcoming,setUpcoming] = useState(false);
 
+  const generateButton = (id) => {
+    return (
+      <div style={{ fontSize: '1px' }}>
+        <Button text='view' variant='xs' onClick={() => window.location.replace(`/patient/${id}`)}></Button>
+      </div>
+    );
+  };
+
+
   
   let tabledata = tabledata2?.map(item => {
     const { emergencyContact,id,_id,user,__v, ...rest } = item;
+    rest.button = generateButton(_id)
     return rest;
   })
 
@@ -50,6 +62,7 @@ function PatientsList() {
       dispatch(filterPatientsBasedOnUpcomingAppointments())
       tabledata = tabledataU1?.map(item => {
         const { emergencyContact,id,healthRecords,_id,user,__v, ...rest } = item;
+        rest.button = generateButton(_id)
         return rest;
       })
 
@@ -58,6 +71,7 @@ function PatientsList() {
       dispatch(viewPatients())
       tabledata = tabledata2?.map(item => {
         const { emergencyContact,id,healthRecords,_id,user,__v, ...rest } = item;
+         rest.button = generateButton(_id)
         return rest;
       })
     }
@@ -68,6 +82,7 @@ function PatientsList() {
   return (
     <div >
       {/* <div className="div container-fluid" style={{ display: 'flex', alignItems: 'center' }}> */}
+      <NavbarDoc />
       <div className="div container-fluid d-flex ">
       <div className="search-container">
       <input

@@ -43,6 +43,7 @@ exports.getPrescription = catchAsync(async (req, res, next) => {
 });
 
 exports.viewMyPatients = catchAsync(async (req, res, next) => {
+
   const doctor = await Doctor.findOne({ user: req.user._id });
   let doctorId;
   let appointments;
@@ -55,6 +56,8 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
 
   if (req.query.name)
     data = data.filter((pat) => `${pat.name}`.includes(req.query.name));
+  if(req.user.role === 'patient')
+    data = await Patient.find({_id: req.query._id})
   res.status(200).json({
     status: "success",
     results: data?.length,

@@ -8,6 +8,7 @@ import { login } from "../../redux/actions/authActions";
 import { viewPatients } from "../../redux/actions/patientsActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../../../components/Button";
+import NavbarDoc from "../../../../components/NavbarDoc";
 
 export default function patientProfile({ params }) {
   const dispatch = useDispatch();
@@ -22,21 +23,6 @@ export default function patientProfile({ params }) {
   if (patients) {
     patient = patients[0];
   }
-  const [patientd, setPatient] = useState({
-    user: "user_id_here", // Replace with a valid user ID
-    name: "John Doe",
-    email: "johndoe@example.com",
-    dateOfbirth: new Date("1990-01-01"),
-    gender: "male",
-    package: "health_package_id_here", // Replace with a valid health package ID
-    mobileNumber: "1234567890",
-    emergencyContact: {
-      fullName: "Emergency Contact Name",
-      mobileNumber: "9876543210",
-    },
-    healthRecords: ["Record 1", "Record 2"],
-  });
-  const id = params.id;
 
   function HealthRecords() {
     return (
@@ -52,18 +38,15 @@ export default function patientProfile({ params }) {
 
   return (
     <>
+    {JSON.parse(localStorage.getItem('userInfo')).data.user.role === 'doctor' && <NavbarDoc />}
       {patient ? (
+       
         <div className=" p-5 d-flex">
+            
           <div className=" w-25 border-end">
             <div className="p-3 border-bottom m-3">
               <div className="d-flex justify-content-center ">
                 <Image src="/profile.svg" height={200} width={200} />
-                {/* <Button
-                  text="click me "
-                  onClick={() => {
-                    console.log("patient", patient);
-                  }}
-                ></Button> */}
               </div>
             </div>
 
@@ -80,7 +63,7 @@ export default function patientProfile({ params }) {
             <div className="border-bottom d-flex ">
               <div className="w-75">
                 <h1>{patient.name}</h1>
-                <p className="px-3 text-secondary">{patient.user}</p>
+                {/* <p className="px-3 text-secondary">{patient.user}</p> */}
               </div>
             </div>
 
@@ -96,10 +79,12 @@ export default function patientProfile({ params }) {
                       <span className="w-50">{patient.email}</span>
                     </div>
 
+            {JSON.parse(localStorage.getItem('userInfo')).data.user.role === 'patient' &&
                     <div className="py-3 d-flex">
                       <span className="fw-bold w-25">package: </span>
-                      <span className="w-50">{patient.package}</span>
+                      <span className="w-50">{patient.package?.name}</span>
                     </div>
+                    }
                     <div className="py-2 d-flex">
                       <span className="fw-bold w-25">mobile number: </span>
                       <span>{patient.mobileNumber}</span>

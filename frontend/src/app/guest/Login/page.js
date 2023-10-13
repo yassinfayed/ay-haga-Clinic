@@ -23,6 +23,24 @@ function LoginForm() {
     email: "",
     password: "",
   });
+  const {isAuthenticated, error} = useSelector(state => state.loginReducer)
+  useEffect(()=> {
+    if(isAuthenticated){
+      const role = JSON.parse(localStorage.getItem('userInfo')).data.user.role
+      const url = role === 'administrator' ? "/admin": 
+
+      role === 'patient' ?  `/patient/${JSON.parse(localStorage.getItem('userInfo')).data.user.patient._id}`
+
+      : `/doctor/${JSON.parse(localStorage.getItem('userInfo')).data.user.doctor._id}`;
+      console.log(role)
+      console.log("here??")
+      window.history.pushState({},url,url)
+      window.location.reload()
+    }
+    if(error)
+      window.alert("error")
+
+  },[dispatch,isAuthenticated,error])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,28 +54,7 @@ function LoginForm() {
     // Gather data in the formData object and send it to the backend
     console.log("Form Data:", formData);
     dispatch(login(formData.email, formData.password));
-
-    if (localStorage) {
-      userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    }
-
-    if (userInfo) {
-      permission = userInfo.data.user.role;
-    }
-    if (permission === "doctor" || permission === "patient") {
-      const id =
-        permission === "doctor"
-          ? userInfo.data.userDoctor
-          : userInfo.data.userPatient;
-
-      // Redirect to the correct URL based on permission and ID
-      if (permission === "doctor") {
-        router.push(`/${permission}/${id}`);
-      }
-      if (permission === "patient") {
-        router.push(`/`);
-      }
-    }
+    
     // Add your code to send data to the backend here
   };
 
@@ -73,7 +70,7 @@ function LoginForm() {
           <div className="inputz">
             <input
               type="Email"
-              placeholder=" Email"
+              placeholder=" username"
               name="email"
               value={formData.email}
               onChange={handleInputChange}
@@ -89,9 +86,9 @@ function LoginForm() {
             />
           </div>
         </div>
-        <div className="forgot-passwordz">
+        {/* <div className="forgot-passwordz">
           Lost password?<span className="text-primary"> Click Here!</span>
-        </div>
+        </div> */}
         <div className="submit-containerz">
           <Button text="Login" onClick={handleLogin}></Button>
         </div>

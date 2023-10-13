@@ -7,7 +7,7 @@ const NavbarDoc = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
+  const id = JSON.parse(localStorage.getItem('userInfo')).data.user.doctor._id;
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light w-100">
       <div className="container d-flex flex-row justify-content-between align-items-center w-100">
@@ -41,10 +41,10 @@ const NavbarDoc = () => {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/doctor/:id/appointments">Appointments</a>
+              <a className="nav-link" href={`/doctor/Appointments`}>Appointments</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/">Patients</a>
+              <a className="nav-link" href="/doctor/patients">Patients</a>
             </li>
             <li className="nav-item rounded ms-2">
               <a className="btn btn-primary text-light mx-1" href="/">

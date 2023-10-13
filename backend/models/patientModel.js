@@ -64,9 +64,14 @@ patientSchema.virtual('helathPackage', {
 
 
 // Apply the virtual field to the schema
-patientSchema.set('toObject', { virtuals: true });
-patientSchema.set('toJSON', { virtuals: true });
 
+patientSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'user',
+  //   select: 'username email'  // Specify the fields you want to select from the referenced User model
+  });
+  next();
+});
 
 
 const Patient = mongoose.model('Patient', patientSchema);

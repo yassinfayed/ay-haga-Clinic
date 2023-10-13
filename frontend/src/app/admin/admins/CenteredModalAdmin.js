@@ -1,6 +1,6 @@
 import { registerAction } from '@/app/redux/actions/authActions';
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch } from 'react-redux';
 function CenteredModalAdmin(props) {
@@ -92,7 +92,7 @@ props.onHide()
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={onHide}>Close</Button>
+        <button onClick={onHide}>Close</button>
       </Modal.Footer>
     </Modal>
   );

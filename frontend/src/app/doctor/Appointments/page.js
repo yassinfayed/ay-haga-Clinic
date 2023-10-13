@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { useMemo } from 'react';
 import { Button } from '../../../../components/Button';
 import { getDoctorAppointments } from '@/app/redux/actions/doctorActions';
+import NavbarDoc from '../../../../components/NavbarDoc';
 
 function docappointments() {
 
@@ -70,7 +71,7 @@ function docappointments() {
     if (appointmentsData && appointmentsData.data) {
       return appointmentsData.data.map((value) => ({
         date: new Date(value.date).toLocaleDateString(), 
-        patientname: value.patientId.name,
+        patientname: value.patientId?.name,
         status: value.status,
       }));
     }
@@ -94,7 +95,9 @@ function docappointments() {
 
       return(
         <div className="container-fluid">
-          <Navbar></Navbar>
+          {/* <DoctorNavbar></DoctorNavbar>
+           */}
+           <NavbarDoc />
         <div className="rows">
             <h3 className='my-4'>My Appointments</h3>
             <div className="row my-3">

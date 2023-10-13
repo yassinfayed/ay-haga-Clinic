@@ -15,7 +15,7 @@ export default function Admins() {
   
 
     
-  const tableHeaders = ['Username','Password'];
+  const tableHeaders = ['Username'];
   const [modalShow,setModalShow]=useState(false);
   const dispatch=useDispatch();
   const [id,setId]=useState(0);

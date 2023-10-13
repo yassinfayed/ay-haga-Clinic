@@ -49,18 +49,18 @@ export default function DoctorApps() {
         return
         return <Card key={person.username} className="col-lg-4 offset-lg-1" title={person.name} subtitle="Doctor's Info">
        {/* {button} */}
-         <div className="">
-         <h8 style={{ fontWeight: 'bold' }}> Username: </h8>{person.username}
+       <div className="">
+          <h8 style={{ fontWeight: 'bold' }}> Username: </h8>{person.user?.username}
           <br />
           <h8 style={{ fontWeight: 'bold' }}>email: </h8>{person.email}
           <br />
-          <h8 style={{ fontWeight: 'bold' }}>dob: </h8>{person.dob}
+          <h8 style={{ fontWeight: 'bold' }}>date of birth: </h8>{person.DateOfbirth}
           <br />
           <h8 style={{ fontWeight: 'bold' }}> affiliation: </h8>{person.affiliation}
           <br />
-          <h8 style={{ fontWeight: 'bold' }}>hourlyRate: </h8>{person.hourlyRate}
+          <h8 style={{ fontWeight: 'bold' }}>hourlyRate: </h8>{person.HourlyRate}
           <br />
-          <h8 style={{ fontWeight: 'bold' }}>educationalBackground: </h8>{person.educationalBackground}
+          <h8 style={{ fontWeight: 'bold' }}>educationalBackground: </h8>{person.educationalbackground}
           <br />
           </div>
         </Card>

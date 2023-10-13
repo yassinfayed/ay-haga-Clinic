@@ -14,6 +14,7 @@ import { updateDoctor } from "../../redux/actions/doctorActions"; // Import your
 export default function DoctorProfile({ params }) {
   // redux
   const dispatch = useDispatch();
+  
   // dispatch(login("faridaAhmed", "password123"));
 
   //states
@@ -25,7 +26,7 @@ export default function DoctorProfile({ params }) {
 
   useEffect(() => {
     dispatch(viewDoctorDetails(params.id));
-  }, [dispatch]);
+  }, [dispatch,doctor,newEmail,newdoctor]);
 
   const doctor = useSelector((state) => state.doctorReducer.doctor);
 
@@ -94,6 +95,7 @@ export default function DoctorProfile({ params }) {
     setNewDoctor(updatedDoctor);
     // console.log(updatedDoctor);
     dispatch(updateDoctor(updatedDoctor));
+    dispatch(viewDoctorDetails(params.id));
     // Clear input fields
     setNewEmail("");
     setNewHourlyRate("");

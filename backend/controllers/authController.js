@@ -13,41 +13,27 @@ const signToken = (id) => {
   });
 };
 
-const createSendToken = async (user, statusCode, req, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
-  res.cookie("jwt", token, {
+  res.cookie('jwt', token, {
     Expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
-    secure: req.secure || req.headers["x-forwarded-proto"] === "https",
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
   });
 
   // Remove password from output
   user.password = undefined;
-  if (user.role === "patient") {
-    const patient = await Patient.findOne({ user: user._id });
-    res.status(statusCode).json({
-      status: "success",
-      token,
-      data: {
-        user,
-        userPatient: patient._id,
-      },
-    });
-  }
-  if (user.role === "doctor") {
-    const doctor = await Doctor.findOne({ user: user._id });
-    res.status(statusCode).json({
-      status: "success",
-      token,
-      data: {
-        user,
-        userDoctor: doctor._id,
-      },
-    });
-  }
+
+  res.status(statusCode).json({
+    status: 'success',
+    token,
+    data: {
+      user
+    }
+  });
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
@@ -175,5 +161,18 @@ exports.login = catchAsync(async (req, res, next) => {
   if (user.role === enums.ROLE.DOCTOR && doct.isApproved === false) {
     return next(new AppError("Doctor is not approved", 400));
   }
+  
+
+  if(user.role === 'doctor'){
+    const doc = await Doctor.findOne({user: user._id})
+    user.doctor = doc;
+  }
+  else if(user.role=== 'patient'){
+    const pat = await Patient.findOne({user: user._id})
+    user.patient = pat;
+  }
+  console.log(user)
+  
   createSendToken(user, 200, req, res);
+
 });

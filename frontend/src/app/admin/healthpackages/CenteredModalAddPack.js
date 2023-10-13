@@ -88,7 +88,7 @@ props.onHide()
               <label htmlFor="sessionDiscountInput">Doctor Session Discount</label>
               <input
                 onChange={handleSessionDiscountChange}
-                type="text"
+                type="number"
                 className="form-control my-1"
                 id="sessionDiscountInput"
                 placeholder="Session Discount"
@@ -99,7 +99,7 @@ props.onHide()
               <label htmlFor="medicineDiscountInput">Medicine Discount</label>
               <input
                 onChange={handleMedicineDiscountChange}
-                type="text"
+                type="number"
                 className="form-control my-1"
                 id="medicineDiscountInput"
                 placeholder="Medicine Discount"
@@ -110,7 +110,7 @@ props.onHide()
               <label htmlFor="subscriptionsDiscountInput">Subscriptions Discount</label>
               <input
                 onChange={handleSubscriptionsDiscountChange}
-                type="text"
+                type="number"
                 className="form-control my-1"
                 id="subscriptionsDiscountInput"
                 placeholder="Subscriptions Discount"
@@ -121,7 +121,7 @@ props.onHide()
               <label htmlFor="priceInput">Price</label>
               <input
                 onChange={handlePriceChange}
-                type="text"
+                type="number"
                 className="form-control my-1"
                 id="priceInput"
                 placeholder="Price"

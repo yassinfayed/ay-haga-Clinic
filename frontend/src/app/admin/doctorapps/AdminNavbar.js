@@ -49,7 +49,7 @@ const AdminNavbar = () => {
               <a className="nav-link" href="/admin/healthpackages">Health Packages</a>
             </li>
             <li className="nav-item">
-              <a className="btn btn-primary ms-2 mx-1" href="/login">
+              <a className="btn btn-primary ms-2 mx-1" href="/guest/Login">
                 Logout
               </a>
             </li>
