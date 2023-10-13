@@ -26,6 +26,7 @@ export const getDrsForPatientsReducer = (state = {}, action) => {
       return {
         ...state,
         doctors: action.payload,
+        specialities : action.payload.specialities,
         loading: false,
         error: null,
       }

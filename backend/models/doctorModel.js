@@ -48,7 +48,24 @@ const DoctorSchema = new mongoose.Schema({
         default: []
     }
 });
+DoctorSchema.statics.getAllSpecialities = async function () {
+    try {
+        const doctors = await this.find();
+        const allSpecialtiesSet = new Set();
 
+        // Extract and add unique medicinal uses to the set
+        doctors.forEach(doctor => {
+           allSpecialtiesSet.add( doctor.speciality);
+        });
+
+        // Convert the set back to an array
+        const allSpecialties = Array.from(allSpecialtiesSet);
+
+        return allSpecialties;
+    } catch (error) {
+        throw new Error('Error fetching unique medicinal uses: ' + error.message);
+    }
+};
 
 const Doctor = mongoose.model('Doctor', DoctorSchema);
 

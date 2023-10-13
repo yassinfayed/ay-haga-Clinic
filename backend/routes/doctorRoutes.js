@@ -9,10 +9,11 @@ router.use(authController.protect);
 
 router.route("/").get(doctorController.getAllDoctors);
 router.route("/updatedoctor").patch( authController.restrictTo(enums.ROLE.DOCTOR),doctorController.updateDoctor);
+ 
 
 
 router.route("/getAllDoctors").get(doctorController.getallDoctorsForPatient)
-
+router.get('/specialities',doctorController.allSpecialities)
 router.route("/:id").get(doctorController.getDoctor);
 
 
