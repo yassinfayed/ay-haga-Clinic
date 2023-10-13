@@ -26,6 +26,7 @@ function AddFamily(props) {
       "gender" : gender ,
       "relationToPatient" : relationToPatient
   }));
+  onHide();
 
     
   };

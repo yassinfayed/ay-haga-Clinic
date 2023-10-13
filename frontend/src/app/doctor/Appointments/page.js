@@ -7,13 +7,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getPatientAppointments } from '@/app/redux/actions/patientActions';
 import { login } from '@/app/redux/actions/authActions';
 import { useEffect } from 'react';
 import { useMemo } from 'react';
 import { Button } from '../../../../components/Button';
+import { getDoctorAppointments } from '@/app/redux/actions/doctorActions';
 
-function appointments() {
+function docappointments() {
 
 
   const dispatch = useDispatch();
@@ -28,8 +28,8 @@ function appointments() {
     setSelectedStatus(event.target.value);
   };
 
-  const appointmentsData = useSelector((state) => state.viewPatientsAppointmentsReducer.appointments);
-  const isLoading = useSelector((state) => state.viewPatientsAppointmentsReducer.loading);
+  const appointmentsData = useSelector((state) => state.viewDoctorsAppointmentsReducer.appointments);
+  const isLoading = useSelector((state) => state.viewDoctorsAppointmentsReducer.loading);
 
   const formatDateToISOString = (date) => {
     if (!date) return ''; // Return an empty string if date is falsy
@@ -43,7 +43,7 @@ function appointments() {
   };
 
   async function fetchData() {
-    await dispatch(login('faridashetta', 'password123'));
+    await dispatch(login('faridaahmed', 'password123'));
   
     const queryObj = {
       date: formatDateToISOString(selectedDate),
@@ -57,7 +57,7 @@ function appointments() {
       return acc;
     }, {});
   
-    dispatch(getPatientAppointments(filteredQueryObj));
+    dispatch(getDoctorAppointments(filteredQueryObj));
   }
   
   useEffect(() => {
@@ -70,7 +70,7 @@ function appointments() {
     if (appointmentsData && appointmentsData.data) {
       return appointmentsData.data.map((value) => ({
         date: new Date(value.date).toLocaleDateString(), 
-        doctorname: value.doctorId.name,
+        patientname: value.patientId.name,
         status: value.status,
       }));
     }
@@ -89,7 +89,7 @@ function appointments() {
   
 
 
-      const headers = ['Date', 'Doctor Name', 'Status'];
+      const headers = ['Date', 'Patient Name', 'Status'];
 
 
       return(
@@ -125,4 +125,4 @@ function appointments() {
       
 }
 
-export default appointments;
+export default docappointments;

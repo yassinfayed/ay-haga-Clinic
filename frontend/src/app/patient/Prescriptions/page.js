@@ -28,6 +28,7 @@ function prescriptions() {
     const dispatch = useDispatch();
 
     const prescriptions = useSelector((state) => state.viewAllPrescriptionsReducer.prescription);
+    const isLoading = useSelector((state) => state.viewAllPrescriptionsReducer.loading);
 
 
 
@@ -42,10 +43,9 @@ function prescriptions() {
       return selected;
     };
 
-    useEffect(() => {
-      dispatch(login('faridashetta', 'password123'));
+    async function fetchData() {
+      await dispatch(login('faridashetta', 'password123'));
     
-      // Construct the query object based on the filter values
       const queryObj = {
         prescriptionDate: formatDateToISOString(selectedDate),
         name,
@@ -61,6 +61,10 @@ function prescriptions() {
       }, {});
     
       dispatch(viewALLPrescriptions(filteredQueryObj));
+    }
+    
+    useEffect(() => {
+      fetchData();
     }, [dispatch, selectedDate, name, selectedStatus]);
 
   const handleDateChange = (date) => {
@@ -73,6 +77,7 @@ function prescriptions() {
   const presc = useMemo(() => {
     if (prescriptions && prescriptions.data) {
       return prescriptions.data.map((value) => ({
+        docName: value.doctorId.name,
         medicines: value.medicines, 
         instructions: value.instructions,
         prescriptionDate: new Date(value.prescriptionDate).toLocaleDateString(),
@@ -129,7 +134,7 @@ function prescriptions() {
               <Card
                 className="my-2"
                 key={prescription._id}
-                title={`Doctor: ${prescription.name}`}
+                title={`Doctor: ${prescription.docName}`}
                 subtitle=""
                 text={
                   <>
