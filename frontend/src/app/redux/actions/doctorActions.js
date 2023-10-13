@@ -82,7 +82,8 @@ export const getDoctorsForPatientAction = (queryObj) => async (dispatch) => {
       url,
       config
     );
-
+    const {data:data2} = await axios.get(`${baseURL}/api/v1/doctor/specialities`,config)
+    data.data.specialities = data2;
     dispatch({
       type: DOCTORS_VIEW_SUCCESS,
       payload: data.data,

@@ -13,7 +13,7 @@ exports.getallDoctorsForPatient = catchAsync(async (req, res, next) => {
   const patient = await Patient.findOne({ user: req.user._id }).populate(
     "package"
   );
-  const features = new APIFeatures(Doctor.find({}), req.query).filter();
+  const features = new APIFeatures(Doctor.find({isApproved : true}), req.query).filter();
   const results = await features.query;
 
   const doctorsWithSessionPrice = results.map((doctor) => {
@@ -46,4 +46,10 @@ exports.updateDoctor = catchAsync(async (req, res, next) => {
   req.params.id = doctorID;
   console.log("hellooooooooooo", doctorID);
   handlerFactory.updateOne(Doctor)(req, res, next);
+});
+
+exports.allSpecialities = catchAsync(async(req,res,next)=> {
+
+  const resp = await Doctor.getAllSpecialities();
+  res.status(200).json(resp)
 });
