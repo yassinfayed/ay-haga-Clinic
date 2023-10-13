@@ -3,7 +3,7 @@ const handlerFactory = require('./handlerFactory');
 
 const catchAsync = require('../utils/catchAsync');
 const Patient = require('../models/patientModel');
-const Appointment=require('../models/appointmentModel');
+const Appointment = require('../models/appointmentModel');
 const Doctor = require('../models/doctorModel');
 const APIFeatures = require('../utils/apiFeatures');
 
@@ -26,6 +26,7 @@ exports.getAllPatientAppointments = catchAsync(async (req, res, next) => {
             data: appts
         }
     });
+
 });
 
 exports.getAllDoctorAppointments = catchAsync(async (req, res, next) => {
