@@ -13,7 +13,7 @@ import NavbarDoc from '../../../../components/NavbarDoc';
 
 
 function PatientsList() {
-  const tableHeaders = ['','name','email','date of birth','gender', 'phone number','status','']; // Add a new column header
+  const tableHeaders = ['name','email','date of birth','gender', 'phone number','Appointment date','']; // Add a new column header
 
   // const initialValues = [
   //   ['John Doe', '0123456789', <Button text="View Details" onClick={() => console.log('Button clicked')} />],
@@ -42,8 +42,8 @@ function PatientsList() {
   
   let tabledata = tabledata2?.map(item => {
     console.log(item)
-    const { emergencyContact,id,_id,user,__v, ...rest } = item;
-    // rest.button = generateButton(_id)
+    const { emergencyContact,id,_id,user,__v,healthRecords ,...rest } = item;
+    rest.button = generateButton(_id)
     return rest;
   })
 

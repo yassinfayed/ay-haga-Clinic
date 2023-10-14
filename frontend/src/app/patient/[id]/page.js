@@ -15,6 +15,7 @@ export default function patientProfile({ params }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(params.id)
     dispatch(viewPatients({ _id: params.id }));
   }, [dispatch]);
 
@@ -30,7 +31,7 @@ export default function patientProfile({ params }) {
       <div className="d-flex">
         {patient.healthRecords?.map((value, index) => (
           <div className="w-50 p-3" key={index}>
-            <Card title={index + 1} text={value}></Card>
+            <Card children={<img src={value} alt="value"/>} title={index + 1}></Card>
           </div>
         ))}
       </div>

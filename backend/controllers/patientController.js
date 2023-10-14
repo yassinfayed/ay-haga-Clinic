@@ -63,6 +63,10 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
       query.status = req.query.status;
       console.log(query.status)
     }
+    console.log(req.query._id)
+    if(req.query._id){
+      query.patientId = req.query._id
+    }
     appointments = await Appointment.find(query).populate("patient");
      data = appointments.map((appointment) =>{ 
       appointment.patient.appointmentDate = appointment.date;
