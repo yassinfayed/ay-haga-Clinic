@@ -55,11 +55,20 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
   let doctorId;
   let appointments;
   let data;
+
   if (doctor) {
     doctorId = doctor._id;
-    appointments = await Appointment.find({ doctorId }).populate("patient");
-     data = appointments.map((appointment) => appointment.patient);
-     data = Array.from(new Set(data));
+    const query = { doctorId };
+    if (req.query.status) {
+      query.status = req.query.status;
+      console.log(query.status)
+    }
+    appointments = await Appointment.find(query).populate("patient");
+     data = appointments.map((appointment) =>{ 
+      appointment.patient.appointmentDate = appointment.date;
+      return appointment.patient
+    });
+    //  data = Array.from(new Set(data));
   }
 
   if (req.query.name)
@@ -77,41 +86,41 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
 
 exports.getAllPatients = handlerFactory.getAll(Patient);
 
-exports.FilterPatientsBasedOnUpcomimgAppointments = catchAsync(
-  async (req, res, next) => {
-    const doctor = await Doctor.findOne({ user: req.user._id });
-    const doctorId = doctor._id;
-    const upcomingAppointments = await Appointment.find({
-      doctorId: doctorId,
-      status: "Upcoming", // Find appointments with dates greater than or equal to the current date
-    });
+// exports.FilterPatientsBasedOnUpcomimgAppointments = catchAsync(
+//   async (req, res, next) => {
+//     const doctor = await Doctor.findOne({ user: req.user._id });
+//     const doctorId = doctor._id;
+//     const upcomingAppointments = await Appointment.find({
+//       doctorId: doctorId,
+//       status: "Upcoming", // Find appointments with dates greater than or equal to the current date
+//     });
 
-    // Extract patient IDs from upcomingAppointments
-    const patientIds = upcomingAppointments.map(
-      (appointment) => appointment.patientId
-    );
+//     // Extract patient IDs from upcomingAppointments
+//     const patientIds = upcomingAppointments.map(
+//       (appointment) => appointment.patientId
+//     );
 
-    // Query the Patient collection to fetch patient details for the extracted patient IDs
-    const patients = await Patient.find({ _id: { $in: patientIds } });
+//     // Query the Patient collection to fetch patient details for the extracted patient IDs
+//     const patients = await Patient.find({ _id: { $in: patientIds } });
 
-    // Create a response object that combines patient details with their appointment details
-    // const response = patients.map((patient) => {
-    //   const matchingAppointment = upcomingAppointments.find(
-    //     (appointment) =>
-    //       appointment.patientId.toString() === patient._id.toString()
-    //   );
-    //   return 
-    //     patient
-    //     // appointment: matchingAppointment,
+//     // Create a response object that combines patient details with their appointment details
+//     // const response = patients.map((patient) => {
+//     //   const matchingAppointment = upcomingAppointments.find(
+//     //     (appointment) =>
+//     //       appointment.patientId.toString() === patient._id.toString()
+//     //   );
+//     //   return 
+//     //     patient
+//     //     // appointment: matchingAppointment,
       
-    // });
-    // console.log()
-    res.status(200).json({
-      status: "success",
-      // results: response?.length,
-      data: {
-        data: patients,
-      },
-    });
-  }
-);
+//     // });
+//     // console.log()
+//     res.status(200).json({
+//       status: "success",
+//       // results: response?.length,
+//       data: {
+//         data: patients,
+//       },
+//     });
+//   }
+// );

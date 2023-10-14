@@ -49,6 +49,7 @@ const patientSchema = new mongoose.Schema({
       required: [true, 'Emergency contact mobile number is required']
     }
   },
+  appointmentDate: Date,
   healthRecords: [
     {
       type: String

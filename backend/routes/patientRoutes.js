@@ -7,7 +7,7 @@ router.use(protect);
 
 router.route("/view-Patients").get(patientController.viewMyPatients); 
 router.get("/",restrictTo(enums.ROLE.ADMIN),patientController.getAllPatients)
-router.route("/filter-Patients-Based-On-Upcoming-Appointments").get(patientController.FilterPatientsBasedOnUpcomimgAppointments);
+// router.route("/filter-Patients-Based-On-Upcoming-Appointments").get(patientController.FilterPatientsBasedOnUpcomimgAppointments);
 
 
 

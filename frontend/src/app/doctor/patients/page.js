@@ -13,7 +13,7 @@ import NavbarDoc from '../../../../components/NavbarDoc';
 
 
 function PatientsList() {
-  const tableHeaders = ['','name','email','date of birth','gender', 'phone number','']; // Add a new column header
+  const tableHeaders = ['','name','email','date of birth','gender', 'phone number','status','']; // Add a new column header
 
   // const initialValues = [
   //   ['John Doe', '0123456789', <Button text="View Details" onClick={() => console.log('Button clicked')} />],
@@ -28,7 +28,7 @@ function PatientsList() {
   const tabledata2 = useSelector(state => state.patientsReducer?.patients?.data)
   const tabledataU1 = useSelector(state => state.filterPatientsBasedOnUpcomingAppointmentsReducer?.patients?.data)
   const [name,setName] = useState({});
-  const [upcoming,setUpcoming] = useState(false);
+  const [upcoming,setUpcoming] = useState({});
 
   const generateButton = (id) => {
     return (
@@ -41,41 +41,32 @@ function PatientsList() {
 
   
   let tabledata = tabledata2?.map(item => {
+    console.log(item)
     const { emergencyContact,id,_id,user,__v, ...rest } = item;
-    rest.button = generateButton(_id)
+    // rest.button = generateButton(_id)
     return rest;
   })
 
  
   const dispatch = useDispatch();
   useEffect(()=> {
-    dispatch(viewPatients({...name}))
+    dispatch(viewPatients({...name,...upcoming}))
     
 
     // if()
-  },[name])
+  },[name,upcoming])
 
-  const handleClick = (e) => {
-    console.log(e.target)
-    if(e.target.checked=== true) {
-      dispatch(filterPatientsBasedOnUpcomingAppointments())
-      tabledata = tabledataU1?.map(item => {
-        const { emergencyContact,id,healthRecords,_id,user,__v, ...rest } = item;
-        rest.button = generateButton(_id)
-        return rest;
-      })
+  // const handleClick = (e) => {
+   
+  //     dispatch(viewPatients({...name,...upcoming}))
+  //     tabledata = tabledata2?.map(item => {
+  //       const { emergencyContact,id,healthRecords,_id,user,__v, ...rest } = item;
+  //        rest.button = generateButton(_id)
+  //       return rest;
+  //     })
+    
 
-    }
-    else{
-      dispatch(viewPatients())
-      tabledata = tabledata2?.map(item => {
-        const { emergencyContact,id,healthRecords,_id,user,__v, ...rest } = item;
-         rest.button = generateButton(_id)
-        return rest;
-      })
-    }
-
-  }
+  // }
 
  
   return (
@@ -100,9 +91,9 @@ function PatientsList() {
       <div className="div container-fluid" style={{ display: 'flex', alignItems: 'center' }}>
   <label htmlFor="upcomingAppointments">Upcoming Appointments</label>
   <input
-   onClick={(e) => {
-    setUpcoming(e.target.checked)
-    handleClick(e)
+   onChange={(e) => {
+    setUpcoming(e.target.checked ? {status:'Upcoming'}: {})
+    // handleClick(e)
     
    }
    }
