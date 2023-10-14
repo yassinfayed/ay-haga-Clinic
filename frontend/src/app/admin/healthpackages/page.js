@@ -47,7 +47,7 @@ export default function Admins() {
   
   useEffect(()=>{
     
-    dispatch(login("sysadmin","pass1234"));
+    // dispatch(login("sysadmin","pass1234"));
     
     dispatch(listHealthPackages());
     
