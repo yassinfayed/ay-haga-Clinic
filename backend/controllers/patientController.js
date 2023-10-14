@@ -51,11 +51,12 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
   if (doctor) {
     doctorId = doctor._id;
     appointments = await Appointment.find({ doctorId }).populate("patient");
-    data = appointments.map((appointment) => appointment.patient);
+     data = appointments.map((appointment) => appointment.patient);
+     data = Array.from(new Set(data));
   }
 
   if (req.query.name)
-    data = data.filter((pat) => `${pat.name}`.includes(req.query.name));
+    data = data.filter((pat) => `${pat.name?.toLowerCase()}`.includes(req.query.name?.toLowerCase()));
   if(req.user.role === 'patient')
     data = await Patient.find({_id: req.query._id})
   res.status(200).json({

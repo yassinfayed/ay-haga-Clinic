@@ -55,7 +55,7 @@ export default function DoctorApps() {
           <h8 style={{ fontWeight: 'bold' }}>email: </h8>{person.email}
           <br />
           <h8 style={{ fontWeight: 'bold' }}>date of birth: </h8>{person.DateOfbirth}
-          <br />
+         
           <h8 style={{ fontWeight: 'bold' }}> affiliation: </h8>{person.affiliation}
           <br />
           <h8 style={{ fontWeight: 'bold' }}>hourlyRate: </h8>{person.HourlyRate}

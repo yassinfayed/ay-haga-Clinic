@@ -9,7 +9,8 @@ const patientSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    required: [true, 'Name is required']
+    required: [true, 'Name is required'],
+    lowercase: true
   },
   email: {
     type: String,
@@ -22,7 +23,8 @@ const patientSchema = new mongoose.Schema({
   },
   dateOfBirth: {
     type: Date,
-    required: [true, 'Date of Birth is required']
+    required: [true, 'Date of Birth is required'],
+    max: new Date()
   },
   gender: {
     type: String,

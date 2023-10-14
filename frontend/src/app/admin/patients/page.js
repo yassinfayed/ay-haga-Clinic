@@ -39,12 +39,13 @@ export default function Patients() {
     <div className="d-flex justify-content-center align-items-center min-vh-100">
       <div className='row'>
       {patients?.data?.map((person)=>{
-        return <Card key={person.user} className="col-lg-4 offset-lg-1" title={person.name} subtitle="Patient's Info"  text={
+        return <Card  key={person.user?._id} className="col-lg-4 offset-lg-1" title={person.name} subtitle="Patient's Info"  text={
           <div className="">
           <h8 style={{ fontWeight: 'bold' }}> Username: </h8>{person.user?.username}
           <br />
           <h8 style={{ fontWeight: 'bold' }}>email: </h8>{person.email}
           <br />
+         
           <h8 style={{ fontWeight: 'bold' }}>dob: </h8>{person.dateOfBirth}
           <br />'
           <h8 style={{ fontWeight: 'bold' }}>mobile number: </h8>{person.mobileNumber}

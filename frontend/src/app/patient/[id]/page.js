@@ -39,8 +39,8 @@ export default function patientProfile({ params }) {
 
   return (
     <>
-    <NavbarPatient></NavbarPatient>
-    {JSON.parse(localStorage.getItem('userInfo')).data.user.role === 'doctor' && <NavbarDoc />}
+    
+    {JSON.parse(localStorage.getItem('userInfo')).data.user.role === 'doctor' ? <NavbarDoc />: <NavbarPatient></NavbarPatient>}
       {patient ? (
        
         <div className=" p-5 d-flex">

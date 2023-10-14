@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import React from "react";
 import { useEffect } from "react";
+import NavbarDoc from "../../../../components/NavbarDoc";
 import { login } from "../../redux/actions/authActions";
 import { viewDoctorDetails } from "../../redux/actions/doctorActions";
 import { useDispatch, useSelector } from "react-redux";

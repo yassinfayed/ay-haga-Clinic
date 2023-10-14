@@ -24,11 +24,13 @@ const DoctorSchema = new mongoose.Schema({
     },
     DateOfbirth: {
         type: Date,
-        required: [true, 'Please tell us your date of birth']
+        required: [true, 'Please tell us your date of birth'],
+        min: '1997-01-01' 
     },
     HourlyRate: {
         type: Number,
-        required: [true, 'Please tell us your hourly rate']
+        required: [true, 'Please tell us your hourly rate'],
+        min: 0,
     },
     educationalbackground:{
         type: String,
@@ -74,6 +76,7 @@ DoctorSchema.pre(/^find/, function(next) {
     });
     next();
   });
+
 
 const Doctor = mongoose.model('Doctor', DoctorSchema);
 

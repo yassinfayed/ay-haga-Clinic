@@ -13,7 +13,9 @@ const FamilyMembersSchema = new mongoose.Schema({
     },
     age:{
         type:Number,
-        required:[true, "Please enter your family member age"]
+        required:[true, "Please enter your family member age"],
+        min: 0,
+        
     },
     gender:{
         type:String,

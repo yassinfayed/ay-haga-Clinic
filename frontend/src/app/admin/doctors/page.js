@@ -45,7 +45,7 @@ export default function Doctors() {
       {doctors?.data?.map((person)=>{
         if(!person.isApproved)
         return
-        return  <Card key={person.user} className="col-lg-4 offset-lg-1" title={person.name} subtitle="Doctor's Info"  text={
+        return  <Card key={person.user?._id} className="col-lg-4 offset-lg-1" title={person.name} subtitle="Doctor's Info"  text={
           <div className="">
           <h8 style={{ fontWeight: 'bold' }}> Username: </h8>{person.user?.username}
           <br />
