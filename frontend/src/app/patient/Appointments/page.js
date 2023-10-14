@@ -12,6 +12,7 @@ import { login } from '@/app/redux/actions/authActions';
 import { useEffect } from 'react';
 import { useMemo } from 'react';
 import { Button } from '../../../../components/Button';
+import NavbarPatient from '../../../../components/NavbarPatient';
 
 function appointments() {
 
@@ -94,7 +95,7 @@ function appointments() {
 
       return(
         <div className="container-fluid">
-          <Navbar></Navbar>
+          <NavbarPatient></NavbarPatient>
         <div className="rows">
             <h3 className='my-4'>My Appointments</h3>
             <div className="row my-3">

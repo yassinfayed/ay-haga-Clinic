@@ -9,6 +9,7 @@ import { viewPatients } from "../../redux/actions/patientsActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../../../components/Button";
 import NavbarDoc from "../../../../components/NavbarDoc";
+import NavbarPatient from "../../../../components/NavbarPatient";
 
 export default function patientProfile({ params }) {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ export default function patientProfile({ params }) {
 
   return (
     <>
+    <NavbarPatient></NavbarPatient>
     {JSON.parse(localStorage.getItem('userInfo')).data.user.role === 'doctor' && <NavbarDoc />}
       {patient ? (
        

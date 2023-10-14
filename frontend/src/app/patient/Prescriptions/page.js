@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import Navbar from '../../../../components/Navbar';
 import Footer from '../../../../components/Footer';
 import { login } from '@/app/redux/actions/authActions';
+import NavbarPatient from '../../../../components/NavbarPatient';
 
 
 function prescriptions() {
@@ -103,7 +104,7 @@ function prescriptions() {
 
       return (
         <div>
-          <Navbar></Navbar>
+          <NavbarPatient></NavbarPatient>
           <div className="container-fluid my-3">
             <div className="row">
             <DatePicker
