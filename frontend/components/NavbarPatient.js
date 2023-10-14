@@ -50,7 +50,7 @@ const NavbarPatient = () => {
               <a className="nav-link" href="/patient/Prescriptions">Prescriptions</a>
             </li>
             <li className="nav-item rounded ms-2">
-              <a className="btn btn-primary text-light mx-1" href="/">
+            <a className="btn btn-primary text-light mx-1" href="/" onClick={(e)=> localStorage.clear()}>
               Log Out
               </a>
             </li>
