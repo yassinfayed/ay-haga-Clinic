@@ -80,10 +80,17 @@ exports.signup = catchAsync(async (req, res, next) => {
     return;
   }
   try {
-    if (req.body?.role === undefined || req.body?.role === enums.ROLE.PATIENT)
-      await Patient.create(req.body);
+    if (req.body?.role === undefined || req.body?.role === enums.ROLE.PATIENT){
+      patient = await Patient.create(req.body);
+      newUser.patient = patient;
+    
+    }
 
-    if (req.body.role === enums.ROLE.DOCTOR) await Doctor.create(req.body);
+    if (req.body.role === enums.ROLE.DOCTOR){ 
+      doctor = await Doctor.create(req.body);
+      newUser.doctor = doctor;
+    
+    }
     createSendToken(newUser, 201, req, res);
   } catch (err) {
     await User.deleteOne({ username: newUser.username });

@@ -45,7 +45,6 @@ function prescriptions() {
     };
 
     async function fetchData() {
-      await dispatch(login('faridashetta', 'password123'));
     
       const queryObj = {
         prescriptionDate: formatDateToISOString(selectedDate),
