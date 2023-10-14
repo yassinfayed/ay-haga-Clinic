@@ -28,7 +28,6 @@ function Familymembers() {
 
 
     async function fetchData() {
-      dispatch(login('faridashetta', 'password123'));
       dispatch(viewFamilyMembers());
     }
     

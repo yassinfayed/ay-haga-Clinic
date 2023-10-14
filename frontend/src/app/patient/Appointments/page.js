@@ -44,7 +44,6 @@ function appointments() {
   };
 
   async function fetchData() {
-    await dispatch(login('faridashetta', 'password123'));
   
     const queryObj = {
       date: formatDateToISOString(selectedDate),

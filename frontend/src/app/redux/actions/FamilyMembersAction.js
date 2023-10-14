@@ -34,7 +34,7 @@ export const addFamilyMembers = (reqBody) => async (dispatch) => {
       payload: data.data,
     });
 
-    localStorage.setItem('userInfo', JSON.stringify(data)); 
+    // localStorage.setItem('userInfo', JSON.stringify(data)); 
   } catch (error) {
     console.log(error);
     dispatch({

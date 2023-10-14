@@ -49,7 +49,6 @@ function PatientsList() {
  
   const dispatch = useDispatch();
   useEffect(()=> {
-    // dispatch(login("faridaAhmed","password123"))
     dispatch(viewPatients({...name}))
     
 
