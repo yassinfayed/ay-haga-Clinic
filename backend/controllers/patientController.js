@@ -14,8 +14,15 @@ exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
   console.log(req.user._id);
   const patient = await Patient.findOne({ user: req.user._id });
   const patientId = patient._id;
+  const name = req.query.name;
+  req.query.name = null;
+
   const features = new APIFeatures(Prescription.find({ patientId: patientId }).populate("doctorId"), req.query).filter();
-  const presc = await features.query;
+
+  let presc = await features.query;
+ if(name)
+  presc = presc.filter(p => p.doctorId.name.toLowerCase()
+  .includes(name.toLowerCase()))
 
     res.status(200).json({
         status: 'success',

@@ -13,7 +13,7 @@ import NavbarDoc from '../../../../components/NavbarDoc';
 
 
 function PatientsList() {
-  const tableHeaders = ['id','name','email','date of birth','gender', 'phone number','go to patient']; // Add a new column header
+  const tableHeaders = ['','name','email','date of birth','gender', 'phone number','']; // Add a new column header
 
   // const initialValues = [
   //   ['John Doe', '0123456789', <Button text="View Details" onClick={() => console.log('Button clicked')} />],

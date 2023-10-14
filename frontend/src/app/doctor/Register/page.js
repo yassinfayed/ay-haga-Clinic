@@ -59,7 +59,7 @@ const SignUp = () => {
             "phoneNumber": formData.mobileNumber,
             "HourlyRate": formData.hourlyRate,
             "educationalbackground": formData.educationalBackground,
-            "speciality": formData.affiliation,
+            "speciality": formData.speciality,
             "role": "doctor",
             "affiliation": formData.affiliation,
             "workingHours": formData.workingHours,
@@ -167,14 +167,14 @@ const SignUp = () => {
                             onChange={handleInputChange}
                         />
                     </div>
-
+{/* 
                     <div className='inputz'>
                                 <select name="gender" value={formData.gender} onChange={handleInputChange}>
                                     <option value="" selected disabled>Choose a gender...</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
-                            </div>
+                            </div> */}
 
                     <div className="inputz">
                         <input

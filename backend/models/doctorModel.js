@@ -25,7 +25,27 @@ const DoctorSchema = new mongoose.Schema({
     DateOfbirth: {
         type: Date,
         required: [true, 'Please tell us your date of birth'],
-        min: '1997-01-01' 
+        validate: {
+            validator: function (value) {
+              const currentDate = new Date();
+              const minDate = new Date(currentDate.getFullYear() - 25, currentDate.getMonth(), currentDate.getDate());
+              
+              // Check if the date is at least 25 years ago
+              return value <= minDate;
+            },
+            message: 'Date of birth should be at least 25 years ago'
+          }
+        // validate: {
+        //     validator: function (v) {
+        //       return (
+        //         v && // check that there is a date object
+        //         v.getTime() > Date.now() + 24 * 60 * 60 * 1000 &&
+        //         v.getTime() < Date.now() + 90 * 24 * 60 * 60 * 1000
+        //       );
+        //     },
+        //     message:
+        //       "An event must be at least 1 day from now and not more than 90 days.",
+        //   }
     },
     HourlyRate: {
         type: Number,
