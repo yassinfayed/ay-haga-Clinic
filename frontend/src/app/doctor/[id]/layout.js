@@ -14,7 +14,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`global-text ${inter.className}`}>
-        <NavbarDoc />
+     
+       
         <ReduxProvider> {children} </ReduxProvider>
         <FooterDoc />
       </body>

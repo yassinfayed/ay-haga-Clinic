@@ -24,8 +24,10 @@ function DoctorList() {
     setSelectedSpecialty(event.target.value); 
   };
 
-  const handleCardClick = (medicine) => {
+  const handleCardClick = (doctor) => {
    //go to hazem 
+   window.history.pushState({},"",`/doctor/${doctor._id}`)
+   window.location.reload()
   };
 
   const {doctors,specialities} = useSelector(state => state.getDrsForPatientsReducer)
@@ -145,7 +147,7 @@ onChange={(e) => {
           key={doctor.id}
           title={doctor.name}
           subtitle={doctor.specialty}
-          text={`Session Price: ${doctor.sessionPrice}`}
+          text={`Session Price: ${doctor.sessionPrice} - \n speciality: ${doctor.speciality}`}
           onClickButton={() => handleCardClick(doctor)}
           buttonText={'Details'}
           image={<img src={doctor.image}  alt="DoctorImage"  style={{ maxHeight: '150px' , maxWidth: '100px'}} />}

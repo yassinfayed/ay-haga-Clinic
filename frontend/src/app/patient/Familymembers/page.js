@@ -22,7 +22,8 @@ function Familymembers() {
 
 
     const familyMembers = useSelector((state) => state.viewFamilyMembersReducer.familyMember);
-    const isLoading = useSelector((state) => state.viewFamilyMembersReducer.loading);
+    const isLoading = useSelector((state) => state. addFamilyMembersReducer.loading);
+   
 
 
     async function fetchData() {
@@ -32,7 +33,7 @@ function Familymembers() {
     
     useEffect(() => {
       fetchData();
-    }, [dispatch]);
+    }, [dispatch,isLoading,modalShow]);
     
 
     
@@ -48,7 +49,7 @@ function Familymembers() {
         }));
       }
       return [];
-    }, [familyMembers,modalShow]);
+    }, [familyMembers,modalShow,isLoading]);
 
   return (
     <div>

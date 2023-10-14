@@ -53,7 +53,7 @@ function AddFamily(props) {
           <div className="form-group my-3">
             <label htmlFor="nationalId">National ID</label>
             <input
-              type="text"
+              type="number"
               className="form-control my-1"
               id="nationalId"
               placeholder="National ID"
@@ -64,7 +64,7 @@ function AddFamily(props) {
           <div className="form-group my-3">
             <label htmlFor="age">Age</label>
             <input
-              type="text"
+              type="number"
               className="form-control my-1"
               id="age"
               placeholder="Enter Age"
