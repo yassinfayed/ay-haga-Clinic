@@ -12,6 +12,7 @@ import { viewFamilyMembers } from '@/app/redux/actions/FamilyMembersAction';
 import { useEffect } from 'react';
 import { useMemo } from 'react';
 import { login } from '@/app/redux/actions/authActions';
+import NavbarPatient from '../../../../components/NavbarPatient';
 
 
 
@@ -54,7 +55,7 @@ function Familymembers() {
   return (
     <div>
 
-      <Navbar></Navbar>
+      <NavbarPatient></NavbarPatient>
 
         <div className="container-fluid my-3">
             <Button text="Add New Family Member"  onClick={() => setModalShow(true)}/>

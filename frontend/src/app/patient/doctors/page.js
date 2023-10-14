@@ -10,6 +10,7 @@ import './page.css' ;
 import { useDispatch, useSelector } from 'react-redux';
 import { getDoctorsForPatientAction } from '@/app/redux/actions/doctorActions';
 import { login } from '@/app/redux/actions/authActions';
+import NavbarPatient from '../../../../components/NavbarPatient';
 
 
 
@@ -68,7 +69,9 @@ const handleDateClick= () => {
 
 
   return (
+    
     <div>
+      <NavbarPatient></NavbarPatient>
       <div className="search-container">
       <input
         type="text"

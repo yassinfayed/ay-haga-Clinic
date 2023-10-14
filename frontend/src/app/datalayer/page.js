@@ -14,7 +14,7 @@ import { getAllUsers } from "../redux/actions/userActions";
 
 const Home = () => {
   const dispatch = useDispatch();
-  dispatch(login("omarDoe", "password123")); //admin :sysadmin pass:pass1234/ patient : omarDoe pass:password123
+  dispatch(login("faridaAhmed", "password123")); //admin :sysadmin pass:pass1234/ patient : omarDoe pass:password123
   // dispatch(login("sysadmin", "pass1234")); //admin :sysadmin pass:pass1234/ patient : omarDoe pass:password123
   //  const selector = useSelector(state => state.loginReducer.user)
   //  console.log(selector)
