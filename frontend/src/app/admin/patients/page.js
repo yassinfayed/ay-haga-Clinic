@@ -16,7 +16,7 @@ export default function Patients() {
   const patients=useSelector(state=>state.patientsReducer.patients);
   const isLoading=useSelector(state=>state.removeUserReducer.loading);
   useEffect(()=>{
-    dispatch(login("sysadmin","pass1234"));
+    // dispatch(login("sysadmin","pass1234"));
     dispatch(viewPatients());
     
 
