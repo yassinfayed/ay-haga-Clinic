@@ -236,7 +236,7 @@ const LandingPage = () => {
           </h2>
             <div className="">
               <a
-              href="#"
+              href="/guest/Register"
               className="btn btn-primary text-light mt-3 p-3 px-4">
               <strong>Sign Up Now</strong>
               </a>
