@@ -30,11 +30,6 @@ const NavbarDoc = () => {
           className={`links&buttons collapse navbar-collapse col-md-6 ${isMenuOpen ? 'show' : ''}`}
         >
           <ul className=" navbar-nav container d-flex justify-content-end me-auto">
-            {/* <li className="nav-item">
-              <a className="nav-link" href="/">
-                Home
-              </a>
-            </li> */}
             <li className="nav-item">
               <a className="nav-link" href={`/doctor/${id}`}>
                 My Profile

@@ -14,7 +14,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`global-text ${inter.className}`}> 
-      
         <ReduxProvider> {children} </ReduxProvider>
       </body>
     </html>

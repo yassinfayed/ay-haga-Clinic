@@ -86,9 +86,6 @@ function LoginForm() {
             />
           </div>
         </div>
-        {/* <div className="forgot-passwordz">
-          Lost password?<span className="text-primary"> Click Here!</span>
-        </div> */}
         <div className="submit-containerz">
           <Button text="Login" onClick={handleLogin}></Button>
         </div>

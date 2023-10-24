@@ -15,16 +15,6 @@ import NavbarDoc from '../../../../components/NavbarDoc';
 function PatientsList() {
   const tableHeaders = ['name','email','date of birth','gender', 'phone number','Appointment date','']; // Add a new column header
 
-  // const initialValues = [
-  //   ['John Doe', '0123456789', <Button text="View Details" onClick={() => console.log('Button clicked')} />],
-  //   ['Jane Smith','0123456789', <Button text="View Details" onClick={() => console.log('Button clicked')} />],
-  //   ['Alice Johnson', '0123456789', <Button text="View Details" onClick={() => console.log('Button clicked')} />],
-  //   ['Bob Brown', '0123456789', <Button text="View Details" onClick={() => console.log('Button clicked')} />],
-  //   ['Ella Wilson', '0123456789', <Button text="View Details" onClick={() => console.log('Button clicked')} />],
-  //   ['David Lee', '0123456789', <Button text="View Details" onClick={() => console.log('Button clicked')} />],
-  // ];
-
-  // const[tableData, setTableData , filterTableData , sortTableData] = useFilter(tableHeaders, initialValues) ;
   const tabledata2 = useSelector(state => state.patientsReducer?.patients?.data)
   const tabledataU1 = useSelector(state => state.filterPatientsBasedOnUpcomingAppointmentsReducer?.patients?.data)
   const [name,setName] = useState({});
@@ -38,8 +28,6 @@ function PatientsList() {
     );
   };
 
-
-  
   let tabledata = tabledata2?.map(item => {
     console.log(item)
     const { emergencyContact,id,_id,user,__v,healthRecords ,...rest } = item;
@@ -51,28 +39,13 @@ function PatientsList() {
   const dispatch = useDispatch();
   useEffect(()=> {
     dispatch(viewPatients({...name,...upcoming}))
-    
-
-    // if()
   },[name,upcoming])
-
-  // const handleClick = (e) => {
-   
-  //     dispatch(viewPatients({...name,...upcoming}))
-  //     tabledata = tabledata2?.map(item => {
-  //       const { emergencyContact,id,healthRecords,_id,user,__v, ...rest } = item;
-  //        rest.button = generateButton(_id)
-  //       return rest;
-  //     })
-    
-
-  // }
 
  
   return (
-    <div >
-      {/* <div className="div container-fluid" style={{ display: 'flex', alignItems: 'center' }}> */}
-      <NavbarDoc />
+    <div className='m-2'>
+      <h3 className='my-1 mt-0 text-center text-title'>Patients</h3>
+      <div className='underline-Bold mx-auto mb-5'></div>
       <div className="div container-fluid d-flex ">
       <div className="search-container">
       <input
@@ -81,33 +54,23 @@ function PatientsList() {
         className="search-input"
         onChange={(e) =>{ 
           setName( {"name": e.target.value } ); 
-        // handleClick(e)
       }
       } 
       />
-      {/* <Button text="Search"  className="search-button"/> */}
       </div>
-
       <div className="div container-fluid" style={{ display: 'flex', alignItems: 'center' }}>
   <label htmlFor="upcomingAppointments">Upcoming Appointments</label>
   <input
    onChange={(e) => {
-    setUpcoming(e.target.checked ? {status:'Upcoming'}: {})
-    // handleClick(e)
-    
+    setUpcoming(e.target.checked ? {status:'Upcoming'}: {})  
    }
    }
    type="checkbox" id="upcomingAppointments" name="upAp" value="upAp" style={{ width: '20px', height: '20px', marginLeft: '10px' }} />
 </div>
 </div>
-      {/* </div> */}
-
-
     <div className=".patient-table-container">
     <Table headers={tableHeaders} data={tabledata}  itemsPerPageOptions={[5, 10, 15]} />
-     
     </div>
-   
     </div>
   );
  

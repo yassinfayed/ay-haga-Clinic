@@ -12,10 +12,6 @@ import { useDispatch } from 'react-redux';
 import { viewALLPrescriptions } from '@/app/redux/actions/prescriptionsActions'; // Import the correct action
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import Navbar from '../../../../components/Navbar';
-import Footer from '../../../../components/Footer';
-import { login } from '@/app/redux/actions/authActions';
-import NavbarPatient from '../../../../components/NavbarPatient';
 
 
 function prescriptions() {
@@ -103,7 +99,8 @@ function prescriptions() {
 
       return (
         <div>
-          <NavbarPatient></NavbarPatient>
+          <h3 className='my-1 mt-0 text-center text-title'>Prescriptions</h3>
+          <div className='underline-Bold mx-auto mb-5'></div>
           <div className="container-fluid my-3">
             <div className="row">
             <DatePicker
@@ -162,7 +159,6 @@ function prescriptions() {
               prescription={selectedPrescription}
             />
           )}
-          <Footer></Footer>
         </div>
       );
  
