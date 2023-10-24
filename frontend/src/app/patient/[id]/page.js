@@ -1,15 +1,11 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
 import { Card } from "../../../../components/Card";
 import React from "react";
 import { useEffect } from "react";
-import { login } from "../../redux/actions/authActions";
 import { viewPatients } from "../../redux/actions/patientsActions";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "../../../../components/Button";
-import NavbarDoc from "../../../../components/NavbarDoc";
-import NavbarPatient from "../../../../components/NavbarPatient";
+
 
 export default function patientProfile({ params }) {
   const dispatch = useDispatch();
@@ -40,9 +36,7 @@ export default function patientProfile({ params }) {
 
   return (
     <>
-    
-    {JSON.parse(localStorage.getItem('userInfo')).data.user.role === 'doctor' ? <NavbarDoc />: <NavbarPatient></NavbarPatient>}
-      {patient ? (
+          {patient ? (
        
         <div className=" p-5 d-flex">
             
@@ -66,7 +60,6 @@ export default function patientProfile({ params }) {
             <div className="border-bottom d-flex ">
               <div className="w-75">
                 <h1>{patient.name}</h1>
-                {/* <p className="px-3 text-secondary">{patient.user}</p> */}
               </div>
             </div>
 

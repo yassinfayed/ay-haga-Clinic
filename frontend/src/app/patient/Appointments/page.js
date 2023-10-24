@@ -1,26 +1,21 @@
 "use client"
 import React from 'react'
 import {Table} from '../../../../components/Table';
-import Navbar from '../../../../components/Navbar';
-import Footer from '../../../../components/Footer';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPatientAppointments } from '@/app/redux/actions/patientActions';
-import { login } from '@/app/redux/actions/authActions';
 import { useEffect } from 'react';
 import { useMemo } from 'react';
 import { Button } from '../../../../components/Button';
-import NavbarPatient from '../../../../components/NavbarPatient';
 
 function appointments() {
 
-
   const dispatch = useDispatch();
-
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const headers = ['Date', 'Doctor Name', 'Status'];
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -65,7 +60,6 @@ function appointments() {
   }, [dispatch, selectedDate, selectedStatus]);
   
 
-
   const apps = useMemo(() => {
     if (appointmentsData && appointmentsData.data) {
       return appointmentsData.data.map((value) => ({
@@ -77,26 +71,17 @@ function appointments() {
     return [];
   }, [appointmentsData]);
 
-
-  console.log(apps);
-
-
   const handleClearFilters = () => {
     setSelectedDate(null);
     setSelectedStatus(null);
   }
 
-  
-
-
-      const headers = ['Date', 'Doctor Name', 'Status'];
-
-
       return(
+        <div className='m-2'>
         <div className="container-fluid">
-          <NavbarPatient></NavbarPatient>
         <div className="rows">
-            <h3 className='my-4'>My Appointments</h3>
+          <h3 className='my-1 mt-0 text-center text-title'>My Appointments</h3>
+            <div className='underline-Bold mx-auto mb-5'></div>
             <div className="row my-3">
             <div className="status-filter">
           <select onChange={handleStatusChange} className='col-lg-2 mx-lg-1'>
@@ -118,7 +103,7 @@ function appointments() {
           </div>
         </div>
         <Table headers={headers} data={apps ? apps : []}/>
-        <Footer></Footer>
+        </div>
         </div>
       )
       

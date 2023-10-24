@@ -5,14 +5,10 @@ import { Card} from '../../../../components/Card';
 import { Button } from '../../../../components/Button';
 import AddFamily from './AddFamilyMemberModal';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../../../../components/Navbar';
-import Footer from '../../../../components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { viewFamilyMembers } from '@/app/redux/actions/FamilyMembersAction';
 import { useEffect } from 'react';
 import { useMemo } from 'react';
-import { login } from '@/app/redux/actions/authActions';
-import NavbarPatient from '../../../../components/NavbarPatient';
 
 
 
@@ -20,13 +16,9 @@ function Familymembers() {
     const [modalShow, setModalShow] = useState(false);
     const dispatch = useDispatch();
 
-
-
     const familyMembers = useSelector((state) => state.viewFamilyMembersReducer.familyMember);
     const isLoading = useSelector((state) => state. addFamilyMembersReducer.loading);
    
-
-
     async function fetchData() {
       dispatch(viewFamilyMembers());
     }
@@ -34,8 +26,6 @@ function Familymembers() {
     useEffect(() => {
       fetchData();
     }, [dispatch,isLoading,modalShow]);
-    
-
     
 
     const fam = useMemo(() => {
@@ -52,24 +42,18 @@ function Familymembers() {
     }, [familyMembers,modalShow,isLoading]);
 
   return (
-    <div>
-
-      <NavbarPatient></NavbarPatient>
-
+    <div className='m-2'>
+        <h3 className='my-1 mt-0 text-center text-title'>Family Members</h3>
+        <div className='underline-Bold mx-auto mb-5'></div>
         <div className="container-fluid my-3">
             <Button text="Add New Family Member"  onClick={() => setModalShow(true)}/>
         </div>
-
         <AddFamily
         show={modalShow}
         onHide={() => setModalShow(false)} 
         />
-
-
-    <div className="container-fluid my-3">
-
-       
-       
+        <div className="container-fluid my-3">
+ 
       {fam.map((familymember) => (
         <Card
           className="my-2"
@@ -88,7 +72,6 @@ function Familymembers() {
       ))}
       
     </div>
-    <Footer></Footer>
     </div>
   );
  

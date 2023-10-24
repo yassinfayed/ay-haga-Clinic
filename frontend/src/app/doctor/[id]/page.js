@@ -3,23 +3,17 @@ import Image from "next/image";
 import { useState } from "react";
 import React from "react";
 import { useEffect } from "react";
-import NavbarDoc from "../../../../components/NavbarDoc";
-import { login } from "../../redux/actions/authActions";
 import { viewDoctorDetails } from "../../redux/actions/doctorActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../../../components/Card";
 import { Button } from "../../../../components/Button";
 
-import { updateDoctor } from "../../redux/actions/doctorActions"; // Import your update action
-import NavbarPatient from "../../../../components/NavbarPatient";
+import { updateDoctor } from "../../redux/actions/doctorActions"; 
 
 export default function DoctorProfile({ params }) {
-  // redux
+
   const dispatch = useDispatch();
   
-  // dispatch(login("faridaAhmed", "password123"));
-
-  //states
   const [edit, setedit] = useState(false);
   const [newEmail, setNewEmail] = useState("");
   const [newHourlyRate, setNewHourlyRate] = useState("");
@@ -32,7 +26,6 @@ export default function DoctorProfile({ params }) {
 
   const doctor = useSelector((state) => state.doctorReducer.doctor);
 
-  //permissions whether patient or doctor
   let permission;
   let userInfo;
   if (localStorage) {
@@ -53,10 +46,9 @@ export default function DoctorProfile({ params }) {
               title={date}
               subtitle=""
               text=""
-              //   buttonText="reserve" // reserve if on the client side
-              onClick={() => alert("Card Clicked")} // onClick handler for the card
-              onClickButton={() => alert("Button Clicked")} // onClick handler for the button
-              headerText={index + 1} // Card header text
+              onClick={() => alert("Card Clicked")} 
+              onClickButton={() => alert("Button Clicked")} 
+              headerText={index + 1} 
             />
           </div>
         ))}
@@ -77,10 +69,7 @@ export default function DoctorProfile({ params }) {
   };
 
   const handleSubmit = () => {
-    // Create a copy of the current doctor object
     let updatedDoctor = { ...newdoctor };
-
-    // Check each condition and update the copy if necessary
     if (newEmail) {
       updatedDoctor.email = newEmail;
     }
@@ -92,13 +81,9 @@ export default function DoctorProfile({ params }) {
     if (newAffiliation) {
       updatedDoctor.affiliation = newAffiliation;
     }
-
-    // CONTINUE DOCTOR POST
     setNewDoctor(updatedDoctor);
-    // console.log(updatedDoctor);
     dispatch(updateDoctor(updatedDoctor));
     dispatch(viewDoctorDetails(params.id));
-    // Clear input fields
     setNewEmail("");
     setNewHourlyRate("");
     setNewAffiliation("");
@@ -106,8 +91,6 @@ export default function DoctorProfile({ params }) {
 
   return (
     <>
-     {JSON.parse(localStorage.getItem('userInfo')).data.user.role === 'doctor' && <NavbarDoc />}
-      {JSON.parse(localStorage.getItem('userInfo')).data.user.role === 'patient' && <NavbarPatient/>}
       {doctor ? (
         <div className=" p-5 d-flex">
           <div className=" w-25 border-end">

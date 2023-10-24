@@ -8,6 +8,7 @@ import CenteredModalAddPack from './CenteredModalAddPack'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteHealthPackage, listHealthPackages } from '@/app/redux/actions/healthPackagesActions';
 import { login } from '@/app/redux/actions/authActions';
+import Image from 'next/image';
 
 
 export default function Admins() {
@@ -17,21 +18,24 @@ export default function Admins() {
   const isLoading = useSelector(state=>state.deleteHealthPackageReducer.loading)
   const CreateisLoading = useSelector(state=>state.createHealthPackageReducer.loading)
   const UpdateisLoading = useSelector(state=>state.updateHealthPackageReducer.loading)
-
+  const tableHeaders = ['Package Name','Doctor Session Discount','Medicine Discount','Subscriptions Discount','Price'];
+  const [modalShow,setModalShow]=useState(false);
+  const [modalShowsec,setModalShowsec]=useState(false);
+  
   const generateButton = (id) => {
     return (
       <div style={{ fontSize: '1px' }}>
-        <Button text='Update' variant='xs' onClick={() => {setId(id)
-          setModalShowsec(true)}}></Button>
-        <Button text='Remove' variant='xs' onClick={() => handleRemove(id)}></Button>
+        <Button text={<Image src='/edit.svg' color="light" height={20} width={20} className=""/>} variant='xs' onClick={() => {setId(id)
+          setModalShowsec(true)}}>   </Button>
+        <Button text={<Image src='/delete.svg' color="light" height={20} width={20} className=""/>} variant='xs' onClick={() => handleRemove(id)}> </Button>
       </div>
     );
   };
   const handleRemove =(id)=>{
     dispatch(deleteHealthPackage(id))
-   
   } 
-   const health = useMemo(() => {
+
+  const health = useMemo(() => {
     if (healthpackages && healthpackages.data) {
       return healthpackages.data.map((value) => ({
         name: value.name, 
@@ -46,48 +50,31 @@ export default function Admins() {
   }, [healthpackages,isLoading,modalShow,modalShowsec,CreateisLoading,UpdateisLoading]);
   
   useEffect(()=>{
-    
-    // dispatch(login("sysadmin","pass1234"));
-    
     dispatch(listHealthPackages());
-    
     }
-  
-
   ,[dispatch,isLoading,modalShow,modalShowsec,CreateisLoading,UpdateisLoading])
- 
-
-    
-    
-  const tableHeaders = ['Package Name','Doctor Session Discount','Medicine Discount','Subscriptions Discount','Price'];
-  const [modalShow,setModalShow]=useState(false);
-  const [modalShowsec,setModalShowsec]=useState(false);
-
 
   return (
-    <>
-    <AdminNavbar/>
-    
-   
+    <> 
+    <h3 className='my-1 mt-0 text-center text-title'>Health Packages</h3>
+    <div className='underline-Bold mx-auto mb-5'></div>
     <div className=" justify-content-center align-items-center min-vh-100 container">
       <Button text='Add Package' onClick={()=>{setModalShow(true)}}></Button>
       <DoctorAppsTable headers={tableHeaders} data={health ? health : []}></DoctorAppsTable>
       <CenteredModalAddPack
         show={modalShow}
         onHide={() => setModalShow(false)} 
-        //title={"Add A New Admin"}
         title={"Please Package Details"}
         edit={false}
         id={id}
-        />
-         <CenteredModalAddPack
+      />
+      <CenteredModalAddPack
         show={modalShowsec}
         onHide={() => setModalShowsec(false)} 
-        //title={"Add A New Admin"}
         title={"Please Update Package Details"}
         edit={true}
         id={id}
-        />
+      />
     
     </div>
     </>

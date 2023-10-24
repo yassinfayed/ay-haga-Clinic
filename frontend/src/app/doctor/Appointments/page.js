@@ -77,28 +77,17 @@ function docappointments() {
     return [];
   }, [appointmentsData]);
 
-
-  console.log(apps);
-
-
   const handleClearFilters = () => {
     setSelectedDate(null);
     setSelectedStatus(null);
   }
 
-  
-
-
       const headers = ['Date', 'Patient Name', 'Status'];
-
-
       return(
-        <div className="container-fluid">
-          {/* <DoctorNavbar></DoctorNavbar>
-           */}
-           <NavbarDoc />
+        <div className="container-fluid m-2">
         <div className="rows">
-            <h3 className='my-4'>My Appointments</h3>
+            <h3 className='my-1 mt-0 text-center text-title'>My Appointments</h3>
+            <div className='underline-Bold mx-auto mb-5'></div>
             <div className="row my-3">
             <div className="status-filter">
           <select onChange={handleStatusChange} className='col-lg-2 mx-lg-1'>
@@ -120,7 +109,6 @@ function docappointments() {
           </div>
         </div>
         <Table headers={headers} data={apps ? apps : []}/>
-        <Footer></Footer>
         </div>
       )
       

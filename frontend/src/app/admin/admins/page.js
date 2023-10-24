@@ -39,7 +39,6 @@ export default function Admins() {
   const adminlist = useMemo(() => {
     if (admins && admins.data) {
       const excludedAdminId =JSON.parse(localStorage.getItem('userInfo')).data.user._id ;
-  
       return admins.data
         .filter((value) => {
           return value._id !== excludedAdminId;
@@ -60,39 +59,23 @@ export default function Admins() {
   }, [admins, modalShow, RemoveisLoading]);
   
   
-  useEffect(()=>{
-    
-    // dispatch(login("sysadmin","pass1234"));
-    
+  useEffect(()=>{    
     dispatch(getAllUsers());
-    
     }
-  
-
   ,[dispatch,modalShow,CreateisLoading,RemoveisLoading])
- 
-
-    
-    
-  
 
   return (
     <>
-    <AdminNavbar/>
-    
-   
+    <h3 className='my-1 mt-0 text-center text-title'>Admins</h3>
+    <div className='underline-Bold mx-auto mb-5'></div>
     <div className=" justify-content-center align-items-center min-vh-100 container">
       <Button text='Add Admin' onClick={()=>{setModalShow(true)}}></Button>
       <CenteredModalAdmin
         show={modalShow}
         onHide={() => setModalShow(false)} 
-        //title={"Add A New Admin"}
         title={"Please Enter Username And Password"}
-
         />
       <DoctorAppsTable headers={tableHeaders} data={adminlist}></DoctorAppsTable>
-      
-    
     </div>
     </>
   );
