@@ -14,7 +14,7 @@ const AdminNavbar = () => {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light w-100">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light w-100 pb-3">
       <div className="container d-flex flex-row justify-content-between w-100">
       <Image src="/chevron.svg" width={20} height={20} className='mx-3 rotate-90 pt-2 pointer-cursor' onClick={goBack} ></Image>
         <div className="title col-md-6">
@@ -48,11 +48,11 @@ const AdminNavbar = () => {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/admin/doctorapps">
-                 Doctors Applications
+                 Applications
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/admin/healthpackages">Health Packages</a>
+              <a className="nav-link" href="/admin/healthpackages">Packages</a>
             </li>
             <li className="nav-item">
               <a className="btn btn-primary ms-2 mx-1" href="/guest/Login">

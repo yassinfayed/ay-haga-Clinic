@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 const NavbarDoc = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

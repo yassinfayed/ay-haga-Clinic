@@ -6,8 +6,8 @@ function DoctorAppsTable(props) {
 
     return (
         <>
-            <table className={`table table-striped table-bordered table-hover mx-2 my-2 ${props.className}`}>
-                <thead>
+            <table className={`text-center shadow table table-striped table-bordered table-hover mx-2 my-2 ${props.className}`}>
+                <thead className=''>
                     <tr>
                         {headers.map((header, index) => (
                             <th key={`col${index}`} scope="col">{header}</th>

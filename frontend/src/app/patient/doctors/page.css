@@ -61,12 +61,11 @@
   /* Style for the search input */
   .search-input {
     padding: 10px; /* Adjust the padding as needed */
-    width: 600px; /* Set the width as needed */
+    width: 250px; /* Set the width as needed */
     border: 1px solid #ccc; /* Border styles */
     border-radius: 5px; /* Rounded corners */
     font-size: 16px; /* Font size */
     outline: none; /* Remove the outline when focused */
-    margin-right: 10px; /* Add right margin for spacing */
   }
   
   /* Style for the search button */

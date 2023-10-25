@@ -41,12 +41,12 @@ export default function Doctors() {
     <>
     <h3 className='my-1 mt-0 text-center text-title'>Doctors</h3>
     <div className='underline-Bold mx-auto mb-5'></div>
-    <div className="d-flex justify-content-center align-items-center min-vh-100 mx-auto ">
-      <div className='row mx-auto'>
+    <div className="d-flex justify-content-center align-items-center min-vh-100 w-100 mx-0 ">
+      <div className='d-flex row justify-content-center '>
       {doctors?.data?.map((person)=>{
         if(!person.isApproved)
         return
-        return  <Card key={person.user?._id} className="col-lg-4 offset-lg-1 my-3 " title={person.name} subtitle={<></>}  text={
+        return  <Card key={person.user?._id} className="col-lg-4 offset-lg-1 my-3 bg-light me-5" title={<div className='text-capitalize'>{person.name}</div>} subtitle={<></>}  text={
           <div className="">
           <div className="row global-text">
             <div>
@@ -63,7 +63,7 @@ export default function Doctors() {
           <br />
           </div>
           </div>
-          <div className="row global-text">
+          <div className="row global-text mb-1">
           <div className="col-md-6">
             <h8 style={{ fontWeight: 'bold' }}>Affiliation: </h8>{person.affiliation}
             <br />

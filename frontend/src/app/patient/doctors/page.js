@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import {useState} from 'react' ;
 import { Card} from '../../../../components/Card'; 
+import Image from 'next/image';
 
 import './page.css' ;
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,12 +57,25 @@ const handleDateClick= () => {
   dispatch(getDoctorsForPatientAction({...name,...speciality,...date}))
 }
 
+function formatDateToDDMMYYYY(isoDate) {
+  const date = new Date(isoDate);      
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based, so add 1.
+  const year = date.getFullYear();
+  
+  return `${day}-${month}-${year}`;
+}
+
   return (
     
     <div className='m-2'>
-      <h3 className='my-1 mt-0 text-center text-title'>Doctors</h3>
-      <div className='underline-Bold mx-auto mb-5'></div>
-      <div className="search-container">
+    <h3 className='my-1 mt-0 text-center text-title'>Doctors</h3>
+    <div className='underline-Bold mx-auto mb-5'></div>
+    <div className='row flex align-items-center justify-content-start bg-light p-3 pe-0 m-3 rounded border'>
+      <div className="col-md-1">
+      <Image src='/filter.svg' height={30} width={30} className=""/>
+      </div>
+      <div className=" col-md-3">
       <input
         type="text"
         placeholder="Search For Doctor"
@@ -69,38 +83,62 @@ const handleDateClick= () => {
         onChange={ (e)=> setName( {"name": {"regex": e.target.value }} )}
       />
       </div>
-      <div className='container-fluid'>
-    <span className="mr-2">Filter by appointment date and time : </span>
-     <input type="datetime-local" id="appointmentdate" name="birthday" 
-      onChange={(e) => {handleFilter(e)}}/>
+      <div className='col-md-3'>
+      <input type="datetime-local" id="appointmentdate" name="birthday" 
+        onChange={(e) => {handleFilter(e)}} className='search-input'/>
+      </div>
+      <div className=" col-md-2">
+        <select
+          onChange={(e) => setSpeciality( e.target.value ===""?{}: {"speciality": {"in": e.target.value}})}
+          className="search-input"
+        >
+          <option value="">Select Speciality</option>
+          {specialities?.map((speciality, index) => (
+            <option key={index} value={speciality}>
+              {speciality}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
-        <div className="search-container">
-          <select
-            onChange={(e) => setSpeciality( e.target.value ===""?{}: {"speciality": {"in": e.target.value}})}
-            className="search-input"
-          >
-            <option value="">Select Speciality</option>
-            {specialities?.map((speciality, index) => (
-              <option key={index} value={speciality}>
-                {speciality}
-              </option>
-            ))}
-          </select>
-        </div>
     <div className="container-fluid ">
-           <div className="row">
+    <div className='d-flex row justify-content-center m-3'>
     
-      {doctors?.data?.map((doctor) => (
-        <Card
-        className="col-lg-4"
-          key={doctor.id}
-          title={doctor.name}
-          subtitle={doctor.specialty}
-          text={`Session Price: ${doctor.sessionPrice} - \n speciality: ${doctor.speciality}`}
-          onClickButton={() => handleCardClick(doctor)}
-          buttonText={'Details'}
-          image={<img src={doctor.image}  alt="DoctorImage"  style={{ maxHeight: '150px' , maxWidth: '100px'}} />}
-        />
+      {doctors?.data?.map((person) => (
+        <Card key={person.user?._id} className="col-lg-4 offset-lg-1 my-3 bg-light " title={<div className='text-capitalize'>{person.name}</div>} subtitle={<></>}  text={
+          <div className="">
+          <div className="row global-text">
+            <div>
+            <Image src='/mail-dark.svg' height={20} width={20} className="me-2"/> {person.email}
+            </div>
+          </div>
+          <div className="row my-2">
+          <div className='col-md-6'>
+            <Image src='/username.svg' height={20} width={20} className="me-2"/> {person.user?.username}
+          <br />
+          </div>
+          <div className='col-md-6'>
+            <Image src='/birthday.svg' height={20} width={20} className="me-2"/>{formatDateToDDMMYYYY(person.DateOfbirth)}
+          <br />
+          </div>
+          </div>
+          <div className="row global-text mb-1">
+          <div className="col-md-6">
+            <h8 style={{ fontWeight: 'bold' }}>Affiliation: </h8>{person.affiliation}
+            <br />
+          </div>
+          <div className="col-md-6">
+            <h8 style={{ fontWeight: 'bold' }}>Hourly Rate: </h8>{person.HourlyRate}
+            <br />
+          </div>
+          </div>
+          <div className='global-text'>
+            <h8 style={{ fontWeight: 'bold' }}>Educational Background: </h8>{person.educationalbackground}
+          </div>
+          <br />
+          </div>
+        } image={<Image src='/person.svg' height={30} width={30} className="m-3 mb-0"/>} buttonText='Remove' onClickButton={()=>{onRemoveHandler(person.user._id)}}>
+        </Card>
       ))}
     </div>
     </div>    
