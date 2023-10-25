@@ -3,8 +3,6 @@ import React, { useEffect } from "react";
 
 import { useState } from "react";
 import { Button } from "../../../../components/Button";
-import Navbar from "../../../../components/Navbar";
-import Footer from "../../../../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { registerAction } from "@/app/redux/actions/authActions";
 
@@ -71,10 +69,9 @@ const SignUp = () => {
 
   return (
     <>
-      <Navbar />
       <div className="container mt-5">
         <div className="row">
-          <div className="col-md-6 mx-auto rounded shadow py-4">
+          <div className="col-md-6 mx-auto rounded shadow py-4 p-5">
             <div className="text-center">
               <h1 className="text-primary fw-bold p-3">Sign Up</h1>
               <div
@@ -252,7 +249,6 @@ const SignUp = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

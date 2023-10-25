@@ -2,7 +2,7 @@
 import React,{useEffect, useMemo, useState} from 'react';
 import {DoctorAppsTable} from '../doctorapps/DoctorAppsTable'
 import { Button } from '../../../../components/Button';
-import AdminNavbar from '../doctorapps/AdminNavbar';
+import AdminNavbar from '../../../../components/AdminNavbar';
 import { Card } from '../../../../components/Card';
 import CenteredModalAddPack from './CenteredModalAddPack'
 import { useDispatch, useSelector } from 'react-redux';

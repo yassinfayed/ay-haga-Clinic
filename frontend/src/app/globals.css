@@ -10,6 +10,12 @@
 .text-size-200{
     font-size: 150px;
 }
+.nav-title{
+  font-size: 30px;
+}
+.pointer-cursor {
+  cursor: pointer;
+}
 .shape-background {
     text-align: center;
     height: 200px;
@@ -61,6 +67,10 @@
   height: 2px;
   background: #140836;     
   border-radius: 9px;
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
 }
 
 /* -------------------------- Animation classes ----------------------------- */
