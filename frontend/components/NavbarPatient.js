@@ -53,7 +53,7 @@ const NavbarPatient = () => {
               <a className="nav-link" href={`/patient/doctors`}>Doctors</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/patient/Familymembers">Family Members</a>
+              <a className="nav-link" href="/patient/Familymembers">Family</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/patient/Prescriptions">Prescriptions</a>
