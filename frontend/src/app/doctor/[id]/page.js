@@ -28,10 +28,10 @@ export default function DoctorProfile({ params }) {
 
   let permission;
   let userInfo;
+  
   if (localStorage) {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
   }
-
   if (userInfo) {
     permission = userInfo.data.user.role;
   }
