@@ -83,22 +83,22 @@ function formatDateToDDMMYYYY(isoDate) {
         onChange={ (e)=> setName( {"name": {"regex": e.target.value }} )}
       />
       </div>
-      <div className='col-md-3'>
-      <input type="datetime-local" id="appointmentdate" name="birthday" 
-        onChange={(e) => {handleFilter(e)}} className='search-input'/>
-      </div>
-      <div className=" col-md-2">
+      <div className=" col-md-3">
         <select
           onChange={(e) => setSpeciality( e.target.value ===""?{}: {"speciality": {"in": e.target.value}})}
-          className="search-input"
+          className="search-input text-muted pe-2"
         >
-          <option value="">Select Speciality</option>
+          <option value="" disabled={true}>Select Speciality</option>
           {specialities?.map((speciality, index) => (
             <option key={index} value={speciality}>
               {speciality}
             </option>
           ))}
         </select>
+      </div>
+      <div className='col-md-3'>
+      <input type="datetime-local" id="appointmentdate" name="birthday" 
+        onChange={(e) => {handleFilter(e)}} className='search-input'/>
       </div>
     </div>
     <div className="container-fluid ">
