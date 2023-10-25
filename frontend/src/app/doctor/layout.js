@@ -16,7 +16,6 @@ export default function RootLayout({ children }) {
       <div className="p-2 m-3">
         <ReduxProvider> {children} </ReduxProvider>
       </div>
-      <FooterDoc />
     </div>
   );
 }

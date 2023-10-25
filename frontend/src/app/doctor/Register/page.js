@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import "./Register.css";
+
 import { useState } from "react";
 import { Button } from "../../../../components/Button";
 import Navbar from "../../../../components/Navbar";
