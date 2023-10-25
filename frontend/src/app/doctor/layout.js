@@ -12,12 +12,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-      <div className={`global-text ${inter.className}`}>
-        <NavbarDoc />
-        <div className="p-2 m-3">
+    <div className={`global-text ${inter.className}`}>
+      <div className="p-2 m-3">
         <ReduxProvider> {children} </ReduxProvider>
-        </div>
-        <FooterDoc />
       </div>
+      <FooterDoc />
+    </div>
   );
 }
