@@ -10,6 +10,7 @@ function Card ({ title, subtitle, text, className, image = "", buttonText = "", 
                 {headerText && <div className="card-header">{headerText}</div>}
                 <div className="card-body">
                     {title && <h5 className="text-primary" style={{ fontWeight: 'bold' , fontSize: '30px'}}>{title}</h5>}
+                    <hr />
                     {subtitle && <h6 className="card-subtitle mb-2 text-muted">{subtitle}</h6>}
                     {text && <h8 className="card-text">{text}</h8>}
                     {children}
