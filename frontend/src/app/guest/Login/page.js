@@ -75,12 +75,21 @@ function LoginForm() {
   return (
     <>
       <Navbar />
-      <div className="container">
-        <div className="row">
-          <div className="col-md-4 mx-auto rounded shadow m-5">
+      <div className="container ">
+        <div className="row gradient-background m-5 rounded shadow mx-auto">
+        <div class="col-md-4 mx-auto m-5 p-5">
+          <div class="text-size-50 text-bold text-light rounded">
+          XClinics
+          </div>
+          <h2 class="text-semibold text-light rounded px-3">
+            Convenient healthcare at your fingertips...
+          </h2>
+        </div>
+
+          <div className="col-md-5 bg-light mx-auto rounded shadow m-5">
             <div className="text-center mt-5">
-              <h1 className="text-primary fw-bold">Login</h1>
-              <div className="underline bg-primary"></div>
+              <h1 className="text-primary fw-bold mb-2">Login</h1>
+              <div className="underline-sm mx-auto"></div>
             </div>
             <div className="p-4">
               <div className="mb-3">
