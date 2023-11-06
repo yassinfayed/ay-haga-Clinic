@@ -60,7 +60,7 @@ export default function Admins() {
     <div className='underline-Bold mx-auto mb-3'></div>
     <div className=" justify-content-center align-items-center min-vh-100 container">
       <div className="row justify-content-end align-items-center">
-      <Button text='Add Package' className="ms-auto col-md-2" onClick={()=>{setModalShow(true)}}></Button>
+      <Button text='Add Package' className="ms-auto col-md-2" onClick={()=>{setModalShow(true)}} variant={'md'}></Button>
       </div>
       <DoctorAppsTable headers={tableHeaders} data={health ? health : []}></DoctorAppsTable>
       <CenteredModalAddPack
