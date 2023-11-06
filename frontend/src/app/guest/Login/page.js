@@ -12,6 +12,7 @@ import { useState } from "react";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import { Button } from "../../../../components/Button";
+import Image from "next/image";
 
 function LoginForm() {
   const router = useRouter();
@@ -22,7 +23,18 @@ function LoginForm() {
     email: "",
     password: "",
   });
+
   const { isAuthenticated, error } = useSelector((state) => state.loginReducer);
+
+  const [showPassword, setShowPassword] = useState(false);
+
+
+  const togglePasswordVisibility = (field) => {
+    if (field === 'password') {
+      setShowPassword(!showPassword);
+    }
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
       const role = JSON.parse(localStorage.getItem("userInfo")).data.user.role;
@@ -81,15 +93,26 @@ function LoginForm() {
                   onChange={handleInputChange}
                 />
               </div>
-              <div className="mb-3">
+              <div className="mb-3 row">
+              <div className="col-md-10">
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   className="form-control py-3"
                   placeholder="Password"
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
                 />
+              </div>
+              <div className="col-md-2 d-flex align-items-center  bg-white rounded">
+                <button
+                  type="button"
+                  onClick={() => togglePasswordVisibility('password')}
+                  className="border-0  bg-white rounded"
+                >
+                  <Image src={showPassword ? "/hide.svg" : "/show.svg"} width={35} height={35} />
+                </button>
+              </div>
               </div>
               <div className="text-center pb-3">
                 <Button text="Login" onClick={handleLogin} />
