@@ -68,23 +68,18 @@ export default function patientProfile({ params }) {
 
             <div className="p-2 ">
               <div className="d-flex">
-                <div className="w-50">
-                  <div className="text-body-secondary fw-bold small p-3 me-3 border-bottom">
+                <div className="w-60 ">
+                  <h2 className="text-global fw-bold small pt-3 p-1 me-3">
                     Patient Information
-                  </div>
-                  <div className="p-3">
-                    <div className="py-3 d-flex">
-                      <span className="fw-bold w-25">
-                        <Image src="/mail-dark.svg" height={25} width={25} />
-                      </span>
-                      <span className="w-50">{patient.email}</span>
-                    </div>
+                  </h2>
+                  <hr className="w-50" />
 
-                    <div className="py-2 d-flex">
+                  <div className="p-2 pt-0 mx-3">
+                    <div className="py-2 d-flex ">
                       <span className="fw-bold w-25">
-                        <Image src="/phone-dark.svg" height={25} width={25} />{" "}
+                        <Image src="/person.svg" height={25} width={25} />
                       </span>
-                      <span>{patient.mobileNumber}</span>
+                      <span className="w-50">{patient.gender}</span>
                     </div>
                     <div className="py-2 d-flex ">
                       <span className="fw-bold w-25 ">
@@ -92,37 +87,43 @@ export default function patientProfile({ params }) {
                       </span>
                       <span>{date}</span>
                     </div>
-                    <div className="py-2 d-flex ">
+                    <div className="py-2 d-flex">
                       <span className="fw-bold w-25">
-                        <Image src="/person.svg" height={25} width={25} />
+                        <Image src="/phone-dark.svg" height={25} width={25} />{" "}
                       </span>
-                      <span className="w-50">{patient.gender}</span>
+                      <span>{patient.mobileNumber}</span>
                     </div>
+                    <div className="py-3 d-flex">
+                      <span className="fw-bold w-25">
+                        <Image src="/mail-dark.svg" height={25} width={25} />
+                      </span>
+                      <span className="w-50">{patient.email}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="ms-5 w-50">
+                  <div>
+                    <h2 className="text-global fw-bold small p-1 pt-3">
+                      Health Package
+                    </h2>
+                    <hr className="w-50" />
                     {JSON.parse(localStorage.getItem("userInfo")).data.user
                       .role === "patient" && (
-                      <div className="py-3 d-flex">
-                        <span className="fw-bold w-25">Package: </span>
-                        <span className="w-50">{patient.package?.name}</span>
+                      <div className="pb-2 d-flex">
+                        <span className="px-3">{patient.package? patient.package.name : 'none'}</span>
                       </div>
                     )}
                   </div>
-                </div>
-                <div className="w-50">
-                  <div>
-                    <div className="text-body-secondary fw-bold small p-3 border-bottom">
-                      Extra Information
-                    </div>
-                    <p className="p-3 ">bla bla bla bla bla</p>
-                  </div>
-                  <div>
-                    <div className="text-body-secondary fw-bold small p-3 border-bottom">
+                  <div className="w-100">
+                    <h2 className="text-global fw-bold small pt-3 p-1">
                       Emergency Contact
-                    </div>
-                    <div className="w-50 p-3">
+                    </h2>
+                    <hr className="w-50" />
+                    <div className="w-100 p-3">
                       <div className="card global-text shadow border-0">
                         <div className="card-body">
                           <h5
-                            className="global-text"
+                            className="text-primary"
                             style={{ fontWeight: "bold", fontSize: "20px" }}
                           >
                             {patient.emergencyContact?.fullName}
@@ -139,9 +140,10 @@ export default function patientProfile({ params }) {
               </div>
 
               <div>
-                <div className="text-body-secondary fw-bold small p-3 border-bottom">
+                <div className="text-global fw-bold small pt-3 p-1">
                   Health Records
                 </div>
+                <hr className="w-50" />
                 <HealthRecords />
               </div>
             </div>

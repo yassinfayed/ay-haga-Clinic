@@ -41,7 +41,7 @@ const NavbarPatient = () => {
           <ul className=" navbar-nav container d-flex justify-content-end me-auto">
             <li className="nav-item">
               <a className="nav-link" href={`/patient/${id}`}>
-                My Profile
+                Profile
               </a>
             </li>
             <li className="nav-item">
