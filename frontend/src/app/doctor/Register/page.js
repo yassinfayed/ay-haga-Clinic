@@ -187,19 +187,6 @@ const SignUp = () => {
                   </div>
                   <div className="row">
                     <div className="col-md-6 mb-1">
-                      <label htmlFor="dateOfBirth" className="text-semibold form-label">
-                        Date of Birth
-                      </label>
-                      <input
-                        type="date"
-                        id="dateOfbirth"
-                        className="form-control"
-                        name="dateOfbirth"
-                        value={formData.dateOfbirth}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="col-md-6 mb-1">
                       <label htmlFor="gender" className="text-semibold form-label">
                         Gender
                       </label>
@@ -216,6 +203,19 @@ const SignUp = () => {
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                       </select>
+                    </div>
+                    <div className="col-md-6 mb-1">
+                      <label htmlFor="dateOfBirth" className="text-semibold form-label">
+                        Date of Birth
+                      </label>
+                      <input
+                        type="date"
+                        id="dateOfbirth"
+                        className="form-control"
+                        name="dateOfbirth"
+                        value={formData.dateOfbirth}
+                        onChange={handleInputChange}
+                      />
                     </div>
                   </div>
                 </div>
