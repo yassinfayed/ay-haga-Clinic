@@ -12,6 +12,7 @@ import { useState } from "react";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import { Button } from "../../../../components/Button";
+import Image from "next/image";
 
 function LoginForm() {
   const router = useRouter();
@@ -22,7 +23,18 @@ function LoginForm() {
     email: "",
     password: "",
   });
+
   const { isAuthenticated, error } = useSelector((state) => state.loginReducer);
+
+  const [showPassword, setShowPassword] = useState(false);
+
+
+  const togglePasswordVisibility = (field) => {
+    if (field === 'password') {
+      setShowPassword(!showPassword);
+    }
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
       const role = JSON.parse(localStorage.getItem("userInfo")).data.user.role;
@@ -63,12 +75,21 @@ function LoginForm() {
   return (
     <>
       <Navbar />
-      <div className="container">
-        <div className="row">
-          <div className="col-md-4 mx-auto rounded shadow m-5">
+      <div className="container ">
+        <div className="row gradient-background m-5 rounded shadow mx-auto">
+        <div class="col-md-4 mx-auto m-5 p-5">
+          <div class="text-size-50 text-bold text-light rounded">
+          XClinics
+          </div>
+          <h2 class="text-semibold text-light rounded px-3">
+            Convenient healthcare at your fingertips...
+          </h2>
+        </div>
+
+          <div className="col-md-5 bg-light mx-auto rounded shadow m-5">
             <div className="text-center mt-5">
-              <h1 className="text-primary fw-bold">Login</h1>
-              <div className="underline bg-primary"></div>
+              <h1 className="text-primary fw-bold mb-2">Login</h1>
+              <div className="underline-sm mx-auto"></div>
             </div>
             <div className="p-4">
               <div className="mb-3">
@@ -81,15 +102,26 @@ function LoginForm() {
                   onChange={handleInputChange}
                 />
               </div>
-              <div className="mb-3">
+              <div className="mb-3 row">
+              <div className="col-md-10">
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   className="form-control py-3"
                   placeholder="Password"
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
                 />
+              </div>
+              <div className="col-md-2 d-flex align-items-center  bg-white rounded">
+                <button
+                  type="button"
+                  onClick={() => togglePasswordVisibility('password')}
+                  className="border-0  bg-white rounded"
+                >
+                  <Image src={showPassword ? "/hide.svg" : "/show.svg"} width={35} height={35} />
+                </button>
+              </div>
               </div>
               <div className="text-center pb-3">
                 <Button text="Login" onClick={handleLogin} />
