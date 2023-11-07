@@ -1,10 +1,10 @@
 "use client"
 import React,{useEffect, useMemo, useState} from 'react';
-import {DoctorAppsTable} from '../doctorapps/DoctorAppsTable'
+import {DoctorAppsTable} from '../../../../components/DoctorAppsTable'
 import { Button } from '../../../../components/Button';
 import AdminNavbar from '../../../../components/AdminNavbar';
 import { Card } from '../../../../components/Card';
-import CenteredModalAddPack from './CenteredModalAddPack'
+import CenteredModalAddPack from '../../../../components/CenteredModalAddPack'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteHealthPackage, listHealthPackages } from '@/app/redux/actions/healthPackagesActions';
 import { login } from '@/app/redux/actions/authActions';
@@ -60,7 +60,7 @@ export default function Admins() {
     <div className='underline-Bold mx-auto mb-3'></div>
     <div className=" justify-content-center align-items-center min-vh-100 container">
       <div className="row justify-content-end align-items-center">
-      <Button text='Add Package' className="ms-auto col-md-2" onClick={()=>{setModalShow(true)}}></Button>
+      <Button text='Add Package' className="ms-auto col-md-2" onClick={()=>{setModalShow(true)}} variant={'md'}></Button>
       </div>
       <DoctorAppsTable headers={tableHeaders} data={health ? health : []}></DoctorAppsTable>
       <CenteredModalAddPack

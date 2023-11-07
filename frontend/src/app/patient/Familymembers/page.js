@@ -3,7 +3,7 @@ import React from 'react';
 import {useState} from 'react' ;
 import { Card} from '../../../../components/Card'; 
 import { Button } from '../../../../components/Button';
-import AddFamily from './AddFamilyMemberModal';
+import AddFamily from '../../../../components/AddFamilyMemberModal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { viewFamilyMembers } from '@/app/redux/actions/FamilyMembersAction';

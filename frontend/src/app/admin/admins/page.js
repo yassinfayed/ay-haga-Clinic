@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useMemo, useState } from 'react';
-import {DoctorAppsTable} from '../doctorapps/DoctorAppsTable'
+import {DoctorAppsTable} from '../../../../components/DoctorAppsTable'
 import { Button } from '../../../../components/Button';
 import AdminNavbar from '../../../../components/AdminNavbar';
 import { Card } from '../../../../components/Card';
