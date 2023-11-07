@@ -6,6 +6,8 @@ const Appointment = require("../models/appointmentModel");
 const Doctor = require("../models/doctorModel");
 const APIFeatures = require('../utils/apiFeatures');
 const AppError = require("../utils/appError");
+const multer = require('multer')
+const fs = require('fs');
 
 //TODO: Retrieve only my patient
 exports.getPatient = handlerFactory.getOne(Patient);
@@ -128,3 +130,61 @@ exports.getAllPatients = handlerFactory.getAll(Patient);
 //     });
 //   }
 // );
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    if (!req.locals) {
+      req.locals = {};
+    }
+    if (!req.locals.docs) {
+      req.locals.docs = [];
+    }
+
+    const uniqueFileName = `${Date.now()}-${file.originalname}`;
+
+    // Push the file path into the 'docs' array in req.locals
+    req.locals.docs.push(`uploads/${uniqueFileName}`);
+    cb(null, `${Date.now()}-${file.originalname}`); // Use a unique filename
+  },
+});
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'application/pdf' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
+    cb(null, true);
+  } else {
+    cb(new Error('Invalid file type. Only PDF, PNG, JPEG, and JPG files are allowed.'), false);
+  }
+};
+
+
+exports.uploadMedicineRecords = multer({ storage, fileFilter });
+
+exports.postUpload = catchAsync(async (req,res,next)=> {
+  const patient = await Patient.findOne({ user: req.user._id });
+  patient.medicalRecords = patient.medicalRecords.concat(req.locals.docs);
+
+  await patient.save();
+
+  res.status(200).json({
+    message: "successfully uploaded medical records",
+    data: {
+      data: patient.medicalRecords
+    }
+  })
+})
+
+exports.downloadSingleRecord = catchAsync(async(req,res,next) => {
+  //Abdullah: to be edited to download all as zip if no query parameter passed
+  const patient = await Patient.findOne({ user: req.user._id });
+  if(!patient.medicalRecords.includes(req.query.name)) return next(new AppError(404,"File not found"));
+
+  const fileData = await fs.readFileSync(`./${req.query.name}`);
+
+  res.setHeader('Content-Disposition', `attachment; filename="${req.query.name}"`);
+  res.setHeader('Content-Type', 'application/octet-stream');
+  res.send(fileData);
+
+
+})
