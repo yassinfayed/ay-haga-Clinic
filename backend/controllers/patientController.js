@@ -6,7 +6,7 @@ const Appointment = require("../models/appointmentModel");
 const Doctor = require("../models/doctorModel");
 const APIFeatures = require('../utils/apiFeatures');
 const AppError = require("../utils/appError");
-const multer = require('multer')
+const multer = require('multer');
 const fs = require('fs');
 
 //TODO: Retrieve only my patient
@@ -35,6 +35,54 @@ exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
     });
 });
 
+
+exports.updatePatient = handlerFactory.updateOne(Patient);
+
+exports.cancelSubscription = catchAsync(async (req, res, next) => {
+  const patientId = req.params.id;
+  const patient = await Patient.findById(patientId);
+
+  if (patient.subscriptionStatus !== 'cancelled') {
+    patient.subscriptionStatus = 'cancelled';
+    patient.cancellationDate = new Date();
+    patient.renewalDate = null;
+    await patient.save();
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient,
+    },
+  });
+});
+
+exports.viewHealthPackageSubscription = catchAsync(async (req, res, next) => {
+  const patient = await Patient.findById(req.params.id)
+    .populate("package");
+
+  let additionalFields = {};
+
+  if (patient.subscriptionStatus === 'subscribed') {
+    additionalFields.renewalDate = patient.renewalDate;
+  } else if (patient.subscriptionStatus === 'cancelled') {
+    additionalFields.cancellationDate = patient.cancellationDate;
+  }
+
+  const data = {
+    package: patient.package,
+    ...additionalFields
+  };
+
+  res.status(200).json({
+    status: 'success',
+    data: data
+  });
+});
+
+
+
+
 exports.getPrescription = catchAsync(async (req, res, next) => {
   const patient = await Patient.findOne({ user: req.user._id });
   const patientId = patient._id;
@@ -50,6 +98,26 @@ exports.getPrescription = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.viewHealthRecords = catchAsync(async (req, res, next) => {
+  const patient = await Patient.findById(req.params.id);
+  if (!patient) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Patient not found',
+    });
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      healthRecords: patient.healthRecords,
+    },
+  });
+});
+
+
+
 
 exports.viewMyPatients = catchAsync(async (req, res, next) => {
 
@@ -92,50 +160,13 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
 
 exports.getAllPatients = handlerFactory.getAll(Patient);
 
-// exports.FilterPatientsBasedOnUpcomimgAppointments = catchAsync(
-//   async (req, res, next) => {
-//     const doctor = await Doctor.findOne({ user: req.user._id });
-//     const doctorId = doctor._id;
-//     const upcomingAppointments = await Appointment.find({
-//       doctorId: doctorId,
-//       status: "Upcoming", // Find appointments with dates greater than or equal to the current date
-//     });
-
-//     // Extract patient IDs from upcomingAppointments
-//     const patientIds = upcomingAppointments.map(
-//       (appointment) => appointment.patientId
-//     );
-
-//     // Query the Patient collection to fetch patient details for the extracted patient IDs
-//     const patients = await Patient.find({ _id: { $in: patientIds } });
-
-//     // Create a response object that combines patient details with their appointment details
-//     // const response = patients.map((patient) => {
-//     //   const matchingAppointment = upcomingAppointments.find(
-//     //     (appointment) =>
-//     //       appointment.patientId.toString() === patient._id.toString()
-//     //   );
-//     //   return 
-//     //     patient
-//     //     // appointment: matchingAppointment,
-      
-//     // });
-//     // console.log()
-//     res.status(200).json({
-//       status: "success",
-//       // results: response?.length,
-//       data: {
-//         data: patients,
-//       },
-//     });
-//   }
-// );
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
+    console.log(file);
     if (!req.locals) {
       req.locals = {};
     }
@@ -144,13 +175,13 @@ const storage = multer.diskStorage({
     }
 
     const uniqueFileName = `${Date.now()}-${file.originalname}`;
-
-    // Push the file path into the 'docs' array in req.locals
     req.locals.docs.push(`uploads/${uniqueFileName}`);
-    cb(null, `${Date.now()}-${file.originalname}`); // Use a unique filename
+    cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
+
 const fileFilter = (req, file, cb) => {
+  console.log("kajnq");
   if (file.mimetype === 'application/pdf' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
     cb(null, true);
   } else {
@@ -158,6 +189,20 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+exports.uploadHealthRecords = multer({ storage, fileFilter });
+exports.postUploadHealth = catchAsync(async (req,res,next)=> {
+  const patient = await Patient.findOne({ _id: req.params.id});
+  patient.healthRecords = patient.healthRecords.concat(req.locals.docs);
+
+  await patient.save();
+
+  res.status(200).json({
+    message: "successfully uploaded health records",
+    data: {
+      data: patient.healthRecords
+    }
+  })
+})
 
 exports.uploadMedicineRecords = multer({ storage, fileFilter });
 

@@ -49,6 +49,23 @@ const patientSchema = new mongoose.Schema({
       required: [true, 'Emergency contact mobile number is required']
     }
   },
+  subscriptionStatus: {
+    type: String,
+    enum: ['subscribed', 'unsubscribed', 'cancelled'],
+    default: 'unsubscribed'
+  },
+  renewalDate: {
+    type: Date,
+    required: function() {
+        return this.subscriptionStatus === 'subscribed';
+    }
+  },
+  cancellationDate: {
+    type: Date,
+    required: function() {
+        return this.subscriptionStatus === 'cancelled';
+    }
+  },
   appointmentDate: Date,
   healthRecords: [
     {
