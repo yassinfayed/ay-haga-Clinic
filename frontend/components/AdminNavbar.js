@@ -38,18 +38,18 @@ const AdminNavbar = () => {
           <ul className="navbar-nav ml-auto">
           
             <li className="nav-item">
-              <a className="nav-link" href="/admin/doctors">Doctors</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/admin/patients">Patients</a>
-            </li>
-            <li className="nav-item">
               <a className="nav-link" href="/admin/admins">Admins</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/admin/doctors">Doctors</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/admin/doctorapps">
                  Applications
               </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/admin/patients">Patients</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/admin/healthpackages">Packages</a>

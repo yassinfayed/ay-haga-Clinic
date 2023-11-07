@@ -8,7 +8,7 @@ function Table(props) {
 
     return (
         <>
-            <table className={`table table-striped table-bordered table-hover mx-2 my-2 ${props.className}`}>
+            <table className={`table table-striped table-bordered table-hover m-3 ${props.className}`}>
                 <thead>
                     <tr>
                         {headers.map((header, index) => (

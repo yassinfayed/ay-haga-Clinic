@@ -42,12 +42,13 @@ export default function Doctors() {
     <h3 className='my-1 mt-0 text-center text-title'>Doctors</h3>
     <div className='underline-Bold mx-auto mb-5'></div>
     <div className="d-flex justify-content-center align-items-center min-vh-100 w-100 mx-0 ">
-      <div className='d-flex row justify-content-center '>
+      <div className='d-flex row justify-content-center mx-auto'>
       {doctors?.data?.map((person)=>{
         if(!person.isApproved)
         return
-        return  <Card key={person.user?._id} className="col-lg-4 offset-lg-1 my-3 bg-light me-5" title={<div className='text-capitalize'>{person.name}</div>} subtitle={<></>}  text={
-          <div className="">
+        return <div className="mx-auto col-md-6">
+          <Card key={person.user?._id} className="col-lg-9 mx-auto offset-lg-1 my-3 bg-light my-4 " title={<div className='text-capitalize '>{person.name}</div>} subtitle={<></>}  text={
+          <div className="p-3 pe-0">
           <div className="row global-text">
             <div>
             <Image src='/mail-dark.svg' height={20} width={20} className="me-2"/> {person.email}
@@ -78,8 +79,9 @@ export default function Doctors() {
           </div>
           <br />
           </div>
-        } image={<Image src='/person.svg' height={30} width={30} className="m-3 mb-0"/>} buttonText='Remove' onClickButton={()=>{onRemoveHandler(person.user._id)}}>
+        } image={<Image src='/person.svg' height={30} width={30} className="m-3 mb-0 rounded-circle"/>} buttonText='Remove' buttonClass={"col-md-12 m-3 ms-auto"} onClickButton={()=>{onRemoveHandler(person.user._id)}}>
         </Card>
+        </div>
       })
        }
        </div>

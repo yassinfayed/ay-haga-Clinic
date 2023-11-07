@@ -50,8 +50,9 @@ export default function DoctorApps() {
       {doctors?.data?.map((person)=>{
         if(person.isApproved)
         return
-        return <Card key={person.username} className="col-lg-4 offset-lg-1 my-3" title={person.name} image={<Image src='/person.svg' height={30} width={30} className="m-3 mb-0"/>}>
-       <div className="">
+        return <div className="mx-auto col-md-6"> 
+        <Card key={person.username} className="col-lg-9 mx-auto offset-lg-1 my-3 bg-light my-4 " title={<div className='text-capitalize '>{person.name}</div>} image={<Image src='/person.svg' height={30} width={30} className="m-3 mb-0 rounded-circle"/>}>
+       <div className="p-3 pe-0">
           <div className="row">
             <div>
             <Image src='/mail-dark.svg' height={20} width={20} className="me-2"/>{person.email}
@@ -81,7 +82,7 @@ export default function DoctorApps() {
           <h8 className="global-text" style={{ fontWeight: 'bold' }}>educationalBackground: </h8>{person.educationalbackground}
           <br />
           </div>
-        </Card>
+        </Card></div>
       })
        }
        </div>

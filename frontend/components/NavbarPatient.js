@@ -53,10 +53,10 @@ const NavbarPatient = () => {
               <a className="nav-link" href={`/patient/doctors`}>Doctors</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/patient/Familymembers">Family</a>
+              <a className="nav-link" href="/patient/Prescriptions">Prescriptions</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/patient/Prescriptions">Prescriptions</a>
+              <a className="nav-link" href="/patient/Familymembers">Family</a>
             </li>
             <li className="nav-item rounded ms-2">
             <a className="btn btn-primary text-light mx-1" href="/" onClick={(e)=> localStorage.clear()}>

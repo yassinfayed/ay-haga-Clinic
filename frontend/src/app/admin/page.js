@@ -144,7 +144,7 @@ const AdminDashboard = () => {
                   </div>
                   <br />
                   <div className="geo-section">
-                  <h5 className='px-2 text-semibold text-dark pt-2'>GeoGraphical Analysis</h5>
+                  <h5 className='px-2 text-semibold text-dark pt-2'>Geographical Analysis</h5>
 
                   <div className="card m-3">
                     {/* <div className="card-header border-0 bg-light">

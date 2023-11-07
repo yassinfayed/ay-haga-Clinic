@@ -112,10 +112,12 @@ function formatDateToDDMMYYYY(isoDate) {
           <Button text="Clear Filters" className="w-60 ms-5" onClick={handleClearFilters} variant={'md'}></Button>       
         </div>
       </div>
-    <div className="container-fluid ">
-    <div className='d-flex row justify-content-center m-3'>
+      <br />
+    <div className="justify-content-center align-items-center min-vh-100">
+    <div className='row '>
       {doctors?.data?.map((person) => (
-        <Card key={person.user?._id} className="col-md-4 my-3 bg-light " title={<div className='text-capitalize'>{person.name}</div>} subtitle={<></>}  text={
+        <div className="mx-auto col-md-6 "> 
+        <Card key={person.user?._id} className="col-md-9 mx-auto offset-lg-1 my-3 bg-light my-4 " title={<div className='text-capitalize'>{person.name}</div>} subtitle={<></>}  text={
             <div className="">
             <div className="row global-text">
               <div>
@@ -147,8 +149,9 @@ function formatDateToDDMMYYYY(isoDate) {
             </div>
             <br />
             </div>
-          } image={<Image src='/person.svg' height={30} width={30} className="m-3 mb-0"/>} buttonText='Remove' onClickButton={()=>{onRemoveHandler(person.user._id)}}>
+          } image={<Image src='/person.svg' height={30} width={30} className="m-3 mb-0"/>} >
         </Card>
+        </div>
       ))}
     </div>
     </div>    
