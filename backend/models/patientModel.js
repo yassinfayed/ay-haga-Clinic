@@ -55,6 +55,7 @@ const patientSchema = new mongoose.Schema({
       type: String
     }
   ],
+  medicalRecords: [String]
 });
 
 
