@@ -20,6 +20,7 @@ router.route('/addavailabledate').patch(authController.restrictTo(enums.ROLE.DOC
 router.route("/getAllDoctors").get(doctorController.getallDoctorsForPatient)
 router.get('/specialities',doctorController.allSpecialities)
 router.route("/:id").get(doctorController.getDoctor);
+router.route("/my-details").get(doctorController.getMyDetails);
 
 
 module.exports = router;

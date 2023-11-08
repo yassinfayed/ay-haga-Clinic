@@ -68,7 +68,6 @@ function LoginForm() {
     // Gather data in the formData object and send it to the backend
     console.log("Form Data:", formData);
     dispatch(login(formData.email, formData.password));
-
     // Add your code to send data to the backend here
   };
 
@@ -113,11 +112,11 @@ function LoginForm() {
                   onChange={handleInputChange}
                 />
               </div>
-              <div className="col-md-2 d-flex align-items-center  bg-light rounded">
+              <div className="col-md-2 d-flex align-items-center  bg-white rounded">
                 <button
                   type="button"
                   onClick={() => togglePasswordVisibility('password')}
-                  className="border-0  bg-light rounded"
+                  className="border-0  bg-white rounded"
                 >
                   <Image src={showPassword ? "/hide.svg" : "/show.svg"} width={35} height={35} />
                 </button>

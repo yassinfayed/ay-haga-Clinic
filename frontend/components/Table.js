@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 function Table(props) {
     const { headers, data } = props;
-    console.log(data)
+    console.log(props)
 
     const currentItems = data;
 
@@ -12,7 +12,7 @@ function Table(props) {
                 <thead>
                     <tr>
                         {headers.map((header, index) => (
-                            <th key={`col${index}`} scope="col">{header}</th>
+                            <th key={`col${index}`} scope="col" className='text-capitalize'>{header}</th>
                         ))}
                     </tr>
                 </thead>

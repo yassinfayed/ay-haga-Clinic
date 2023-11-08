@@ -4,6 +4,7 @@ const APIFeatures = require("../utils/apiFeatures");
 const catchAsync = require("./../utils/catchAsync");
 const Patient = require("../models/patientModel");
 const mongoose = require("mongoose");
+const User = require("../models/userModel");
 
 exports.getDoctor = handlerFactory.getOne(Doctor);
 
@@ -142,4 +143,21 @@ exports.allSpecialities = catchAsync(async(req,res,next)=> {
 
   const resp = await Doctor.getAllSpecialities();
   res.status(200).json(resp)
+});
+
+exports.getMyDetails = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ _id: req.user._id }).select('+password');
+  const doctor = await Doctor.findOne({ user: req.user._id });
+
+  if (!user || !doctor) {
+    return next(new AppError('User or patient not found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+      doctor,
+    },
+  });
 });

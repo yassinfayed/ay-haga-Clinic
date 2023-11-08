@@ -12,6 +12,8 @@ const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController');
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
+const path = require('path');
+
 
 // Start express app
 const app = express();
@@ -45,6 +47,8 @@ var corsOptions = {
   optionsSuccessStatus: 200 
 }
 app.use(cors(corsOptions));
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // app.options('*', cors());
 
