@@ -14,7 +14,19 @@ import {
   DOCTORS_VIEWPATIENTSINFO_SUCCESS,
   DOCTORS_VIEW_FAIL,
   DOCTORS_VIEW_REQUEST,
-  DOCTORS_VIEW_SUCCESS
+  DOCTORS_VIEW_SUCCESS,
+  DOCTOR_ACCEPTED_REQUEST,
+  DOCTOR_ACCEPTED_SUCCESS,
+  DOCTOR_ACCEPTED_FAIL,
+  DOCTOR_VIEWCONTRACT_REQUEST,
+  DOCTOR_VIEWCONTRACT_SUCCESS,
+  DOCTOR_VIEWCONTRACT_FAIL,
+  DOCTOR_ACCEPTCONTRACT_REQUEST,
+  DOCTOR_ACCEPTCONTRACT_SUCCESS,
+  DOCTOR_ACCEPTCONTRACT_FAIL,
+  DOCTOR_ADDAVAILABLEDATE_REQUEST,
+  DOCTOR_ADDAVAILABLEDATE_SUCCESS,
+  DOCTOR_ADDAVAILABLEDATE_FAIL
 } from '../constants/doctorConstants'; // Import the correct constants file
 import baseURL from '../baseURL';
 import { formulateQueryString } from '../queryStringBuilder';
@@ -206,6 +218,145 @@ export const getDoctorAppointments = (queryObj) => async (dispatch) => {
       payload: error.response
         ? error.response.data.message
         : 'Error Retrieving DOCTORS APPOINTMENTS. Please try again.',
+    });
+  }
+}
+
+
+export const adminAcceptDoctor = (doctorId) => async (dispatch) => {
+  
+  try {
+    dispatch({
+      type: DOCTOR_ACCEPTED_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    };
+    let url ="";
+    
+    url=`${baseURL}/api/v1/doctor/acceptdoctor?_id=${doctorId}`
+    
+    const { data } = await axios.patch(url, config);
+
+    dispatch({
+      type: DOCTOR_ACCEPTED_SUCCESS,
+      payload: data.data
+    });
+  } catch (error) {
+   
+    dispatch({
+      type: DOCTOR_ACCEPTED_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Accepting doctor failed. Please try again.',
+    });
+  }
+};
+
+
+
+export const doctorViewContract = (doctorId) => async (dispatch) => {
+
+  try {
+    dispatch({
+      type: DOCTOR_VIEWCONTRACT_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    };
+    let url ="";
+    
+    url=`${baseURL}/api/v1/doctor/viewcontract`
+    
+    const { data } = await axios.get(url, config);
+
+    dispatch({
+      type: DOCTOR_VIEWCONTRACT_SUCCESS,
+      payload: data.data
+    });
+  } catch (error) {
+   
+    dispatch({
+      type: DOCTOR_VIEWCONTRACT_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Could not retrieve contract. Please try again.',
+    });
+  }
+};
+
+export const doctorAcceptContract = (doctorId) => async (dispatch) => {
+
+  try {
+    dispatch({
+      type: DOCTOR_ACCEPTCONTRACT_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    };
+    let url ="";
+    
+    url=`${baseURL}/api/v1/doctor/acceptcontract`
+    
+    const { data } = await axios.patch(url, config);
+
+    dispatch({
+      type: DOCTOR_ACCEPTCONTRACT_SUCCESS,
+      payload: data.data
+    });
+  } catch (error) {
+   
+    dispatch({
+      type: DOCTOR_ACCEPTCONTRACT_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Could not accept contract. Please try again.',
+    });
+  }
+};
+
+
+export const doctorAddAvailableDate = (body) => async (dispatch) => {
+  try {
+    dispatch({
+      type: DOCTOR_ADDAVAILABLEDATE_REQUEST
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true
+    };
+
+    const url = `${baseURL}/api/v1/doctor/addavailabledate`;
+    const { data } = await axios.patch(url, body, config);
+
+    dispatch({
+      type: DOCTOR_ADDAVAILABLEDATE_SUCCESS,
+      doctor: data.data,
+    })
+
+
+  } catch (error) {
+   
+    dispatch({
+      type: DOCTOR_ADDAVAILABLEDATE_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Error adding new available date. Please try again.',
     });
   }
 }
