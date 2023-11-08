@@ -8,10 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { viewPatients } from '@/app/redux/actions/patientsActions';
 import { login } from '@/app/redux/actions/authActions';
 import { removeUser } from '@/app/redux/actions/userActions';
+import Image from 'next/image';
 
 export default function Patients() {
 
-  const tableHeaders = ['name','email','birth date','gender', 'phone number', 'emergency contact','emergency number','']; // Add a new column header
+  const tableHeaders = ['name','email','birth date','gender', 'phone number', 'emergency contact','emergency number','actions']; // Add a new column header
 
   const dispatch=useDispatch();
   const patients=useSelector(state=>state.patientsReducer.patients);
@@ -29,7 +30,8 @@ export default function Patients() {
   const generateButton = (id) => {
     return (
       <div style={{ fontSize: '1px' }}>
-        <Button text='remove' variant='xs' onClick={()=>onRemoveHandler(id)}></Button>
+        <Button text={<Image src='/delete.svg' height={35} width={35} className="rounded-circle"/>} variant='xs' color='light' className="rounded-circle" onClick={()=>onRemoveHandler(id)}>
+        </Button>
       </div>
     );
   };
@@ -54,10 +56,10 @@ export default function Patients() {
   }
 
   return (
-    <>
+    <div className="mx-3">
     <h3 className='my-1 mt-0 text-center text-title'>Patients</h3>
     <div className='underline-Bold mx-auto mb-5'></div>
     <Table headers={tableHeaders} data={tabledata}  itemsPerPageOptions={[5, 10, 15]} className="" />
-    </>
+    </div>
   );
 }
