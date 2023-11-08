@@ -100,6 +100,7 @@ export default function DoctorProfile({ params }) {
   if (doctor) {
     date = formatDateToDDMMYYYY(doctor.DateOfbirth);
   }
+
   return (
     <>
     <NavbarDoc/>
