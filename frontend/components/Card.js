@@ -1,6 +1,6 @@
 const { Button } = require("./Button");
 
-function Card ({ title, subtitle, text, className, image = "", buttonText = "", headerText = "", onClick, onClickButton, children, buttonClass= "" }) {
+function Card ({ title, subtitle, text, className, image = "", buttonText = "", headerText = "", onClick, onClickButton, children, buttonClass= "", buttonTrue }) {
 
     return (
         <>
@@ -17,7 +17,7 @@ function Card ({ title, subtitle, text, className, image = "", buttonText = "", 
                     {subtitle && <h6 className="card-subtitle mb-2 text-muted">{subtitle}</h6>}
                     {text && <h8 className="card-text">{text}</h8>}
                     {children}
-                    {buttonText && <Button onClick={onClickButton} text={buttonText} variant="md" className={`ms-auto ${buttonClass}`} />}
+                    {buttonTrue && <Button onClick={onClickButton} text={buttonText} variant="md" className={`ms-auto ${buttonClass}`} />}
                 </div>
             </div>
         </>

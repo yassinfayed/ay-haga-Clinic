@@ -4,10 +4,11 @@ import {useState} from 'react' ;
 import { Card} from '../../../../components/Card'; 
 import Image from 'next/image';
 import { Button } from '../../../../components/Button';
-
 import './page.css' ;
 import { useDispatch, useSelector } from 'react-redux';
 import { getDoctorsForPatientAction } from '@/app/redux/actions/doctorActions';
+import DoctorsPage from '../../../../components/DoctorsPage';
+
 
 function DoctorList() {
   const dispatch=useDispatch();
@@ -15,18 +16,12 @@ function DoctorList() {
   const [speciality, setSpeciality] = useState({});
   const [date,setDate]=useState("");
   const [name,setName] =useState({});
-  const [value, onChange] = useState(new Date());
 
   const handleClearFilters = () => {
     setDate(null);
     setName(null);
     setSpeciality(null);
   }
-
-
-  const handleSpecialtyChange = (event) => {
-    setSelectedSpecialty(event.target.value); 
-  };
 
   const handleCardClick = (doctor) => {
    window.history.pushState({},"",`/doctor/${doctor._id}`)
@@ -62,9 +57,6 @@ useEffect(()=>{
  
   },[dispatch,name,speciality,date])
 
-const handleDateClick= () => {
-  dispatch(getDoctorsForPatientAction({...name,...speciality,...date}))
-}
 
 function formatDateToDDMMYYYY(isoDate) {
   const date = new Date(isoDate);      
@@ -113,7 +105,7 @@ function formatDateToDDMMYYYY(isoDate) {
         </div>
       </div>
       <br />
-    <div className="justify-content-center align-items-center min-vh-100">
+    {/* <div className="justify-content-center align-items-center min-vh-100">
     <div className='row '>
       {doctors?.data?.map((person) => (
         <div className="mx-auto col-md-6 "> 
@@ -154,8 +146,10 @@ function formatDateToDDMMYYYY(isoDate) {
         </div>
       ))}
     </div>
-    </div>    
+    </div>     */}
+    <DoctorsPage doctors={doctors} admin={false}/>
     </div>
+
   );
  
 }
