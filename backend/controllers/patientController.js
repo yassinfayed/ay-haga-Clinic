@@ -6,6 +6,7 @@ const Appointment = require("../models/appointmentModel");
 const Doctor = require("../models/doctorModel");
 const APIFeatures = require('../utils/apiFeatures');
 const AppError = require("../utils/appError");
+const User = require('../models/userModel');
 
 //TODO: Retrieve only my patient
 exports.getPatient = handlerFactory.getOne(Patient);
@@ -89,6 +90,27 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllPatients = handlerFactory.getAll(Patient);
+
+exports.getMyDetails = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ _id: req.user._id }).select('+password');
+  const patient = await Patient.findOne({ user: req.user._id });
+
+  if (!user || !patient) {
+    return next(new AppError('User or patient not found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+      patient,
+    },
+  });
+});
+
+
+
+
 
 // exports.FilterPatientsBasedOnUpcomimgAppointments = catchAsync(
 //   async (req, res, next) => {

@@ -14,5 +14,7 @@ router.get("/",restrictTo(enums.ROLE.ADMIN),patientController.getAllPatients)
 router.route("/getPatient/:id").get(patientController.getPatient);
 router.get('/prescription', patientController.getAllPrescriptions);
 router.get('/prescription/:id', patientController.getPrescription);
+router.get('/my-details', restrictTo(enums.ROLE.PATIENT), patientController.getMyDetails);
+
 
 module.exports = router;
