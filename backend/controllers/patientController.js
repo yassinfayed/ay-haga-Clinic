@@ -355,3 +355,18 @@ exports.downloadSingleRecord = catchAsync(async(req,res,next) => {
 
 })
 
+exports.removeSingleRecord = catchAsync(async(req,res,next) => {
+  //Abdullah: to be edited to download all as zip if no query parameter passed
+  const patient = await Patient.findOne({ user: req.user._id });
+  if(!patient.medicalRecords.includes(req.query.name)) return next(new AppError(404,"File not found"));
+
+  
+  patient.medicalRecords = patient.medicalRecords.filter((record) => record !== req.query.name);
+
+  await patient.save();
+
+  res.status(204).send();
+  res.status(204)
+
+
+})
