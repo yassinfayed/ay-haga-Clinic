@@ -17,7 +17,7 @@ router.get('/viewHealthPackageSubscription/:id',patientController.viewHealthPack
 
 router.post('/upload/healthRecords/:id',patientController.uploadHealthRecords.single('image'),patientController.postUploadHealth);
 
-router.get("/viewHealthRecords/:id",patientController.viewHealthRecords);
+router.get("/viewHealthRecords",patientController.viewHealthRecords);
 router.get("/cancelSubscription/:id",patientController.cancelSubscription);
 router.route("/getPatient/:id").get(patientController.getPatient);
 router.get('/prescription', patientController.getAllPrescriptions);

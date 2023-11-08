@@ -102,21 +102,60 @@ exports.getPrescription = catchAsync(async (req, res, next) => {
 });
 
 exports.viewHealthRecords = catchAsync(async (req, res, next) => {
-  const patient = await Patient.findById(req.params.id);
-  if (!patient) {
-    return res.status(404).json({
+  const userRole = req.user.role; 
+  const userId = req.user._id;
+
+  if (userRole === 'patient') {
+    const patient = await Patient.findOne({ user: userId }).select('healthRecords');
+
+    if (!patient) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Patient not found or unauthorized to view this patient\'s records',
+      });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        healthRecords: patient.healthRecords,
+      },
+    });
+  } else if (userRole === 'doctor') {
+    const doctor = await Doctor.findOne({ user: userId });
+
+    if (!doctor) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Doctor not found',
+      });
+    }
+
+    const appointments = await Appointment.find({ doctorId: doctor._id }).populate({
+      path: 'patient',
+      select: 'name healthRecords',
+    });
+
+    const patientData = appointments.map((appointment) => {
+      return {
+        patientName: appointment.patient.name,
+        appointmentDate: appointment.date,
+        healthRecords: appointment.patient.healthRecords,
+      };
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: patientData,
+    });
+  } else {
+    return res.status(403).json({
       status: 'fail',
-      message: 'Patient not found',
+      message: 'Unauthorized access',
     });
   }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      healthRecords: patient.healthRecords,
-    },
-  });
 });
+
 
 
 
