@@ -6,6 +6,9 @@ const Appointment = require("../models/appointmentModel");
 const Doctor = require("../models/doctorModel");
 const APIFeatures = require('../utils/apiFeatures');
 const AppError = require("../utils/appError");
+
+const User = require('../models/userModel');
+
 const multer = require('multer');
 const fs = require('fs');
 
@@ -202,6 +205,67 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
 exports.getAllPatients = handlerFactory.getAll(Patient);
 
 
+exports.getMyDetails = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ _id: req.user._id }).select('+password');
+  const patient = await Patient.findOne({ user: req.user._id });
+
+  if (!user || !patient) {
+    return next(new AppError('User or patient not found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+      patient,
+    },
+  });
+});
+
+
+
+
+
+// exports.FilterPatientsBasedOnUpcomimgAppointments = catchAsync(
+//   async (req, res, next) => {
+//     const doctor = await Doctor.findOne({ user: req.user._id });
+//     const doctorId = doctor._id;
+//     const upcomingAppointments = await Appointment.find({
+//       doctorId: doctorId,
+//       status: "Upcoming", // Find appointments with dates greater than or equal to the current date
+//     });
+
+//     // Extract patient IDs from upcomingAppointments
+//     const patientIds = upcomingAppointments.map(
+//       (appointment) => appointment.patientId
+//     );
+
+//     // Query the Patient collection to fetch patient details for the extracted patient IDs
+//     const patients = await Patient.find({ _id: { $in: patientIds } });
+
+//     // Create a response object that combines patient details with their appointment details
+//     // const response = patients.map((patient) => {
+//     //   const matchingAppointment = upcomingAppointments.find(
+//     //     (appointment) =>
+//     //       appointment.patientId.toString() === patient._id.toString()
+//     //   );
+//     //   return 
+//     //     patient
+//     //     // appointment: matchingAppointment,
+      
+//     // });
+//     // console.log()
+//     res.status(200).json({
+//       status: "success",
+//       // results: response?.length,
+//       data: {
+//         data: patients,
+//       },
+//     });
+//   }
+// );
+
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/');
@@ -290,3 +354,4 @@ exports.downloadSingleRecord = catchAsync(async(req,res,next) => {
 
 
 })
+

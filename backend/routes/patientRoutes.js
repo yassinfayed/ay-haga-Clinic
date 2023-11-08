@@ -22,8 +22,13 @@ router.get("/cancelSubscription/:id",patientController.cancelSubscription);
 router.route("/getPatient/:id").get(patientController.getPatient);
 router.get('/prescription', patientController.getAllPrescriptions);
 router.get('/prescription/:id', patientController.getPrescription);
+
+router.get('/my-details', restrictTo(enums.ROLE.PATIENT), patientController.getMyDetails);
+
+
 router.post('/upload/medicalRecords',protect,patientController.uploadMedicineRecords.array('documents', 5),patientController.postUpload);
 router.get('/download',patientController.downloadSingleRecord);
 router.get('/downloadHealthRecord/:id',patientController.downloadHealthRecord);
+
 
 module.exports = router;

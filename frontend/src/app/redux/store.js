@@ -14,6 +14,7 @@ import { viewDoctorPatientsReducer } from './reducers/doctorReducer';
 import { updateDoctorsReducer } from './reducers/doctorReducer';
 import { viewDoctorsAppointmentsReducer } from './reducers/doctorReducer';
 import { createHealthPackageReducer, getHealthPackagesReducer, getHealthPackageReducer, updateHealthPackageReducer, deleteHealthPackageReducer } from './reducers/healthPackagesReducer';
+import {patientViewMyDetailsReducer} from './reducers/patientReducer';
 
 
 const store = configureStore({
@@ -39,6 +40,7 @@ const store = configureStore({
     updateHealthPackageReducer,
     deleteHealthPackageReducer,
     getUsersReducer,
+    patientViewMyDetailsReducer,
   },
 });
 
