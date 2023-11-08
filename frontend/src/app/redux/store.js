@@ -10,8 +10,8 @@ import { viewAllPrescriptionsReducer } from './reducers/prescriptionsReducers';
 import { filterPatientsBasedOnUpcomingAppointmentsReducer } from './reducers/patientsReducers';
 import {getDrsForPatientsReducer} from './reducers/doctorReducer';
 import { viewPatientsAppointmentsReducer } from './reducers/patientReducer';
-import { viewDoctorPatientsReducer } from './reducers/doctorReducer';
-import { updateDoctorsReducer } from './reducers/doctorReducer';
+import { viewDoctorPatientsReducer,doctorViewContractReducer } from './reducers/doctorReducer';
+import { updateDoctorsReducer,adminAcceptDoctorReducer,doctorAcceptContractReducer,doctorAddAvailableDateReducer } from './reducers/doctorReducer';
 import { viewDoctorsAppointmentsReducer } from './reducers/doctorReducer';
 import { createHealthPackageReducer, getHealthPackagesReducer, getHealthPackageReducer, updateHealthPackageReducer, deleteHealthPackageReducer } from './reducers/healthPackagesReducer';
 
@@ -38,7 +38,10 @@ const store = configureStore({
     getHealthPackageReducer,
     updateHealthPackageReducer,
     deleteHealthPackageReducer,
-    getUsersReducer,
+    getUsersReducer,adminAcceptDoctorReducer,
+    doctorAcceptContractReducer,
+    doctorAddAvailableDateReducer,
+    doctorViewContractReducer
   },
 });
 
