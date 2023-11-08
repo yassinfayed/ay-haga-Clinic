@@ -42,9 +42,9 @@ exports.cancelSubscription = catchAsync(async (req, res, next) => {
   const patientId = req.params.id;
   const patient = await Patient.findById(patientId);
 
-  if (patient.subscriptionStatus !== 'cancelled') {
+  if (patient.subscriptionStatus == 'subscribed') {
     patient.subscriptionStatus = 'cancelled';
-    patient.cancellationDate = new Date();
+    patient.cancellationEndDate = patient.renewalDate;
     patient.renewalDate = null;
     await patient.save();
   }
@@ -58,6 +58,7 @@ exports.cancelSubscription = catchAsync(async (req, res, next) => {
 });
 
 exports.viewHealthPackageSubscription = catchAsync(async (req, res, next) => {
+  //handle generating renewal date after payment for the health package
   const patient = await Patient.findById(req.params.id)
     .populate("package");
 
@@ -66,11 +67,12 @@ exports.viewHealthPackageSubscription = catchAsync(async (req, res, next) => {
   if (patient.subscriptionStatus === 'subscribed') {
     additionalFields.renewalDate = patient.renewalDate;
   } else if (patient.subscriptionStatus === 'cancelled') {
-    additionalFields.cancellationDate = patient.cancellationDate;
+    additionalFields.cancellationEndDate = patient.cancellationEndDate;
   }
 
   const data = {
     package: patient.package,
+    subscriptionStatus: patient.subscriptionStatus,
     ...additionalFields
   };
 
@@ -182,6 +184,8 @@ const storage = multer.diskStorage({
 
 const fileFilter = (req, file, cb) => {
   console.log("kajnq");
+  console.log(file);
+  console.log(file.mimetype);
   if (file.mimetype === 'application/pdf' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
     cb(null, true);
   } else {
@@ -190,6 +194,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 exports.uploadHealthRecords = multer({ storage, fileFilter });
+
 exports.postUploadHealth = catchAsync(async (req,res,next)=> {
   const patient = await Patient.findOne({ _id: req.params.id});
   patient.healthRecords = patient.healthRecords.concat(req.locals.docs);
@@ -202,6 +207,19 @@ exports.postUploadHealth = catchAsync(async (req,res,next)=> {
       data: patient.healthRecords
     }
   })
+})
+
+exports.downloadHealthRecord = catchAsync(async(req,res,next) => {
+  const patient = await Patient.findOne({ _id: req.params.id });
+  if(!patient.healthRecords.includes(req.query.name)) return next(new AppError(404,"File not found"));
+
+  const fileData = await fs.readFileSync(`./${req.query.name}`);
+
+  res.setHeader('Content-Disposition', `attachment; filename="${req.query.name}"`);
+  res.setHeader('Content-Type', 'application/octet-stream');
+  res.send(fileData);
+
+
 })
 
 exports.uploadMedicineRecords = multer({ storage, fileFilter });

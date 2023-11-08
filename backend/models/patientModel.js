@@ -60,7 +60,7 @@ const patientSchema = new mongoose.Schema({
         return this.subscriptionStatus === 'subscribed';
     }
   },
-  cancellationDate: {
+  cancellationEndDate: {
     type: Date,
     required: function() {
         return this.subscriptionStatus === 'cancelled';
