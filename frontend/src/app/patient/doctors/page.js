@@ -4,10 +4,11 @@ import {useState} from 'react' ;
 import { Card} from '../../../../components/Card'; 
 import Image from 'next/image';
 import { Button } from '../../../../components/Button';
-
 import './page.css' ;
 import { useDispatch, useSelector } from 'react-redux';
 import { getDoctorsForPatientAction } from '@/app/redux/actions/doctorActions';
+import DoctorsPage from '../../../../components/DoctorsPage';
+
 
 function DoctorList() {
   const dispatch=useDispatch();
@@ -15,18 +16,12 @@ function DoctorList() {
   const [speciality, setSpeciality] = useState({});
   const [date,setDate]=useState("");
   const [name,setName] =useState({});
-  const [value, onChange] = useState(new Date());
 
   const handleClearFilters = () => {
     setDate(null);
     setName(null);
     setSpeciality(null);
   }
-
-
-  const handleSpecialtyChange = (event) => {
-    setSelectedSpecialty(event.target.value); 
-  };
 
   const handleCardClick = (doctor) => {
    window.history.pushState({},"",`/doctor/${doctor._id}`)
@@ -62,9 +57,6 @@ useEffect(()=>{
  
   },[dispatch,name,speciality,date])
 
-const handleDateClick= () => {
-  dispatch(getDoctorsForPatientAction({...name,...speciality,...date}))
-}
 
 function formatDateToDDMMYYYY(isoDate) {
   const date = new Date(isoDate);      
@@ -113,49 +105,9 @@ function formatDateToDDMMYYYY(isoDate) {
         </div>
       </div>
       <br />
-    <div className="justify-content-center align-items-center min-vh-100">
-    <div className='row '>
-      {doctors?.data?.map((person) => (
-        <div className="mx-auto col-md-6 "> 
-        <Card key={person.user?._id} className="col-md-9 mx-auto offset-lg-1 my-3 bg-light my-4 " title={<div className='text-capitalize'>{person.name}</div>} subtitle={<></>}  text={
-            <div className="">
-            <div className="row global-text">
-              <div>
-              <Image src='/mail-dark.svg' height={20} width={20} className="me-2"/> {person.email}
-              </div>
-            </div>
-            <div className="row my-2">
-            <div className='col-md-6'>
-              <Image src='/username.svg' height={20} width={20} className="me-2"/> {person.user?.username}
-            <br />
-            </div>
-            <div className='col-md-6'>
-              <Image src='/birthday.svg' height={20} width={20} className="me-2"/>{formatDateToDDMMYYYY(person.DateOfbirth)}
-            <br />
-            </div>
-            </div>
-            <div className="row global-text mb-1">
-            <div className="col-md-6">
-              <h8 style={{ fontWeight: 'bold' }}>Affiliation: </h8>{person.affiliation}
-              <br />
-            </div>
-            <div className="col-md-6">
-              <h8 style={{ fontWeight: 'bold' }}>Hourly Rate: </h8>{person.HourlyRate}
-              <br />
-            </div>
-            </div>
-            <div className='global-text'>
-              <h8 style={{ fontWeight: 'bold' }}>Educational Background: </h8>{person.educationalbackground}
-            </div>
-            <br />
-            </div>
-          } image={<Image src='/person.svg' height={30} width={30} className="m-3 mb-0"/>} >
-        </Card>
-        </div>
-      ))}
+    <DoctorsPage doctors={doctors} admin={false}/>
     </div>
-    </div>    
-    </div>
+
   );
  
 }

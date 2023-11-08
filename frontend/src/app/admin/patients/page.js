@@ -54,7 +54,7 @@ export default function Patients() {
           <h8 style={{ fontWeight: 'bold' }}>Number: </h8>{person.emergencyContact.mobileNumber}
           <br />
           </div>
-        } buttonText='Remove' onClickButton={()=>{onRemoveHandler(person.user._id)}}>
+        } buttonText='Remove' buttonTrue={true} onClickButton={()=>{onRemoveHandler(person.user._id)}}>
        
         </Card>
        
