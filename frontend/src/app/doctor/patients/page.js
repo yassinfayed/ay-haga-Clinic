@@ -11,7 +11,7 @@ import Image from 'next/image';
 
 
 function PatientsList() {
-  const tableHeaders = ['name','email','date of birth','gender', 'phone number','Appointment date','']; // Add a new column header
+  const tableHeaders = ['name','email','birth date','gender', 'phone number','appointment date','']; 
 
   const tabledata2 = useSelector(state => state.patientsReducer?.patients?.data)
   const tabledataU1 = useSelector(state => state.filterPatientsBasedOnUpcomingAppointmentsReducer?.patients?.data)
@@ -28,7 +28,7 @@ function PatientsList() {
 
   let tabledata = tabledata2?.map(item => {
     console.log(item)
-    const { emergencyContact,id,_id,user,__v,healthRecords ,...rest } = item;
+    const { emergencyContact, id ,_id ,user ,__v ,healthRecords ,...rest } = item;
     rest.button = generateButton(_id)
     return rest;
   })
@@ -44,6 +44,7 @@ function PatientsList() {
     setUpcoming(null);
   }
 
+  console.log(tabledata)
  
   return (
     <div className='m-2'>
