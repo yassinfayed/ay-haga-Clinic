@@ -5,7 +5,7 @@ const patientController = require('./patientController');
 const Patient = require('../models/patientModel');
 const catchAsync = require('../utils/catchAsync');
 
-exports.addFamilyMembers = catchAsync(async (req, res) => {
+exports.addFamilyMembers = catchAsync(async (req, res,next) => {
     const { name, nationalId, age, gender, relationToPatient} = req.body;
     // const patientId = await patientController.getPatientIdFromUserId(req.user._id);
     const patient = await Patient.findOne({user: req.user._id});
@@ -25,12 +25,7 @@ exports.addFamilyMembers = catchAsync(async (req, res) => {
     await familyMember.save();
 
     // Respond with a success message
-    res.status(200).json({
-        status: "success",
-        data: {
-          data:familyMember
-        }
-      })
+ next()
      
 });
 

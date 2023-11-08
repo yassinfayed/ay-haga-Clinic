@@ -35,17 +35,7 @@ const DoctorSchema = new mongoose.Schema({
             },
             message: 'Date of birth should be at least 25 years ago'
           }
-        // validate: {
-        //     validator: function (v) {
-        //       return (
-        //         v && // check that there is a date object
-        //         v.getTime() > Date.now() + 24 * 60 * 60 * 1000 &&
-        //         v.getTime() < Date.now() + 90 * 24 * 60 * 60 * 1000
-        //       );
-        //     },
-        //     message:
-        //       "An event must be at least 1 day from now and not more than 90 days.",
-        //   }
+    
     },
     HourlyRate: {
         type: Number,
@@ -68,6 +58,21 @@ const DoctorSchema = new mongoose.Schema({
         type: [Date],
         required: true,
         default: []
+    },
+    employmentContract:{
+        hourlyRate:{ 
+        type: Number,
+        default : 0
+    },
+    status:{
+    type:String,
+        enum: ['pending', 'accepted','waitingadmin'],
+        default: 'waitingadmin'
+    },
+    clinicMarkUp:{
+        type : Number,
+        default : 0.1
+    }
     }
 });
 DoctorSchema.statics.getAllSpecialities = async function () {
