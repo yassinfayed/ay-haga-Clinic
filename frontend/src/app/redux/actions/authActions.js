@@ -143,7 +143,7 @@ export const forgetPasswordAction = (reqBody) => async (dispatch) => {
       type: FORGET_PASS_FAIL,
       payload: error.response
         ? error.response.data.message
-        : 'Logout failed. Please try again.',
+        : 'Failed. Please try again.',
     });
   }
 };
@@ -160,7 +160,7 @@ export const resetPasswordAction = (reqBody) => async (dispatch) => {
       },
       withCredentials: true
     };
-    const { data } = await axios.post(
+    const { data } = await axios.patch(
       `${baseURL}/api/v1/user/resetPassword`,
       reqBody,
       config
@@ -177,7 +177,7 @@ export const resetPasswordAction = (reqBody) => async (dispatch) => {
       type: RESET_PASS_FAIL,
       payload: error.response
         ? error.response.data.message
-        : 'Logout failed. Please try again.',
+        : 'failed. Please try again.',
     });
   }
 };
@@ -194,7 +194,7 @@ export const changePasswordAction = (reqBody) => async (dispatch) => {
       },
       withCredentials: true
     };
-    const { data } = await axios.post(
+    const { data } = await axios.patch(
       `${baseURL}/api/v1/user/changePassword`,
       reqBody,
       config

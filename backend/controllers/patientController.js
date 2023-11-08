@@ -366,7 +366,6 @@ exports.removeSingleRecord = catchAsync(async(req,res,next) => {
   await patient.save();
 
   res.status(204).send();
-  res.status(204)
 
 
 })
