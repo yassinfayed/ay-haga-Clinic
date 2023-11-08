@@ -71,7 +71,7 @@ function PatientsList() {
         </div>
       </div>
     <div className=".patient-table-container me-3">
-    <Table headers={tableHeaders} data={tabledata}  itemsPerPageOptions={[5, 10, 15]} />
+      <Table headers={tableHeaders} data={tabledata}  itemsPerPageOptions={[5, 10, 15]} />
     </div>
     </div>
   );
