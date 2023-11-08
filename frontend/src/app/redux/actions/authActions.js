@@ -80,3 +80,138 @@ export const registerAction = (reqBody) => async (dispatch) => {
     });
   }
 };
+
+export const logout = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_LOGOUT_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true
+    };
+    const { data } = await axios.post(
+      `${baseURL}/api/v1/user/logout`,
+      config
+    );
+
+    dispatch({
+      type: USER_LOGOUT_SUCCESS,
+      payload: data.data,
+    });
+
+    localStorage.clear();
+  } catch (error) {
+    dispatch({
+      type: USER_LOGOUT_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Logout failed. Please try again.',
+    });
+  }
+};
+
+export const forgetPasswordAction = (reqBody) => async (dispatch) => {
+  try {
+    dispatch({
+      type: FORGET_PASS_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true
+    };
+    const { data } = await axios.post(
+      `${baseURL}/api/v1/user/forgotPassword`,
+      reqBody,
+      config
+    );
+
+    dispatch({
+      type: FORGET_PASS_SUCCESS,
+      payload: data.data,
+    });
+
+    localStorage.clear();
+  } catch (error) {
+    dispatch({
+      type: FORGET_PASS_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Logout failed. Please try again.',
+    });
+  }
+};
+
+export const resetPasswordAction = (reqBody) => async (dispatch) => {
+  try {
+    dispatch({
+      type: RESET_PASS_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true
+    };
+    const { data } = await axios.post(
+      `${baseURL}/api/v1/user/resetPassword`,
+      reqBody,
+      config
+    );
+
+    dispatch({
+      type: RESET_PASS_SUCCESS,
+      payload: data.data,
+    });
+
+    localStorage.clear();
+  } catch (error) {
+    dispatch({
+      type: RESET_PASS_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Logout failed. Please try again.',
+    });
+  }
+};
+
+export const changePasswordAction = (reqBody) => async (dispatch) => {
+  try {
+    dispatch({
+      type: CHANGE_PASS_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true
+    };
+    const { data } = await axios.post(
+      `${baseURL}/api/v1/user/changePassword`,
+      reqBody,
+      config
+    );
+
+    dispatch({
+      type: CHANGE_PASS_SUCCESS,
+      payload: data.data,
+    });
+
+    localStorage.clear();
+  } catch (error) {
+    dispatch({
+      type: CHANGE_PASS_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'failed. Please try again.',
+    });
+  }
+};
