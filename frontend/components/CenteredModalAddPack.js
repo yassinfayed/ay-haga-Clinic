@@ -135,7 +135,7 @@ props.onHide()
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={onHide}>Close</Button>
+        <Button onClick={onHide} color>Close</Button>
       </Modal.Footer>
     </Modal>
   );

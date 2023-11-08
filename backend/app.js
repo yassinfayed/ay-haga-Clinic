@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
+const bodyParser = require('body-parser');
 const xss = require('xss-clean');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
@@ -11,6 +12,8 @@ const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController');
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
+const path = require('path');
+
 
 // Start express app
 const app = express();
@@ -31,12 +34,21 @@ app.enable('trust proxy');
 
 // app.options('*', cors());
 
+app.post(
+  '/webhook-checkout',
+  bodyParser.raw({ type: 'application/json' }),
+  // orderController.webhookCheckout
+);
+
+
 var corsOptions = {
   origin: ['http://localhost:3000'],
   credentials: true,
   optionsSuccessStatus: 200 
 }
 app.use(cors(corsOptions));
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // app.options('*', cors());
 

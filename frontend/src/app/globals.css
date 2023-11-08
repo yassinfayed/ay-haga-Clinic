@@ -1,6 +1,15 @@
 .global-text{
     color: #140836;     
 }
+
+.text-bold{
+  font-weight: 700;
+}
+
+.text-semibold{
+  font-weight: 600;
+}
+
 .hover-button:hover {
     background-color: #e0e0e0;
 }
@@ -9,6 +18,17 @@
 }
 .text-size-200{
     font-size: 150px;
+}
+
+.text-size-50{
+  font-size: 50px;
+}
+
+.nav-title{
+  font-size: 30px;
+}
+.pointer-cursor {
+  cursor: pointer;
 }
 .shape-background {
     text-align: center;
@@ -51,7 +71,52 @@
 .text-gray{
     color: gray;
 } 
+
+.text-title{
+  font-weight: 700;
+  font-size: 50px;
+}
+
+.leftline-Bold{
+  width: 4px;
+  height: 20px;
+  background: #140836;     
+  border-radius: 9px;
+}
+
   
+.underline-Bold{
+  width: 80px;
+  height: 2px;
+  background: #140836;     
+  border-radius: 9px;
+}
+
+.underline{
+  width: 300px;
+  height: 2px;
+  background: #140836;     
+  border-radius: 9px;
+}
+
+.underline-sm{
+  width: 80px;
+  height: 2px;
+  background: #140836;     
+  border-radius: 9px;
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+
+.gradient-background {
+  background: linear-gradient(to right, #140836, #007bff); /* Replace #007bff with your Bootstrap primary color */
+  width: 90%;
+  height: 450px; /* Set the height as needed */
+}
+
+
 /* -------------------------- Animation classes ----------------------------- */
 
 .slide-top {

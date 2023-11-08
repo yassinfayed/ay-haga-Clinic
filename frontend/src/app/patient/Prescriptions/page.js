@@ -6,16 +6,13 @@ import { Button } from '../../../../components/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import ViewPrescription from './ViewPrescriptionModal';
+import ViewPrescription from '../../../../components/ViewPrescriptionModal';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { viewALLPrescriptions } from '@/app/redux/actions/prescriptionsActions'; // Import the correct action
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import Navbar from '../../../../components/Navbar';
-import Footer from '../../../../components/Footer';
-import { login } from '@/app/redux/actions/authActions';
-import NavbarPatient from '../../../../components/NavbarPatient';
+import Image from 'next/image';
 
 
 function prescriptions() {
@@ -103,33 +100,43 @@ function prescriptions() {
 
       return (
         <div>
-          <NavbarPatient></NavbarPatient>
+          <h3 className='my-1 mt-0 text-center text-title'>Prescriptions</h3>
+          <div className='underline-Bold mx-auto mb-5'></div>
           <div className="container-fluid my-3">
-            <div className="row">
-            <DatePicker
-          selected={selectedDate}
-          onChange={handleDateChange}
-          dateFormat="yyyy-MM-dd"
-          placeholderText="Filter by date"
-          className='col-lg-2 mx-lg-3 my-3'
-        />
-        <select onChange={handleStatusChange} className='col-lg-2 mx-lg-3'>
-            <option value="">Filter by status</option>
-            <option value="true">Filled</option>
-            <option value="false">Unfilled</option>
-          </select>
-          </div>
-          <div className="row my-2 mx-lg-1">
-          <input
-              type="text"
-              className="col-lg-2"
-              id="name"
-              placeholder="Filter by Doctor Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+            <div className='row flex align-items-center justify-content-start bg-light p-2 px-3 pe-0 m-3 rounded border'>
+              <div className="col-md-1">
+                <Image src='/filter.svg' height={30} width={30} className=""/>
+              </div>   
+              <div className="col-md-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="name"
+                  placeholder="Doctor Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="col-md-2">
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={handleDateChange}
+                  dateFormat="yyyy-MM-dd"
+                  placeholderText="Appointment Date"
+                  className='form-control'
+                />
+              </div>
+              <div className="col-md-2">
+                <select onChange={handleStatusChange} className='form-control text-muted'>
+                  <option value="">Status</option>
+                  <option value="true">Filled</option>
+                  <option value="false">Unfilled</option>
+                </select>
+              </div>
+              <div className="col-md-2 ms-auto me-4">
+                <Button text="Clear Filters" className="w-100"onClick={handleClearFilters} variant={'md'}></Button>
+              </div>              
             </div>
-            <Button text="Clear Filters" className="col-lg-3"onClick={handleClearFilters}></Button>
             {presc.map((prescription) => (
               <Card
                 className="my-2"
@@ -162,7 +169,6 @@ function prescriptions() {
               prescription={selectedPrescription}
             />
           )}
-          <Footer></Footer>
         </div>
       );
  
