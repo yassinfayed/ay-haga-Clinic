@@ -106,7 +106,7 @@ export const forgetPasswordReducer = (state = initialState, action) => {
     case FORGET_PASS_SUCCESS:{
       return {
         ...state,
-        isAuthenticated: false,
+        // isAuthenticated: false,
         loading: false,
         error: null,
       }};
@@ -158,7 +158,7 @@ export const changePasswordReducer = (state = initialState, action) => {
     case CHANGE_PASS_SUCCESS:{
       return {
         ...state,
-        isAuthenticated: false,
+        // isAuthenticated: false,
         loading: false,
         error: null,
       }};
