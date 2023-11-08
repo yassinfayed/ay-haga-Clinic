@@ -11,7 +11,7 @@ import Image from 'next/image';
 
 
 function PatientsList() {
-  const tableHeaders = ['name','email','date of birth','gender', 'phone number','Appointment date','']; // Add a new column header
+  const tableHeaders = ['name','email','birth date','gender', 'phone number','appointment date','Actions']; 
 
   const tabledata2 = useSelector(state => state.patientsReducer?.patients?.data)
   const tabledataU1 = useSelector(state => state.filterPatientsBasedOnUpcomingAppointmentsReducer?.patients?.data)
@@ -21,14 +21,14 @@ function PatientsList() {
   const generateButton = (id) => {
     return (
       <div style={{ fontSize: '1px' }}>
-        <Button text='view' variant='xs' onClick={() => window.location.replace(`/patient/${id}`)}></Button>
+        <Button text={<Image src='/show.svg' height={35} width={35} className="rounded-circle"/>} variant='xs' color='light' className="rounded-circle" onClick={() => window.location.replace(`/patient/${id}`)}></Button>
       </div>
     );
   };
 
   let tabledata = tabledata2?.map(item => {
     console.log(item)
-    const { emergencyContact,id,_id,user,__v,healthRecords ,...rest } = item;
+    const { emergencyContact, id ,_id ,user ,__v ,healthRecords ,...rest } = item;
     rest.button = generateButton(_id)
     return rest;
   })
@@ -43,7 +43,6 @@ function PatientsList() {
     setName(null);
     setUpcoming(null);
   }
-
  
   return (
     <div className='m-2'>
@@ -71,8 +70,8 @@ function PatientsList() {
           <Button text="Clear Filters" className="w-60 ms-5" onClick={handleClearFilters} variant={'md'}></Button>       
         </div>
       </div>
-    <div className=".patient-table-container">
-    <Table headers={tableHeaders} data={tabledata}  itemsPerPageOptions={[5, 10, 15]} />
+    <div className=".patient-table-container me-3">
+      <Table headers={tableHeaders} data={tabledata}  itemsPerPageOptions={[5, 10, 15]} />
     </div>
     </div>
   );
