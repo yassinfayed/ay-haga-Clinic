@@ -8,12 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../../../components/Card";
 import { Button } from "../../../../components/Button";
 
-import { updateDoctor } from "../../redux/actions/doctorActions"; 
+import { updateDoctor } from "../../redux/actions/doctorActions";
 
 export default function DoctorProfile({ params }) {
-
   const dispatch = useDispatch();
-  
+
   const [edit, setedit] = useState(false);
   const [newEmail, setNewEmail] = useState("");
   const [newHourlyRate, setNewHourlyRate] = useState("");
@@ -22,13 +21,13 @@ export default function DoctorProfile({ params }) {
 
   useEffect(() => {
     dispatch(viewDoctorDetails(params.id));
-  }, [dispatch,doctor,newEmail,newdoctor]);
+  }, [dispatch, doctor, newEmail, newdoctor]);
 
   const doctor = useSelector((state) => state.doctorReducer.doctor);
 
   let permission;
   let userInfo;
-  
+
   if (localStorage) {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
   }
@@ -46,14 +45,22 @@ export default function DoctorProfile({ params }) {
               title={date}
               subtitle=""
               text=""
-              onClick={() => alert("Card Clicked")} 
-              onClickButton={() => alert("Button Clicked")} 
-              headerText={index + 1} 
+              onClick={() => alert("Card Clicked")}
+              onClickButton={() => alert("Button Clicked")}
+              headerText={index + 1}
             />
           </div>
         ))}
       </div>
     );
+  }
+  function formatDateToDDMMYYYY(isoDate) {
+    const date = new Date(isoDate);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based, so add 1.
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
   }
 
   const handleEmailChange = (e) => {
@@ -88,22 +95,25 @@ export default function DoctorProfile({ params }) {
     setNewHourlyRate("");
     setNewAffiliation("");
   };
-
+  let date;
+  if (doctor) {
+    date = formatDateToDDMMYYYY(doctor.DateOfbirth);
+  }
   return (
     <>
       {doctor ? (
-        <div className=" p-5 d-flex">
+        <div className=" p-5 d-flex mx-auto rounded shadow col-md-9 my-3">
           <div className=" w-25 border-end">
-            <div className="p-3 border-bottom">
+            <div className="p-3 border-bottom m-3">
               <div>
                 <Image src="/profile.svg" height={200} width={200} />
               </div>
             </div>
-            <div className="py-2 d-flex">
+            {/* <div className="py-2 d-flex">
               <span className="fw-bold w-25">Date Of Birth: </span>
 
               <span>{doctor.DateOfbirth}</span>
-            </div>
+            </div> */}
           </div>
           <div className="p-3 w-75">
             <div className="border-bottom d-flex">
@@ -129,45 +139,58 @@ export default function DoctorProfile({ params }) {
                 Doctor Information
               </div>
               <div className="p-3">
+                <div className="py-2 d-flex ">
+                  <span className="fw-bold w-25 ">
+                    <Image src="/birthday.svg" height={25} width={25} />
+                  </span>
+                  <span className="w-50">{date}</span>
+                  <span className="w-50"></span>
+                </div>
                 <div className="py-3 d-flex">
-                  <span className="fw-bold w-25">Email: </span>
-                  <span className="w-50">{doctor.email}</span>
-                  <span className="w-25">
+                  <span className="fw-bold w-25">
+                    <Image src="/mail-dark.svg" height={25} width={25} />
+                  </span>
+                  {edit || <span className="w-50">{doctor.email}</span>}
+                  <span className="w-50">
                     {!edit || (
                       <input
                         type="email"
                         className="form-control"
-                        placeholder="New Email"
+                        placeholder={doctor.email}
                         value={newEmail}
                         onChange={handleEmailChange}
                       />
                     )}
                   </span>
                 </div>
-                <div className="py-3 d-flex">
-                  <span className="fw-bold w-25">Hourly Rate: </span>
-                  <span className="w-50">{doctor.HourlyRate}</span>
-                  <span className="w-25">
+                <div className="py-2 d-flex ">
+                  <span className="fw-bold w-25 ">
+                    <Image src="/cart.svg" height={25} width={25} />
+                  </span>
+                  {edit || <span className="w-50">{doctor.HourlyRate}</span>}
+                  <span className="w-50">
                     {!edit || (
                       <input
                         type="email"
                         className="form-control"
-                        placeholder="New Hourly Rate"
+                        placeholder={doctor.HourlyRate}
                         value={newHourlyRate}
                         onChange={handleHourlyRateChange}
                       />
                     )}
                   </span>
                 </div>
-                <div className="py-3 d-flex">
-                  <span className="fw-bold w-25">Affiliation: </span>
-                  <span className="w-50">{doctor.affiliation}</span>
-                  <span className="w-25">
+                <div className="py-2 d-flex ">
+                  <span className="fw-bold w-25 ">
+                    <Image src="/affiliation.svg" height={25} width={25} />
+                  </span>
+                  {edit || <span className="w-50">{doctor.affiliation}</span>}
+                  <span className="w-50">
                     {!edit || (
                       <input
                         type="email"
                         className="form-control"
-                        placeholder="New Affiliation"
+                        placeholder={doctor.affiliation}
                         value={newAffiliation}
                         onChange={handleAffiliationChange}
                       />
@@ -175,8 +198,11 @@ export default function DoctorProfile({ params }) {
                   </span>
                 </div>
                 <div className="py-2 d-flex">
-                  <span className="fw-bold w-25">Eduactional Background: </span>
-                  <span>{doctor.educationalbackground}</span>
+                  <span className="fw-bold w-25">
+                    <Image src="/education.svg" height={25} width={25} />
+                  </span>
+                  <span className="w-50">{doctor.educationalbackground}</span>
+                  <span className="w-50"></span>
                 </div>
               </div>
               <div>
@@ -187,14 +213,24 @@ export default function DoctorProfile({ params }) {
               </div>
             </div>
             {!edit || (
-              <Button
-                text="Submit"
-                variant="small"
-                onClick={() => {
-                  handleSubmit();
-                  setedit(false);
-                }}
-              ></Button>
+              <>
+                <Button
+                  text="Cancel"
+                  variant="small"
+                  color="danger"
+                  onClick={() => {
+                    setedit(false);
+                  }}
+                ></Button>
+                <Button
+                  text="Submit"
+                  variant="small"
+                  onClick={() => {
+                    handleSubmit();
+                    setedit(false);
+                  }}
+                ></Button>
+              </>
             )}
           </div>
         </div>
