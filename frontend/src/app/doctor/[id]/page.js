@@ -102,7 +102,7 @@ export default function DoctorProfile({ params }) {
   return (
     <>
       {doctor ? (
-        <div className=" p-5 d-flex mx-auto rounded shadow col-md-9 my-3">
+        <div className=" p-5 d-flex mx-auto rounded w-100 my-3">
           <div className=" w-25 border-end">
             <div className="p-3 border-bottom m-3">
               <div>
