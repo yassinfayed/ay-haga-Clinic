@@ -105,48 +105,6 @@ function formatDateToDDMMYYYY(isoDate) {
         </div>
       </div>
       <br />
-    {/* <div className="justify-content-center align-items-center min-vh-100">
-    <div className='row '>
-      {doctors?.data?.map((person) => (
-        <div className="mx-auto col-md-6 "> 
-        <Card key={person.user?._id} className="col-md-9 mx-auto offset-lg-1 my-3 bg-light my-4 " title={<div className='text-capitalize'>{person.name}</div>} subtitle={<></>}  text={
-            <div className="">
-            <div className="row global-text">
-              <div>
-              <Image src='/mail-dark.svg' height={20} width={20} className="me-2"/> {person.email}
-              </div>
-            </div>
-            <div className="row my-2">
-            <div className='col-md-6'>
-              <Image src='/username.svg' height={20} width={20} className="me-2"/> {person.user?.username}
-            <br />
-            </div>
-            <div className='col-md-6'>
-              <Image src='/birthday.svg' height={20} width={20} className="me-2"/>{formatDateToDDMMYYYY(person.DateOfbirth)}
-            <br />
-            </div>
-            </div>
-            <div className="row global-text mb-1">
-            <div className="col-md-6">
-              <h8 style={{ fontWeight: 'bold' }}>Affiliation: </h8>{person.affiliation}
-              <br />
-            </div>
-            <div className="col-md-6">
-              <h8 style={{ fontWeight: 'bold' }}>Hourly Rate: </h8>{person.HourlyRate}
-              <br />
-            </div>
-            </div>
-            <div className='global-text'>
-              <h8 style={{ fontWeight: 'bold' }}>Educational Background: </h8>{person.educationalbackground}
-            </div>
-            <br />
-            </div>
-          } image={<Image src='/person.svg' height={30} width={30} className="m-3 mb-0"/>} >
-        </Card>
-        </div>
-      ))}
-    </div>
-    </div>     */}
     <DoctorsPage doctors={doctors} admin={false}/>
     </div>
 
