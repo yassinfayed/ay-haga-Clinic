@@ -1,6 +1,6 @@
 "use client"
 import React,{useEffect, useMemo, useState} from 'react';
-import {DoctorAppsTable} from '../../../../components/DoctorAppsTable'
+import {Table} from '../../../../components/Table'
 import { Button } from '../../../../components/Button';
 import AdminNavbar from '../../../../components/AdminNavbar';
 import { Card } from '../../../../components/Card';
@@ -62,7 +62,7 @@ export default function Admins() {
       <div className="row justify-content-end align-items-center">
       <Button text='Add Package' className="ms-auto col-md-2" onClick={()=>{setModalShow(true)}} variant={'md'}></Button>
       </div>
-      <DoctorAppsTable headers={tableHeaders} data={health ? health : []}></DoctorAppsTable>
+      <Table headers={tableHeaders} data={health ? health : []}></Table>
       <CenteredModalAddPack
         show={modalShow}
         onHide={() => setModalShow(false)} 
