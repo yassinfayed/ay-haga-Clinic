@@ -69,5 +69,107 @@ export const registerReducer = (state = {}, action) => {
       return state;
   }
 };
+export const logoutReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case USER_LOGOUT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case USER_LOGOUT_SUCCESS:{
+      return {
+        ...state,
+        isAuthenticated: false,
+        loading: false,
+        error: null,
+      }};
+    case USER_LOGOUT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
 
+export const forgetPasswordReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case FORGET_PASS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case FORGET_PASS_SUCCESS:{
+      return {
+        ...state,
+        // isAuthenticated: false,
+        loading: false,
+        error: null,
+      }};
+    case FORGET_PASS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const resetPasswordReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case RESET_PASS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case RESET_PASS_SUCCESS:{
+      return {
+        ...state,
+        isAuthenticated: false,
+        loading: false,
+        error: null,
+      }};
+    case RESET_PASS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const changePasswordReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case CHANGE_PASS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case CHANGE_PASS_SUCCESS:{
+      return {
+        ...state,
+        // isAuthenticated: false,
+        loading: false,
+        error: null,
+      }};
+    case CHANGE_PASS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
 
