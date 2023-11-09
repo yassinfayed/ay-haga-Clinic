@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listHealthPackages } from '@/app/redux/actions/healthPackagesActions';
 import { useEffect } from 'react';
 import { useMemo } from 'react';
-import SubscribeModal from '../../../../components/subscribeModal';
+import SubscribeModal from '../../../../components/SubscribeModal';
 
 
 
