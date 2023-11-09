@@ -1,4 +1,4 @@
-import { PATIENTS_FILTERAPPOINTMENTS_FAIL, PATIENTS_FILTERAPPOINTMENTS_REQUEST, PATIENTS_FILTERAPPOINTMENTS_SUCCESS, PATIENT_DOWNLOAD_DOCS_FAIL, PATIENT_DOWNLOAD_DOCS_REQUEST, PATIENT_DOWNLOAD_DOCS_SUCCESS, PATIENT_FAIL, PATIENT_REQUEST,PATIENT_SUCCESS, PATIENT_UPLOAD_DOCS_FAIL, PATIENT_UPLOAD_DOCS_REQUEST, PATIENT_UPLOAD_DOCS_SUCCESS} from "../constants/patientConstants";
+import { PATIENTS_FILTERAPPOINTMENTS_FAIL, PATIENTS_FILTERAPPOINTMENTS_REQUEST, PATIENTS_FILTERAPPOINTMENTS_SUCCESS, PATIENT_DOWNLOAD_DOCS_FAIL, PATIENT_DOWNLOAD_DOCS_REQUEST, PATIENT_DOWNLOAD_DOCS_SUCCESS, PATIENT_FAIL, PATIENT_REMOVE_RECORD_FAIL, PATIENT_REMOVE_RECORD_REQUEST, PATIENT_REMOVE_RECORD_SUCCESS, PATIENT_REQUEST,PATIENT_SUCCESS, PATIENT_UPLOAD_DOCS_FAIL, PATIENT_UPLOAD_DOCS_REQUEST, PATIENT_UPLOAD_DOCS_SUCCESS} from "../constants/patientConstants";
 import { formulateQueryString } from '../queryStringBuilder';
 import baseURL from '../baseURL';
 import axios from 'axios';
@@ -169,7 +169,7 @@ export const getPatientAppointments = (queryObj) => async (dispatch) => {
     console.log(patientId);
     try {
       dispatch({
-        type: PATIENT_UPLOAD_DOCS_REQUEST,
+        type: PATIENT_REMOVE_RECORD_REQUEST,
       });
   
       const config = {
@@ -183,13 +183,13 @@ export const getPatientAppointments = (queryObj) => async (dispatch) => {
       const { data } = await axios.delete(url,config);
   
       dispatch({
-        type: PATIENT_UPLOAD_DOCS_SUCCESS,
+        type: PATIENT_REMOVE_RECORD_SUCCESS,
         payload: data.data.data[0],
       });
     } catch (error) {
       console.error(error);
       dispatch({
-        type: PATIENT_UPLOAD_DOCS_FAIL,
+        type: PATIENT_REMOVE_RECORD_FAIL,
         payload: error.response
           ? error.response.data.message
           : ' Please try again.',
