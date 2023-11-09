@@ -44,8 +44,20 @@ function NewOrOldFamilyMember(props) {
               New Family Member
             </button>
           </div>
-          <AddFamily show={NewShow} onHide={() => setNewShow(false)} />
-          <LinkFamily show={OldShow} onHide={() => setOldShow(false)} />
+          <AddFamily
+            show={NewShow}
+            onHide={() => {
+              onHide();
+              setNewShow(false);
+            }}
+          />
+          <LinkFamily
+            show={OldShow}
+            onHide={() => {
+              onHide();
+              setOldShow(false);
+            }}
+          />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onHide}>Close</Button>
