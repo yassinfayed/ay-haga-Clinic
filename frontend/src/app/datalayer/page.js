@@ -10,6 +10,8 @@ import { viewDoctorDetails } from "../redux/actions/doctorActions";
 import { viewPrescriptionsDetails } from "../redux/actions/prescriptionsActions";
 import { viewALLPrescriptions } from "../redux/actions/prescriptionsActions";
 import { getAllUsers } from "../redux/actions/userActions";
+import {viewPatientDetails} from "../redux/actions/patientActions";
+
 // import {filterPatientsBasedOnUpcomingAppointments} from '../redux/actions/patientsActions';
 
 const Home = () => {
@@ -59,7 +61,7 @@ const DoctorDetails = () => {
 
   // Login user (if not already logged in)
   useEffect(() => {
-    dispatch(login("sysadmin", "pass1234"));
+    dispatch(login("abdullah_02", "pass1234"));
     dispatch(getAllUsers());
     // dispatch(login("farida", "password1234"));
     // dispatch(viewPatients({}));
@@ -70,6 +72,12 @@ const DoctorDetails = () => {
   //   // Replace '123' with the actual doctor ID you want to view
   //   dispatch(viewDoctorDetails("652009c012ae3a1d40695bfd"));
   // }, [dispatch]);
+
+  // as a patient view my details
+  useEffect(()=>{
+    dispatch(viewPatientDetails);
+  },[dispatch]);
+  }
 
   //viewPrescrDeatils
   /*useEffect(() => {
@@ -104,6 +112,6 @@ const DoctorDetails = () => {
       ;
     </div>
   );
-};
+
 
 export default DoctorDetails;

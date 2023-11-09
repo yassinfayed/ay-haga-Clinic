@@ -105,9 +105,14 @@ export default function DoctorProfile({ params }) {
     <>
     <NavbarDoc/>
       {doctor ? (
+<<<<<<< HEAD
         <div className="m-5">
           <div className=" p-5 d-flex mx-auto rounded shadow col-md-9 my-5">
           <div className=" w-25 border-end ">
+=======
+        <div className=" p-5 d-flex mx-auto rounded w-100 my-3">
+          <div className=" w-25 border-end">
+>>>>>>> main
             <div className="p-3 border-bottom m-3">
               <div>
                 <Image src="/profile.svg" height={200} width={200} />

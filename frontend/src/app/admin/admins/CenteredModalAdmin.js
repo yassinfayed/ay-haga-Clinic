@@ -92,7 +92,7 @@ props.onHide()
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <button onClick={onHide}>Close</button>
+        <button className='btn btn-md btn-primary' onClick={onHide}>Cancel</button>
       </Modal.Footer>
     </Modal>
   );
