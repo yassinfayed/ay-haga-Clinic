@@ -9,25 +9,36 @@ function AddFamily(props) {
   const { title, subheader, onHide } = props;
 
   // State variables for form input values
-  const [name, setName] = useState("");
-  const [nationalId, setNationalId] = useState("");
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
+  const [cred, setCred] = useState("");
   const [relationToPatient, setRelationToPatient] = useState("");
   const dispatch = useDispatch();
 
   // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      addFamilyMembers({
-        name: name,
-        nationalId: nationalId,
-        age: age,
-        gender: gender,
-        relationToPatient: relationToPatient,
-      })
-    );
+    let phone;
+    let email;
+    const emailRegex = /^[A-Za-z0-9+_.-]+@(.+)$/;
+
+    // Regular expression for checking if it's a phone number (basic validation)
+    const phoneRegex = /^[0-9-+() ]+$/;
+
+    if (emailRegex.test(cred)) {
+      email = cred;
+    } else if (phoneRegex.test(cred)) {
+      phone = cred;
+    } else {
+      console.log("please enter a valid email or phone");
+    }
+    // dispatch(
+    //   addFamilyMembers({
+    //     name: name,
+    //     nationalId: nationalId,
+    //     age: age,
+    //     gender: gender,
+    //     relationToPatient: relationToPatient,
+    //   })
+    // );
     onHide();
   };
 
@@ -45,49 +56,17 @@ function AddFamily(props) {
         <h4>{subheader}</h4>
         <form onSubmit={handleSubmit}>
           <div className="form-group my-3">
-            <label htmlFor="name">Name</label>
+            <label htmlFor="emailOrPhone">Enter email or phone number</label>
             <input
               type="text"
               className="form-control my-1"
-              id="name"
-              placeholder="Enter Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              id="emailOrPhone"
+              placeholder=""
+              value={cred}
+              onChange={(e) => setCred(e.target.value)}
             />
           </div>
-          <div className="form-group my-3">
-            <label htmlFor="nationalId">National ID</label>
-            <input
-              type="number"
-              className="form-control my-1"
-              id="nationalId"
-              placeholder="National ID"
-              value={nationalId}
-              onChange={(e) => setNationalId(e.target.value)}
-            />
-          </div>
-          <div className="form-group my-3">
-            <label htmlFor="age">Age</label>
-            <input
-              type="number"
-              className="form-control my-1"
-              id="age"
-              placeholder="Enter Age"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-            />
-          </div>
-          <div className="form-group my-3">
-            <label htmlFor="gender">Gender</label>
-            <input
-              type="text"
-              className="form-control my-1"
-              id="gender"
-              placeholder="Enter Gender"
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-            />
-          </div>
+
           <div className="form-group my-3">
             <label htmlFor="relationToPatient">Relation to patient</label>
             <input
