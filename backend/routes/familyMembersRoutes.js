@@ -13,6 +13,12 @@ router.post(
   familyMemberController.addFamilyMembers,
   authController.signup
 );
+router.post(
+  "/link",
+ authController.restrictTo('patient'),
+  familyMemberController.linkFamilyMember
+  
+);
 router.route("/").get(authController.restrictTo('patient'),familyMemberController.viewRegisteredFamilyMembers);
 
 module.exports = router;
