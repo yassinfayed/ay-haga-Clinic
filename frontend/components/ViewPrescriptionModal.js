@@ -16,28 +16,25 @@ function ViewPrescription(props) {
       </Modal.Header>
       <Modal.Body>
         <h4>Medicines:</h4>
-        {prescription.medicines.map((medicine, index) => (
-            <div className="row text-center">
-          <div key={index}>
-            <strong>Medicine:</strong> {medicine.medicine}
-            <br />
-            <strong>Dosage:</strong> {medicine.dosage}
-            <br />
-            <strong>Frequency:</strong> {medicine.frequency}
-            <br />
-            <strong>Start Date:</strong>{' '}
-            {new Date(medicine.startDate).toLocaleDateString()}
-            {medicine.endDate && (
-              <>
-                <br />
-                <strong>End Date:</strong>{' '}
-                {new Date(medicine.endDate).toLocaleDateString()}
-              </>
-            )}
-            <hr /> {/* Add an <hr> tag after each medicine */}
-          </div>
-          </div>
-        ))}
+        <div className="row text-start">
+
+          {prescription.medicines.map((medicine, index) => (
+            <div className='card col mx-2' key={index}>
+              <strong>Medicine:</strong> {medicine.medicine} ({medicine.dosage})
+              <strong>Frequency:</strong> {medicine.frequency}
+              <br />
+              <strong>Start Date:</strong>{' '}
+              {new Date(medicine.startDate).toLocaleDateString()}
+              {medicine.endDate && (
+                <>
+                  <br />
+                  <strong>End Date:</strong>{' '}
+                  {new Date(medicine.endDate).toLocaleDateString()}
+                </>
+              )}
+            </div>
+          ))}
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onHide}>Close</Button>

@@ -20,15 +20,15 @@ function AddFamily(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(addFamilyMembers({
-      "name" : name,
-      "nationalId" : nationalId,
-      "age" : age ,
-      "gender" : gender ,
-      "relationToPatient" : relationToPatient
-  }));
-  onHide();
+      "name": name,
+      "nationalId": nationalId,
+      "age": age,
+      "gender": gender,
+      "relationToPatient": relationToPatient
+    }));
+    onHide();
 
-    
+
   };
 
   return (

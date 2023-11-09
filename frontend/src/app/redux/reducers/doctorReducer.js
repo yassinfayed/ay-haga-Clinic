@@ -10,7 +10,19 @@ import {
   DOCTORS_VIEWPATIENTSINFO_SUCCESS,
   DOCTORS_VIEW_FAIL,
   DOCTORS_VIEW_REQUEST,
-  DOCTORS_VIEW_SUCCESS
+  DOCTORS_VIEW_SUCCESS,
+  DOCTOR_ACCEPTED_REQUEST,
+  DOCTOR_ACCEPTED_SUCCESS,
+  DOCTOR_ACCEPTED_FAIL,
+  DOCTOR_VIEWCONTRACT_REQUEST,
+  DOCTOR_VIEWCONTRACT_SUCCESS,
+  DOCTOR_VIEWCONTRACT_FAIL,
+  DOCTOR_ACCEPTCONTRACT_REQUEST,
+  DOCTOR_ACCEPTCONTRACT_SUCCESS,
+  DOCTOR_ACCEPTCONTRACT_FAIL,
+  DOCTOR_ADDAVAILABLEDATE_REQUEST,
+  DOCTOR_ADDAVAILABLEDATE_SUCCESS,
+  DOCTOR_ADDAVAILABLEDATE_FAIL
 } from '../constants/doctorConstants';
 
 export const getDrsForPatientsReducer = (state = {}, action) => {
@@ -117,6 +129,115 @@ export const viewDoctorsAppointmentsReducer = (state ={}, action) => {
       }
     };
     case DOCTORS_FILTERAPPOINTMENTS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+}
+
+export const adminAcceptDoctorReducer = (state ={}, action) => {
+  switch (action.type) {
+    case DOCTOR_ACCEPTED_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case DOCTOR_ACCEPTED_SUCCESS: {
+      return {
+        ...state,
+        doctor: action.payload,
+        loading: false,
+        error: null,
+      }
+    };
+    case DOCTOR_ACCEPTED_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+}
+
+export const doctorViewContractReducer = (state ={}, action) => {
+  switch (action.type) {
+    case DOCTOR_VIEWCONTRACT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case DOCTOR_VIEWCONTRACT_SUCCESS: {
+      return {
+        ...state,
+        contract: action.payload,
+        loading: false,
+        error: null,
+      }
+    };
+    case DOCTOR_VIEWCONTRACT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+}
+
+export const doctorAcceptContractReducer = (state ={}, action) => {
+  switch (action.type) {
+    case DOCTOR_ACCEPTCONTRACT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case DOCTOR_ACCEPTCONTRACT_SUCCESS: {
+      return {
+        ...state,
+        contract: action.payload,
+        loading: false,
+        error: null,
+      }
+    };
+    case DOCTOR_ACCEPTCONTRACT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+}
+
+
+export const doctorAddAvailableDateReducer = (state ={}, action) => {
+  switch (action.type) {
+    case DOCTOR_ADDAVAILABLEDATE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case DOCTOR_ADDAVAILABLEDATE_SUCCESS: {
+      return {
+        ...state,
+        availableDates: action.payload,
+        loading: false,
+        error: null,
+      }
+    };
+    case DOCTOR_ADDAVAILABLEDATE_FAIL:
       return {
         ...state,
         loading: false,

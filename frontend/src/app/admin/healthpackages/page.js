@@ -25,9 +25,9 @@ export default function Admins() {
   const generateButton = (id) => {
     return (
       <div style={{ fontSize: '1px' }}>
-        <Button color="light" className="rounded-circle" text={<Image src='/edit.svg' height={20} width={20} className=""/>} variant='xs' onClick={() => {setId(id)
+        <Button color="light" className="rounded-circle mx-1" text={<Image src='/edit.svg' height={20} width={20} className=""/>} variant='xs' onClick={() => {setId(id)
           setModalShowsec(true)}}>   </Button>
-        <Button color="light" className="rounded-circle" text={<Image src='/delete.svg' height={20} width={20} className=""/>} variant='xs' onClick={() => handleRemove(id)}> </Button>
+        <Button color="light" className="rounded-circle mx-1" text={<Image src='/delete.svg' height={20} width={20} className=""/>} variant='xs' onClick={() => handleRemove(id)}> </Button>
       </div>
     );
   };

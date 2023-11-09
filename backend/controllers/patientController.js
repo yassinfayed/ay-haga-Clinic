@@ -6,7 +6,10 @@ const Appointment = require("../models/appointmentModel");
 const Doctor = require("../models/doctorModel");
 const APIFeatures = require('../utils/apiFeatures');
 const AppError = require("../utils/appError");
-const multer = require('multer')
+
+const User = require('../models/userModel');
+
+const multer = require('multer');
 const fs = require('fs');
 
 //TODO: Retrieve only my patient
@@ -35,6 +38,56 @@ exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
     });
 });
 
+
+exports.updatePatient = handlerFactory.updateOne(Patient);
+
+exports.cancelSubscription = catchAsync(async (req, res, next) => {
+  const patientId = req.params.id;
+  const patient = await Patient.findById(patientId);
+
+  if (patient.subscriptionStatus == 'subscribed') {
+    patient.subscriptionStatus = 'cancelled';
+    patient.cancellationEndDate = patient.renewalDate;
+    patient.renewalDate = null;
+    await patient.save();
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      patient,
+    },
+  });
+});
+
+exports.viewHealthPackageSubscription = catchAsync(async (req, res, next) => {
+  //handle generating renewal date after payment for the health package
+  const patient = await Patient.findById(req.params.id)
+    .populate("package");
+
+  let additionalFields = {};
+
+  if (patient.subscriptionStatus === 'subscribed') {
+    additionalFields.renewalDate = patient.renewalDate;
+  } else if (patient.subscriptionStatus === 'cancelled') {
+    additionalFields.cancellationEndDate = patient.cancellationEndDate;
+  }
+
+  const data = {
+    package: patient.package,
+    subscriptionStatus: patient.subscriptionStatus,
+    ...additionalFields
+  };
+
+  res.status(200).json({
+    status: 'success',
+    data: data
+  });
+});
+
+
+
+
 exports.getPrescription = catchAsync(async (req, res, next) => {
   const patient = await Patient.findOne({ user: req.user._id });
   const patientId = patient._id;
@@ -50,6 +103,65 @@ exports.getPrescription = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.viewHealthRecords = catchAsync(async (req, res, next) => {
+  const userRole = req.user.role; 
+  const userId = req.user._id;
+
+  if (userRole === 'patient') {
+    const patient = await Patient.findOne({ user: userId }).select('healthRecords');
+
+    if (!patient) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Patient not found or unauthorized to view this patient\'s records',
+      });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        healthRecords: patient.healthRecords,
+      },
+    });
+  } else if (userRole === 'doctor') {
+    const doctor = await Doctor.findOne({ user: userId });
+
+    if (!doctor) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Doctor not found',
+      });
+    }
+
+    const appointments = await Appointment.find({ doctorId: doctor._id }).populate({
+      path: 'patient',
+      select: 'name healthRecords',
+    });
+
+    const patientData = appointments.map((appointment) => {
+      return {
+        patientName: appointment.patient.name,
+        appointmentDate: appointment.date,
+        healthRecords: appointment.patient.healthRecords,
+      };
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: patientData,
+    });
+  } else {
+    return res.status(403).json({
+      status: 'fail',
+      message: 'Unauthorized access',
+    });
+  }
+});
+
+
+
+
 
 exports.viewMyPatients = catchAsync(async (req, res, next) => {
 
@@ -92,6 +204,28 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
 
 exports.getAllPatients = handlerFactory.getAll(Patient);
 
+
+exports.getMyDetails = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ _id: req.user._id }).select('+password');
+  const patient = await Patient.findOne({ user: req.user._id });
+
+  if (!user || !patient) {
+    return next(new AppError('User or patient not found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+      patient,
+    },
+  });
+});
+
+
+
+
+
 // exports.FilterPatientsBasedOnUpcomimgAppointments = catchAsync(
 //   async (req, res, next) => {
 //     const doctor = await Doctor.findOne({ user: req.user._id });
@@ -131,11 +265,13 @@ exports.getAllPatients = handlerFactory.getAll(Patient);
 //   }
 // );
 
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
+    console.log(file);
     if (!req.locals) {
       req.locals = {};
     }
@@ -144,13 +280,15 @@ const storage = multer.diskStorage({
     }
 
     const uniqueFileName = `${Date.now()}-${file.originalname}`;
-
-    // Push the file path into the 'docs' array in req.locals
     req.locals.docs.push(`uploads/${uniqueFileName}`);
-    cb(null, `${Date.now()}-${file.originalname}`); // Use a unique filename
+    cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
+
 const fileFilter = (req, file, cb) => {
+  console.log("kajnq");
+  console.log(file);
+  console.log(file.mimetype);
   if (file.mimetype === 'application/pdf' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
     cb(null, true);
   } else {
@@ -158,6 +296,34 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+exports.uploadHealthRecords = multer({ storage, fileFilter });
+
+exports.postUploadHealth = catchAsync(async (req,res,next)=> {
+  const patient = await Patient.findOne({ _id: req.params.id});
+  patient.healthRecords = patient.healthRecords.concat(req.locals.docs);
+
+  await patient.save();
+
+  res.status(200).json({
+    message: "successfully uploaded health records",
+    data: {
+      data: patient.healthRecords
+    }
+  })
+})
+
+exports.downloadHealthRecord = catchAsync(async(req,res,next) => {
+  const patient = await Patient.findOne({ _id: req.params.id });
+  if(!patient.healthRecords.includes(req.query.name)) return next(new AppError(404,"File not found"));
+
+  const fileData = await fs.readFileSync(`./${req.query.name}`);
+
+  res.setHeader('Content-Disposition', `attachment; filename="${req.query.name}"`);
+  res.setHeader('Content-Type', 'application/octet-stream');
+  res.send(fileData);
+
+
+})
 
 exports.uploadMedicineRecords = multer({ storage, fileFilter });
 
@@ -185,6 +351,21 @@ exports.downloadSingleRecord = catchAsync(async(req,res,next) => {
   res.setHeader('Content-Disposition', `attachment; filename="${req.query.name}"`);
   res.setHeader('Content-Type', 'application/octet-stream');
   res.send(fileData);
+
+
+})
+
+exports.removeSingleRecord = catchAsync(async(req,res,next) => {
+  //Abdullah: to be edited to download all as zip if no query parameter passed
+  const patient = await Patient.findOne({ user: req.user._id });
+  if(!patient.medicalRecords.includes(req.query.name)) return next(new AppError(404,"File not found"));
+
+  
+  patient.medicalRecords = patient.medicalRecords.filter((record) => record !== req.query.name);
+
+  await patient.save();
+
+  res.status(204).send();
 
 
 })

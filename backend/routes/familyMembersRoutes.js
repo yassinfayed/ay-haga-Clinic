@@ -10,7 +10,8 @@ router.use(authController.protect);
 router.post(
   "/",
  authController.restrictTo('patient'),
-  familyMemberController.addFamilyMembers
+  familyMemberController.addFamilyMembers,
+  authController.signup
 );
 router.route("/").get(authController.restrictTo('patient'),familyMemberController.viewRegisteredFamilyMembers);
 

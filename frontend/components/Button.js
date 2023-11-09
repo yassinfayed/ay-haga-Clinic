@@ -3,7 +3,7 @@ function Button (props) {
     return (
         <button
             onClick={onClick}
-            className={`btn btn-${variant || 'lg'} btn-${color || "primary"} mx-2 my-2 ${className}`}
+            className={`btn btn-${variant || 'lg'} btn-${color || "primary"} ${className}`}
         >
             {text}
         </button>
