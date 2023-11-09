@@ -124,9 +124,9 @@ const AdminDashboard = () => {
                 <h4 className="card-title text-primary text-bold">Statistics Summary</h4>
                 <hr />
                 <div className='text-semibold text-primary row container justify-content-center'>
-                <Button className='col-md-3' variant='md' onClick={(e)=>handleStatPeriod(e,"This Week")} text={"This Week"} color={statPeriod=="This Week"? "" :"dark"}></Button>
-                <Button className='col-md-3' variant='md' onClick={(e)=>handleStatPeriod(e,"This Month")} text={"This Month"} color={statPeriod=="This Month"? "" :"dark"}></Button>
-                <Button className='col-md-3' variant='md' onClick={(e)=>handleStatPeriod(e,"This Year")} text={"This Year"} color={statPeriod=="This Year"? "" :"dark"}></Button>
+                <Button className='col-md-3 mx-1' variant='md' onClick={(e)=>handleStatPeriod(e,"This Week")} text={"This Week"} color={statPeriod=="This Week"? "" :"dark"}></Button>
+                <Button className='col-md-3 mx-1' variant='md' onClick={(e)=>handleStatPeriod(e,"This Month")} text={"This Month"} color={statPeriod=="This Month"? "" :"dark"}></Button>
+                <Button className='col-md-3 mx-1' variant='md' onClick={(e)=>handleStatPeriod(e,"This Year")} text={"This Year"} color={statPeriod=="This Year"? "" :"dark"}></Button>
                 </div>
                   <div className="row p-2 m-2 border bg-white rounded">
                     <div className="col-md-4 d-flex ">
@@ -147,8 +147,6 @@ const AdminDashboard = () => {
                   <h5 className='px-2 text-semibold text-dark pt-2'>Geographical Analysis</h5>
 
                   <div className="card m-3">
-                    {/* <div className="card-header border-0 bg-light">
-                    </div> */}
                     <div className="card-body">
                       <table className="table">
                         <thead >

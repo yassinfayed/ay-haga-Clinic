@@ -1,7 +1,6 @@
 'use client'
 import React, { useEffect } from 'react';
 import {useState} from 'react' ;
-import { Card} from '../../../../components/Card'; 
 import Image from 'next/image';
 import { Button } from '../../../../components/Button';
 import './page.css' ;
@@ -22,11 +21,6 @@ function DoctorList() {
     setName(null);
     setSpeciality(null);
   }
-
-  const handleCardClick = (doctor) => {
-   window.history.pushState({},"",`/doctor/${doctor._id}`)
-   window.location.reload()
-  };
 
   const handleFilter = (e) =>{
       const selectedDate = e.target.value;
@@ -57,15 +51,6 @@ useEffect(()=>{
  
   },[dispatch,name,speciality,date])
 
-
-function formatDateToDDMMYYYY(isoDate) {
-  const date = new Date(isoDate);      
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based, so add 1.
-  const year = date.getFullYear();
-  
-  return `${day}-${month}-${year}`;
-}
 
   return (
     
@@ -105,7 +90,7 @@ function formatDateToDDMMYYYY(isoDate) {
         </div>
       </div>
       <br />
-    <DoctorsPage doctors={doctors} admin={false}/>
+    <DoctorsPage doctors={doctors} admin={false} cardOnClick={()=>handleCardClick}/>
     </div>
 
   );
