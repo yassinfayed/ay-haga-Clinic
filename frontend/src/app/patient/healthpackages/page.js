@@ -41,8 +41,6 @@ function HealthPackages() {
       return [];
     }, [healthPackages,modalShow]);
 
-    console.log(healthPackages?.data)
-    console.log(packages)
 
   return (
     <div className='m-2'>
@@ -51,9 +49,11 @@ function HealthPackages() {
         {/* <h5 className='my-1 mt-0 text-center text-primary mb-3 text-semibold'>Current active health package subscription:</h5> */}
         <div className="w-100 row m-3 justify-content-center ">
         <SubscribeModal
-        title={`Subscribe to ${healthPackage?.name} Package`}
+        title={`Subscribe to our ${healthPackage?.name} Health Package`}
+        subheader={``}
         show={modalShow}
         onHide={() => setModalShow(false)} 
+        id={healthPackage?.id}
         />
         {packages.map((pack) => (
         <div className="col-md-4">
