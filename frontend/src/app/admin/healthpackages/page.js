@@ -1,10 +1,10 @@
 "use client"
 import React,{useEffect, useMemo, useState} from 'react';
-import {DoctorAppsTable} from '../../../../components/DoctorAppsTable'
+import {Table} from '../../../../components/Table'
 import { Button } from '../../../../components/Button';
 import AdminNavbar from '../../../../components/AdminNavbar';
 import { Card } from '../../../../components/Card';
-import CenteredModalAddPack from '../../../../components/CenteredModalAddPack'
+import CenteredModalAddPack from '../../../../components/AddHealthPackageModal'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteHealthPackage, listHealthPackages } from '@/app/redux/actions/healthPackagesActions';
 import { login } from '@/app/redux/actions/authActions';
@@ -25,9 +25,9 @@ export default function Admins() {
   const generateButton = (id) => {
     return (
       <div style={{ fontSize: '1px' }}>
-        <Button color="light" className="rounded-circle" text={<Image src='/edit.svg' height={20} width={20} className=""/>} variant='xs' onClick={() => {setId(id)
+        <Button color="light" className="rounded-circle mx-1" text={<Image src='/edit.svg' height={20} width={20} className=""/>} variant='xs' onClick={() => {setId(id)
           setModalShowsec(true)}}>   </Button>
-        <Button color="light" className="rounded-circle" text={<Image src='/delete.svg' height={20} width={20} className=""/>} variant='xs' onClick={() => handleRemove(id)}> </Button>
+        <Button color="light" className="rounded-circle mx-1" text={<Image src='/delete.svg' height={20} width={20} className=""/>} variant='xs' onClick={() => handleRemove(id)}> </Button>
       </div>
     );
   };
@@ -62,11 +62,11 @@ export default function Admins() {
       <div className="row justify-content-end align-items-center">
       <Button text='Add Package' className="ms-auto col-md-2" onClick={()=>{setModalShow(true)}} variant={'md'}></Button>
       </div>
-      <DoctorAppsTable headers={tableHeaders} data={health ? health : []}></DoctorAppsTable>
+      <Table headers={tableHeaders} data={health ? health : []}></Table>
       <CenteredModalAddPack
         show={modalShow}
         onHide={() => setModalShow(false)} 
-        title={"Please Package Details"}
+        title={"Create new health package"}
         edit={false}
         id={id}
       />

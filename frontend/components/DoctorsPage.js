@@ -10,6 +10,11 @@ export default function DoctorsPage(doctors, admin) {
   
     const dispatch=useDispatch();
 
+    const handleCardClick = (doctor) => {
+      // window.history.pushState({},"",`/doctor/${doctor._id}`)
+      // window.location.reload()
+     };
+
     function formatDateToDDMMYYYY(isoDate) {
       const date = new Date(isoDate);      
       const day = date.getDate().toString().padStart(2, '0');
@@ -34,7 +39,8 @@ export default function DoctorsPage(doctors, admin) {
         if(!person.isApproved)
         return
         return <div className="mx-auto col-md-6">
-          <Card key={person.user?._id} className="col-md-10 mx-auto offset-lg-1 my-3 bg-light my-4 " title={<div className='text-capitalize '>{person.name}</div>} subtitle={<></>}  text={
+          <Card key={person.user?._id} className="col-md-10 mx-auto offset-lg-1 my-3 bg-light my-4 " 
+          title={<div className='text-capitalize '>{person.name}</div>} subtitle={<></>}  text={
           <div className="p-3 pe-0">
           <div className="row global-text">
             <div>
@@ -67,8 +73,8 @@ export default function DoctorsPage(doctors, admin) {
           <br />
           </div>
         } image={<Image src='/person.svg' height={30} width={30} className="m-3 mb-0 rounded-circle"/>} 
-        buttonText={admin?'Remove':{}} buttonTrue={doctors.admin} buttonClass={admin? "col-md-12 m-3 ms-auto": ""} 
-        onClickButton={admin? ()=>onRemoveHandler(person.user._id):{}}>
+        buttonText={doctors.admin?'Remove':'view'} buttonTrue={true} buttonClass={"col-md-12 m-3 ms-auto"} 
+        onClickButton={doctors.admin? ()=>onRemoveHandler(person.user._id):()=>handleCardClick(person)}>
         </Card>
         </div>
       })
