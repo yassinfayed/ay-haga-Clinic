@@ -7,8 +7,9 @@ import { viewDoctorDetails } from "../../redux/actions/doctorActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../../../components/Card";
 import { Button } from "../../../../components/Button";
-
 import { updateDoctor } from "../../redux/actions/doctorActions";
+import NavbarDoc from "../../../../components/NavbarDoc";
+import FooterDoc from "../../../../components/FooterDoc";
 
 export default function DoctorProfile({ params }) {
   const dispatch = useDispatch();
@@ -99,21 +100,19 @@ export default function DoctorProfile({ params }) {
   if (doctor) {
     date = formatDateToDDMMYYYY(doctor.DateOfbirth);
   }
+
   return (
     <>
+    <NavbarDoc/>
       {doctor ? (
-        <div className=" p-5 d-flex mx-auto rounded w-100 my-3">
-          <div className=" w-25 border-end">
+        <div className="m-5">
+          <div className=" p-5 d-flex mx-auto rounded shadow col-md-9 my-5">
+          <div className=" w-25 border-end ">
             <div className="p-3 border-bottom m-3">
               <div>
                 <Image src="/profile.svg" height={200} width={200} />
               </div>
             </div>
-            {/* <div className="py-2 d-flex">
-              <span className="fw-bold w-25">Date Of Birth: </span>
-
-              <span>{doctor.DateOfbirth}</span>
-            </div> */}
           </div>
           <div className="p-3 w-75">
             <div className="border-bottom d-flex">
@@ -234,9 +233,11 @@ export default function DoctorProfile({ params }) {
             )}
           </div>
         </div>
+        </div>
       ) : (
         <div>hello</div>
       )}
+      <FooterDoc/>
     </>
   );
 }
