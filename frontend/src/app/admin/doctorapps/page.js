@@ -11,13 +11,14 @@ import Image from 'next/image';
 export default function DoctorApps() {
   const dispatch=useDispatch();
   const doctors=useSelector(state=>state.getDrsForPatientsReducer.doctors);
-  const isLoading=useSelector(state=>state.removeUserReducer.loading)
+  const isLoading=useSelector(state=>state.removeUserReducer.loading);
+  const approvalIsLoading=useSelector(state=>state.adminAcceptDoctorReducer.loading);
   useEffect(()=>{
    // dispatch(login("sysadmin","pass1234"));
     dispatch(getDoctorsForPatientAction());
     
 
-  },[isLoading])
+  },[isLoading,approvalIsLoading])
   const onRemoveHandler = (id)=>{
     //console.log(id)
     dispatch(removeUser(id))
@@ -26,7 +27,7 @@ export default function DoctorApps() {
   
   
   const onApproveHandler =(id)=>{
-    dispatch(login("sysadmin","pass1234"))
+   // dispatch(login("sysadmin","pass1234"))
     dispatch(adminAcceptDoctor(id))
   }
 
