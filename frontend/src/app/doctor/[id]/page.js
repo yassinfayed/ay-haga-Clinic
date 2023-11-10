@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import React from "react";
 import { useEffect } from "react";
-import { viewDoctorDetails } from "../../redux/actions/doctorActions";
+import { viewDoctorDetails,doctorAddAvailableDate } from "../../redux/actions/doctorActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../../../components/Card";
 import { Button } from "../../../../components/Button";
@@ -19,12 +19,15 @@ export default function DoctorProfile({ params }) {
   const [newHourlyRate, setNewHourlyRate] = useState("");
   const [newAffiliation, setNewAffiliation] = useState("");
   const [newdoctor, setNewDoctor] = useState({});
-
+  const [newDate, setNewDate] = useState("");
+  const isLoading = useSelector((state) => state.doctorAddAvailableDateReducer.loading);
   useEffect(() => {
     dispatch(viewDoctorDetails(params.id));
-  }, [dispatch, doctor, newEmail, newdoctor]);
+  }, [dispatch, doctor, newEmail, newdoctor,isLoading]);
 
   const doctor = useSelector((state) => state.doctorReducer.doctor);
+
+  
 
   let permission;
   let userInfo;
@@ -76,6 +79,7 @@ export default function DoctorProfile({ params }) {
     setNewAffiliation(e.target.value);
   };
 
+
   const handleSubmit = () => {
     let updatedDoctor = { ...newdoctor };
     if (newEmail) {
@@ -100,7 +104,16 @@ export default function DoctorProfile({ params }) {
   if (doctor) {
     date = formatDateToDDMMYYYY(doctor.DateOfbirth);
   }
+const handleDateChange= (e) =>{
+  console.log(e.target.value)
+  setNewDate(e.target.value);
+}
 
+const handleAddDate = () => {
+console.log(newDate)
+dispatch(doctorAddAvailableDate({availableDate:newDate}));
+
+}
   return (
     <>
     <NavbarDoc/>
@@ -208,6 +221,13 @@ export default function DoctorProfile({ params }) {
                 <div className="text-body-secondary fw-bold small p-3 ">
                   Available Dates
                 </div>
+                
+                <div className='col-md-3'>
+          <input type="datetime-local" id="appointmentdate" name="appointmentdate" 
+             className='search-input'onChange={(e) => {handleDateChange(e)}}/>
+        </div>
+        <br></br>
+        <Button text="Add Available Date" variant="xs" onClick={()=>handleAddDate()}></Button>
                 <DateCardList />
               </div>
             </div>
