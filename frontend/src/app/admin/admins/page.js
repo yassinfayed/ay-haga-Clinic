@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {Table} from '../../../../components/Table'
 import { Button } from '../../../../components/Button';
-import CenteredModalAdmin from './CenteredModalAdmin';
+import CenteredModalAdmin from '../../../../components/AddAdminModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers, removeUser } from '@/app/redux/actions/userActions';
 import Image from 'next/image';
@@ -74,7 +74,7 @@ export default function Admins() {
       <CenteredModalAdmin
         show={modalShow}
         onHide={() => setModalShow(false)} 
-        title={"Please Enter Username And Password"}
+        title={"Create new admin account"}
         />
       <Table headers={tableHeaders} data={adminlist}></Table>
     </div>
