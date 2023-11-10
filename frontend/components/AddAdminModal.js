@@ -33,7 +33,8 @@ function CenteredModalAdmin(props) {
       "passwordConfirm": passwordconfirmValue,
       "role": "administrator"
     }))
-props.onHide()
+    console.log('added admin')
+    props.onHide()
   }
 
 

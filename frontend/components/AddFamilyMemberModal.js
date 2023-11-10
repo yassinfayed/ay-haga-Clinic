@@ -81,27 +81,22 @@ function AddFamily(props) {
           </div>
           <div className="form-group my-1 col-md-6">
             <label htmlFor="gender">Gender</label>
-            <input
-              type="text"
-              className="form-control my-1"
-              id="gender"
-              placeholder="Enter Gender"
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-            />
+            <select onChange={(e) => setGender(e.target.value)} className='my-1 w-100 form-control text-muted p-2'>
+              <option value={null}>Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
           </div>
           </div>
           <div className="row mx-3">
           <div className="form-group my-2 col-md-6">
             <label htmlFor="relationToPatient">Relation to patient</label>
-            <input
-              type="text"
-              className="form-control my-1"
-              id="relationToPatient"
-              placeholder="Relation to patient"
-              value={relationToPatient}
-              onChange={(e) => setRelationToPatient(e.target.value)}
-            />
+            <select onChange={(e) => setRelationToPatient(e.target.value)} className='my-1 w-100 form-control text-muted p-2'>
+              <option value={null}>Relation to patient</option>
+              <option value="wife">Wife</option>
+              <option value="husband">Husband</option>
+              <option value="child">Child</option>
+            </select>
           </div>
           </div>
           <div className="row justify-content-end align-items-center mt-5 mb-2">
