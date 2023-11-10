@@ -1,5 +1,5 @@
+import './components.css';
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { addFamilyMembers } from '@/app/redux/actions/FamilyMembersAction';
 import { useDispatch } from 'react-redux';
@@ -26,6 +26,7 @@ function AddFamily(props) {
       "gender": gender,
       "relationToPatient": relationToPatient
     }));
+    console.log('added fam member')
     onHide();
 
 
@@ -33,13 +34,17 @@ function AddFamily(props) {
 
   return (
     <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">{title}</Modal.Title>
+      <Modal.Header closeButton className='bg-primary'>
       </Modal.Header>
       <Modal.Body>
+        <Modal.Title id="contained-modal-title-vcenter" className='px-2 text-global text-bold text-center'>
+            {title}
+        </Modal.Title>
+        <div className='underline-Bold mx-auto mt-2 mb-5'></div>
         <h4>{subheader}</h4>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group my-3">
+        <form onSubmit={handleSubmit} className='text-semibold'>
+        <div className="row mx-3">
+          <div className="form-group my-1 col-md-6">
             <label htmlFor="name">Name</label>
             <input
               type="text"
@@ -50,7 +55,7 @@ function AddFamily(props) {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div className="form-group my-3">
+          <div className="form-group my-1 col-md-6">
             <label htmlFor="nationalId">National ID</label>
             <input
               type="number"
@@ -61,7 +66,9 @@ function AddFamily(props) {
               onChange={(e) => setNationalId(e.target.value)}
             />
           </div>
-          <div className="form-group my-3">
+          </div>
+          <div className="row mx-3">
+          <div className="form-group my-1 col-md-6">
             <label htmlFor="age">Age</label>
             <input
               type="number"
@@ -72,36 +79,31 @@ function AddFamily(props) {
               onChange={(e) => setAge(e.target.value)}
             />
           </div>
-          <div className="form-group my-3">
+          <div className="form-group my-1 col-md-6">
             <label htmlFor="gender">Gender</label>
-            <input
-              type="text"
-              className="form-control my-1"
-              id="gender"
-              placeholder="Enter Gender"
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-            />
+            <select onChange={(e) => setGender(e.target.value)} className='my-1 w-100 form-control text-muted p-2'>
+              <option value={null}>Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
           </div>
-          <div className="form-group my-3">
+          </div>
+          <div className="row mx-3">
+          <div className="form-group my-2 col-md-6">
             <label htmlFor="relationToPatient">Relation to patient</label>
-            <input
-              type="text"
-              className="form-control my-1"
-              id="relationToPatient"
-              placeholder="Relation to patient"
-              value={relationToPatient}
-              onChange={(e) => setRelationToPatient(e.target.value)}
-            />
+            <select onChange={(e) => setRelationToPatient(e.target.value)} className='my-1 w-100 form-control text-muted p-2'>
+              <option value={null}>Relation to patient</option>
+              <option value="wife">Wife</option>
+              <option value="husband">Husband</option>
+              <option value="child">Child</option>
+            </select>
           </div>
-          <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
-            Submit
-          </button>
+          </div>
+          <div className="row justify-content-end align-items-center mt-5 mb-2">
+                <button type="submit" className="btn btn-primary mx-auto col-md-4">Submit</button>
+          </div>
         </form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={onHide}>Close</Button>
-      </Modal.Footer>
     </Modal>
   );
 }
