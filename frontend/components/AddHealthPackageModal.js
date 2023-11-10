@@ -74,7 +74,7 @@ props.onHide()
         <h4>{subheader}</h4>
         <p>
           <form onSubmit={(e)=>{handleSubmit(e)}} className='text-semibold'>
-            <div className="row mx-3 mb-2">
+            <div className="row mx-3 mb-1">
               <div className="form-group my-1 col-md-6">
                 <label htmlFor="nameInput">Name</label>
                 <input
