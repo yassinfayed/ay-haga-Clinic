@@ -1,6 +1,6 @@
+import './components.css';
 import { createHealthPackage, updateHealthPackage } from '@/app/redux/actions/healthPackagesActions';
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch } from 'react-redux';
 function CenteredModalAddPack(props) {
@@ -123,7 +123,7 @@ props.onHide()
               </div>
             </div>
             <div className="row mx-3">
-              <div className="form-group my-1 col-md-6 mx-auto">
+              <div className="form-group my-1 col-md-6">
                 <label htmlFor="subscriptionsDiscountInput">Subscriptions Discount</label>
                 <input
                   onChange={handleSubscriptionsDiscountChange}
