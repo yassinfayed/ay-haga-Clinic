@@ -41,16 +41,19 @@ function Familymembers() {
       return [];
     }, [familyMembers,modalShow,isLoading]);
 
+    console.log(fam)
+
   return (
     <div className='m-2'>
         <h3 className='my-1 mt-0 text-center text-title'>Family Members</h3>
         <div className='underline-Bold mx-auto mb-5'></div>
         <div className="container-fluid my-3">
-            <Button text="Add New Family Member"  onClick={() => setModalShow(true)}/>
+            <Button text="Add New Family Member" variant='md' onClick={() => setModalShow(true)}/>
         </div>
         <AddFamily
         show={modalShow}
         onHide={() => setModalShow(false)} 
+        title="Add family member"
         />
         <div className="container-fluid my-3">
  
