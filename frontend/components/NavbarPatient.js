@@ -20,7 +20,7 @@ const NavbarPatient = () => {
     <nav className="navbar navbar-expand-lg navbar-light bg-light w-100">
       <div className="container d-flex flex-row justify-content-between align-items-center w-100">
       <Image src="/chevron.svg" width={20} height={20} className='mx-3 rotate-90 pt-2 pointer-cursor' onClick={goBack} ></Image>
-        <div className="title col-md-6">
+        <div className="title col-md-4">
         <div className="logo"></div>
         <h1>
         <a className="navbar-brand" href="/">
@@ -36,7 +36,7 @@ const NavbarPatient = () => {
           </button>
         </div>
         <div
-          className={`links&buttons collapse navbar-collapse col-md-6 ${isMenuOpen ? 'show' : ''}`}
+          className={`links&buttons collapse navbar-collapse col-md-8 ${isMenuOpen ? 'show' : ''}`}
         >
           <ul className=" navbar-nav container d-flex justify-content-end me-auto">
             <li className="nav-item">
@@ -54,6 +54,9 @@ const NavbarPatient = () => {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/patient/Prescriptions">Prescriptions</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/patient/healthpackages">Packages</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/patient/Familymembers">Family</a>

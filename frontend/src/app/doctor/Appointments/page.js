@@ -12,7 +12,8 @@ import { useEffect } from 'react';
 import { useMemo } from 'react';
 import { Button } from '../../../../components/Button';
 import { getDoctorAppointments } from '@/app/redux/actions/doctorActions';
-import NavbarDoc from '../../../../components/NavbarDoc';
+import NavbarDoc from "../../../../components/NavbarDoc";
+import FooterDoc from "../../../../components/FooterDoc";
 import Image from 'next/image';
 
 function docappointments() {
@@ -84,8 +85,10 @@ function docappointments() {
   }
 
       const headers = ['Date', 'Patient Name', 'Status'];
-      return(
-        <div className="container-fluid m-2">
+return(
+    <div className='global-text'>
+      <NavbarDoc/>
+        <div className="container-fluid m-5">
         <div className="rows">
             <h3 className='my-1 mt-0 text-center text-title'>My Appointments</h3>
             <div className='underline-Bold mx-auto mb-5'></div>
@@ -117,9 +120,10 @@ function docappointments() {
               </div>
         </div>
         <Table headers={headers} data={apps ? apps : []}/>
-        </div>
+      </div>
+      <FooterDoc/>
+    </div>
       )
-      
       
 }
 

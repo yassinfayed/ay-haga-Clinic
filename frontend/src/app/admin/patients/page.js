@@ -12,7 +12,7 @@ import Image from 'next/image';
 
 export default function Patients() {
 
-  const tableHeaders = ['name','email','birth date','gender', 'phone number', 'emergency contact','emergency number','actions']; // Add a new column header
+  const tableHeaders = ['name','email','birth date','gender', 'phone', 'emergency contact','emergency number','actions']; // Add a new column header
 
   const dispatch=useDispatch();
   const patients=useSelector(state=>state.patientsReducer.patients);
@@ -30,7 +30,7 @@ export default function Patients() {
   const generateButton = (id) => {
     return (
       <div style={{ fontSize: '1px' }}>
-        <Button text={<Image src='/delete.svg' height={35} width={35} className="rounded-circle"/>} variant='xs' color='light' className="rounded-circle" onClick={()=>onRemoveHandler(id)}>
+        <Button text={<Image src='/delete.svg' height={20} width={20} className="rounded-circle"/>} variant='xs' color='light' className="rounded-circle" onClick={()=>onRemoveHandler(id)}>
         </Button>
       </div>
     );
