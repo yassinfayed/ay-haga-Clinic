@@ -1,8 +1,12 @@
 import './components.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import { useDispatch } from 'react-redux';
-import { Form, Col } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { Form } from 'react-bootstrap';
+import { viewFamilyMembers } from '@/app/redux/actions/FamilyMembersAction';
+import { useMemo } from 'react';
+
+
 
 
 function SubscribeModal(props) {
@@ -10,24 +14,58 @@ function SubscribeModal(props) {
 
     const dispatch=useDispatch();
     
-    const [packageReciever, setPackageReciever] = useState('');
-    const [familyMember, setFamilyMember] = useState(null);
+    const [packageReciever, setPackageReciever] = useState(null); //package reciever me or fam?
+    const [familyMember, setFamilyMember] = useState(null);  //fam member national id
+    const [paymentMethod, setPaymentMethod] = useState(null);  //wallet or card
 
-    const [paymentMethod, setPaymentMethod] = useState('');
+    const familyMembers = useSelector((state) => state.viewFamilyMembersReducer.familyMember);
+    const isLoading = useSelector((state) => state. addFamilyMembersReducer.loading);
 
-    const handleFamilyMemberChange = (e) => {
-        setFamilyMember(e.target.value);
-        console.log(e.target.value)
-    }
+
+    async function fetchData() {
+        dispatch(viewFamilyMembers());
+      }
+      
+      useEffect(() => {
+        fetchData();
+      }, [dispatch,isLoading]);
+
+    
+    const fam = useMemo(() => {
+        if (familyMembers && familyMembers.data) {
+          return familyMembers.data.map((value) => ({
+            name: value.name, 
+            nationalId: value.nationalId,
+            age: value.age,
+            gender: value.gender,
+            relationToPatient: value.relationToPatient,
+          }));
+        }
+        return [];
+      }, [familyMembers,isLoading]);
+
+      console.log(fam)
 
     const handleRecieverChange = (e) => {
         setPackageReciever(e.target.value);
         console.log(e.target.value)
     };
 
+
+    const handleFamilyMemberChange = (e) => {
+        setFamilyMember(e.target.value);
+        console.log(e.target.value)
+    }
+
+
+    const handlePaymentChange = (e) => {
+        setPaymentMethod(e.target.value);
+        console.log(e.target.value);
+    };
+
     const handleSubmit=(e)=>{
         e.preventDefault();
-        if(!packageReciever || (packageReciever=='family' && !familyMember)){
+        if(!packageReciever || (packageReciever=='family' && !familyMember) || !paymentMethod){
             console.log('please enter all data')
             return;
         }
@@ -37,6 +75,7 @@ function SubscribeModal(props) {
         // }))
         setFamilyMember(null)
         setPackageReciever(null)
+        setPaymentMethod(null)
         console.log('submitted')
         props.onHide()
     }
@@ -59,31 +98,31 @@ function SubscribeModal(props) {
                 <div>
                 <Form onSubmit={(e)=>{handleSubmit(e)}} className='text-semibold'>
                     <Form.Group className='row m-2'>
-                        <Form.Label className='col-md-4'>Subscription reciever:</Form.Label>
+                        <Form.Label className='col-md-4'>Subscription Reciever *</Form.Label>
                         <div className='col-md-6'>
                         <Form.Check
                             inline
                             type="radio"
                             label="Me"
-                            name="radioOption"
+                            name="packageReciever"
                             value="me"
                             checked={packageReciever === 'me'}
-                            onChange={handleRecieverChange}
+                            onChange={(e)=>handleRecieverChange(e)}
                         />
                         <Form.Check
                             inline
                             type="radio"
                             label="Family Member"
-                            name="radioOption"
+                            name="packageReciever"
                             value="family"
                             checked={packageReciever === 'family'}
-                            onChange={handleRecieverChange}
+                            onChange={(e)=>handleRecieverChange(e)}
                         />
                         </div>
                     </Form.Group>
                     
                     <Form.Group className='row m-2'>
-                        <Form.Label className='col-md-4'>Select Family Member:</Form.Label>
+                        <Form.Label className='col-md-4'>Family Member {packageReciever==='family'? "*":""}</Form.Label>
                         <div className='col-md-6'>
                             <Form.Control
                             as="select"
@@ -93,11 +132,31 @@ function SubscribeModal(props) {
                             required
                             >
                             <option value={null}>Choose...</option>
-                            <option value='Mom'>Mom</option>
-                            <option value='Dad'>Dad</option>
-                            <option value='Sis'>Sister</option>
-                            <option value='Bro'>Brother</option>
+                            {fam.map((mem)=>(<option value={mem.nationalId}>{mem.name}</option>))}
                             </Form.Control>
+                        </div>
+                    </Form.Group>
+                    <Form.Group className='row m-2'>
+                        <Form.Label className='col-md-4'>Payment Method *</Form.Label>
+                        <div className='col-md-6'>
+                        <Form.Check
+                            inline
+                            type="radio"
+                            label="Wallet"
+                            name="paymentMethod"
+                            value="wallet"
+                            checked={paymentMethod === 'wallet'}
+                            onChange={(e)=>handlePaymentChange(e)}
+                        />
+                        <Form.Check
+                            inline
+                            type="radio"
+                            label="Credit Card"
+                            name="paymentMethod"
+                            value="card"
+                            checked={paymentMethod === 'card'}
+                            onChange={(e)=>handlePaymentChange(e)}
+                        />
                         </div>
                     </Form.Group>
                     <div className="row justify-content-end align-items-center mt-5 mb-2">

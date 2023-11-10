@@ -26,6 +26,7 @@ function AddFamily(props) {
       "gender": gender,
       "relationToPatient": relationToPatient
     }));
+    console.log('added fam member')
     onHide();
 
 
@@ -105,7 +106,7 @@ function AddFamily(props) {
           </div>
           <div className="row justify-content-end align-items-center mt-5 mb-2">
                 <button type="submit" className="btn btn-primary mx-auto col-md-4">Submit</button>
-            </div>
+          </div>
         </form>
       </Modal.Body>
     </Modal>

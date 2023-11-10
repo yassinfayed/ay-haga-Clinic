@@ -88,7 +88,7 @@ props.onHide()
               </div>
               <div className="form-group my-1 col-md-6">
                 <label htmlFor="priceInput">Price</label>
-                <input
+                <input 
                   onChange={handlePriceChange}
                   type="number"
                   className="form-control my-1"
