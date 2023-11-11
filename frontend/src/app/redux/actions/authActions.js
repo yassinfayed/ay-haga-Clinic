@@ -155,41 +155,7 @@ export const forgetPasswordAction = (reqBody) => async (dispatch) => {
       type: FORGET_PASS_FAIL,
       payload: error.response
         ? error.response.data.message
-        : 'Failed. Please try again.',
-    });
-  }
-};
-
-export const resetPasswordAction = (reqBody) => async (dispatch) => {
-  try {
-    dispatch({
-      type: RESET_PASS_REQUEST,
-    });
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true
-    };
-    const { data } = await axios.patch(
-      `${baseURL}/api/v1/user/resetPassword`,
-      reqBody,
-      config
-    );
-
-    dispatch({
-      type: RESET_PASS_SUCCESS,
-      payload: data.data,
-    });
-
-    localStorage.clear();
-  } catch (error) {
-    dispatch({
-      type: RESET_PASS_FAIL,
-      payload: error.response
-        ? error.response.data.message
-        : 'failed. Please try again.',
+        : 'Logout failed. Please try again.',
     });
   }
 };
@@ -224,6 +190,41 @@ export const changePasswordAction = (reqBody) => async (dispatch) => {
       payload: error.response
         ? error.response.data.message
         : 'failed. Please try again.',
+    });
+  }
+};
+
+
+export const resetPasswordAction = (reqBody) => async (dispatch) => {
+  try {
+    dispatch({
+      type: RESET_PASS_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true
+    };
+    const { data } = await axios.patch(
+      `${baseURL}/api/v1/user/resetPassword`,
+      reqBody,
+      config
+    );
+
+    dispatch({
+      type: RESET_PASS_SUCCESS,
+      payload: data.data,
+    });
+
+    localStorage.clear();
+  } catch (error) {
+    dispatch({
+      type: RESET_PASS_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Logout failed. Please try again.',
     });
   }
 };

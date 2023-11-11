@@ -5,6 +5,8 @@ import React from "react";
 import { useEffect } from "react";
 import { viewPatients } from "../../redux/actions/patientsActions";
 import { useDispatch, useSelector } from "react-redux";
+import ChangePassword from '../../../../components/ChangePassword';
+
 
 export default function patientProfile({ params }) {
   const dispatch = useDispatch();
@@ -49,15 +51,18 @@ export default function patientProfile({ params }) {
   return (
     <>
       {patient ? (
-        <div className=" p-5 d-flex mx-auto rounded shadow col-md-9 my-3 ">
+        <div className=" d-flex mx-auto rounded shadow col-md-9 my-3 ">
           <div className=" w-25 border-end">
-            <div className="p-3 border-bottom m-3">
+            <div className="border-bottom m-3">
               <div className="d-flex justify-content-center ">
                 <Image src="/profile.svg" height={200} width={200} />
               </div>
             </div>
+            <div className="mx-auto">
+              <ChangePassword/>
+            </div>
           </div>
-          <div className="p-3 w-75">
+          <div className="p-5 w-75">
             <div className="border-bottom d-flex ">
               <div className="w-75">
                 <h1 className=" ms-2 text-primary fw-bold text-capitalize">
@@ -68,7 +73,7 @@ export default function patientProfile({ params }) {
 
             <div className="p-2 ">
               <div className="d-flex">
-                <div className="w-60 ">
+                <div className="w-50">
                   <h2 className="text-global fw-bold small pt-3 p-1 me-3">
                     Patient Information
                   </h2>
@@ -138,7 +143,6 @@ export default function patientProfile({ params }) {
                   </div>
                 </div>
               </div>
-
               <div>
                 <div className="text-global fw-bold small pt-3 p-1">
                   Health Records
