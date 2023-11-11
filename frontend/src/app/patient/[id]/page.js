@@ -110,7 +110,9 @@ export default function patientProfile({ params }) {
                     {JSON.parse(localStorage.getItem("userInfo")).data.user
                       .role === "patient" && (
                       <div className="pb-2 d-flex">
-                        <span className="px-3">{patient.package? patient.package.name : 'none'}</span>
+                        <span className="px-3">
+                          {patient.package ? patient.package.name : "none"}
+                        </span>
                       </div>
                     )}
                   </div>

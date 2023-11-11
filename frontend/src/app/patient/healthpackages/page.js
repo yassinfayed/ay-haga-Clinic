@@ -7,6 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { listHealthPackages } from "@/app/redux/actions/healthPackagesActions";
 import { useEffect } from "react";
 import { useMemo } from "react";
+import { viewFamilyMembers } from "@/app/redux/actions/FamilyMembersAction";
+import { cancelSubscription } from "@/app/redux/actions/patientActions";
+import { viewPatients } from "@/app/redux/actions/patientsActions";
 import SubscribeModal from "../../../../components/SubscribeModal";
 import { Card } from "../../../../components/Card";
 import Image from "next/image";
@@ -15,19 +18,70 @@ function HealthPackages() {
   const [modalShow, setModalShow] = useState(false);
   const [healthPackage, setHealthPackage] = useState(null);
   const [CancelModalShow, setCancelModalShow] = useState(false);
+  const [subscribed, setSubscribed] = useState("");
+  const [familyMemberPatients, setFamilyMemberPatients] = useState([]);
   const dispatch = useDispatch();
+  const id = JSON.parse(localStorage.getItem("userInfo")).data.user.patient._id;
 
+  useEffect(() => {
+    fetchData();
+    fetchFamily();
+    dispatch(viewPatients({ _id: id }));
+    // if (familyMembers && familyMembers.data) {
+    //   // Loop through family members and dispatch viewPatients for each
+    //   console.log("helloooo");
+    //   familyMembers.data.forEach((familyMember) => {
+    //     console.log("familyMember.patientId");
+    //     dispatch(viewPatients({ _id: familyMember.patientId }));
+    //   });
+    // }
+    // console.log(familyMemberPatients);
+  }, [dispatch, isLoading, modalShow, familyMembers]);
+
+  const familyMembers = useSelector(
+    (state) => state.viewFamilyMembersReducer.familyMember
+  );
+  const isLoading = useSelector(
+    (state) => state.addFamilyMembersReducer.loading
+  );
   const healthPackages = useSelector(
     (state) => state.getHealthPackagesReducer.healthPackages
   );
 
+  async function fetchFamily() {
+    dispatch(viewFamilyMembers());
+  }
   async function fetchData() {
     dispatch(listHealthPackages());
   }
+  const patients = useSelector((state) => state.patientsReducer.patients.data);
 
-  useEffect(() => {
-    fetchData();
-  }, [dispatch, modalShow]);
+  let patient;
+  if (patients) {
+    patient = patients[0];
+    console.log(patient);
+  }
+  // let familyMemberPatients = [];
+  // let i;
+  // for (i = 0; i < familyMembers?.data.length; i++) {
+  //   dispatch(cancelSubscription(familyMembers.data[i].patientId));
+  //   familyMemberPatients.push(
+  //     useSelector((state) => state.patientsReducer.patients.data)
+  //   );
+  // }
+  const fam = useMemo(() => {
+    if (familyMembers && familyMembers.data) {
+      return familyMembers.data.map((value) => ({
+        name: value.name,
+        nationalId: value.nationalId,
+        age: value.age,
+        gender: value.gender,
+        relationToPatient: value.relationToPatient,
+        id: value.patientId,
+      }));
+    }
+    return [];
+  }, [familyMembers, modalShow, isLoading]);
 
   const packages = useMemo(() => {
     if (healthPackages && healthPackages.data) {
@@ -43,36 +97,12 @@ function HealthPackages() {
     return [];
   }, [healthPackages, modalShow]);
 
-  function cancel(pack) {
-    console.log(pack);
+  function handleCancellation(PatientId) {
+    console.log(PatientId);
+    dispatch(cancelSubscription(PatientId));
+    //6549f806f3ee984c4052aa62
   }
-  //get the subscribed package from patient
-  const [subscribed, setSubscribed] = useState("");
 
-  const testData = [
-    {
-      name: "John Doe",
-      relation: "Brother",
-      subscribed: true,
-      date: "2023-11-09",
-      package: "silver",
-    },
-    {
-      name: "Jane Doe",
-      relation: "Sister",
-      subscribed: false,
-      date: "2023-11-10",
-      package: "silver",
-    },
-    {
-      name: "Jane Doe",
-      relation: "Sister",
-      subscribed: false,
-      date: "2023-11-10",
-      package: "silver",
-    },
-    // Add more objects as needed
-  ];
   return (
     <div className="m-2">
       <h3 className="my-1 mt-0 text-center text-title">Health Packages</h3>
@@ -84,13 +114,13 @@ function HealthPackages() {
           subheader={``}
           show={modalShow}
           onHide={() => setModalShow(false)}
-          id={healthPackage?._id}
+          id={healthPackage?.id}
         />
         {packages.map((pack) => (
-          <div className={`col-md-3 m-2 p-4 `}>
+          <div className={`col-lg-3 m-2 p-4 `}>
             <div
               className={`card shadow p-4  border border-5 ${
-                subscribed == pack._id ? "border-primary" : ""
+                patient?.package == pack._id ? "border-primary" : ""
               }`}
             >
               <div className="card-body">
@@ -145,13 +175,18 @@ function HealthPackages() {
                         setModalShow(true);
                       }}
                     />
+                    ////////////////////////////////////////////////
+                    ///////////////////////////////////////////////
+                    //////////////////////////////////////////////
+                    /////////////////////////////////////////////
+                    ////////////////////////////// add user.id
                     <Button
                       text="cancel"
                       variant="md"
                       color="danger"
                       className="col-md-3"
                       onClick={() => {
-                        cancel(pack);
+                        cancelSubscription(patient._id);
                       }}
                     />
                   </>
@@ -173,16 +208,18 @@ function HealthPackages() {
       <div>
         <h2 className="text-center text-primary fw-bold">Family Members</h2>
         <div className="d-flex">
-          {testData.map((person) => {
+          {fam.map((familymember) => {
             return (
-              <div className="mx-auto col-md-3" key={person?.name}>
+              <div className="mx-auto col-lg-3" key={familymember?.patientId}>
                 <Card
                   className="col-md-10 mx-auto offset-lg-1 my-3 bg-light my-4"
-                  title={<div className="text-capitalize ">{person.name}</div>}
+                  title={
+                    <div className="text-capitalize ">{familymember.name}</div>
+                  }
                   text={
                     <div className="p-3">
-                      <div>Relation: {person.relation}</div>
-                      <div>Package: {person.package}</div>
+                      <div>Relation: {familymember.relationToPatient}</div>
+                      <div>Package: {familymember._id}</div>
                     </div>
                   }
                   image={
@@ -196,7 +233,7 @@ function HealthPackages() {
                   buttonText={"remove"}
                   buttonTrue={true}
                   buttonClass="col-md-12 m-3 ms-auto btn btn-danger"
-                  onClickButton={() => handleCardClick(person)}
+                  onClickButton={() => handleCancellation(familymember.id)}
                 />
               </div>
             );
