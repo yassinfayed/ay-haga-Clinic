@@ -8,7 +8,7 @@ const Patient = require("../models/patientModel");
 const Doctor = require("./../models/doctorModel");
 const Email = require('./../utils/email');
 const crypto = require('crypto');
-
+const FamilyMember = require("./../models/familyMembersModel")
 function generateOTP(length) {
   const digits = '0123456789';
   let otp = '';
@@ -83,7 +83,8 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 
   req.body.user = newUser.id;
-
+  let patient;
+  let doctor;
   if (req.body.role === enums.ROLE.ADMIN) {
     res.status(400).json({
       status: "success",
@@ -105,7 +106,12 @@ exports.signup = catchAsync(async (req, res, next) => {
       newUser.doctor = doctor;
     
     }
+    if(req.body.sendtoken!==false)
     createSendToken(newUser, 201, req, res);
+  else{
+    await FamilyMember.updateOne({_id:req.body.id},
+      {linkedPatientId:patient._id});
+  }
   } catch (err) {
     await User.deleteOne({ username: newUser.username });
     res.status(400).json({

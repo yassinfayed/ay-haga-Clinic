@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import {loginReducer, registerReducer,forgetPasswordReducer,changePasswordReducer, resetPasswordReducer,logoutReducer} from './reducers/authReducer';
 import {removeUserReducer, getUsersReducer} from './reducers/userReducer';
 import {addFamilyMembersReducer} from './reducers/FamilyMembersReducer';
-import { viewFamilyMembersReducer } from './reducers/FamilyMembersReducer';
+import { viewFamilyMembersReducer,linkFamilyMemberReducer } from './reducers/FamilyMembersReducer';
 import { patientsReducer } from './reducers/patientsReducers';
 import { doctorReducer } from './reducers/doctorReducers';
 import { prescriptionReducer } from './reducers/prescriptionsReducers';
@@ -51,7 +51,8 @@ const store = configureStore({
     changePasswordReducer,
     downloadPatienttDocsReducer,
     patientUploadDocs,
-    patientRemoveRecordReducer
+    patientRemoveRecordReducer,
+    linkFamilyMemberReducer
     
 
   },
