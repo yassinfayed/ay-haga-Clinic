@@ -1,13 +1,17 @@
 "use client"
 import React, { useState } from 'react';
-import Head from 'next/head';
 import Image from 'next/image';
 import { Button } from '../../../components/Button';
+import ChangePassword from '../../../components/ChangePassword';
+import { Modal } from 'react-bootstrap';
+
 
 const AdminDashboard = () => {
 
   const [statPeriod, setStatPeriod] = useState('This Week');
   const [statDataIdx, setStatDataIdx] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+
 
   // Dummy patient reports
   const patientReports = [
@@ -79,6 +83,20 @@ const AdminDashboard = () => {
 
   return (
     <div className="container-fluid">
+        <Modal
+          show={showModal}
+          size="md"
+          onHide={() => setShowModal(false)} 
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          className='rounded'>
+            <Modal.Header closeButton className='bg-primary'>
+            </Modal.Header>
+            <Modal.Body>
+              <ChangePassword/>  
+            </Modal.Body>          
+        </Modal>
+
       <div className="row">
         <main className="col-md-12 ms-sm-auto col-lg-11 px-md-4">
         <h3 className='my-3 mb-5 text-title'>Admin Dashboard</h3>
@@ -95,6 +113,7 @@ const AdminDashboard = () => {
                     <div className='col-md-6 text-semibold global-text my-auto'>
                     <Image src="/id.svg" width={20} height={20} className='mb-1 me-1'/> XXXX 
                     </div>
+                  <Button className='col-md-8 mx-auto mt-3' variant='md' onClick={(e)=>{setShowModal(!showModal)}} text={"Change Password"}> </Button>
                   </div>
                 </div>
               </div>

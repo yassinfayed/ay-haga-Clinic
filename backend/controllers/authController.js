@@ -230,17 +230,11 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on POSTed email
   let user;
-  let toBePassed;
-  if(req.body.role === 'patient') {
-    toBePassed = await Patient.findOne({ email:req.body.email });
-    user = await User.findOne({ _id: toBePassed.user });
-
-  }
-  else {
-    toBePassed = await Doctor.findOne({ email:req.body.email });
-    user = await User.findOne({ _id: toBePassed.user });
-
-  }
+  let toBePassed =  await Patient.findOne({email: req.body.email})  || await Pharmacist.findOne({email: req.body.email}) 
+ 
+   user = await User.findOne({ _id: toBePassed.user });
+   
+  
   if (!user) {
     return next(new AppError('There is no user with email address.', 404));
   }
@@ -276,13 +270,16 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
-
-  const user2 = req.body.role === 'patient' ? await Patient.findOne({email: req.body.email}) : await Doctor.findOne({email: req.body.email}) 
+  
+  const user2 = await Patient.findOne({email: req.body.email})  || await Pharmacist.findOne({email: req.body.email}) 
+  console.log(user2)
   const user = await User.findOne({
     OTP: req.body.OTP,
     _id: user2.user,
     passwordResetExpires: { $gt: Date.now() }
   });
+  console.log(req.body.OTP)
+  console.log(user)
 
   // 2) If token has not expired, and there is user, set the new password
   if (!user) {
@@ -298,3 +295,4 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   // 4) Log the user in, send JWT
   createSendToken(user, 200, req, res);
 });
+  

@@ -10,6 +10,8 @@ import { Button } from "../../../../components/Button";
 import { updateDoctor } from "../../redux/actions/doctorActions";
 import NavbarDoc from "../../../../components/NavbarDoc";
 import FooterDoc from "../../../../components/FooterDoc";
+import ChangePassword from '../../../../components/ChangePassword';
+
 
 export default function DoctorProfile({ params }) {
   const dispatch = useDispatch();
@@ -106,15 +108,18 @@ export default function DoctorProfile({ params }) {
     <NavbarDoc/>
       {doctor ? (
         <div className="m-5">
-          <div className=" p-5 d-flex mx-auto rounded shadow col-md-9 my-5">
+          <div className=" d-flex mx-auto rounded shadow col-md-9 my-5">
           <div className=" w-25 border-end ">
-            <div className="p-3 border-bottom m-3">
+            <div className="p-3 border-bottom mx-auto">
               <div>
                 <Image src="/profile.svg" height={200} width={200} />
               </div>
             </div>
+            <div className="mx-auto">
+              <ChangePassword className='h-100 '/>
+            </div>
           </div>
-          <div className="p-3 w-75">
+          <div className="p-5 w-75">
             <div className="border-bottom d-flex">
               <div className="w-75">
                 <h1>{doctor.name}</h1>
@@ -133,18 +138,11 @@ export default function DoctorProfile({ params }) {
                 )}
               </div>
             </div>
-            <div className="p-2 border-bottom">
+            <div className="p-2 border-bottom row">
+              <div className="p-3 col-md-6">
               <div className="text-body-secondary fw-bold small p-3 ">
                 Doctor Information
               </div>
-              <div className="p-3">
-                <div className="py-2 d-flex ">
-                  <span className="fw-bold w-25 ">
-                    <Image src="/birthday.svg" height={25} width={25} />
-                  </span>
-                  <span className="w-50">{date}</span>
-                  <span className="w-50"></span>
-                </div>
                 <div className="py-3 d-flex">
                   <span className="fw-bold w-25">
                     <Image src="/mail-dark.svg" height={25} width={25} />
@@ -161,6 +159,13 @@ export default function DoctorProfile({ params }) {
                       />
                     )}
                   </span>
+                </div>
+                <div className="py-2 d-flex ">
+                  <span className="fw-bold w-25 ">
+                    <Image src="/birthday.svg" height={25} width={25} />
+                  </span>
+                  <span className="w-50">{date}</span>
+                  <span className="w-50"></span>
                 </div>
                 <div className="py-2 d-flex ">
                   <span className="fw-bold w-25 ">
@@ -204,15 +209,9 @@ export default function DoctorProfile({ params }) {
                   <span className="w-50"></span>
                 </div>
               </div>
-              <div>
-                <div className="text-body-secondary fw-bold small p-3 ">
-                  Available Dates
-                </div>
-                <DateCardList />
-              </div>
             </div>
             {!edit || (
-              <>
+              <div className="col-md-4 mx-auto">
                 <Button
                   text="Cancel"
                   variant="small"
@@ -220,6 +219,7 @@ export default function DoctorProfile({ params }) {
                   onClick={() => {
                     setedit(false);
                   }}
+                  className='mx-1 my-2'
                 ></Button>
                 <Button
                   text="Submit"
@@ -228,9 +228,17 @@ export default function DoctorProfile({ params }) {
                     handleSubmit();
                     setedit(false);
                   }}
+                  className='mx-1 my-2'
                 ></Button>
-              </>
+              </div>
             )}
+              <div>
+                <div className="text-body-secondary fw-bold small p-3 ">
+                  Available Dates
+                </div>
+                <DateCardList />
+              </div>
+            
           </div>
         </div>
         </div>
