@@ -6,7 +6,6 @@ const AppError = require("./../utils/appError");
 const enums = require("../constants/enums");
 const Patient = require("../models/patientModel");
 const Doctor = require("./../models/doctorModel");
-const FamilyMember = require("./../models/familyMembersModel")
 const Email = require('./../utils/email');
 const crypto = require('crypto');
 
@@ -95,8 +94,6 @@ exports.signup = catchAsync(async (req, res, next) => {
     return;
   }
   try {
-    let patient;
-    let doctor;
     if (req.body?.role === undefined || req.body?.role === enums.ROLE.PATIENT){
       patient = await Patient.create(req.body);
       newUser.patient = patient;
@@ -108,13 +105,7 @@ exports.signup = catchAsync(async (req, res, next) => {
       newUser.doctor = doctor;
     
     }
-    if(req.body.sendtoken!==false)
     createSendToken(newUser, 201, req, res);
-  else
-  {
-    await FamilyMember.updateOne({_id:req.body.id},{linkedPatientId:patient._id});
-  }
-
   } catch (err) {
     await User.deleteOne({ username: newUser.username });
     res.status(400).json({

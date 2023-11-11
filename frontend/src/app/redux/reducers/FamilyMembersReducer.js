@@ -4,10 +4,7 @@ import {
     FAMILY_MEMBERS_FAIL,
     VIEW_FAMILY_MEMBERS_REQUEST,
     VIEW_FAMILY_MEMBERS_SUCCESS,
-    VIEW_FAMILY_MEMBERS_FAIL,
-    LINK_FAMILY_MEMBER_REQUEST,
-    LINK_FAMILY_MEMBER_SUCCESS,
-    LINK_FAMILY_MEMBER_FAIL
+    VIEW_FAMILY_MEMBERS_FAIL
 
   } from '../constants/FamilyMembersConstants';
   
@@ -67,33 +64,6 @@ import {
           error: null,
         }};
       case VIEW_FAMILY_MEMBERS_FAIL:
-        return {
-          ...state,
-          loading: false,
-          error: action.payload,
-        };
-      default:
-        return state;
-    }
-  };
-
-  export const linkFamilyMemberReducer= (state = initialState, action) => {
-    switch (action.type) {
-      case LINK_FAMILY_MEMBER_REQUEST :
-        return {
-          ...state,
-          loading: true,
-          error: null,
-        };
-      case LINK_FAMILY_MEMBER_SUCCESS:{
-        
-        return {
-          ...state,
-          familyMember: action.payload,
-          loading: false,
-          error: null,
-        }};
-      case LINK_FAMILY_MEMBER_FAIL:
         return {
           ...state,
           loading: false,
