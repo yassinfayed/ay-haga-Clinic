@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Button } from "../../../../../components/Button";
 import TickAnimation from '../../../../../public/tickanimation';
 import Lottie from "lottie-react";
+import Navbar from "../../../../../components/Navbar";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -104,6 +105,7 @@ const SignUp = () => {
       {
         !isAuthenticated &&
         <>
+          <Navbar/>
           <div className="container mt-5">
             <div className="row">
               <div className="col-md-7 mx-auto rounded shadow p-5">
@@ -387,7 +389,6 @@ const SignUp = () => {
               <h5>Thank you, we'll get back to you as soon as possible.</h5>
             </div>
           </div>
-        <Footer/>
         </>
       }
     </>

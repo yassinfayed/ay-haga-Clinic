@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { doctorViewContract, doctorAcceptContract } from "../../redux/actions/doctorActions";
 import { removeUser } from "../../redux/actions/userActions";
 import Image from 'react-bootstrap/Image';
-
-//652db656d750751a50d24e0a 
+import { logout } from '@/app/redux/actions/authActions';
 
 const ContractPage = () => {
   const dispatch = useDispatch();
 
+  let userId;
   let doctorId;
   let userInfo;
 
@@ -19,7 +19,8 @@ const ContractPage = () => {
 
   if (localStorage) {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    doctorId = userInfo?.data.user._id;
+    userId = userInfo?.data.user._id;
+    doctorId = userInfo?.data.user.doctor._id;
   }
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,14 +34,14 @@ const ContractPage = () => {
   }
 
   useEffect(() => {
-    dispatch(doctorViewContract(doctorId));
+    dispatch(doctorViewContract(userId));
   }, [dispatch, doctorContract]);
   
 
   const handleAccept = (e) =>{
     e.preventDefault();
     console.log('accepted')
-    dispatch(doctorAcceptContract(doctorId))
+    dispatch(doctorAcceptContract(userId))
     window.history.pushState({},"",`/doctor/${doctorId}`)
 	  window.location.reload()
   }
@@ -48,11 +49,13 @@ const ContractPage = () => {
   const handleReject = (e) =>{
     e.preventDefault();
     console.log('rejected')
-    dispatch(removeUser(doctorId));
-    window.history.pushState({},"",`/guest/Login`)
-    window.location.reload()
+    // dispatch(removeUser(userId)); //to be changed
+    handleLogout()
   }
 
+  const handleLogout= ()=>{
+    dispatch(logout())
+  }
 
   return (
       <div className='w-100'>
@@ -70,7 +73,7 @@ const ContractPage = () => {
             <div className={`links&buttons collapse navbar-collapse col-md-6 show`}>
               <ul className=" navbar-nav container d-flex justify-content-end ms-auto">
                 <li className="nav-item rounded ms-2">
-                  <a className="btn btn-primary text-light mx-1" href="/guest/Login" onClick={(e)=> localStorage.clear()}>
+                  <a className="btn btn-primary text-light mx-1" href="/guest/Login" onClick={(e)=> handleLogout}>
                   Log Out
                   </a>
                 </li>

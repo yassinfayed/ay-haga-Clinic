@@ -19,6 +19,7 @@ import {
 
 
 export default function DoctorProfile({ params }) {
+  
   const dispatch = useDispatch();
 
   let date;
@@ -39,7 +40,7 @@ export default function DoctorProfile({ params }) {
   useEffect(() => {
     dispatch(viewDoctorDetails(params.id));
     dispatch(doctorViewContract(params.id));
-  }, [dispatch, id, newEmail, newdoctor, isLoading]);
+  }, [dispatch, doctor, doctorContract, id, newEmail, newdoctor, isLoading]);
 
   const doctor = useSelector((state) => state.doctorReducer.doctor);
   const doctorContract = useSelector(
