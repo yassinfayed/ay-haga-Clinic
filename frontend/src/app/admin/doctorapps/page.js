@@ -82,8 +82,10 @@ export default function DoctorApps() {
           <h8 className="global-text" style={{ fontWeight: 'bold' }}>educationalBackground: </h8>{person.educationalbackground}
           <br />
           </div>
-          <Button text='Approve' variant='xs' onClick={()=>onApproveHandler(person._id)}></Button>
-          <Button text='Reject' variant='xs' onClick={()=>onRemoveHandler(person.user?._id)}></Button>
+          <div className="row">
+          <Button text='Reject' variant='xs' color='dark' onClick={()=>onRemoveHandler(person.user?._id)} className='col-md-4 mx-auto'></Button>
+          <Button text='Approve' variant='xs' onClick={()=>onApproveHandler(person._id)} className='col-md-4 mx-auto'></Button>
+          </div>
         </Card></div>
       })
        }
