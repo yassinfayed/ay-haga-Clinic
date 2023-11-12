@@ -136,7 +136,30 @@ exports.acceptDoctor = catchAsync(async (req, res, next) => {
 
   
 });
+exports.rejectDoctor = catchAsync(async(req,res,next)=>{
 
+  const doctorfound=await Doctor.findById(req.params.id)
+  let doctor;
+  if(req.user.role==='administrator'){
+   doctor = await Doctor.findByIdAndUpdate(req.params.id, {isApproved:true,employmentContract:{hourlyRate:doctorfound.HourlyRate,status:'Admin rejected'}}, {
+    new: true,
+    runValidators: true
+});
+}else if(doctorfound.employmentContract.status==='pending') {
+   doctor = await Doctor.findByIdAndUpdate(req.params.id, {isApproved:true,employmentContract:{hourlyRate:doctorfound.HourlyRate,status:'Doctor rejected'}}, {
+    new: true,
+    runValidators: true
+});
+}
+  
+  res.status(200).json({
+    status: 'success',
+    data: {
+        data: doctor
+    }
+});
+
+});
 
 
 exports.allSpecialities = catchAsync(async(req,res,next)=> {

@@ -48,7 +48,7 @@ export default function DoctorApps() {
     <div className="justify-content-center align-items-center min-vh-100">
       <div className='row'>
       {doctors?.data?.map((person)=>{
-        if(person.isApproved)
+        if(person.employmentContract.status==='accepted')
         return
         return <div className="mx-auto col-md-6"> 
         <Card key={person.username} className="col-lg-9 mx-auto offset-lg-1 my-3 bg-light my-4 " title={<div className='text-capitalize '>{person.name}</div>} image={<Image src='/person.svg' height={30} width={30} className="m-3 mb-0 rounded-circle"/>}>
@@ -78,14 +78,16 @@ export default function DoctorApps() {
             <h8 style={{ fontWeight: 'bold' }}>Hourly Rate: </h8>{person.HourlyRate}
             <br />
           </div>
+          <div className="col-md-6">
+            <h8 style={{ fontWeight: 'bold' }}>Status: </h8>{person.employmentContract.status}
+            <br />
+          </div>
           </div>
           <h8 className="global-text" style={{ fontWeight: 'bold' }}>educationalBackground: </h8>{person.educationalbackground}
           <br />
           </div>
-          <div className="row">
-          <Button text='Reject' variant='xs' color='dark' onClick={()=>onRemoveHandler(person.user?._id)} className='col-md-4 mx-auto'></Button>
-          <Button text='Approve' variant='xs' onClick={()=>onApproveHandler(person._id)} className='col-md-4 mx-auto'></Button>
-          </div>
+          {person.employmentContract.status==='waitingadmin' && <Button text='Approve' variant='xs' onClick={()=>onApproveHandler(person._id)}></Button>}
+          {person.employmentContract.status==='waitingadmin' && <Button text='Reject' variant='xs' onClick={()=>onRemoveHandler(person.user?._id)}></Button>}
         </Card></div>
       })
        }

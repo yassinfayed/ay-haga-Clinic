@@ -17,7 +17,7 @@ import { createHealthPackageReducer, getHealthPackagesReducer, getHealthPackageR
 import {patientViewMyDetailsReducer} from './reducers/patientReducer';
 import { uploadHealthRecordsReducer } from './reducers/patientReducer';
 import { viewAllFamilyMembersAndPatientsReducer } from './reducers/FamilyMembersReducer';
-import { doctorFollowUpReducer } from './reducers/doctorReducer';
+import { doctorFollowUpReducer,rejectDoctorReducer } from './reducers/doctorReducer';
 
 
 const store = configureStore({
@@ -58,7 +58,8 @@ const store = configureStore({
     uploadHealthRecordsReducer,
     linkFamilyMemberReducer,
     viewAllFamilyMembersAndPatientsReducer,
-    doctorFollowUpReducer
+    doctorFollowUpReducer,
+    rejectDoctorReducer
 
   },
 });
