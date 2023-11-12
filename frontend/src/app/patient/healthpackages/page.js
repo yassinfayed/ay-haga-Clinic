@@ -50,6 +50,7 @@ function HealthPackages() {
 
   async function fetchFamily() {
     dispatch(viewFamilyMembers());
+    //ispatch();
   }
   async function fetchData() {
     dispatch(listHealthPackages());
@@ -61,14 +62,7 @@ function HealthPackages() {
     patient = patients[0];
     console.log(patient);
   }
-  // let familyMemberPatients = [];
-  // let i;
-  // for (i = 0; i < familyMembers?.data.length; i++) {
-  //   dispatch(cancelSubscription(familyMembers.data[i].patientId));
-  //   familyMemberPatients.push(
-  //     useSelector((state) => state.patientsReducer.patients.data)
-  //   );
-  // }
+
   const fam = useMemo(() => {
     if (familyMembers && familyMembers.data) {
       return familyMembers.data.map((value) => ({
@@ -210,7 +204,7 @@ function HealthPackages() {
         <div className="d-flex">
           {fam.map((familymember) => {
             return (
-              <div className="mx-auto col-lg-3" key={familymember?.patientId}>
+              <div className="mx-auto col-lg-4" key={familymember?.patientId}>
                 <Card
                   className="col-md-10 mx-auto offset-lg-1 my-3 bg-light my-4"
                   title={

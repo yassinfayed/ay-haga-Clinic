@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 
 import Modal from "react-bootstrap/Modal";
-import { addFamilyMembers } from "@/app/redux/actions/FamilyMembersAction";
+import { linkFamilyMember } from "@/app/redux/actions/FamilyMembersAction";
 import { useDispatch } from "react-redux";
 
 function AddFamily(props) {
@@ -30,15 +30,15 @@ function AddFamily(props) {
     } else {
       console.log("please enter a valid email or phone");
     }
-    // dispatch(
-    //   addFamilyMembers({
-    //     name: name,
-    //     nationalId: nationalId,
-    //     age: age,
-    //     gender: gender,
-    //     relationToPatient: relationToPatient,
-    //   })
-    // );
+    dispatch(
+      linkFamilyMember({
+        name: name,
+        nationalId: nationalId,
+        age: age,
+        gender: gender,
+        relationToPatient: relationToPatient,
+      })
+    );
     onHide();
   };
 
