@@ -317,7 +317,7 @@ export default function DoctorProfile({ params }) {
       )}
       <FooterDoc />
       </div>)}
-      {(docStatus==='pending' || docStatus==='waitingadmin') && <ContractPage/>}
+      {(docStatus!=='accepted') && <ContractPage/>}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { doctorViewContract, doctorAcceptContract } from "../../redux/actions/doctorActions";
+import { doctorViewContract, doctorAcceptContract, rejectDoctor } from "../../redux/actions/doctorActions";
 import { removeUser } from "../../redux/actions/userActions";
 import Image from 'react-bootstrap/Image';
 import { logout } from '@/app/redux/actions/authActions';
@@ -16,6 +16,8 @@ const ContractPage = () => {
   let userInfo;
 
   const doctorContract = useSelector((state) => state.doctorViewContractReducer.contract);
+  const rejectionisLoading=useSelector(state=>state.rejectDoctorReducer.loading);
+  const docStatus = doctorContract?.data.status;
 
   if (localStorage) {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -35,7 +37,7 @@ const ContractPage = () => {
 
   useEffect(() => {
     dispatch(doctorViewContract(userId));
-  }, [dispatch, doctorContract]);
+  }, [dispatch, doctorContract, rejectionisLoading]);
   
 
   const handleAccept = (e) =>{
@@ -49,8 +51,8 @@ const ContractPage = () => {
   const handleReject = (e) =>{
     e.preventDefault();
     console.log('rejected')
-    // dispatch(removeUser(userId)); //to be changed
-    handleLogout()
+    dispatch(rejectDoctor(doctorId));
+    // handleLogout()
   }
 
   const handleLogout= ()=>{
@@ -82,7 +84,7 @@ const ContractPage = () => {
           </div>
         </nav>
         <div>
-        {doctorContract.data.status === 'pending' ? (
+        {docStatus === 'pending' ? (
               <div className="page-div container justify-content-center align-items-center m-5 mx-auto">
               <h1 className="text-primary text-center"><strong>Employment Contract</strong></h1>
               <h3 className='text-center'>XClinics Clinic</h3>
@@ -152,7 +154,7 @@ const ContractPage = () => {
                 <Button onClick={(e)=>handleAccept(e)} variant='md' className='col-md-3 px-3 btn btn-primary mx-auto' color='primary'>Accept</Button>
               </div>
               </div>
-            </div>) : (
+            </div>) : (docStatus === 'waitingadmin' ? (
             <div>
               <br />
               <br />
@@ -160,7 +162,26 @@ const ContractPage = () => {
               <h3 className='text-center'>Your application is currently under review</h3>
               <div className='d-flex justify-content-center align-items-center'><hr className='w-50'/></div>
               <h5 className='text-semi-bold text-center my-3'> Thank you for your patience, we will get back to you soon.</h5>
-            </div>)}
+            </div>) : (docStatus==='Admin rejected' ? (
+            <div>
+              <br />
+              <br />
+              <h1 className="text-primary text-center mt-5"><strong>Application Terminated</strong></h1>
+              <h3 className='text-center'>We have terminated your application process.</h3>
+              <div className='d-flex justify-content-center align-items-center'><hr className='w-50'/></div>
+              <h5 className='text-semi-bold text-center my-3'> We regret to inform you that you have not passed our application screening phase.
+              <br /> We wish you the best of luck in your future endevours.</h5>
+            </div>): (
+            <div>
+              <br />
+              <br />
+              <h1 className="text-primary text-center mt-5"><strong>Application Terminated</strong></h1>
+              <h3 className='text-center'>You have terminated your application process.</h3>
+              <div className='d-flex justify-content-center align-items-center'><hr className='w-50'/></div>
+              <h5 className='text-semi-bold text-center my-3'> Your application has been terminated as you have rejected our employment contract,
+              <br /> We wish you the best of luck in your future endevours.</h5>
+            </div>)
+            ))}
       </div>
     </div>
   );

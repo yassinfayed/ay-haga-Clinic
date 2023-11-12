@@ -10,6 +10,7 @@ router.use(authController.protect);
 router.route("/").get(doctorController.getAllDoctors);
 router.route("/updatedoctor").patch( authController.restrictTo(enums.ROLE.DOCTOR),doctorController.updateDoctor);
 router.route('/acceptdoctor/:id').patch(authController.restrictTo(enums.ROLE.ADMIN),doctorController.acceptDoctor);
+router.route('/rejectdoctor/:id').patch(doctorController.rejectDoctor);
 //Reject will use same endpoint as removing a user and same for rejecting a contract
 router.route('/viewcontract').get(authController.restrictTo(enums.ROLE.DOCTOR),doctorController.viewEmploymentContract)
 router.route('/acceptcontract').patch(authController.restrictTo(enums.ROLE.DOCTOR),doctorController.acceptEmploymentContract)
