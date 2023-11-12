@@ -53,7 +53,8 @@ function HealthPackages() {
         subheader={``}
         show={modalShow}
         onHide={() => setModalShow(false)} 
-        id={healthPackage?.id}
+        id={healthPackage?._id}
+        healthPackage={healthPackage}
         />
         {packages.map((pack) => (
         <div className="col-md-4">
