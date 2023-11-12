@@ -65,10 +65,10 @@ export const registerAction = (reqBody) => async (dispatch) => {
 
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
       },
       withCredentials: true
-      
+
     };
     const { data } = await axios.post(
       `${baseURL}/api/v1/user/signup`,

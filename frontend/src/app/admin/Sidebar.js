@@ -14,8 +14,6 @@ export default function Sidebar() {
         if (localStorage) {
             setUserInfo(JSON.parse(localStorage.getItem("userInfo")).data);
         }
-
-        console.log(localStorage.getItem("userInfo"));
     }, [])
 
     return (

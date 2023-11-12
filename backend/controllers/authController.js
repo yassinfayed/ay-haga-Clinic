@@ -9,6 +9,44 @@ const Doctor = require("./../models/doctorModel");
 const Email = require('./../utils/email');
 const crypto = require('crypto');
 const FamilyMember = require("./../models/familyMembersModel")
+const multer = require('multer');
+
+
+
+
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    if (!req.locals) {
+      req.locals = {};
+    }
+    if (!req.locals.docs) {
+      req.locals.docs = [];
+    }
+
+    const uniqueFileName = `${Date.now()}-${file.originalname}`;
+    req.locals.docs.push(`uploads/${uniqueFileName}`);
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'application/pdf' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
+    cb(null, true);
+  } else {
+    cb(new Error('Invalid file type. Only PDF, PNG, JPEG, and JPG files are allowed.'), false);
+  }
+};
+
+exports.upload = multer({ storage, fileFilter });
+
+
+
+
 function generateOTP(length) {
   const digits = '0123456789';
   let otp = '';
@@ -102,6 +140,8 @@ exports.signup = catchAsync(async (req, res, next) => {
     }
 
     if (req.body.role === enums.ROLE.DOCTOR){ 
+      req.body.documents = req.locals?.docs;
+      console.log(req.body.documents);
       doctor = await Doctor.create(req.body);
       newUser.doctor = doctor;
     
