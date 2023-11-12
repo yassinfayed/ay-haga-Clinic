@@ -3,12 +3,17 @@ import Image from "next/image";
 import { useState } from "react";
 import React from "react";
 import { useEffect } from "react";
-import { viewDoctorDetails } from "../../redux/actions/doctorActions";
+import {
+  viewDoctorDetails,
+  doctorAddAvailableDate,
+} from "../../redux/actions/doctorActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../../../components/Card";
 import { Button } from "../../../../components/Button";
-
 import { updateDoctor } from "../../redux/actions/doctorActions";
+import NavbarDoc from "../../../../components/NavbarDoc";
+import FooterDoc from "../../../../components/FooterDoc";
+import ChangePassword from "../../../../components/ChangePassword";
 
 export default function DoctorProfile({ params }) {
   const dispatch = useDispatch();
@@ -18,10 +23,13 @@ export default function DoctorProfile({ params }) {
   const [newHourlyRate, setNewHourlyRate] = useState("");
   const [newAffiliation, setNewAffiliation] = useState("");
   const [newdoctor, setNewDoctor] = useState({});
-
+  const [newDate, setNewDate] = useState("");
+  const isLoading = useSelector(
+    (state) => state.doctorAddAvailableDateReducer.loading
+  );
   useEffect(() => {
     dispatch(viewDoctorDetails(params.id));
-  }, [dispatch, doctor, newEmail, newdoctor]);
+  }, [dispatch, doctor, newEmail, newdoctor, isLoading]);
 
   const doctor = useSelector((state) => state.doctorReducer.doctor);
 
@@ -35,6 +43,15 @@ export default function DoctorProfile({ params }) {
     permission = userInfo.data.user.role;
   }
   const id = params.id;
+  const handleDateChange = (e) => {
+    console.log(e.target.value);
+    setNewDate(e.target.value);
+  };
+
+  const handleAddDate = () => {
+    console.log(newDate);
+    dispatch(doctorAddAvailableDate({ availableDate: newDate }));
+  };
 
   function DateCardList() {
     return (
@@ -99,112 +116,160 @@ export default function DoctorProfile({ params }) {
   if (doctor) {
     date = formatDateToDDMMYYYY(doctor.DateOfbirth);
   }
+
   return (
     <>
+      <NavbarDoc />
       {doctor ? (
-        <div className=" p-5 d-flex mx-auto rounded w-100 my-3">
-          <div className=" w-25 border-end">
-            <div className="p-3 border-bottom m-3">
-              <div>
-                <Image src="/profile.svg" height={200} width={200} />
+        <div className="m-5">
+          <div className=" d-flex mx-auto rounded shadow col-md-9 my-5">
+            <div className=" w-25 border-end ">
+              <div className="p-3 border-bottom mx-auto">
+                <div>
+                  <Image src="/profile.svg" height={200} width={200} />
+                </div>
+              </div>
+              <div className="mx-auto">
+                <ChangePassword className="h-100 " />
               </div>
             </div>
-            {/* <div className="py-2 d-flex">
-              <span className="fw-bold w-25">Date Of Birth: </span>
-
-              <span>{doctor.DateOfbirth}</span>
-            </div> */}
-          </div>
-          <div className="p-3 w-75">
-            <div className="border-bottom d-flex">
-              <div className="w-75">
-                <h1>{doctor.name}</h1>
-                <p className="px-3 text-secondary">{doctor.speciality}</p>
+            <div className="p-5 w-75">
+              <div className="border-bottom d-flex">
+                <div className="w-75">
+                  <h1>{doctor.name}</h1>
+                  <p className="px-3 text-secondary">{doctor.speciality}</p>
+                </div>
+                <div className="w-25">
+                  {permission == "doctor" && (
+                    <Button
+                      text="Edit Information"
+                      variant="small"
+                      onClick={() => {
+                        setedit(true);
+                        console.log("new doctor", newdoctor);
+                      }}
+                    ></Button>
+                  )}
+                </div>
               </div>
-              <div className="w-25">
-                {permission == "doctor" && (
+              <div className="p-2 border-bottom row">
+                <div className="p-3 col-md-6">
+                  <div className="text-body-secondary fw-bold small p-3 ">
+                    Doctor Information
+                  </div>
+                  <div className="py-3 d-flex">
+                    <span className="fw-bold w-25">
+                      <Image src="/mail-dark.svg" height={25} width={25} />
+                    </span>
+                    {edit || <span className="w-50">{doctor.email}</span>}
+                    <span className="w-50">
+                      {!edit || (
+                        <input
+                          type="email"
+                          className="form-control"
+                          placeholder={doctor.email}
+                          value={newEmail}
+                          onChange={handleEmailChange}
+                        />
+                      )}
+                    </span>
+                  </div>
+                  <div className="py-2 d-flex ">
+                    <span className="fw-bold w-25 ">
+                      <Image src="/birthday.svg" height={25} width={25} />
+                    </span>
+                    <span className="w-50">{date}</span>
+                    <span className="w-50"></span>
+                  </div>
+                  <div className="py-2 d-flex ">
+                    <span className="fw-bold w-25 ">
+                      <Image src="/cart.svg" height={25} width={25} />
+                    </span>
+                    {edit || <span className="w-50">{doctor.HourlyRate}</span>}
+                    <span className="w-50">
+                      {!edit || (
+                        <input
+                          type="email"
+                          className="form-control"
+                          placeholder={doctor.HourlyRate}
+                          value={newHourlyRate}
+                          onChange={handleHourlyRateChange}
+                        />
+                      )}
+                    </span>
+                  </div>
+                  <div className="py-2 d-flex ">
+                    <span className="fw-bold w-25 ">
+                      <Image src="/affiliation.svg" height={25} width={25} />
+                    </span>
+                    {edit || <span className="w-50">{doctor.affiliation}</span>}
+                    <span className="w-50">
+                      {!edit || (
+                        <input
+                          type="email"
+                          className="form-control"
+                          placeholder={doctor.affiliation}
+                          value={newAffiliation}
+                          onChange={handleAffiliationChange}
+                        />
+                      )}
+                    </span>
+                  </div>
+                  <div className="py-2 d-flex">
+                    <span className="fw-bold w-25">
+                      <Image src="/education.svg" height={25} width={25} />
+                    </span>
+                    <span className="w-50">{doctor.educationalbackground}</span>
+                    <span className="w-50"></span>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-body-secondary fw-bold small p-3 ">
+                    Available Dates
+                  </div>
+                  <div className="col-md-3">
+                    <input
+                      type="datetime-local"
+                      id="appointmentdate"
+                      name="appointmentdate"
+                      className="search-input"
+                      onChange={(e) => {
+                        handleDateChange(e);
+                      }}
+                    />
+                  </div>
+                  <br></br>
                   <Button
-                    text="Edit Information"
+                    text="Add Available Date"
+                    variant="xs"
+                    onClick={() => handleAddDate()}
+                  ></Button>
+                  <DateCardList />
+                </div>
+              </div>
+              {!edit || (
+                <div className="col-md-4 mx-auto">
+                  <Button
+                    text="Cancel"
+                    variant="small"
+                    color="danger"
+                    onClick={() => {
+                      setedit(false);
+                    }}
+                    className="mx-1 my-2"
+                  ></Button>
+                  <Button
+                    text="Submit"
                     variant="small"
                     onClick={() => {
-                      setedit(true);
-                      console.log("new doctor", newdoctor);
+                      handleSubmit();
+                      setedit(false);
                     }}
+                    className="mx-1 my-2"
                   ></Button>
-                )}
-              </div>
-            </div>
-            <div className="p-2 border-bottom">
-              <div className="text-body-secondary fw-bold small p-3 ">
-                Doctor Information
-              </div>
-              <div className="p-3">
-                <div className="py-2 d-flex ">
-                  <span className="fw-bold w-25 ">
-                    <Image src="/birthday.svg" height={25} width={25} />
-                  </span>
-                  <span className="w-50">{date}</span>
-                  <span className="w-50"></span>
                 </div>
-                <div className="py-3 d-flex">
-                  <span className="fw-bold w-25">
-                    <Image src="/mail-dark.svg" height={25} width={25} />
-                  </span>
-                  {edit || <span className="w-50">{doctor.email}</span>}
-                  <span className="w-50">
-                    {!edit || (
-                      <input
-                        type="email"
-                        className="form-control"
-                        placeholder={doctor.email}
-                        value={newEmail}
-                        onChange={handleEmailChange}
-                      />
-                    )}
-                  </span>
-                </div>
-                <div className="py-2 d-flex ">
-                  <span className="fw-bold w-25 ">
-                    <Image src="/cart.svg" height={25} width={25} />
-                  </span>
-                  {edit || <span className="w-50">{doctor.HourlyRate}</span>}
-                  <span className="w-50">
-                    {!edit || (
-                      <input
-                        type="email"
-                        className="form-control"
-                        placeholder={doctor.HourlyRate}
-                        value={newHourlyRate}
-                        onChange={handleHourlyRateChange}
-                      />
-                    )}
-                  </span>
-                </div>
-                <div className="py-2 d-flex ">
-                  <span className="fw-bold w-25 ">
-                    <Image src="/affiliation.svg" height={25} width={25} />
-                  </span>
-                  {edit || <span className="w-50">{doctor.affiliation}</span>}
-                  <span className="w-50">
-                    {!edit || (
-                      <input
-                        type="email"
-                        className="form-control"
-                        placeholder={doctor.affiliation}
-                        value={newAffiliation}
-                        onChange={handleAffiliationChange}
-                      />
-                    )}
-                  </span>
-                </div>
-                <div className="py-2 d-flex">
-                  <span className="fw-bold w-25">
-                    <Image src="/education.svg" height={25} width={25} />
-                  </span>
-                  <span className="w-50">{doctor.educationalbackground}</span>
-                  <span className="w-50"></span>
-                </div>
-              </div>
+              )}
               <div>
                 <div className="text-body-secondary fw-bold small p-3 ">
                   Available Dates
@@ -212,31 +277,12 @@ export default function DoctorProfile({ params }) {
                 <DateCardList />
               </div>
             </div>
-            {!edit || (
-              <>
-                <Button
-                  text="Cancel"
-                  variant="small"
-                  color="danger"
-                  onClick={() => {
-                    setedit(false);
-                  }}
-                ></Button>
-                <Button
-                  text="Submit"
-                  variant="small"
-                  onClick={() => {
-                    handleSubmit();
-                    setedit(false);
-                  }}
-                ></Button>
-              </>
-            )}
           </div>
         </div>
       ) : (
         <div>hello</div>
       )}
+      <FooterDoc />
     </>
   );
 }

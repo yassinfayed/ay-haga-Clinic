@@ -41,37 +41,37 @@ function Familymembers() {
       return [];
     }, [familyMembers,modalShow,isLoading]);
 
+    console.log(fam)
+
   return (
-    <div className='m-2'>
-        <h3 className='my-1 mt-0 text-center text-title'>Family Members</h3>
-        <div className='underline-Bold mx-auto mb-5'></div>
-        <div className="container-fluid my-3">
-            <Button text="Add New Family Member"  onClick={() => setModalShow(true)}/>
-        </div>
-        <AddFamily
-        show={modalShow}
-        onHide={() => setModalShow(false)} 
-        />
-        <div className="container-fluid my-3">
- 
-      {fam.map((familymember) => (
-        <Card
-          className="my-2"
-          key={familymember._id}
-          title={familymember.name}
-          subtitle={`National ID: ${familymember.nationalId}`}
-          text={<>
-            Age: {familymember.age}
-            <br />
-            Gender: {familymember.gender}
-            <br />
-            Relation to Patient: {familymember.relationToPatient}
-          </> }
-        />
-       
-      ))}
-      
-    </div>
+    <div className='m-2 container-fluid'>
+      <h3 className='my-1 mt-0 text-center text-title'>Family Members</h3>
+      <div className='underline-Bold mx-auto mb-5'></div>
+      <div className="row justify-content-end align-items-center me-5">
+          <Button text="Add New Family Member" variant='md' className='ms-auto me-4 col-md-3' onClick={() => setModalShow(true)}/>
+      </div>
+      <AddFamily
+      show={modalShow}
+      onHide={() => setModalShow(false)} 
+      title="Add family member"
+      />
+      <div className="my-3 row mx-auto col-md-12">
+        {fam.map((familymember) => (
+          <Card
+            className="mx-5 my-4 col-md-3 bg-light"
+            key={familymember._id}
+            title={familymember.name}
+            subtitle={`National ID: ${familymember.nationalId}`}
+            text={<div className='text-semibold text-global text-capitalize'>
+                  Age: {familymember.age}
+                  <br />
+                  Gender: {familymember.gender}
+                  <br />
+                  Relation:  {familymember.relationToPatient}
+                </div> }
+          />
+        ))}
+      </div>
     </div>
   );
  

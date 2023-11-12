@@ -1,0 +1,40 @@
+.global-text{
+    color: #140836;     
+}
+
+.text-bold{
+  font-weight: 700;
+}
+
+.text-semibold{
+  font-weight: 600;
+}
+
+.hover-button:hover {
+    background-color: #e0e0e0;
+}
+
+.link-hover:hover {
+    color: #140836; 
+}
+
+.text-size-200{
+    font-size: 150px;
+}
+
+.text-size-50{
+  font-size: 50px;
+}
+
+.nav-title{
+  font-size: 30px;
+}
+
+.pointer-cursor {
+  cursor: pointer;
+}
+
+.text-title{
+  font-weight: 700;
+  font-size: 50px;
+}

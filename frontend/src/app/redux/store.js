@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import {loginReducer, registerReducer,forgetPasswordReducer,changePasswordReducer, resetPasswordReducer,logoutReducer} from './reducers/authReducer';
 import {removeUserReducer, getUsersReducer} from './reducers/userReducer';
 import {addFamilyMembersReducer} from './reducers/FamilyMembersReducer';
-import { viewFamilyMembersReducer } from './reducers/FamilyMembersReducer';
+import { viewFamilyMembersReducer,linkFamilyMemberReducer } from './reducers/FamilyMembersReducer';
 import { patientsReducer } from './reducers/patientsReducers';
 import { doctorReducer } from './reducers/doctorReducers';
 import { prescriptionReducer } from './reducers/prescriptionsReducers';
@@ -16,6 +16,7 @@ import { viewDoctorsAppointmentsReducer } from './reducers/doctorReducer';
 import { createHealthPackageReducer, getHealthPackagesReducer, getHealthPackageReducer, updateHealthPackageReducer, deleteHealthPackageReducer } from './reducers/healthPackagesReducer';
 import {patientViewMyDetailsReducer} from './reducers/patientReducer';
 import { uploadHealthRecordsReducer } from './reducers/patientReducer';
+import { viewAllFamilyMembersAndPatientsReducer } from './reducers/FamilyMembersReducer';
 
 
 const store = configureStore({
@@ -53,8 +54,9 @@ const store = configureStore({
     downloadPatienttDocsReducer,
     patientUploadDocs,
     patientRemoveRecordReducer,
-    uploadHealthRecordsReducer
-    
+    uploadHealthRecordsReducer,
+    linkFamilyMemberReducer,
+    viewAllFamilyMembersAndPatientsReducer,
 
   },
 });

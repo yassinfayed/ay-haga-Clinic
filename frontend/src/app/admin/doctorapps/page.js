@@ -3,6 +3,8 @@ import React, { useEffect } from 'react';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import { useDispatch, useSelector } from 'react-redux';
+import {login} from '@/app/redux/actions/authActions'
+import { getDoctorsForPatientAction,adminAcceptDoctor} from '@/app/redux/actions/doctorActions';
 import { getDoctorsForPatientAction } from '@/app/redux/actions/doctorActions';
 import { removeUser } from '@/app/redux/actions/userActions';
 import Image from 'next/image';
@@ -10,28 +12,27 @@ import Image from 'next/image';
 export default function DoctorApps() {
   const dispatch=useDispatch();
   const doctors=useSelector(state=>state.getDrsForPatientsReducer.doctors);
-  const isLoading=useSelector(state=>state.removeUserReducer.loading)
+  
+  const isLoading=useSelector(state=>state.removeUserReducer.loading);
+  const approvalIsLoading=useSelector(state=>state.adminAcceptDoctorReducer.loading);
   useEffect(()=>{
    // dispatch(login("sysadmin","pass1234"));
     dispatch(getDoctorsForPatientAction());
     
 
-  },[isLoading])
+  },[isLoading,approvalIsLoading])
 
-  const button = <div style={{
-      fontSize: '1px', 
-    }}>
-  <Button text='Approve' variant='xs' ></Button>
-  <Button text='Reject' variant='xs'
-></Button>
-  </div>
+ 
 
   const onRemoveHandler = (id)=>{
     //console.log(id)
     dispatch(removeUser(id))
 
   }
-    
+  const onApproveHandler =(id)=>{
+    // dispatch(login("sysadmin","pass1234"))
+     dispatch(adminAcceptDoctor(id))
+   }
   function formatDateToDDMMYYYY(isoDate) {
     const date = new Date(isoDate);
     const day = date.getDate().toString().padStart(2, '0');
@@ -82,6 +83,8 @@ export default function DoctorApps() {
           <h8 className="global-text" style={{ fontWeight: 'bold' }}>educationalBackground: </h8>{person.educationalbackground}
           <br />
           </div>
+          <Button text='Approve' variant='xs' onClick={()=>onApproveHandler(person._id)}></Button>
+          <Button text='Reject' variant='xs' onClick={()=>onRemoveHandler(person.user?._id)}></Button>
         </Card></div>
       })
        }

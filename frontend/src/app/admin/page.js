@@ -1,13 +1,17 @@
 "use client"
 import React, { useState } from 'react';
-import Head from 'next/head';
 import Image from 'next/image';
 import { Button } from '../../../components/Button';
+import ChangePassword from '../../../components/ChangePassword';
+import { Modal } from 'react-bootstrap';
+
 
 const AdminDashboard = () => {
 
   const [statPeriod, setStatPeriod] = useState('This Week');
   const [statDataIdx, setStatDataIdx] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+
 
   // Dummy patient reports
   const patientReports = [
@@ -79,6 +83,20 @@ const AdminDashboard = () => {
 
   return (
     <div className="container-fluid">
+        <Modal
+          show={showModal}
+          size="md"
+          onHide={() => setShowModal(false)} 
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          className='rounded'>
+            <Modal.Header closeButton className='bg-primary'>
+            </Modal.Header>
+            <Modal.Body>
+              <ChangePassword/>  
+            </Modal.Body>          
+        </Modal>
+
       <div className="row">
         <main className="col-md-12 ms-sm-auto col-lg-11 px-md-4">
         <h3 className='my-3 mb-5 text-title'>Admin Dashboard</h3>
@@ -95,6 +113,7 @@ const AdminDashboard = () => {
                     <div className='col-md-6 text-semibold global-text my-auto'>
                     <Image src="/id.svg" width={20} height={20} className='mb-1 me-1'/> XXXX 
                     </div>
+                  <Button className='col-md-8 mx-auto mt-3' variant='md' onClick={(e)=>{setShowModal(!showModal)}} text={"Change Password"}> </Button>
                   </div>
                 </div>
               </div>
@@ -124,9 +143,9 @@ const AdminDashboard = () => {
                 <h4 className="card-title text-primary text-bold">Statistics Summary</h4>
                 <hr />
                 <div className='text-semibold text-primary row container justify-content-center'>
-                <Button className='col-md-3' variant='md' onClick={(e)=>handleStatPeriod(e,"This Week")} text={"This Week"} color={statPeriod=="This Week"? "" :"dark"}></Button>
-                <Button className='col-md-3' variant='md' onClick={(e)=>handleStatPeriod(e,"This Month")} text={"This Month"} color={statPeriod=="This Month"? "" :"dark"}></Button>
-                <Button className='col-md-3' variant='md' onClick={(e)=>handleStatPeriod(e,"This Year")} text={"This Year"} color={statPeriod=="This Year"? "" :"dark"}></Button>
+                <Button className='col-md-3 mx-1' variant='md' onClick={(e)=>handleStatPeriod(e,"This Week")} text={"This Week"} color={statPeriod=="This Week"? "" :"dark"}></Button>
+                <Button className='col-md-3 mx-1' variant='md' onClick={(e)=>handleStatPeriod(e,"This Month")} text={"This Month"} color={statPeriod=="This Month"? "" :"dark"}></Button>
+                <Button className='col-md-3 mx-1' variant='md' onClick={(e)=>handleStatPeriod(e,"This Year")} text={"This Year"} color={statPeriod=="This Year"? "" :"dark"}></Button>
                 </div>
                   <div className="row p-2 m-2 border bg-white rounded">
                     <div className="col-md-4 d-flex ">
@@ -147,8 +166,6 @@ const AdminDashboard = () => {
                   <h5 className='px-2 text-semibold text-dark pt-2'>Geographical Analysis</h5>
 
                   <div className="card m-3">
-                    {/* <div className="card-header border-0 bg-light">
-                    </div> */}
                     <div className="card-body">
                       <table className="table">
                         <thead >

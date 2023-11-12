@@ -6,7 +6,12 @@ const authController = require('../controllers/authController');
 const router = express.Router();
 
 router.use(authController.protect);
+router.post(
+  "/link",
+ authController.restrictTo('patient'),
+  familyMemberController.linkFamilyMember
 
+);
 router.post(
   "/",
  authController.restrictTo('patient'),
@@ -14,5 +19,6 @@ router.post(
   authController.signup
 );
 router.route("/").get(authController.restrictTo('patient'),familyMemberController.viewRegisteredFamilyMembers);
+router.get('/view-all-family-members', familyMemberController.viewAllFamilyMembersAndPatients);
 
 module.exports = router;

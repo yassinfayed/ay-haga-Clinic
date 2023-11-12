@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Card, Button, Modal } from "react-bootstrap";
 import FileModal from "../../../../components/FileModal";
 import { uploadDocsAction } from "@/app/redux/actions/patientActions";
+import ChangePassword from '../../../../components/ChangePassword';
 
 const PatientProfile = ({ params }) => {
   const dispatch = useDispatch();
@@ -139,13 +140,16 @@ const handleFileUpload = (patientId) => {
       {patient ? (
         <div className="p-5 d-flex mx-auto rounded shadow col-md-9 my-3 ">
           <div className=" w-25 border-end">
-            <div className="p-3 border-bottom m-3">
+            <div className="border-bottom m-3">
               <div className="d-flex justify-content-center ">
                 <Image src="/profile.svg" height={200} width={200} />
               </div>
             </div>
+            <div className="mx-auto">
+              <ChangePassword/>
+            </div>
           </div>
-          <div className="p-3 w-75">
+          <div className="p-5 w-75">
             <div className="border-bottom d-flex ">
               <div className="w-75">
                 <h1 className=" ms-2 text-primary fw-bold text-capitalize">{patient.name}</h1>
@@ -154,8 +158,11 @@ const handleFileUpload = (patientId) => {
 
             <div className="p-2 ">
               <div className="d-flex">
-                <div className="w-60 ">
-                  <h2 className="text-global fw-bold small pt-3 p-1 me-3">Patient Information</h2>
+
+                <div className="w-50">
+                  <h2 className="text-global fw-bold small pt-3 p-1 me-3">
+                    Patient Information
+                  </h2>
                   <hr className="w-50" />
 
                   <div className="p-2 pt-0 mx-3">
@@ -213,7 +220,6 @@ const handleFileUpload = (patientId) => {
                   </div>
                 </div>
               </div>
-
               <div>
                 <div className="text-global fw-bold small pt-3 p-1">Health Records</div>
                 <hr className="w-50" />

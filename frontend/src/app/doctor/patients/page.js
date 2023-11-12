@@ -1,13 +1,14 @@
 'use client'
+import './page.css' ;
 import React, { useEffect, useState } from 'react';
 import { Table} from '../../../../components/Table'; 
 import { Button} from '../../../../components/Button'; 
-import './page.css' ;
 import { useDispatch, useSelector } from 'react-redux';
 import { viewPatients } from '@/app/redux/actions/patientsActions';
 import { uploadHealthRecords } from '@/app/redux/actions/patientActions';
 import Image from 'next/image';
-
+import NavbarDoc from "../../../../components/NavbarDoc";
+import FooterDoc from "../../../../components/FooterDoc";
 
 
 
@@ -80,7 +81,9 @@ const handleFileUpload = (patientId) => {
   }
  
   return (
-    <div className='m-2'>
+    <>
+    <NavbarDoc/>
+    <div className='m-5 global-text'>
       <h3 className='my-1 mt-0 text-center text-title'>Patients</h3>
       <div className='underline-Bold mx-auto mb-5'></div>
       <div className='row flex align-items-center justify-content-start bg-light p-2 pe-0 m-3 rounded border'>
@@ -109,6 +112,8 @@ const handleFileUpload = (patientId) => {
       <Table headers={tableHeaders} data={tabledata}  itemsPerPageOptions={[5, 10, 15]} />
     </div>
     </div>
+    <FooterDoc/>
+    </>
   );
  
 }

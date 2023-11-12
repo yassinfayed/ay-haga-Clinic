@@ -12,7 +12,7 @@ function Table(props) {
                 <thead>
                     <tr>
                         {headers.map((header, index) => (
-                            <th key={`col${index}`} scope="col" className='text-capitalize'>{header}</th>
+                            <th key={`col${index}`} scope="col" className='text-capitalize text-center'>{header}</th>
                         ))}
                     </tr>
                 </thead>
@@ -20,7 +20,7 @@ function Table(props) {
                     {currentItems?.map((row, index) => (
                         <tr key={`tr${index}`}>
                             {Object.values(row).map((node, index2) => (
-                                <td key={`td${index}-${index2}`}>{node}</td>
+                                <td key={`td${index}-${index2}`} className='text-center'>{node}</td>
                             ))}
                         </tr>
                     ))}

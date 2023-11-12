@@ -84,7 +84,6 @@
   border-radius: 9px;
 }
 
-  
 .underline-Bold{
   width: 80px;
   height: 2px;
@@ -113,7 +112,7 @@
 .gradient-background {
   background: linear-gradient(to right, #140836, #007bff); /* Replace #007bff with your Bootstrap primary color */
   width: 90%;
-  height: 450px; /* Set the height as needed */
+  height: 500px; /* Set the height as needed */
 }
 
 

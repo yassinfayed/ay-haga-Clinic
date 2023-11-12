@@ -223,7 +223,7 @@ export const getDoctorAppointments = (queryObj) => async (dispatch) => {
 }
 
 
-export const adminAcceptDoctor = (doctorId) => async (dispatch) => {
+export const adminAcceptDoctor = (doctorId,body) => async (dispatch) => {
   
   try {
     dispatch({
@@ -238,9 +238,9 @@ export const adminAcceptDoctor = (doctorId) => async (dispatch) => {
     };
     let url ="";
     
-    url=`${baseURL}/api/v1/doctor/acceptdoctor?_id=${doctorId}`
+    url=`${baseURL}/api/v1/doctor/acceptdoctor/${doctorId}`
     
-    const { data } = await axios.patch(url, config);
+    const { data } = await axios.patch(url, body,config);
 
     dispatch({
       type: DOCTOR_ACCEPTED_SUCCESS,

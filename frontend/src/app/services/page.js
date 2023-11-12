@@ -1,8 +1,41 @@
+'use client'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { listHealthPackages } from '@/app/redux/actions/healthPackagesActions';
+import { useEffect } from 'react';
+import { useMemo } from 'react';
 import Navbar from '../../../components/Navbar'
 import Footer from '../../../components/Footer'
 
 const ServicesPage = () => {
+
+  const dispatch = useDispatch();
+
+  const healthPackages = useSelector((state) => state.getHealthPackagesReducer.healthPackages);
+ 
+  async function fetchData() {
+    dispatch(listHealthPackages());
+  }
+  
+  useEffect(() => {
+    fetchData();
+  }, [dispatch]);
+  
+
+  const packages = useMemo(() => {
+    if (healthPackages && healthPackages.data) {
+      return healthPackages.data.map((value) => ({
+        name: value.name, 
+        price: value.price,
+        doctorDiscount: value.doctorDiscount,
+        medicineDiscount: value.medicineDiscount,
+        familyDiscount: value.familyMemberSubDiscount,
+      }));
+    }
+    return [];
+  }, [healthPackages]);
+
   return (
     <div className='w-100'>
       <Navbar/>
@@ -11,54 +44,22 @@ const ServicesPage = () => {
       <h2 className='text-center'>Choose the package that suits your needs</h2>
 
       <div className="w-100 row mt-5 justify-content-center ">
+      {packages.map((pack) => (
         <div className="col-md-4">
           <div className="card shadow">
             <div className="card-body">
-              <h3 className="card-title text-center">Silver Package</h3>
+              <h3 className="card-title text-center">{pack.name} Package</h3>
               <p className="card-subtitle text-primary pb-2 text-center">
-                Subsbcribe for 3600EGP/year
-              </p>
-
-              <ul>
-                <li><strong className='text-primary'>40%</strong> off any doctor's session price</li>
-                <li><strong className='text-primary'>20%</strong> off any medicine ordered from our pharmacy platform.</li>
-                <li><strong className='text-primary'>10%</strong> discount on subscriptions of family members in any package.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-4">
-          <div className="card shadow">
-            <div className="card-body">
-              <h3 className="card-title text-center">Gold Package</h3>
-              <p className="card-subtitle text-primary pb-2 text-center">
-                Subscribe for 6000EGP/year
-              </p>
-              <ul className=''>
-                <li><strong className='text-primary'>60%</strong> off any doctor's appointment.</li>
-                <li><strong className='text-primary'>30%</strong> off any medicine ordered from our pharmacy platform.</li>
-                <li><strong className='text-primary'>15%</strong> discount on subscriptions of family members in any package.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-4">
-          <div className="card shadow">
-            <div className="card-body">
-              <h3 className="card-title text-center">Platinum Package</h3>
-              <p className="card-subtitle text-primary pb-2 text-center">
-              Subscribe for 9000EGP/year
+              Subscribe for {pack.price}EGP/year
               </p>
               <ul>
-                <li><strong className='text-primary'>80%</strong> off any doctor's appointment.</li>
-                <li><strong className='text-primary'>40%</strong> off any medicine ordered from our pharmacy platform.</li>
-                <li><strong className='text-primary'>20%</strong> discount on subscriptions of family members in any package.</li>
+                <li><strong className='text-primary'>{pack.doctorDiscount}%</strong> off any doctor's appointment.</li>
+                <li><strong className='text-primary'>{pack.medicineDiscount}%</strong> off any medicine ordered from our pharmacy platform.</li>
+                <li><strong className='text-primary'>{pack.familyDiscount}%</strong> discount on subscriptions of family members in any package.</li>
               </ul>
             </div>
           </div>
-        </div>
+        </div>))}
       </div>
     </div>
       <Footer/>
