@@ -5,6 +5,7 @@ import { Table} from '../../../../components/Table';
 import { Button} from '../../../../components/Button'; 
 import { useDispatch, useSelector } from 'react-redux';
 import { viewPatients } from '@/app/redux/actions/patientsActions';
+import { uploadHealthRecords } from '@/app/redux/actions/patientActions';
 import Image from 'next/image';
 import NavbarDoc from "../../../../components/NavbarDoc";
 import FooterDoc from "../../../../components/FooterDoc";
@@ -12,12 +13,16 @@ import FooterDoc from "../../../../components/FooterDoc";
 
 
 function PatientsList() {
-  const tableHeaders = ['name','email','birth date','gender', 'phone number','appointment date','Actions']; 
+  const tableHeaders = ['name','email','birth date','gender', 'phone number','appointment date', 'view', 'upload health records']; 
 
   const tabledata2 = useSelector(state => state.patientsReducer?.patients?.data)
   const tabledataU1 = useSelector(state => state.filterPatientsBasedOnUpcomingAppointmentsReducer?.patients?.data)
   const [name,setName] = useState({});
   const [upcoming,setUpcoming] = useState({});
+
+
+
+  
 
   const generateButton = (id) => {
     return (
@@ -28,17 +33,47 @@ function PatientsList() {
   };
 
   let tabledata = tabledata2?.map(item => {
-    console.log(item)
-    const { emergencyContact, id ,_id ,user ,__v ,healthRecords ,...rest } = item;
-    rest.button = generateButton(_id)
-    return rest;
-  })
+    return {
+      name: item.name,
+      email: item.email,
+      birthDate: item.dateOfBirth, // Adjust the dateOfBirth key
+      gender: item.gender,
+      phoneNumber: item.mobileNumber,
+      appointmentDate: item.appointmentDate,
+      view: generateButton(item._id), // Adjust the ID key
+      upload : <>
+      <div className="d-flex">
+      <input className="form-control" type="file" onChange={(e) => handleFileChange(e, item._id)} id="formFile"/>
+      <Button text="Submit" className="w-60 ms-5" variant={'sm'} onClick={() => handleFileUpload(item._id)}></Button>   
+      </div>
+    </>
+    };
+  });
 
  
   const dispatch = useDispatch();
   useEffect(()=> {
     dispatch(viewPatients({...name,...upcoming}))
   },[name,upcoming])
+
+  const [selectedFile, setSelectedFile] = useState(null);
+
+const handleFileChange = (e, patientId) => {
+  if (e.target.files && e.target.files[0]) {
+    const file = e.target.files[0];
+    setSelectedFile({ patientId, file });
+  }
+};
+
+const handleFileUpload = (patientId) => {
+  if (selectedFile) {
+    const { file } = selectedFile;
+    const formData = new FormData();
+    formData.append('image', file);
+
+    dispatch(uploadHealthRecords(formData, patientId));
+  }
+};
 
   const handleClearFilters = () => {
     setName(null);

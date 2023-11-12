@@ -65,10 +65,10 @@ export const registerAction = (reqBody) => async (dispatch) => {
 
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
       },
       withCredentials: true
-      
+
     };
     const { data } = await axios.post(
       `${baseURL}/api/v1/user/signup`,
@@ -107,6 +107,7 @@ export const logout = () => async (dispatch) => {
     };
     const { data } = await axios.post(
       `${baseURL}/api/v1/user/logout`,
+      {},
       config
     );
 
@@ -116,6 +117,7 @@ export const logout = () => async (dispatch) => {
     });
 
     localStorage.clear();
+    window.location.href='/guest/Login'
   } catch (error) {
     dispatch({
       type: USER_LOGOUT_FAIL,

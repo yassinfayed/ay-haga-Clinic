@@ -56,17 +56,16 @@ const patientSchema = new mongoose.Schema({
   },
   renewalDate: {
     type: Date,
-    required: function() {
-        return this.subscriptionStatus === 'subscribed';
-    }
+    default: null
   },
   cancellationEndDate: {
     type: Date,
-    required: function() {
-        return this.subscriptionStatus === 'cancelled';
-    }
+    default: null
   },
-  appointmentDate: Date,
+  appointmentDate: {
+    type: Date,
+    default: null
+  },
   healthRecords: [
     {
       type: String

@@ -1,10 +1,12 @@
 'use client'
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useDispatch } from 'react-redux';
+import { logout } from '@/app/redux/actions/authActions';
 
 const AdminNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+const dispatch=useDispatch();
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -12,7 +14,10 @@ const AdminNavbar = () => {
   const goBack = () => {
     history.back()
   }
+const handleLogout= ()=>{
+dispatch(logout())
 
+}
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light w-100 pb-3">
       <div className="container d-flex flex-row justify-content-between w-100">
@@ -55,7 +60,7 @@ const AdminNavbar = () => {
               <a className="nav-link" href="/admin/healthpackages">Packages</a>
             </li>
             <li className="nav-item">
-              <a className="btn btn-primary ms-2 mx-1" href="/guest/Login">
+              <a className="btn btn-primary ms-2 mx-1" onClick={handleLogout}>
                 Logout
               </a>
             </li>

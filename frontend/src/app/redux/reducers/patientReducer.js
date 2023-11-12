@@ -1,6 +1,22 @@
-import { PATIENTS_FILTERAPPOINTMENTS_FAIL,  PATIENT_REMOVE_RECORD_REQUEST,
+import { 
+  PATIENTS_FILTERAPPOINTMENTS_FAIL,  
+  PATIENT_REMOVE_RECORD_REQUEST,
   PATIENT_REMOVE_RECORD_SUCCESS,
-  PATIENT_REMOVE_RECORD_FAIL,PATIENTS_FILTERAPPOINTMENTS_REQUEST, PATIENTS_FILTERAPPOINTMENTS_SUCCESS , PATIENT_DOWNLOAD_DOCS_FAIL, PATIENT_DOWNLOAD_DOCS_REQUEST, PATIENT_DOWNLOAD_DOCS_SUCCESS, PATIENT_FAIL,PATIENT_REQUEST,PATIENT_SUCCESS, PATIENT_UPLOAD_DOCS_FAIL, PATIENT_UPLOAD_DOCS_REQUEST, PATIENT_UPLOAD_DOCS_SUCCESS} from "../constants/patientConstants";
+  PATIENT_REMOVE_RECORD_FAIL,
+  PATIENTS_FILTERAPPOINTMENTS_REQUEST, 
+  PATIENTS_FILTERAPPOINTMENTS_SUCCESS , 
+  PATIENT_DOWNLOAD_DOCS_FAIL, 
+  PATIENT_DOWNLOAD_DOCS_REQUEST, 
+  PATIENT_DOWNLOAD_DOCS_SUCCESS, 
+  PATIENT_FAIL,PATIENT_REQUEST,
+  PATIENT_SUCCESS, 
+  PATIENT_UPLOAD_DOCS_FAIL, 
+  PATIENT_UPLOAD_DOCS_REQUEST, 
+  PATIENT_UPLOAD_DOCS_SUCCESS,
+  PATIENT_UPLOAD_HEALTHRECORDS_FAIL,
+  PATIENT_UPLOAD_HEALTHRECORDS_REQUEST,
+  PATIENT_UPLOAD_HEALTHRECORDS_SUCCESS
+} from "../constants/patientConstants";
 
 export const viewPatientsAppointmentsReducer = (state ={}, action) => {
     switch (action.type) {
@@ -57,6 +73,32 @@ export const viewPatientsAppointmentsReducer = (state ={}, action) => {
   }
 
   export const patientUploadDocs = (state ={}, action) => {
+    switch (action.type) {
+      case PATIENT_UPLOAD_HEALTHRECORDS_REQUEST:
+        return {
+          ...state,
+          loading: true,
+          error: null,
+        };
+      case PATIENT_UPLOAD_HEALTHRECORDS_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          error: null,
+        }
+      };
+      case PATIENT_UPLOAD_HEALTHRECORDS_FAIL:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+      default:
+        return state;
+    }
+  }
+
+  export const uploadHealthRecordsReducer = (state ={}, action) => {
     switch (action.type) {
       case PATIENT_UPLOAD_DOCS_REQUEST:
         return {
