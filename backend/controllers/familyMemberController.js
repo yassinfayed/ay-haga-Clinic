@@ -68,3 +68,34 @@ exports.viewRegisteredFamilyMembers = catchAsync(async (req, res,next) => {
     req.query["patientId"] = { "eq": patientId };
     handlerFactory.getAll(FamilyMember)(req,res,next);
 });
+
+exports.viewAllFamilyMembersAndPatients = catchAsync(async (req, res, next) => {
+  const userId = req.user._id;
+
+  const patient = await Patient.findOne({ user: userId });
+
+  if (!patient) {
+      return res.status(404).json({ message: 'Patient not found for the logged-in user' });
+  }
+
+  const patientId = patient._id;
+
+  const familyMembers = await FamilyMember.find({ patientId });
+  
+  const familyMembersWithPatients = [];
+
+  for (const familyMember of familyMembers) {
+      if (familyMember.linkedPatientId) {
+          const linkedPatient = await Patient.findById(familyMember.linkedPatientId);
+
+          if (linkedPatient) {
+              familyMembersWithPatients.push({
+                  familyMember,
+                  patientDetails: linkedPatient
+              });
+          }
+      }
+  }
+
+  return res.status(200).json({ familyMembersWithPatients });
+});
