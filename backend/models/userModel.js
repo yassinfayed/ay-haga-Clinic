@@ -41,9 +41,11 @@ const userSchema = new mongoose.Schema({
     patient: {
       type: Object
     },
-    passwordChangedAt: Date,
+    wallet : {
+      type: Number,
+      default: 0
+    },  
     passwordResetToken: String,
-    passwordResetExpires: Date,
     active: {
       type: Boolean,
       default: true,
