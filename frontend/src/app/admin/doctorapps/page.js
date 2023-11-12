@@ -5,7 +5,6 @@ import { Card } from '../../../../components/Card';
 import { useDispatch, useSelector } from 'react-redux';
 import {login} from '@/app/redux/actions/authActions'
 import { getDoctorsForPatientAction,adminAcceptDoctor} from '@/app/redux/actions/doctorActions';
-import { getDoctorsForPatientAction } from '@/app/redux/actions/doctorActions';
 import { removeUser } from '@/app/redux/actions/userActions';
 import Image from 'next/image';
 

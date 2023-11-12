@@ -15,7 +15,7 @@ const NavbarDoc = () => {
     history.back()
   }
   const handleLogout= ()=>{
-    dispatch(logout)
+    dispatch(logout())
     
     }
   const id = JSON.parse(localStorage.getItem('userInfo')).data.user.doctor._id;
