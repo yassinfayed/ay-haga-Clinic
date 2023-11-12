@@ -4,8 +4,7 @@ import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import { useDispatch, useSelector } from 'react-redux';
 import {login} from '@/app/redux/actions/authActions'
-import { getDoctorsForPatientAction,adminAcceptDoctor} from '@/app/redux/actions/doctorActions';
-import { removeUser } from '@/app/redux/actions/userActions';
+import { getDoctorsForPatientAction,adminAcceptDoctor, rejectDoctor} from '@/app/redux/actions/doctorActions';
 import Image from 'next/image';
 
 export default function DoctorApps() {
@@ -14,22 +13,18 @@ export default function DoctorApps() {
   
   const isLoading=useSelector(state=>state.removeUserReducer.loading);
   const approvalIsLoading=useSelector(state=>state.adminAcceptDoctorReducer.loading);
-  useEffect(()=>{
-   // dispatch(login("sysadmin","pass1234"));
-    dispatch(getDoctorsForPatientAction());
-    
+  const rejectionisLoading=useSelector(state=>state.rejectDoctorReducer.loading);
 
-  },[isLoading,approvalIsLoading])
+  useEffect(()=>{
+    dispatch(getDoctorsForPatientAction());
+  },[isLoading,approvalIsLoading,rejectionisLoading])
 
  
 
   const onRemoveHandler = (id)=>{
-    //console.log(id)
-    dispatch(removeUser(id))
-
+    dispatch(rejectDoctor(id))
   }
   const onApproveHandler =(id)=>{
-    // dispatch(login("sysadmin","pass1234"))
      dispatch(adminAcceptDoctor(id))
    }
   function formatDateToDDMMYYYY(isoDate) {
@@ -48,10 +43,12 @@ export default function DoctorApps() {
     <div className="justify-content-center align-items-center min-vh-100">
       <div className='row'>
       {doctors?.data?.map((person)=>{
-        if(person.isApproved)
+        if(person.employmentContract.status==='accepted')
         return
         return <div className="mx-auto col-md-6"> 
-        <Card key={person.username} className="col-lg-9 mx-auto offset-lg-1 my-3 bg-light my-4 " title={<div className='text-capitalize '>{person.name}</div>} image={<Image src='/person.svg' height={30} width={30} className="m-3 mb-0 rounded-circle"/>}>
+        <Card key={person.username} className="col-lg-9 mx-auto offset-lg-1 my-3 bg-light my-4 " title={<div className='text-capitalize '>{person.name}</div>} image={<Image src='/person.svg' height={30} width={30} 
+        className="m-3 mb-0 rounded-circle"/>} subtitle={<div className='mt-2 ms-3 text-semibold text-capitalize'>Status: {person.employmentContract.status}</div>}>
+       <hr />
        <div className="p-3 pe-0">
           <div className="row">
             <div>
@@ -82,8 +79,10 @@ export default function DoctorApps() {
           <h8 className="global-text" style={{ fontWeight: 'bold' }}>educationalBackground: </h8>{person.educationalbackground}
           <br />
           </div>
-          <Button text='Approve' variant='xs' onClick={()=>onApproveHandler(person._id)}></Button>
-          <Button text='Reject' variant='xs' onClick={()=>onRemoveHandler(person.user?._id)}></Button>
+          <div className='row'>
+          {person.employmentContract.status==='waitingadmin' && <Button text='Reject' color='dark' variant='xs' onClick={()=>onRemoveHandler(person._id)} className='col-md-4 mx-auto'></Button>}
+          {person.employmentContract.status==='waitingadmin' && <Button text='Approve' variant='xs' onClick={()=>onApproveHandler(person._id)} className='col-md-4 mx-auto'></Button>}
+          </div>
         </Card></div>
       })
        }

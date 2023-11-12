@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Button } from "../../../../../components/Button";
 import TickAnimation from '../../../../../public/tickanimation';
 import Lottie from "lottie-react";
+import Navbar from "../../../../../components/Navbar";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -104,6 +105,7 @@ const SignUp = () => {
       {
         !isAuthenticated &&
         <>
+          <Navbar/>
           <div className="container mt-5">
             <div className="row">
               <div className="col-md-7 mx-auto rounded shadow p-5">
@@ -336,7 +338,7 @@ const SignUp = () => {
                       Please upload the following documents.
                     </h6>
                     <div className="p-2">
-                        <label htmlFor="document1" className="d-flex align-items-center justify-content-between form-label">
+                        <label htmlFor="document1" className="text-semibold me-2 d-flex align-items-center justify-content-between form-label">
                           National ID
                           <span className="btn btn-outline-primary btn-sm">
                             <i className="bi bi-cloud-upload"></i> Upload
@@ -346,7 +348,7 @@ const SignUp = () => {
                       
                     </div>
                     <div className="p-2">
-                        <label htmlFor="document2" className="d-flex align-items-center justify-content-between form-label">
+                        <label htmlFor="document2" className="text-semibold  me-2 d-flex align-items-center justify-content-between form-label">
                           Medical Degree
                           <span className="btn btn-outline-primary btn-sm">
                             <i className="bi bi-cloud-upload"></i> Upload
@@ -356,7 +358,7 @@ const SignUp = () => {
                       
                     </div>
                     <div className="p-2">
-                        <label htmlFor="document3" className="d-flex align-items-center justify-content-between form-label">
+                        <label htmlFor="document3" className="text-semibold  me-2 d-flex align-items-center justify-content-between form-label">
                           Medical License
                           <span className="btn btn-outline-primary btn-sm">
                             <i className="bi bi-cloud-upload"></i> Upload
@@ -366,6 +368,7 @@ const SignUp = () => {
                       
                     </div>
                   </div>
+                  <br />
                 <div className="text-center">
                   <Button text="Sign Up" onClick={handleSignUp} />
                 </div>
@@ -378,6 +381,7 @@ const SignUp = () => {
       {
         isAuthenticated &&
         <>
+        <Navbar/>
           <div className="d-flex flex-grow-1 min-vh-100 w-100 flex-col align-items-center justify-content-center">
             <div className="card p-5 text-center">
               <Lottie animationData={TickAnimation} loop={false} className="w-50 mx-auto" />
