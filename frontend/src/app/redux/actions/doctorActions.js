@@ -313,7 +313,7 @@ export const doctorAcceptContract = (doctorId) => async (dispatch) => {
     
     url=`${baseURL}/api/v1/doctor/acceptcontract`
     
-    const { data } = await axios.patch(url, config);
+    const { data } = await axios.patch(url,{}, config);
 
     dispatch({
       type: DOCTOR_ACCEPTCONTRACT_SUCCESS,

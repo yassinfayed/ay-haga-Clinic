@@ -1,24 +1,33 @@
 "use client";
+import React from "react";
 import Image from "next/image";
 import { useState } from "react";
-import React from "react";
 import { useEffect } from "react";
-import {
-  viewDoctorDetails,
-  doctorAddAvailableDate,
-} from "../../redux/actions/doctorActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../../../components/Card";
 import { Button } from "../../../../components/Button";
-import { updateDoctor } from "../../redux/actions/doctorActions";
 import NavbarDoc from "../../../../components/NavbarDoc";
 import FooterDoc from "../../../../components/FooterDoc";
 import ChangePassword from "../../../../components/ChangePassword";
+import ContractPage from "../Contract/page";
+import {
+  viewDoctorDetails,
+  doctorAddAvailableDate,
+  updateDoctor,
+  doctorViewContract,
+} from "../../redux/actions/doctorActions";
+
 
 export default function DoctorProfile({ params }) {
+  
   const dispatch = useDispatch();
 
-  const [edit, setedit] = useState(false);
+  let date;
+  let permission;
+  let userInfo;
+  const id = params.id;
+
+  const [edit, setEdit] = useState(false); // Updated variable name
   const [newEmail, setNewEmail] = useState("");
   const [newHourlyRate, setNewHourlyRate] = useState("");
   const [newAffiliation, setNewAffiliation] = useState("");
@@ -27,14 +36,17 @@ export default function DoctorProfile({ params }) {
   const isLoading = useSelector(
     (state) => state.doctorAddAvailableDateReducer.loading
   );
+
   useEffect(() => {
     dispatch(viewDoctorDetails(params.id));
-  }, [dispatch, doctor, newEmail, newdoctor, isLoading]);
+    dispatch(doctorViewContract(params.id));
+  }, [dispatch, doctor, doctorContract, id, newEmail, newdoctor, isLoading]);
 
   const doctor = useSelector((state) => state.doctorReducer.doctor);
-
-  let permission;
-  let userInfo;
+  const doctorContract = useSelector(
+    (state) => state.doctorViewContractReducer.contract
+  );
+  const docStatus = doctorContract?.data.status;
 
   if (localStorage) {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -42,43 +54,37 @@ export default function DoctorProfile({ params }) {
   if (userInfo) {
     permission = userInfo.data.user.role;
   }
-  const id = params.id;
+  if (doctor) {
+    date = formatDateToDDMMYYYY(doctor.DateOfbirth);
+  }
+
+  function formatDateToDDMMYYYY(isoDate) {
+    const date = new Date(isoDate);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year} `;
+  }
+
+  function formatDateToDDMMYYYYHHMM(isoDate) {
+    const date = new Date(isoDate);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+  
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+  }
+
   const handleDateChange = (e) => {
-    console.log(e.target.value);
     setNewDate(e.target.value);
   };
 
   const handleAddDate = () => {
-    console.log(newDate);
     dispatch(doctorAddAvailableDate({ availableDate: newDate }));
   };
-
-  function DateCardList() {
-    return (
-      <div className="card-list d-flex">
-        {doctor.availableDates.map((date, index) => (
-          <div className="w-25 p-2" key={index}>
-            <Card
-              title={date}
-              subtitle=""
-              text=""
-              onClick={() => alert("Card Clicked")}
-              onClickButton={() => alert("Button Clicked")}
-              headerText={index + 1}
-            />
-          </div>
-        ))}
-      </div>
-    );
-  }
-  function formatDateToDDMMYYYY(isoDate) {
-    const date = new Date(isoDate);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based, so add 1.
-    const year = date.getFullYear();
-
-    return `${day}-${month}-${year}`;
-  }
 
   const handleEmailChange = (e) => {
     setNewEmail(e.target.value);
@@ -112,13 +118,41 @@ export default function DoctorProfile({ params }) {
     setNewHourlyRate("");
     setNewAffiliation("");
   };
-  let date;
-  if (doctor) {
-    date = formatDateToDDMMYYYY(doctor.DateOfbirth);
+
+  console.log(docStatus)
+  console.log(doctor)
+
+
+  function DateCardList() {
+    return (
+      <div className="card-list d-flex">
+        {doctor.availableDates.map((date, index) => (
+          <div className="w-25 p-2" key={index}>
+            <Card
+              subtitle=""
+              text={<div className="text-semibold text-center text-primary">{formatDateToDDMMYYYYHHMM(date)}</div>}
+              onClick={() => alert("Card Clicked")}
+              onClickButton={() => alert("Button Clicked")}
+              headerText={index + 1}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
+  function formatDateToDDMMYYYY(isoDate) {
+    const date = new Date(isoDate);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based, so add 1.
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
   }
 
+
   return (
-    <>
+    <div>
+      {docStatus==="accepted" && (<div>
       <NavbarDoc />
       {doctor ? (
         <div className="m-5">
@@ -145,12 +179,13 @@ export default function DoctorProfile({ params }) {
                       text="Edit Information"
                       variant="small"
                       onClick={() => {
-                        setedit(true);
+                        setEdit(true);
                         console.log("new doctor", newdoctor);
                       }}
                     ></Button>
                   )}
                 </div>
+                
               </div>
               <div className="p-2 border-bottom row">
                 <div className="p-3 col-md-6">
@@ -223,66 +258,66 @@ export default function DoctorProfile({ params }) {
                     <span className="w-50"></span>
                   </div>
                 </div>
-
-                <div>
+                <hr />
+                {!edit || (
+                <div className="col-md-8 row mx-auto">
+                  <Button
+                    text="Cancel"
+                    variant="md"
+                    color="danger"
+                    onClick={() => {
+                      setEdit(false);
+                    }}
+                    className="mx-1 my-2 col"
+                  ></Button>
+                  <Button
+                    text="Submit"
+                    variant="md"
+                    onClick={() => {
+                      handleSubmit();
+                      setEdit(false);
+                    }}
+                    className="mx-1 my-2 col"
+                  ></Button>
+                </div>
+              )}
+                <div className="">
                   <div className="text-body-secondary fw-bold small p-3 ">
                     Available Dates
                   </div>
-                  <div className="col-md-3">
+                  <div className=" row">
+                    <div className="col-md-8">
                     <input
                       type="datetime-local"
                       id="appointmentdate"
                       name="appointmentdate"
-                      className="search-input"
+                      className="form-control"
                       onChange={(e) => {
                         handleDateChange(e);
                       }}
                     />
-                  </div>
-                  <br></br>
+                    </div>
                   <Button
                     text="Add Available Date"
                     variant="xs"
                     onClick={() => handleAddDate()}
+                    className='col-md-4'
                   ></Button>
+                  </div>
+                  <br></br>
                   <DateCardList />
                 </div>
               </div>
-              {!edit || (
-                <div className="col-md-4 mx-auto">
-                  <Button
-                    text="Cancel"
-                    variant="small"
-                    color="danger"
-                    onClick={() => {
-                      setedit(false);
-                    }}
-                    className="mx-1 my-2"
-                  ></Button>
-                  <Button
-                    text="Submit"
-                    variant="small"
-                    onClick={() => {
-                      handleSubmit();
-                      setedit(false);
-                    }}
-                    className="mx-1 my-2"
-                  ></Button>
-                </div>
-              )}
-              <div>
-                <div className="text-body-secondary fw-bold small p-3 ">
-                  Available Dates
-                </div>
-                <DateCardList />
-              </div>
+
             </div>
           </div>
         </div>
       ) : (
-        <div>hello</div>
+        <div>Loading...</div>
       )}
       <FooterDoc />
-    </>
+      </div>)}
+      {(docStatus==='pending' || docStatus==='waitingadmin') && <ContractPage/>}
+    </div>
   );
 }

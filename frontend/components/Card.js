@@ -13,7 +13,6 @@ function Card ({ title, subtitle, text, className, image = "", buttonText = "", 
                         {title && <div className="text-primary col-md-10 pt-3" style={{ fontWeight: 'bold' , fontSize: '30px'}}>{title}</div>}
                     </div>}
                     {title && !image && <div className="text-primary col-md-10" style={{ fontWeight: 'bold' , fontSize: '30px'}}>{title}</div>}
-                    <hr />
                     {subtitle && <h6 className="card-subtitle mb-2 text-muted">{subtitle}</h6>}
                     {text && <h8 className="card-text">{text}</h8>}
                     {children}

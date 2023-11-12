@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { logout } from '@/app/redux/actions/authActions';
 
+
 const NavbarDoc = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch=useDispatch()
@@ -14,10 +15,11 @@ const NavbarDoc = () => {
   const goBack = () => {
     history.back()
   }
+
   const handleLogout= ()=>{
-    dispatch(logout)
-    
-    }
+    dispatch(logout())
+  }
+
   const id = JSON.parse(localStorage.getItem('userInfo')).data.user.doctor._id;
 
   return (
