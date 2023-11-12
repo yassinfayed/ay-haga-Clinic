@@ -6,6 +6,9 @@ import {
   VIEW_FAMILY_MEMBERS_REQUEST,
   VIEW_FAMILY_MEMBERS_SUCCESS,
   VIEW_FAMILY_MEMBERS_FAIL,
+  LINK_FAMILY_MEMBER_REQUEST,
+  LINK_FAMILY_MEMBER_SUCCESS,
+  LINK_FAMILY_MEMBER_FAIL
 } from '../constants/FamilyMembersConstants';
 import baseURL from '../baseURL';
 
@@ -75,6 +78,40 @@ export const viewFamilyMembers = () => async (dispatch) => {
       payload: error.response
         ? error.response.data.message
         : 'viewing family members failed. Please try again.',
+    });
+  }
+};
+
+export const LinkFamilyMember = (body) => async (dispatch) => {
+  try {
+    dispatch({
+      type: LINK_FAMILY_MEMBER_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true
+    };
+    const { data } = await axios.post(
+      `${baseURL}/api/v1/familyMembers/link`,
+      body,
+      config
+    );
+
+    dispatch({
+      type: LINK_FAMILY_MEMBER_SUCCESS,
+      payload: data.data,
+    });
+
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: LINK_FAMILY_MEMBER_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Linking family members failed. Please try again.',
     });
   }
 };

@@ -4,7 +4,7 @@ import {Table} from '../../../../components/Table'
 import { Button } from '../../../../components/Button';
 import AdminNavbar from '../../../../components/AdminNavbar';
 import { Card } from '../../../../components/Card';
-import CenteredModalAddPack from '../../../../components/CenteredModalAddPack'
+import CenteredModalAddPack from '../../../../components/AddHealthPackageModal'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteHealthPackage, listHealthPackages } from '@/app/redux/actions/healthPackagesActions';
 import { login } from '@/app/redux/actions/authActions';
@@ -66,7 +66,7 @@ export default function Admins() {
       <CenteredModalAddPack
         show={modalShow}
         onHide={() => setModalShow(false)} 
-        title={"Please Package Details"}
+        title={"Create new health package"}
         edit={false}
         id={id}
       />

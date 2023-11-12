@@ -43,6 +43,8 @@ function Familymembers() {
     return [];
   }, [familyMembers, modalShow, isLoading]);
 
+  console.log(fam);
+
   return (
     <div className="m-2">
       <h3 className="my-1 mt-0 text-center text-title">Family Members</h3>
