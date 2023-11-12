@@ -12,6 +12,7 @@ import { addFamilyMembersReducer } from "./reducers/FamilyMembersReducer";
 import {
   viewFamilyMembersReducer,
   linkFamilyMemberReducer,
+  viewAllFamilyMembersAndPatientsReducer,
 } from "./reducers/FamilyMembersReducer";
 import { patientsReducer } from "./reducers/patientsReducers";
 import { doctorReducer } from "./reducers/doctorReducers";
@@ -25,6 +26,7 @@ import {
   patientUploadDocs,
   patientRemoveRecordReducer,
   cancelSubscriptionReducer,
+  patientViewMyDetailsReducer,
 } from "./reducers/patientReducer";
 import {
   viewDoctorPatientsReducer,
@@ -44,7 +46,6 @@ import {
   updateHealthPackageReducer,
   deleteHealthPackageReducer,
 } from "./reducers/healthPackagesReducer";
-import { patientViewMyDetailsReducer } from "./reducers/patientReducer";
 
 const store = configureStore({
   reducer: {
@@ -83,6 +84,7 @@ const store = configureStore({
     patientRemoveRecordReducer,
     cancelSubscriptionReducer,
     linkFamilyMemberReducer,
+    viewAllFamilyMembersAndPatientsReducer,
   },
 });
 
