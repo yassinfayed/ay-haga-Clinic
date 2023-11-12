@@ -15,6 +15,7 @@ import { updateDoctorsReducer,adminAcceptDoctorReducer,doctorAcceptContractReduc
 import { viewDoctorsAppointmentsReducer } from './reducers/doctorReducer';
 import { createHealthPackageReducer, getHealthPackagesReducer, getHealthPackageReducer, updateHealthPackageReducer, deleteHealthPackageReducer } from './reducers/healthPackagesReducer';
 import {patientViewMyDetailsReducer} from './reducers/patientReducer';
+import { uploadHealthRecordsReducer } from './reducers/patientReducer';
 
 
 const store = configureStore({
@@ -51,7 +52,8 @@ const store = configureStore({
     changePasswordReducer,
     downloadPatienttDocsReducer,
     patientUploadDocs,
-    patientRemoveRecordReducer
+    patientRemoveRecordReducer,
+    uploadHealthRecordsReducer
     
 
   },

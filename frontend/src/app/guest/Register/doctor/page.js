@@ -25,6 +25,12 @@ const SignUp = () => {
     workingHours: "",
   });
 
+  const [files, setFiles] = useState({
+    document1: null,
+    document2: null,
+    document3: null,
+  });
+
   const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
@@ -33,6 +39,33 @@ const SignUp = () => {
       ...formData,
       [name]: value,
     });
+  };
+
+  const handleSignUp = () => {
+    
+    const NewFormData = new FormData();
+    NewFormData.append('username', formData.username);
+    NewFormData.append('name', formData.name);
+    NewFormData.append('email', formData.email);
+    NewFormData.append('password', formData.password);
+    NewFormData.append('passwordConfirm', formData.password);
+    NewFormData.append('DateOfbirth', formData.dateOfbirth);
+    NewFormData.append('gender', formData.gender);
+    NewFormData.append('phoneNumber', formData.phoneNumber);
+    NewFormData.append('HourlyRate', formData.hourlyRate);
+    NewFormData.append('educationalbackground', formData.educationalBackground);
+    NewFormData.append('role', 'doctor');
+    NewFormData.append('affiliation', formData.affiliation);
+    NewFormData.append('workingHours', formData.workingHours);
+    NewFormData.append('speciality', formData.speciality);
+    NewFormData.append('documents',files.document1);
+    NewFormData.append('documents',files.document2);
+    NewFormData.append('documents',files.document3);
+    
+    dispatch(
+      registerAction(NewFormData)
+     
+    );
   };
 
   // const useEffect()
@@ -54,27 +87,14 @@ const SignUp = () => {
     } else if (error) window.alert("error");
   }, [isLoading, error, isAuthenticated]);
 
-  const handleSignUp = () => {
-    dispatch(
-      registerAction({
-        username: formData.username,
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        passwordConfirm: formData.password,
-        DateOfbirth: formData.dateOfbirth,
-        gender: formData.gender,
-        phoneNumber: formData.mobileNumber,
-        HourlyRate: formData.hourlyRate,
-        educationalbackground: formData.educationalBackground,
-        speciality: formData.affiliation,
-        role: "doctor",
-        affiliation: formData.affiliation,
-        workingHours: formData.workingHours,
-      })
-    );
-    // window.alert("Application submitted")
+  const handleFileUpload = (e, documentKey) => {
+    const file = e.target.files[0];
+    setFiles((prevFiles) => ({
+      ...prevFiles,
+      [documentKey]: file,
+    }));
   };
+
 
   const [action] = useState("Sign up");
 
@@ -307,6 +327,45 @@ const SignUp = () => {
                     </div>
                   </div>
                 </div>
+                <hr className="w-50 mx-auto mb-5" />
+                <div className="mx-4">
+                    <h4 className="text-global mb-1">
+                      Required Documents
+                    </h4>
+                    <h6 className="text-primary mb-3 text-muted">
+                      Please upload the following documents.
+                    </h6>
+                    <div className="p-2">
+                        <label htmlFor="document1" className="d-flex align-items-center justify-content-between form-label">
+                          National ID
+                          <span className="btn btn-outline-primary btn-sm">
+                            <i className="bi bi-cloud-upload"></i> Upload
+                          <input type="file" id="document1" className="form-control" onChange={(e) => handleFileUpload(e, 'document1')} />
+                        </span>
+                      </label>
+                      
+                    </div>
+                    <div className="p-2">
+                        <label htmlFor="document2" className="d-flex align-items-center justify-content-between form-label">
+                          Medical Degree
+                          <span className="btn btn-outline-primary btn-sm">
+                            <i className="bi bi-cloud-upload"></i> Upload
+                          <input type="file" id="document2" className="form-control" onChange={(e) => handleFileUpload(e, 'document2')} />
+                        </span>
+                      </label>
+                      
+                    </div>
+                    <div className="p-2">
+                        <label htmlFor="document3" className="d-flex align-items-center justify-content-between form-label">
+                          Medical License
+                          <span className="btn btn-outline-primary btn-sm">
+                            <i className="bi bi-cloud-upload"></i> Upload
+                          <input type="file" id="document3" className="form-control" onChange={(e) => handleFileUpload(e, 'document3')} />
+                        </span>
+                      </label>
+                      
+                    </div>
+                  </div>
                 <div className="text-center">
                   <Button text="Sign Up" onClick={handleSignUp} />
                 </div>

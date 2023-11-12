@@ -72,8 +72,14 @@ const DoctorSchema = new mongoose.Schema({
     clinicMarkUp:{
         type : Number,
         default : 0.1
-    }
-    }
+    },
+    },
+    documents: [
+        {
+            type: String,
+            required: [true, 'Please upload the required documents']
+        }
+    ]
 });
 DoctorSchema.statics.getAllSpecialities = async function () {
     try {
