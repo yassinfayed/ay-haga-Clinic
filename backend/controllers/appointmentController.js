@@ -45,6 +45,33 @@ exports.getAllDoctorAppointments = catchAsync(async (req, res, next) => {
     });
 });
 
+exports.followUpAppointment = catchAsync(async (req, res, next) => {
+    const doctor = await Doctor.findOne({user: req.user._id});
+    if(!doctor) {
+        throw new Error("Doctor not found");
+    }
+    const doctorId = doctor._id;
+
+    const appointment = await Appointment.findById(req.body.appointmentId);
+
+    const appt = new Appointment({
+        date: req.body.date,
+        patientId: appointment.patientId,
+        doctorId: doctorId,
+        status: "Upcoming"
+    });
+
+    await appt.save();
+
+    res.status(200).json({
+        status: 'success',
+        results: 1,
+        data: {
+            data: appt
+        }
+    })
+});
+
 exports.createAppointment = handlerFactory.createOne(Appointment);
 exports.updateAppointment = handlerFactory.updateOne(Appointment);
 exports.deleteAppointment = handlerFactory.deleteOne(Appointment);
