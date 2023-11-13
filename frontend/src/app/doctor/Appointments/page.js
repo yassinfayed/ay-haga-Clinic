@@ -15,6 +15,7 @@ import { doctorFollowUpAction, getDoctorAppointments } from '@/app/redux/actions
 import NavbarDoc from "../../../../components/NavbarDoc";
 import FooterDoc from "../../../../components/FooterDoc";
 import Image from 'next/image';
+import { Modal, ModalBody, ModalHeader } from 'react-bootstrap';
 
 function docappointments() {
 
@@ -24,6 +25,8 @@ function docappointments() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [newDate, setNewDate] = useState(null);
+  const [modal, setModal] = useState(false);
+  const [appt, setAppt] = useState(null);
 
 
   const handleDateChange = (date) => {
@@ -69,37 +72,75 @@ function docappointments() {
   }, [dispatch, selectedDate, selectedStatus]);
 
   const handleFollowupDate = (e) => {
+    e.preventDefault();
     setNewDate(e.target.value);
+    console.log(e.target.value);
+    console.log(newDate);
   };
 
   const handleFollowup = (id) =>{
+    setModal(true);
+    setAppt(id);
+  }
+
+  const handleFollowupSubmit = (id) =>{
     dispatch(doctorFollowUpAction({appointmentId: id, date: newDate}))
   }
   
+  function FollowupModal( show, onHide ) {
+    return (
+      <Modal centered show={show} onHide={onHide} size="md">
+        <ModalHeader closeButton className='bg-primary'></ModalHeader>
+        <ModalBody className='bg-light'>
+        <Modal.Title id="contained-modal-title-vcenter" className='px-2 text-global text-bold text-center'>
+        Schedule A followup
+        </Modal.Title>
+        <hr />
+        <div className=" row col-md-12">
+          <div className="col-md-8">
+            <input
+              type="datetime-local"
+              id={`date`}
+              name="appointmentdate"
+              className="form-control"
+              onChange={(e) => {
+                handleFollowupDate(e);
+              }}
+            />
+          </div>
+          <Button
+            text="Schedule Followup"
+            id={`btn`}
+            variant="sm"
+            onClick={()=>{handleFollowupSubmit(appt)}}
+            className='col-md-4'
+            disabled={newDate===null? true : false}
+          ></Button>
+        </div>
+        </ModalBody>
+      </Modal>
+    );
+  }
+
+
   const generateButton = (id) => {
     return (
-    <div className=" row col-md-12">
-      <div className="col-md-6">
-        <input
-          type="datetime-local"
-          id="appointmentdate"
-          name="appointmentdate"
-          className="form-control"
-          onChange={(e) => {
-            handleFollowupDate(e);
-          }}
-        />
-      </div>
       <Button
         text="Schedule Followup"
-        variant="sm"
+        id={`btn`}
+        variant="md"
         onClick={()=>{handleFollowup(id)}}
-        className='col-md-3'
-        disabled={newDate===null}
+        className='col-md-6'
       ></Button>
-    </div>
     );
   };
+
+  const handleClearFilters = () => {
+    setSelectedDate(null);
+    setSelectedStatus(null);
+  }
+  
+  const headers = ['Date', 'Patient Name', 'Status', 'Actions'];
 
   const apps = useMemo(() => {
     if (appointmentsData && appointmentsData.data) {
@@ -113,13 +154,8 @@ function docappointments() {
     return [];
   }, [appointmentsData]);
 
-  const handleClearFilters = () => {
-    setSelectedDate(null);
-    setSelectedStatus(null);
-  }
 
-      const headers = ['Date', 'Patient Name', 'Status', 'Actions'];
-return(
+  return(
     <div className='global-text'>
       <NavbarDoc/>
         <div className="container-fluid m-5">
@@ -154,6 +190,7 @@ return(
                   </div>
               </div>
         </div>
+        <FollowupModal show={modal} onHide={()=>{setModal(false); setAppt(null)}}/>
         <Table headers={headers} data={apps ? apps : []}/>
       </div>
       <FooterDoc/>
