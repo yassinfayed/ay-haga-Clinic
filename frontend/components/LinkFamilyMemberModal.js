@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 
 import Modal from "react-bootstrap/Modal";
-import { linkFamilyMember } from "@/app/redux/actions/FamilyMembersAction";
+import { LinkFamilyMember } from "@/app/redux/actions/FamilyMembersAction";
 import { useDispatch } from "react-redux";
 
 function AddFamily(props) {
@@ -31,11 +31,9 @@ function AddFamily(props) {
       console.log("please enter a valid email or phone");
     }
     dispatch(
-      linkFamilyMember({
-        name: name,
-        nationalId: nationalId,
-        age: age,
-        gender: gender,
+      LinkFamilyMember({
+        email,
+        phone,
         relationToPatient: relationToPatient,
       })
     );
@@ -69,14 +67,15 @@ function AddFamily(props) {
 
           <div className="form-group my-3">
             <label htmlFor="relationToPatient">Relation to patient</label>
-            <input
-              type="text"
-              className="form-control my-1"
-              id="relationToPatient"
-              placeholder="Relation to patient"
-              value={relationToPatient}
+            <select
               onChange={(e) => setRelationToPatient(e.target.value)}
-            />
+              className="my-1 w-100 form-control text-muted p-2"
+            >
+              <option value={null}>Relation to patient</option>
+              <option value="wife">Wife</option>
+              <option value="husband">Husband</option>
+              <option value="child">Child</option>
+            </select>
           </div>
           <button
             type="submit"

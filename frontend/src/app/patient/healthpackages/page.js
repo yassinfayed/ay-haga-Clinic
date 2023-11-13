@@ -7,7 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { listHealthPackages } from "@/app/redux/actions/healthPackagesActions";
 import { useEffect } from "react";
 import { useMemo } from "react";
-import { viewFamilyMembers } from "@/app/redux/actions/FamilyMembersAction";
+import {
+  viewFamilyMembers,
+  viewAllFamilyMembersAndPatients,
+} from "@/app/redux/actions/FamilyMembersAction";
 import { cancelSubscription } from "@/app/redux/actions/patientActions";
 import { viewPatients } from "@/app/redux/actions/patientsActions";
 import SubscribeModal from "../../../../components/SubscribeModal";
@@ -18,6 +21,7 @@ function HealthPackages() {
   const [modalShow, setModalShow] = useState(false);
   const [healthPackage, setHealthPackage] = useState(null);
   const [CancelModalShow, setCancelModalShow] = useState(false);
+  const [patient, setPatient] = useState({});
   const [subscribed, setSubscribed] = useState("");
   const [familyMemberPatients, setFamilyMemberPatients] = useState([]);
   const dispatch = useDispatch();
@@ -27,6 +31,9 @@ function HealthPackages() {
     fetchData();
     fetchFamily();
     dispatch(viewPatients({ _id: id }));
+    if (patients) {
+      dispatch(viewAllFamilyMembersAndPatients(patient._id));
+    }
     // if (familyMembers && familyMembers.data) {
     //   // Loop through family members and dispatch viewPatients for each
     //   console.log("helloooo");
@@ -36,10 +43,15 @@ function HealthPackages() {
     //   });
     // }
     // console.log(familyMemberPatients);
-  }, [dispatch, isLoading, modalShow, familyMembers]);
+  }, [dispatch, isLoading, modalShow, familyMembers, patient]);
 
+  console.log(familyMembersAsPatients);
   const familyMembers = useSelector(
     (state) => state.viewFamilyMembersReducer.familyMember
+  );
+  const familyMembersAsPatients = useSelector(
+    (state) =>
+      state.viewAllFamilyMembersAndPatientsReducer.familyMembersWithPatients
   );
   const isLoading = useSelector(
     (state) => state.addFamilyMembersReducer.loading
@@ -56,13 +68,14 @@ function HealthPackages() {
     dispatch(listHealthPackages());
   }
   const patients = useSelector((state) => state.patientsReducer.patients.data);
-
-  let patient;
   if (patients) {
-    patient = patients[0];
+    if (!patient.name) {
+      setPatient(patients[0]);
+
+      dispatch(viewAllFamilyMembersAndPatients());
+    }
     console.log(patient);
   }
-
   const fam = useMemo(() => {
     if (familyMembers && familyMembers.data) {
       return familyMembers.data.map((value) => ({
