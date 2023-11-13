@@ -60,9 +60,6 @@ export const viewFamilyMembersReducer = (state = initialState, action) => {
         error: null,
       };
     case VIEW_FAMILY_MEMBERS_SUCCESS: {
-      console.log(action.payload);
-      console.log("iwufq");
-      console.log("success");
       return {
         ...state,
         familyMember: action.payload,
@@ -107,9 +104,13 @@ export const linkFamilyMemberReducer = (state = initialState, action) => {
       return state;
   }
 };
-
+const initialState3 = {
+  familyMembersWithPatients: null,
+  loading: false,
+  error: null,
+};
 export const viewAllFamilyMembersAndPatientsReducer = (
-  state = initialState,
+  state = initialState3,
   action
 ) => {
   switch (action.type) {

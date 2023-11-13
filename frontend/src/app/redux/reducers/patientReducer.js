@@ -1,152 +1,156 @@
-import { 
-  PATIENTS_FILTERAPPOINTMENTS_FAIL,  
+import {
+  PATIENTS_FILTERAPPOINTMENTS_FAIL,
   PATIENT_REMOVE_RECORD_REQUEST,
   PATIENT_REMOVE_RECORD_SUCCESS,
   PATIENT_REMOVE_RECORD_FAIL,
-  PATIENTS_FILTERAPPOINTMENTS_REQUEST, 
-  PATIENTS_FILTERAPPOINTMENTS_SUCCESS , 
-  PATIENT_DOWNLOAD_DOCS_FAIL, 
-  PATIENT_DOWNLOAD_DOCS_REQUEST, 
-  PATIENT_DOWNLOAD_DOCS_SUCCESS, 
-  PATIENT_FAIL,PATIENT_REQUEST,
-  PATIENT_SUCCESS, 
-  PATIENT_UPLOAD_DOCS_FAIL, 
-  PATIENT_UPLOAD_DOCS_REQUEST, 
+  PATIENTS_FILTERAPPOINTMENTS_REQUEST,
+  PATIENTS_FILTERAPPOINTMENTS_SUCCESS,
+  PATIENT_DOWNLOAD_DOCS_FAIL,
+  PATIENT_DOWNLOAD_DOCS_REQUEST,
+  PATIENT_DOWNLOAD_DOCS_SUCCESS,
+  PATIENT_FAIL,
+  PATIENT_REQUEST,
+  PATIENT_SUCCESS,
+  PATIENT_UPLOAD_DOCS_FAIL,
+  PATIENT_UPLOAD_DOCS_REQUEST,
   PATIENT_UPLOAD_DOCS_SUCCESS,
   PATIENT_UPLOAD_HEALTHRECORDS_FAIL,
   PATIENT_UPLOAD_HEALTHRECORDS_REQUEST,
-  PATIENT_UPLOAD_HEALTHRECORDS_SUCCESS
+  PATIENT_UPLOAD_HEALTHRECORDS_SUCCESS,
+  CANCEL_SUBSCRIPTION_REQUEST,
+  CANCEL_SUBSCRIPTION_SUCCESS,
+  CANCEL_SUBSCRIPTION_FAILURE,
 } from "../constants/patientConstants";
 
-export const viewPatientsAppointmentsReducer = (state ={}, action) => {
-    switch (action.type) {
-      case PATIENTS_FILTERAPPOINTMENTS_REQUEST:
-        return {
-          ...state,
-          loading: true,
-          error: null,
-        };
-      case PATIENTS_FILTERAPPOINTMENTS_SUCCESS: {
-        return {
-          ...state,
-          appointments: action.payload,
-          loading: false,
-          error: null,
-        }
+export const viewPatientsAppointmentsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENTS_FILTERAPPOINTMENTS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
       };
-      case PATIENTS_FILTERAPPOINTMENTS_FAIL:
-        return {
-          ...state,
-          loading: false,
-          error: action.payload,
-        };
-      default:
-        return state;
-    }
-  }
-
-  export const patientViewMyDetailsReducer = (state ={}, action) => {
-    switch (action.type) {
-      case PATIENT_REQUEST:
-        return {
-          ...state,
-          loading: true,
-          error: null,
-        };
-      case PATIENT_SUCCESS: {
-        return {
-          ...state,
-          patient: action.payload,
-          loading: false,
-          error: null,
-        }
+    case PATIENTS_FILTERAPPOINTMENTS_SUCCESS: {
+      return {
+        ...state,
+        appointments: action.payload,
+        loading: false,
+        error: null,
       };
-      case PATIENT_FAIL:
-        return {
-          ...state,
-          loading: false,
-          error: action.payload,
-        };
-      default:
-        return state;
     }
-  }
-
-  export const patientUploadDocs = (state ={}, action) => {
-    switch (action.type) {
-      case PATIENT_UPLOAD_HEALTHRECORDS_REQUEST:
-        return {
-          ...state,
-          loading: true,
-          error: null,
-        };
-      case PATIENT_UPLOAD_HEALTHRECORDS_SUCCESS: {
-        return {
-          ...state,
-          loading: false,
-          error: null,
-        }
+    case PATIENTS_FILTERAPPOINTMENTS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
       };
-      case PATIENT_UPLOAD_HEALTHRECORDS_FAIL:
-        return {
-          ...state,
-          loading: false,
-          error: action.payload,
-        };
-      default:
-        return state;
-    }
+    default:
+      return state;
   }
+};
 
-  export const uploadHealthRecordsReducer = (state ={}, action) => {
-    switch (action.type) {
-      case PATIENT_UPLOAD_DOCS_REQUEST:
-        return {
-          ...state,
-          loading: true,
-          error: null,
-        };
-      case PATIENT_UPLOAD_DOCS_SUCCESS: {
-        return {
-          ...state,
-          loading: false,
-          error: null,
-        }
+export const patientViewMyDetailsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
       };
-      case PATIENT_UPLOAD_DOCS_FAIL:
-        return {
-          ...state,
-          loading: false,
-          error: action.payload,
-        };
-      default:
-        return state;
+    case PATIENT_SUCCESS: {
+      return {
+        ...state,
+        patient: action.payload,
+        loading: false,
+        error: null,
+      };
     }
+    case PATIENT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
   }
+};
 
-  export const downloadPatienttDocsReducer = (state = {}, action) => {
-    switch (action.type) {
-        case PATIENT_DOWNLOAD_DOCS_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                error: null,
-            };
-        case PATIENT_DOWNLOAD_DOCS_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                error: null,
-            };
-        case PATIENT_DOWNLOAD_DOCS_FAIL:
-            return {
-                ...state,
-                loading: false,
-                error: action.payload,
-            };
-        default:
-            return state;
+export const patientUploadDocs = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENT_UPLOAD_HEALTHRECORDS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case PATIENT_UPLOAD_HEALTHRECORDS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
     }
+    case PATIENT_UPLOAD_HEALTHRECORDS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const uploadHealthRecordsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENT_UPLOAD_DOCS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case PATIENT_UPLOAD_DOCS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    }
+    case PATIENT_UPLOAD_DOCS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const downloadPatienttDocsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENT_DOWNLOAD_DOCS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case PATIENT_DOWNLOAD_DOCS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    case PATIENT_DOWNLOAD_DOCS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
 };
 
 export const patientRemoveRecordReducer = (state = {}, action) => {
@@ -156,7 +160,42 @@ export const patientRemoveRecordReducer = (state = {}, action) => {
     case PATIENT_REMOVE_RECORD_SUCCESS:
       return { ...state, loading: false, success: true, error: null };
     case PATIENT_REMOVE_RECORD_FAIL:
-      return { ...state, loading: false, success: false, error: action.payload };
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const cancelSubscriptionReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CANCEL_SUBSCRIPTION_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        success: false,
+        error: null,
+      };
+    case CANCEL_SUBSCRIPTION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        patient: action.payload,
+        error: null,
+      };
+    case CANCEL_SUBSCRIPTION_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        patient: null,
+        error: action.payload,
+      };
     default:
       return state;
   }
