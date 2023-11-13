@@ -32,8 +32,20 @@ export default function AvailableDates({ params }) {
         setModalShow(true);
     };
 
-    function DateCardList() {
-        return (
+  const reservePaymentHandler = (price,paymentMethod,fm) => {
+    dispatch(makeOrder({
+      date: selectedDate,
+      doctor: params.id,
+      price,
+      paymentMethod,
+      reserve: true
+    },fm))
+  };
+
+
+    return (
+        <div className="m-5 p-5 bg-white shadow-md rounded-lg">
+            <div className="text-lg font-semibold mb-4">Available Dates and Times</div>
             <div className="flex flex-col items-center gap-4">
                 {doctor && doctor.availableDates.map((date, index) => (
                     <div key={index} className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
@@ -49,23 +61,6 @@ export default function AvailableDates({ params }) {
                     </div>
                 ))}
             </div>
-        );
-    }
-//   const handleReserve = (date) => {
-//     dispatch(makeOrder({
-//       date,
-//       doctor: params.id,
-//       price :150,
-//       paymentMethod: "wallet",
-//       reserve: true
-//     }))
-//   };
-
-
-    return (
-        <div className="m-5 p-5 bg-white shadow-md rounded-lg">
-            <div className="text-lg font-semibold mb-4">Available Dates and Times</div>
-            <DateCardList />
             {modalShow && (
                 <ReserveModal
                     title={`Reserve an appointment with Dr. ${doctor.name}`}
@@ -74,6 +69,7 @@ export default function AvailableDates({ params }) {
                     onHide={() => setModalShow(false)}
                     id={doctor._id}
                     hourlyRate={doctor.HourlyRate}
+                    handler={reservePaymentHandler}
                 />
             )}
         </div>

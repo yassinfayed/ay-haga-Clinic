@@ -39,7 +39,9 @@ export const makeOrderRequest = () => ({
         if(fm) {
             url += `?fm=${fm}`
         }
-        if(body.reserve) url += `?date=${body.date}`
+        if(body.reserve && fm) url += `&date=${body.date}`
+        else if (body.reserve) url += `?date=${body.date}`
+
       const { data } = await axios.get(url
        ,
         config
@@ -58,6 +60,8 @@ export const makeOrderRequest = () => ({
         if(fm) {
             url += `?fm=${fm}`
         }
+        if(body.reserve && fm) url += `&date=${body.date}`
+        else if (body.reserve) url += `?date=${body.date}`
       const { data } = await axios.post(
        url,body,
         config

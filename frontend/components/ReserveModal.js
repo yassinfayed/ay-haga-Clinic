@@ -7,7 +7,7 @@ import { viewFamilyMembers } from '@/app/redux/actions/FamilyMembersAction';
 import { viewPatientDetails } from '@/app/redux/actions/patientActions';
 
 function ReserveModal(props) {
-    const { title, subheader, onHide, id } = props;
+    const { title, subheader, onHide, id , handler} = props;
     const hourlyRate = props.hourlyRate || 0;
 
     const dispatch = useDispatch();
@@ -44,6 +44,7 @@ function ReserveModal(props) {
     };
 
     const handleFamilyMemberChange = (e) => {
+        console.log(e.target.value);
         setFamilyMember(e.target.value);
     };
 
@@ -57,6 +58,11 @@ function ReserveModal(props) {
             console.log('Please enter all data');
             return;
         }
+        const price = health ? (hourlyRate - (hourlyRate * (health / 100))): hourlyRate
+
+        if(familyMember === null)
+             handler(price,paymentMethod);
+        else handler(price,paymentMethod,familyMember);
 
         setFamilyMember(null);
         setPackageReciever(null);
@@ -142,8 +148,8 @@ function ReserveModal(props) {
         type="radio"
         label="Credit Card"
         name="paymentMethod"
-        value="card"
-        checked={paymentMethod === 'card'}
+        value="Stripe"
+        checked={paymentMethod === 'Stripe'}
         onChange={(e)=>handlePaymentChange(e)}
     />
     </div>
@@ -158,7 +164,7 @@ function ReserveModal(props) {
                     {hourlyRate.toFixed(2)}
                 </div>
                 <div className='ms-3'>
-                    {(hourlyRate - hourlyRate * health / 100).toFixed(2)}
+                    {(hourlyRate - (hourlyRate * (health / 100))).toFixed(2)}
                 </div>
             </>
         ) : (
