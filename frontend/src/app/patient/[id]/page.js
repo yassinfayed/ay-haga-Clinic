@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Card, Button, Modal } from "react-bootstrap";
 import FileModal from "../../../../components/FileModal";
 import { uploadDocsAction } from "@/app/redux/actions/patientActions";
-import ChangePassword from '../../../../components/ChangePassword';
+import ChangePassword from "../../../../components/ChangePassword";
 
 const PatientProfile = ({ params }) => {
   const dispatch = useDispatch();
@@ -14,7 +14,6 @@ const PatientProfile = ({ params }) => {
   const [modalFilePath, setModalFilePath] = useState('');
   const [isPdf, setIsPdf] = useState(false);
   const [fileName, setFileName] = useState('');
-  const [uploadedFile, setUploadedFile] = useState(null);
  
 
   function formatDateToDDMMYYYY(isoDate) {
@@ -26,11 +25,14 @@ const PatientProfile = ({ params }) => {
     return `${day}-${month}-${year}`;
   }
 
+  const isLoading = useSelector((state) => state.patientUploadDocs.loading);
+
   useEffect(() => {
     dispatch(viewPatients({ _id: params.id }));
-  }, [dispatch]);
+  }, [dispatch,isLoading]);
 
   const patients = useSelector((state) => state.patientsReducer.patients.data);
+  
   let patient, date;
 
   if (patients) {
@@ -64,9 +66,7 @@ const handleFileUpload = (patientId) => {
     const { file } = selectedFile;
     const formData = new FormData();
     formData.append('documents', file);
-    dispatch(uploadDocsAction(formData, patientId)).then(() => {
-      setUploadedFile(file);
-    });
+    dispatch(uploadDocsAction(formData, patientId));
   }
 };
 
@@ -140,16 +140,16 @@ const handleFileUpload = (patientId) => {
       {patient ? (
         <div className="p-5 d-flex mx-auto rounded shadow col-md-9 my-3 ">
           <div className=" w-25 border-end">
-            <div className="border-bottom m-3">
+            <div className="p-3 border-bottom m-3">
               <div className="d-flex justify-content-center ">
                 <Image src="/profile.svg" height={200} width={200} />
               </div>
             </div>
             <div className="mx-auto">
-              <ChangePassword/>
-            </div>
+                <ChangePassword className="h-100 " />
+              </div>
           </div>
-          <div className="p-5 w-75">
+          <div className="p-3 w-75">
             <div className="border-bottom d-flex ">
               <div className="w-75">
                 <h1 className=" ms-2 text-primary fw-bold text-capitalize">{patient.name}</h1>
@@ -158,11 +158,8 @@ const handleFileUpload = (patientId) => {
 
             <div className="p-2 ">
               <div className="d-flex">
-
-                <div className="w-50">
-                  <h2 className="text-global fw-bold small pt-3 p-1 me-3">
-                    Patient Information
-                  </h2>
+                <div className="w-60 ">
+                  <h2 className="text-global fw-bold small pt-3 p-1 me-3">Patient Information</h2>
                   <hr className="w-50" />
 
                   <div className="p-2 pt-0 mx-3">
@@ -220,6 +217,7 @@ const handleFileUpload = (patientId) => {
                   </div>
                 </div>
               </div>
+
               <div>
                 <div className="text-global fw-bold small pt-3 p-1">Health Records</div>
                 <hr className="w-50" />
