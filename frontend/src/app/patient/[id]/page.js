@@ -161,6 +161,13 @@ const PatientProfile = ({ params }) => {
                 <Image src="/profile.svg" height={200} width={200} />
               </div>
             </div>
+            <div className="py-2 d-flex  text-center border-bottom mx-auto">
+                    <span className="fw-bold w-25 ">
+                      <Image src="/dollar.svg" height={30} width={30} />
+                    </span>
+                    <span className="w-50 fs-4">{patient?.user?.wallet}</span>
+                   
+                  </div>
             <div className="mx-auto">
               <ChangePassword />
             </div>

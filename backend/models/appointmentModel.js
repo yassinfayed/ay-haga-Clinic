@@ -18,7 +18,7 @@ const appointmentSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ["Completed","Upcoming","Missed","Cancelled","Rescheduled"],
-        required: [true, 'Please choose a status']
+        default: 'Upcoming'
     }
     
 });
