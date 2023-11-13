@@ -12,10 +12,11 @@ import { viewALLPrescriptions } from "../redux/actions/prescriptionsActions";
 import { getAllUsers } from "../redux/actions/userActions";
 import {viewPatientDetails} from "../redux/actions/patientActions";
 
+
 // import {filterPatientsBasedOnUpcomingAppointments} from '../redux/actions/patientsActions';
 
 const Home = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   // dispatch(login("sysadmin", "pass1234")); //admin :sysadmin pass:pass1234/ patient : omarDoe pass:password123
   //  const selector = useSelector(state => state.loginReducer.user)
   //  console.log(selector)
@@ -30,6 +31,13 @@ const Home = () => {
 
   // dispatch(viewFamilyMembers({
   // }))
+  // dispatch(viewPatients({}));
+  // dispatch(viewDoctorDetails("60f3451f4c54a60dabc23f08"));
+  // dispatch(viewPrescriptionsDetails("60f3451f4c54a60dabc23f08"));
+  // dispatch(viewALLPrescriptions({}));
+  // dispatch(getAllUsers());
+  // dispatch(viewPatientDetails());
+
 
   // dispatch(filterPatientsBasedOnUpcomingAppointments({}));
   // const consoleSelector =useSelector(state=>state.addFamilyMembersReducer)
@@ -61,10 +69,13 @@ const DoctorDetails = () => {
 
   // Login user (if not already logged in)
   useEffect(() => {
-    dispatch(login("abdullah_02", "pass1234"));
-    dispatch(getAllUsers());
+    dispatch(login("ot02", "pass1234"));
+    // dispatch(getAllUsers());
     // dispatch(login("farida", "password1234"));
     // dispatch(viewPatients({}));
+
+    dispatch(viewPatientDetails());
+    console.log("here222")
   }, [dispatch]);
 
   // View doctor details
@@ -74,10 +85,11 @@ const DoctorDetails = () => {
   // }, [dispatch]);
 
   // as a patient view my details
-  useEffect(()=>{
-    dispatch(viewPatientDetails);
-  },[dispatch]);
-  }
+  // useEffect(()=>{
+  // },[dispatch]);
+  // }
+  
+}
 
   //viewPrescrDeatils
   /*useEffect(() => {
@@ -86,32 +98,12 @@ const DoctorDetails = () => {
   }, [dispatch]);*/
 
   // Selector example to access state
-  const doctor = useSelector((state) => state.doctorReducer.doctor);
-  const prescription = useSelector(
-    (state) => state.prescriptionReducer.prescription
-  );
+  // const doctor = useSelector((state) => state.doctorReducer.doctor);
+  // const prescription = useSelector(
+  //   (state) => state.prescriptionReducer.prescription
+  // );
 
-  return (
-    <div>
-      <h1>Doctor Details</h1>
-      {doctor ? (
-        <div>
-          <p>Name: {doctor.name}</p>
-          <p>email: {doctor.email}</p>
-          {/* Add more details as needed */}
-        </div>
-      ) : (
-        <p>Loading doctor details...</p>
-      )}
-      <h1>Prescription Deatils</h1>
-      {prescription ? (
-        <p>instructions:{prescription.instructions}</p>
-      ) : (
-        <h1>Loading presc details</h1>
-      )}
-      ;
-    </div>
-  );
+  
 
 
 export default DoctorDetails;

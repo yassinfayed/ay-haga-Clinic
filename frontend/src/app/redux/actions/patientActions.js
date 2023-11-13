@@ -73,17 +73,20 @@ export const getPatientAppointments = (queryObj) => async (dispatch) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        withCredentials: true,
+        withCredentials: true
       };
-      let url ="";
-      
-      url=`${baseURL}/api/v1/patient//my-details`
-      
-      const { data } = await axios.get(url, config);
+  
+      let url;
+  
+      url = `${baseURL}/api/v1/patient/my-details`
+      const { data } = await axios.get(
+        url,
+        config
+      );
   
       dispatch({
         type: PATIENT_SUCCESS,
-        payload: data.data.data[0],
+        payload: data.data,
       });
     } catch (error) {
       console.error(error);

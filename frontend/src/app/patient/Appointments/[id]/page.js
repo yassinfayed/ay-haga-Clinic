@@ -7,8 +7,8 @@ import ReserveModal from '../../../../../components/ReserveModal';
 export default function AvailableDates({ params }) {
     const dispatch = useDispatch();
     const doctor = useSelector(state => state.doctorReducer.doctor);
-    const [modalShow, setModalShow] = useState(false); // State to control modal visibility
-    const [selectedDate, setSelectedDate] = useState(null); // State to store selected date
+    const [modalShow, setModalShow] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
 
     useEffect(() => {
         dispatch(viewDoctorDetails(params.id));
@@ -26,27 +26,27 @@ export default function AvailableDates({ params }) {
     };
 
     const handleReserve = (date) => {
-        setSelectedDate(date); // Set the selected date
-        setModalShow(true); // Show the modal
+        setSelectedDate(date);
+        setModalShow(true);
     };
 
     function DateCardList() {
         return (
-          <div className="flex flex-col items-center gap-4">
-          {doctor && doctor.availableDates.map((date, index) => (
-              <div key={index} className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
-                  <div className="flex flex-col md:flex-row items-center justify-between bg-white border border-gray-300 rounded-2xl shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
-                      <div className="text-2xl font-semibold text-blue-500">{formatDate(date)}</div>
-                      <button 
-                          className="btn btn-primary hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring focus:ring-blue-300 transition duration-150"
-                          onClick={() => handleReserve(date)}
-                      >
-                          Reserve
-                      </button>
-                  </div>
-              </div>
-          ))}
-      </div>      
+            <div className="flex flex-col items-center gap-4">
+                {doctor && doctor.availableDates.map((date, index) => (
+                    <div key={index} className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
+                        <div className="flex flex-col md:flex-row items-center justify-between bg-white border border-gray-300 rounded-2xl shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
+                            <div className="text-2xl font-semibold text-blue-500">{formatDate(date)}</div>
+                            <button 
+                                className="btn btn-primary hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring focus:ring-blue-300 transition duration-150"
+                                onClick={() => handleReserve(date)}
+                            >
+                                Reserve
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
         );
     }
 

@@ -39,6 +39,7 @@ export const viewPatients = (queryObj) => async (dispatch) => {
       type: PATIENTS_SUCCESS,
       payload: data.data,
     });
+    
   } catch (error) {
     console.error(error);
     dispatch({
@@ -71,6 +72,7 @@ export const filterPatientsBasedOnUpcomingAppointments = () => async (dispatch) 
       type: FILTER_PATIENTS_SUCCESS,
       payload: data.data,
     });
+  
  
   } catch (error) {
     console.log(error);
