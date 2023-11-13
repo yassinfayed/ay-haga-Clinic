@@ -88,7 +88,7 @@ function docappointments() {
 
   function FollowupModal(show, onHide) {
     return (
-      <Modal centered show={show.show} onHide={show.onHide} size="md">
+      <Modal centered show={show.show} onHide={show.onHide} size="md" className="rounded">
         <ModalHeader closeButton className="bg-primary"></ModalHeader>
         <ModalBody className="bg-light">
           <Modal.Title
@@ -98,7 +98,7 @@ function docappointments() {
             Schedule A followup
           </Modal.Title>
           <hr />
-          <div className=" row col-md-12">
+          <div className=" row col-md-12 my-5">
             <div className="col-md-8">
               <input
                 type="datetime-local"
@@ -116,7 +116,7 @@ function docappointments() {
                 handleFollowupSubmit(appt);
                 console.log("hello");
               }}
-              className="col-md-4"
+              className="col-md-4 "
               disabled={newDate === null ? true : false}
             ></Button>
           </div>
