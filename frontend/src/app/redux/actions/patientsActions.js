@@ -44,6 +44,7 @@ export const viewPatients = (queryObj) => async (dispatch) => {
       type: PATIENTS_SUCCESS,
       payload: data.data,
     });
+    
   } catch (error) {
     console.error(error);
     dispatch({
@@ -72,18 +73,20 @@ export const filterPatientsBasedOnUpcomingAppointments =
         `${baseURL}/api/v1/patient/filter-Patients-Based-On-Upcoming-Appointments`,
         config
       );
+    dispatch({
+      type: FILTER_PATIENTS_SUCCESS,
+      payload: data.data,
+    });
+  
+ 
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: FILTER_PATIENTS_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'filtering patients failed. Please try again.',
+    });
+  }
+};
 
-      dispatch({
-        type: FILTER_PATIENTS_SUCCESS,
-        payload: data.data,
-      });
-    } catch (error) {
-      console.log(error);
-      dispatch({
-        type: FILTER_PATIENTS_FAIL,
-        payload: error.response
-          ? error.response.data.message
-          : "filtering patients failed. Please try again.",
-      });
-    }
-  };
