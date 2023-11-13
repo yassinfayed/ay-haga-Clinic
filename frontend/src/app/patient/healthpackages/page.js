@@ -70,6 +70,7 @@ function HealthPackages() {
 
     return `${day}-${month}-${year}`;
   }
+
   const fam2 = useMemo(() => {
     if (familyMembers2 && familyMembers2.data) {
       return familyMembers2.data.map((item) => {
@@ -100,6 +101,13 @@ function HealthPackages() {
     }
     return [];
   }, [healthPackages, modalShow]);
+  function idToPackageName(id) {
+    for (const pack of packages) {
+      if (id == pack._id) {
+        return pack.name;
+      }
+    }
+  }
 
   function handleCancellation(PatientId) {
     console.log(PatientId);
@@ -232,47 +240,16 @@ function HealthPackages() {
 
       <div>
         <h2 className="text-center text-primary fw-bold">Family Members</h2>
-        <div className="d-flex">
-          {/* {fam.map((familymember) => {
-            console.log("fammmm");
-            return (
-              <div className="mx-auto col-lg-4" key={familymember?.patientId}>
-                <Card
-                  className="col-md-10 mx-auto offset-lg-1 my-3 bg-light my-4"
-                  title={
-                    <div className="text-capitalize ">{familymember.name}</div>
-                  }
-                  text={
-                    <div className="p-3">
-                      <div>Relation: {familymember.relationToPatient}</div>
-                      <div>Package: {familymember._id}</div>
-                    </div>
-                  }
-                  image={
-                    <Image
-                      src="/person.svg"
-                      height={30}
-                      width={30}
-                      className="m-3 mb-0 rounded-circle"
-                    />
-                  }
-                  buttonText={"remove"}
-                  buttonTrue={true}
-                  buttonClass="col-md-12 m-3 ms-auto btn btn-danger"
-                  onClickButton={() => handleCancellation(familymember.id)}
-                />
-              </div>
-            );
-          })} */}
+        <div className="d-flex row">
           {familyMembers2?.map((familymember) => {
             console.log("fammmm22");
             const familyMember2 = familymember.familyMember;
             const patientDetails2 = familymember.patientDetails;
 
             return (
-              <div className="mx-auto col-lg-4" key={familyMember2._id}>
+              <div className=" col-lg-4" key={familyMember2._id}>
                 <Card
-                  className="col-md-10 mx-auto offset-lg-1 my-3 bg-light my-4"
+                  className="col-md-10 my-3 bg-light my-4"
                   title={
                     <div className="text-capitalize ">{familyMember2.name}</div>
                   }
@@ -283,6 +260,12 @@ function HealthPackages() {
                       <div>
                         Subscription: {patientDetails2.subscriptionStatus}
                       </div>
+                      {patientDetails2.subscriptionStatus !==
+                        "unsubscribed" && (
+                        <div>
+                          package: {idToPackageName(patientDetails2.package)}
+                        </div>
+                      )}
                       {patientDetails2.cancellationEndDate && (
                         <div>
                           subscription ended on{" "}
