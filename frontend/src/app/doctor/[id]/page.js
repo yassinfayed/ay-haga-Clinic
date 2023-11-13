@@ -164,7 +164,7 @@ export default function DoctorProfile({ params }) {
                 </div>
               </div>
               
-              <div className="py-2 d-flex  text-center border-bottom mx-auto">
+              <div className="ps-4 py-2 d-flex  text-center border-bottom mx-auto">
                     <span className="fw-bold w-25 ">
                       <Image src="/dollar.svg" height={30} width={30} />
                     </span>

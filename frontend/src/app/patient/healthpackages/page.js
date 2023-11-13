@@ -216,7 +216,7 @@ function HealthPackages() {
                   <>
                     <div className="text-muted text-center ">
                       <small>
-                        to be renewed on{" "}
+                        to be renewed on{" "} <br/>
                         {formatDateToDDMMYYYY(patient.renewalDate)}
                       </small>
                     </div>

@@ -11,7 +11,7 @@ import { login } from '@/app/redux/actions/authActions';
 import { useEffect } from 'react';
 import { useMemo } from 'react';
 import { Button } from '../../../../components/Button';
-import { getDoctorAppointments } from '@/app/redux/actions/doctorActions';
+import { doctorFollowUpAction, getDoctorAppointments } from '@/app/redux/actions/doctorActions';
 import NavbarDoc from "../../../../components/NavbarDoc";
 import FooterDoc from "../../../../components/FooterDoc";
 import Image from 'next/image';
@@ -23,6 +23,8 @@ function docappointments() {
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const [newDate, setNewDate] = useState(null);
+
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -65,8 +67,39 @@ function docappointments() {
   useEffect(() => {
     fetchData();
   }, [dispatch, selectedDate, selectedStatus]);
-  
 
+  const handleFollowupDate = (e) => {
+    setNewDate(e.target.value);
+  };
+
+  const handleFollowup = (id) =>{
+    dispatch(doctorFollowUpAction({appointmentId: id, date: newDate}))
+  }
+  
+  const generateButton = (id) => {
+    return (
+    <div className=" row col-md-12">
+      <div className="col-md-6">
+        <input
+          type="datetime-local"
+          id="appointmentdate"
+          name="appointmentdate"
+          className="form-control"
+          onChange={(e) => {
+            handleFollowupDate(e);
+          }}
+        />
+      </div>
+      <Button
+        text="Schedule Followup"
+        variant="sm"
+        onClick={()=>{handleFollowup(id)}}
+        className='col-md-3'
+        disabled={newDate===null}
+      ></Button>
+    </div>
+    );
+  };
 
   const apps = useMemo(() => {
     if (appointmentsData && appointmentsData.data) {
@@ -74,6 +107,7 @@ function docappointments() {
         date: new Date(value.date).toLocaleDateString(), 
         patientname: value.patientId?.name,
         status: value.status,
+        action: generateButton(value._id)
       }));
     }
     return [];
@@ -84,7 +118,7 @@ function docappointments() {
     setSelectedStatus(null);
   }
 
-      const headers = ['Date', 'Patient Name', 'Status'];
+      const headers = ['Date', 'Patient Name', 'Status', 'Actions'];
 return(
     <div className='global-text'>
       <NavbarDoc/>
@@ -97,12 +131,13 @@ return(
                   <Image src='/filter.svg' height={30} width={30} className=""/>
                   </div>   
                   <div className="status-filter col-md-3">
-                    <select onChange={handleStatusChange} className='w-100 form-control text-muted p-2'>
+                    <select onChange={handleStatusChange} className='w-100 form-control text-muted px-2'>
                       <option value="">Filter by status</option>
-                      <option value="Finished">Finished</option>
+                      <option value="Completed">Completed</option>
                       <option value="Upcoming">Upcoming</option>
                       <option value="Missed">Missed</option>
                       <option value="Cancelled">Cancelled</option>
+                      <option value="Rescheduled">Rescheduled</option>
                     </select>
                   </div>
                   <div className="col-md-4 text-muted p-2">
