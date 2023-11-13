@@ -5,6 +5,8 @@ const catchAsync = require("./../utils/catchAsync");
 const Patient = require("../models/patientModel");
 const mongoose = require("mongoose");
 const User = require("../models/userModel");
+const archiver = require('archiver');
+const path = require('path');
 
 exports.getDoctor = handlerFactory.getOne(Doctor);
 
@@ -38,6 +40,27 @@ exports.getallDoctorsForPatient = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.getDoctorDocs = catchAsync(async (req,res,next) => {
+  const doctorId = req.params.id;
+  const doctor = await Doctor.findById(doctorId);
+
+  const archive = archiver ('zip' , {
+    zlib : {level : 9},
+  });
+
+  res.attachment('documents.zip');
+  archive.pipe(res);
+
+  doctor.documents.forEach((document) => {
+    archive.file(document, { name : path.basename(document)});
+  });
+
+
+  archive.finalize();
+
+
+})
 
 exports.updateDoctor = catchAsync(async (req, res, next) => {
   const doctor = await Doctor.findOne({ user: req.user._id });

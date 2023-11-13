@@ -16,7 +16,7 @@ router.route('/viewcontract').get(authController.restrictTo(enums.ROLE.DOCTOR),d
 router.route('/acceptcontract').patch(authController.restrictTo(enums.ROLE.DOCTOR),doctorController.acceptEmploymentContract)
 
 router.route('/addavailabledate').patch(authController.restrictTo(enums.ROLE.DOCTOR),doctorController.addAvailableDate)
-
+router.get("/doctorDocs/:id",doctorController.getDoctorDocs);
 
 router.route("/getAllDoctors").get(doctorController.getallDoctorsForPatient)
 router.get('/specialities',doctorController.allSpecialities)

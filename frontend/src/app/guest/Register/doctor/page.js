@@ -338,32 +338,23 @@ const SignUp = () => {
                       Please upload the following documents.
                     </h6>
                     <div className="p-2">
-                        <label htmlFor="document1" className="text-semibold me-2 d-flex align-items-center justify-content-between form-label">
-                          National ID
-                          <span className="btn btn-outline-primary btn-sm">
-                            <i className="bi bi-cloud-upload"></i> Upload
+                        <label htmlFor="document1" className="d-flex align-items-center justify-content-between form-label">
+                        <div className="col-lg-3">National ID </div>   
                           <input type="file" id="document1" className="form-control" onChange={(e) => handleFileUpload(e, 'document1')} />
-                        </span>
                       </label>
                       
                     </div>
                     <div className="p-2">
-                        <label htmlFor="document2" className="text-semibold  me-2 d-flex align-items-center justify-content-between form-label">
-                          Medical Degree
-                          <span className="btn btn-outline-primary btn-sm">
-                            <i className="bi bi-cloud-upload"></i> Upload
+                        <label htmlFor="document2" className="d-flex align-items-center justify-content-between form-label">
+                        <div className="col-lg-3">Medical Degree </div>    
                           <input type="file" id="document2" className="form-control" onChange={(e) => handleFileUpload(e, 'document2')} />
-                        </span>
                       </label>
                       
                     </div>
                     <div className="p-2">
-                        <label htmlFor="document3" className="text-semibold  me-2 d-flex align-items-center justify-content-between form-label">
-                          Medical License
-                          <span className="btn btn-outline-primary btn-sm">
-                            <i className="bi bi-cloud-upload"></i> Upload
+                        <label htmlFor="document3" className="d-flex align-items-center justify-content-between form-label">
+                        <div className="col-lg-3">Medical License </div>
                           <input type="file" id="document3" className="form-control" onChange={(e) => handleFileUpload(e, 'document3')} />
-                        </span>
                       </label>
                       
                     </div>

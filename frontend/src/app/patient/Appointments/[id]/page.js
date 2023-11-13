@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { viewDoctorDetails } from '../../../redux/actions/doctorActions';
 import ReserveModal from '../../../../../components/ReserveModal';
+import { Card } from "../../../../../components/Card";
+import { makeOrder } from "@/app/redux/actions/paymentActions";
+import { Button } from "react-bootstrap";
 
 export default function AvailableDates({ params }) {
     const dispatch = useDispatch();
@@ -24,7 +27,6 @@ export default function AvailableDates({ params }) {
             hour: 'numeric',
         });
     };
-
     const handleReserve = (date) => {
         setSelectedDate(date);
         setModalShow(true);
@@ -49,6 +51,16 @@ export default function AvailableDates({ params }) {
             </div>
         );
     }
+//   const handleReserve = (date) => {
+//     dispatch(makeOrder({
+//       date,
+//       doctor: params.id,
+//       price :150,
+//       paymentMethod: "wallet",
+//       reserve: true
+//     }))
+//   };
+
 
     return (
         <div className="m-5 p-5 bg-white shadow-md rounded-lg">

@@ -32,7 +32,10 @@ import {
   DOCTOR_FOLLOWUP_SUCCESS,
   DOCTOR_REJECTED_REQUEST,
   DOCTOR_REJECTED_SUCCESS,
-  DOCTOR_REJECTED_FAIL
+  DOCTOR_REJECTED_FAIL,
+  DOCTOR_DOWNLOAD_DOCS_FAIL,
+  DOCTOR_DOWNLOAD_DOCS_REQUEST,
+  DOCTOR_DOWNLOAD_DOCS_SUCCESS
 } from '../constants/doctorConstants'; // Import the correct constants file
 import baseURL from '../baseURL';
 import { formulateQueryString } from '../queryStringBuilder';
@@ -432,6 +435,47 @@ export const rejectDoctor = (doctorId,body) => async (dispatch) => {
       payload: error.response
         ? error.response.data.message
         : 'Rejecting doctor failed. Please try again.',
+    });
+  }
+};
+
+export const downloadDoctorDocs = (DoctorId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: DOCTOR_DOWNLOAD_DOCS_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        
+        'Content-Type': 'application/zip',
+      },
+      responseType: 'blob',
+      withCredentials: true,
+    };
+
+    const url = `${baseURL}/api/v1/doctor/doctorDocs/${DoctorId}`;
+
+    const response = await axios.get(url, config);
+
+    const ContentDisposition = response.headers['content-disposition'];
+    const fileName = 'doctor_documents.zip';
+
+    const blob = new Blob ([response.data]);
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+
+    dispatch({
+      type: DOCTOR_DOWNLOAD_DOCS_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: DOCTOR_DOWNLOAD_DOCS_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Downloading pharmacist documents failed. Please try again.',
     });
   }
 };
