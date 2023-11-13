@@ -1,16 +1,23 @@
 'use client'
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useDispatch } from 'react-redux';
+import { logout } from '@/app/redux/actions/authActions';
+
 
 const NavbarDoc = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const dispatch=useDispatch()
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   const goBack = () => {
     history.back()
+  }
+
+  const handleLogout= ()=>{
+    dispatch(logout())
   }
 
   const id = JSON.parse(localStorage.getItem('userInfo')).data.user.doctor._id;
@@ -50,7 +57,7 @@ const NavbarDoc = () => {
               <a className="nav-link" href="/doctor/patients">Patients</a>
             </li>
             <li className="nav-item rounded ms-2">
-              <a className="btn btn-primary text-light mx-1" href="/" onClick={(e)=> localStorage.clear()}>
+              <a className="btn btn-primary text-light mx-1"  onClick={handleLogout}>
               Log Out
               </a>
             </li>

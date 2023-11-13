@@ -66,14 +66,20 @@ const DoctorSchema = new mongoose.Schema({
     },
     status:{
     type:String,
-        enum: ['pending', 'accepted','waitingadmin'],
+        enum: ['pending', 'accepted','waitingadmin','Doctor rejected','Admin rejected'],
         default: 'waitingadmin'
     },
     clinicMarkUp:{
         type : Number,
         default : 0.1
-    }
-    }
+    },
+    },
+    documents: [
+        {
+            type: String,
+            required: [true, 'Please upload the required documents']
+        }
+    ]
 });
 DoctorSchema.statics.getAllSpecialities = async function () {
     try {

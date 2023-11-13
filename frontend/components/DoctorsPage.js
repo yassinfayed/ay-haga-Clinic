@@ -11,8 +11,8 @@ export default function DoctorsPage(doctors, admin) {
     const dispatch=useDispatch();
 
     const handleCardClick = (doctor) => {
-      // window.history.pushState({},"",`/doctor/${doctor._id}`)
-      // window.location.reload()
+      window.history.pushState({},"",`/patient/Appointments/${doctor._id}`)
+      window.location.reload()
      };
 
     function formatDateToDDMMYYYY(isoDate) {
@@ -36,7 +36,7 @@ export default function DoctorsPage(doctors, admin) {
     <div className="justify-content-center align-items-center min-vh-100">
       <div className='row'>
       {doctors?.doctors?.data?.map((person)=>{
-        if(!person.isApproved)
+        if(person.employmentContract.status!=='accepted')
         return
         return <div className="mx-auto col-md-6">
           <Card key={person.user?._id} className="col-md-10 mx-auto offset-lg-1 my-3 bg-light my-4 " 

@@ -14,6 +14,9 @@ import {
   PATIENT_UPLOAD_DOCS_FAIL,
   PATIENT_UPLOAD_DOCS_REQUEST,
   PATIENT_UPLOAD_DOCS_SUCCESS,
+  PATIENT_UPLOAD_HEALTHRECORDS_FAIL,
+  PATIENT_UPLOAD_HEALTHRECORDS_REQUEST,
+  PATIENT_UPLOAD_HEALTHRECORDS_SUCCESS,
   CANCEL_SUBSCRIPTION_REQUEST,
   CANCEL_SUBSCRIPTION_SUCCESS,
   CANCEL_SUBSCRIPTION_FAILURE,
@@ -74,6 +77,32 @@ export const patientViewMyDetailsReducer = (state = {}, action) => {
 };
 
 export const patientUploadDocs = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENT_UPLOAD_HEALTHRECORDS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case PATIENT_UPLOAD_HEALTHRECORDS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    }
+    case PATIENT_UPLOAD_HEALTHRECORDS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const uploadHealthRecordsReducer = (state = {}, action) => {
   switch (action.type) {
     case PATIENT_UPLOAD_DOCS_REQUEST:
       return {
@@ -141,6 +170,7 @@ export const patientRemoveRecordReducer = (state = {}, action) => {
       return state;
   }
 };
+
 export const cancelSubscriptionReducer = (state = {}, action) => {
   switch (action.type) {
     case CANCEL_SUBSCRIPTION_REQUEST:

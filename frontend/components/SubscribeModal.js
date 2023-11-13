@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form } from "react-bootstrap";
 import { viewFamilyMembers } from "@/app/redux/actions/FamilyMembersAction";
 import { useMemo } from "react";
+import { makeOrder } from "@/app/redux/actions/paymentActions";
 
 function SubscribeModal(props) {
   const { title, subheader, onHide, edit, id, healthPackage } = props;
@@ -21,6 +22,9 @@ function SubscribeModal(props) {
   const isLoading = useSelector(
     (state) => state.addFamilyMembersReducer.loading
   );
+  console.log(healthPackage);
+  console.log("heyyyy");
+  console.log(JSON.parse(localStorage.getItem("userInfo")).data.user.wallet);
 
   async function fetchData() {
     dispatch(viewFamilyMembers());
@@ -33,6 +37,7 @@ function SubscribeModal(props) {
   const fam = useMemo(() => {
     if (familyMembers && familyMembers.data) {
       return familyMembers.data.map((value) => ({
+        _id: value._id,
         name: value.name,
         nationalId: value.nationalId,
         age: value.age,
@@ -42,6 +47,8 @@ function SubscribeModal(props) {
     }
     return [];
   }, [familyMembers, isLoading]);
+
+  console.log(fam);
 
   const handleRecieverChange = (e) => {
     setPackageReciever(e.target.value);
@@ -68,10 +75,9 @@ function SubscribeModal(props) {
       console.log("please enter all data");
       return;
     }
-    //logic to be added
-    // dispatch(func({
-    // "data": data,
-    // }))
+    console.log(id);
+    console.log("here");
+    dispatch(makeOrder({ id, paymentMethod }, familyMember));
     setFamilyMember(null);
     setPackageReciever(null);
     setPaymentMethod(null);
@@ -143,7 +149,7 @@ function SubscribeModal(props) {
                 >
                   <option value={null}>Choose...</option>
                   {fam.map((mem) => (
-                    <option value={mem.nationalId}>{mem.name}</option>
+                    <option value={mem._id}>{mem.name}</option>
                   ))}
                 </Form.Control>
               </div>
@@ -157,6 +163,7 @@ function SubscribeModal(props) {
                   label="Wallet"
                   name="paymentMethod"
                   value="wallet"
+                  // disabled={ JSON.parse(localStorage.getItem('userInfo')).data.user.wallet === undefined || JSON.parse(localStorage.getItem('userInfo')).data.user.wallet < healthPackage?.price }
                   checked={paymentMethod === "wallet"}
                   onChange={(e) => handlePaymentChange(e)}
                 />
@@ -165,8 +172,8 @@ function SubscribeModal(props) {
                   type="radio"
                   label="Credit Card"
                   name="paymentMethod"
-                  value="card"
-                  checked={paymentMethod === "card"}
+                  value="Stripe"
+                  checked={paymentMethod === "Stripe"}
                   onChange={(e) => handlePaymentChange(e)}
                 />
               </div>

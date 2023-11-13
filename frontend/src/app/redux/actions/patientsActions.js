@@ -27,7 +27,6 @@ export const viewPatients = (queryObj) => async (dispatch) => {
     const queryStr = formulateQueryString(queryObj);
 
     let url = "";
-    console.log(JSON.parse(localStorage.getItem("userInfo")).role);
     if (
       JSON.parse(localStorage.getItem("userInfo")).data.user.role ===
       "administrator"

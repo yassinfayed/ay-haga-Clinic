@@ -28,7 +28,6 @@ router.get('/my-details', restrictTo(enums.ROLE.PATIENT), patientController.getM
 
 router.post('/upload/medicalRecords',protect,patientController.uploadMedicineRecords.array('documents', 5),patientController.postUpload);
 router.get('/download',patientController.downloadSingleRecord);
-router.get('/downloadHealthRecord/:id',patientController.downloadHealthRecord);
 router.delete('/removeDoc',patientController.removeSingleRecord);
 
 

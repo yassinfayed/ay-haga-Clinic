@@ -103,11 +103,10 @@ exports.getPrescription = catchAsync(async (req, res, next) => {
 });
 
 exports.viewHealthRecords = catchAsync(async (req, res, next) => {
-  const userRole = req.user.role;
-  const userId = req.user._id;
+  const patientId = req.params.id;
 
   if (userRole === "patient") {
-    const patient = await Patient.findOne({ user: userId }).select(
+    const patient = await Patient.findOne({ _id: patientId }).select(
       "healthRecords"
     );
 
@@ -206,7 +205,9 @@ exports.getAllPatients = handlerFactory.getAll(Patient);
 
 exports.getMyDetails = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ _id: req.user._id }).select("+password");
-  const patient = await Patient.findOne({ user: req.user._id });
+  const patient = await Patient.findOne({ user: req.user._id })
+    .populate("package")
+    .exec();
 
   if (!user || !patient) {
     return next(new AppError("User or patient not found", 404));
@@ -265,7 +266,6 @@ const storage = multer.diskStorage({
     cb(null, "uploads/");
   },
   filename: function(req, file, cb) {
-    console.log(file);
     if (!req.locals) {
       req.locals = {};
     }
@@ -280,9 +280,6 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  console.log("kajnq");
-  console.log(file);
-  console.log(file.mimetype);
   if (
     file.mimetype === "application/pdf" ||
     file.mimetype === "image/png" ||
@@ -316,21 +313,6 @@ exports.postUploadHealth = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.downloadHealthRecord = catchAsync(async (req, res, next) => {
-  const patient = await Patient.findOne({ _id: req.params.id });
-  if (!patient.healthRecords.includes(req.query.name))
-    return next(new AppError(404, "File not found"));
-
-  const fileData = await fs.readFileSync(`./${req.query.name}`);
-
-  res.setHeader(
-    "Content-Disposition",
-    `attachment; filename="${req.query.name}"`
-  );
-  res.setHeader("Content-Type", "application/octet-stream");
-  res.send(fileData);
-});
-
 exports.uploadMedicineRecords = multer({ storage, fileFilter });
 
 exports.postUpload = catchAsync(async (req, res, next) => {
@@ -350,8 +332,11 @@ exports.postUpload = catchAsync(async (req, res, next) => {
 exports.downloadSingleRecord = catchAsync(async (req, res, next) => {
   //Abdullah: to be edited to download all as zip if no query parameter passed
   const patient = await Patient.findOne({ user: req.user._id });
-  if (!patient.medicalRecords.includes(req.query.name))
-    return next(new AppError(404, "File not found"));
+  if (!patient.medicalRecords.includes(req.query.name)) {
+    if (!patient.healthRecords.includes(req.query.name)) {
+      return next(new AppError(404, "File not found"));
+    }
+  }
 
   const fileData = await fs.readFileSync(`./${req.query.name}`);
 
@@ -366,12 +351,17 @@ exports.downloadSingleRecord = catchAsync(async (req, res, next) => {
 exports.removeSingleRecord = catchAsync(async (req, res, next) => {
   //Abdullah: to be edited to download all as zip if no query parameter passed
   const patient = await Patient.findOne({ user: req.user._id });
-  if (!patient.medicalRecords.includes(req.query.name))
+  if (patient.medicalRecords.includes(req.query.name)) {
+    patient.medicalRecords = patient.medicalRecords.filter(
+      (record) => record !== req.query.name
+    );
+  } else if (patient.healthRecords.includes(req.query.name)) {
+    patient.healthRecords = patient.healthRecords.filter(
+      (record) => record !== req.query.name
+    );
+  } else {
     return next(new AppError(404, "File not found"));
-
-  patient.medicalRecords = patient.medicalRecords.filter(
-    (record) => record !== req.query.name
-  );
+  }
 
   await patient.save();
 

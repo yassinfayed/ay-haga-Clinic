@@ -91,10 +91,11 @@ function appointments() {
                   <div className="status-filter col-md-3">
                     <select onChange={handleStatusChange} className='w-100 form-control text-muted p-2'>
                       <option value="">Filter by status</option>
-                      <option value="Finished">Finished</option>
+                      <option value="Completed">Completed</option>
                       <option value="Upcoming">Upcoming</option>
                       <option value="Missed">Missed</option>
                       <option value="Cancelled">Cancelled</option>
+                      <option value="Rescheduled">Rescheduled</option>
                     </select>
                   </div>
                   <div className="col-md-4 text-muted p-2">

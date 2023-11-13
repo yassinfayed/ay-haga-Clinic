@@ -24,6 +24,9 @@ const exampleRouter = require("./routes/exampleRoutes.js");
 const familyMembersRouter = require("./routes/familyMembersRoutes.js");
 const healthPackagesRouter = require("./routes/healthPackagesRoutes.js");
 const appointmentRouter = require("./routes/appointmentRoutes.js");
+const paymentController = require("./controllers/paymentController.js");
+
+app.enable("trust proxy");
 
 app.enable("trust proxy");
 
@@ -31,11 +34,18 @@ app.enable("trust proxy");
 // app.use(cors());
 
 // app.options('*', cors());
+app.use((req, res, next) => {
+  if (req.originalUrl === "/webhook") {
+    next(); // Do nothing with the body because I need it in a raw state.
+  } else {
+    express.json()(req, res, next); // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
+  }
+});
 
 app.post(
-  "/webhook-checkout",
-  bodyParser.raw({ type: "application/json" })
-  // orderController.webhookCheckout
+  "/webhook",
+  bodyParser.raw({ type: "application/json" }),
+  paymentController.webhookCheckout
 );
 
 var corsOptions = {

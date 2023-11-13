@@ -26,7 +26,13 @@ import {
   DOCTOR_ACCEPTCONTRACT_FAIL,
   DOCTOR_ADDAVAILABLEDATE_REQUEST,
   DOCTOR_ADDAVAILABLEDATE_SUCCESS,
-  DOCTOR_ADDAVAILABLEDATE_FAIL
+  DOCTOR_ADDAVAILABLEDATE_FAIL,
+  DOCTOR_FOLLOWUP_FAIL,
+  DOCTOR_FOLLOWUP_REQUEST,
+  DOCTOR_FOLLOWUP_SUCCESS,
+  DOCTOR_REJECTED_REQUEST,
+  DOCTOR_REJECTED_SUCCESS,
+  DOCTOR_REJECTED_FAIL
 } from '../constants/doctorConstants'; // Import the correct constants file
 import baseURL from '../baseURL';
 import { formulateQueryString } from '../queryStringBuilder';
@@ -259,7 +265,7 @@ export const adminAcceptDoctor = (doctorId,body) => async (dispatch) => {
 
 
 
-export const doctorViewContract = (doctorId) => async (dispatch) => {
+export const doctorViewContract = () => async (dispatch) => {
 
   try {
     dispatch({
@@ -293,7 +299,7 @@ export const doctorViewContract = (doctorId) => async (dispatch) => {
   }
 };
 
-export const doctorAcceptContract = (doctorId) => async (dispatch) => {
+export const doctorAcceptContract = () => async (dispatch) => {
 
   try {
     dispatch({
@@ -310,7 +316,7 @@ export const doctorAcceptContract = (doctorId) => async (dispatch) => {
     
     url=`${baseURL}/api/v1/doctor/acceptcontract`
     
-    const { data } = await axios.patch(url, config);
+    const { data } = await axios.patch(url,{}, config);
 
     dispatch({
       type: DOCTOR_ACCEPTCONTRACT_SUCCESS,
@@ -360,3 +366,72 @@ export const doctorAddAvailableDate = (body) => async (dispatch) => {
     });
   }
 }
+
+export const doctorFollowUpAction = (appointmentId, date) => async (dispatch) => {
+  try {
+    dispatch({
+      type: DOCTOR_FOLLOWUP_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    };
+
+    const reqbody = {
+      appointmentId,
+      date,
+    };
+
+    const { data } = await axios.post(`${baseURL}/api/v1/appointment/followUp`, reqbody, config);
+
+    dispatch({
+      type: DOCTOR_FOLLOWUP_SUCCESS,
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: DOCTOR_FOLLOWUP_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Following up appointment failed. Please try again.',
+    });
+  }
+};
+
+
+export const rejectDoctor = (doctorId,body) => async (dispatch) => {
+  
+  try {
+    dispatch({
+      type: DOCTOR_REJECTED_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    };
+    let url ="";
+    
+    url=`${baseURL}/api/v1/doctor/rejectdoctor/${doctorId}`
+    
+    const { data } = await axios.patch(url, body,config);
+
+    dispatch({
+      type: DOCTOR_REJECTED_SUCCESS,
+      payload: data.data
+    });
+  } catch (error) {
+   
+    dispatch({
+      type: DOCTOR_REJECTED_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Rejecting doctor failed. Please try again.',
+    });
+  }
+};
