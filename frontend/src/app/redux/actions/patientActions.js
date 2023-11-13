@@ -63,7 +63,7 @@ export const getPatientAppointments = (queryObj) => async (dispatch) => {
     }
   };
 
-  export const viewPatientDetails = (patientId) => async (dispatch) => {
+  export const viewPatientDetails = () => async (dispatch) => {
     try {
       dispatch({
         type: PATIENT_REQUEST,

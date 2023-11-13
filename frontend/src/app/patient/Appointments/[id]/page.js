@@ -3,7 +3,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { viewDoctorDetails } from "../../../redux/actions/doctorActions";
 import { Card } from "../../../../../components/Card";
-import { Button } from "../../../../../components/Button";
+import { makeOrder } from "@/app/redux/actions/paymentActions";
+import { Button } from "react-bootstrap";
 
 export default function AvailableDates({ params }) {
   const dispatch = useDispatch();
@@ -21,24 +22,27 @@ export default function AvailableDates({ params }) {
   };
 
   const handleReserve = (date) => {
-    console.log(`Reserving for: ${date}`);
+    dispatch(makeOrder({
+      date,
+      doctor: params.id,
+      price :150,
+      paymentMethod: "wallet",
+      reserve: true
+    }))
   };
+
+  console.log(doctor?.availableDates)
 
   function DateCardList() {
     return (
       <div className="flex flex-col items-center gap-4">
         {doctor && doctor.availableDates.map((date, index) => (
           <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-2" key={index}>
-            <Card 
-              title={formatDate(date)}
-              className="shadow-lg rounded-lg"
-              buttonTrue
-              buttonText="Reserve"
-              onClickButton={() => handleReserve(date)}
-              buttonClass="mt-2 self-end"
-            >
-              {}
-            </Card>
+           <label>{date}</label>
+
+           <Button onClick={()=> {
+            handleReserve(date)
+           }} >   Reserve</Button>
           </div>
         ))}
       </div>
