@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
 function Table(props) {
-    const { headers, data } = props;
+    const { headers, data, className } = props;
     console.log(props)
 
     const currentItems = data;
 
     return (
         <>
-            <table className={`table table-striped table-bordered table-hover m-3 ${props.className}`}>
+            <table className={`table table-striped table-bordered table-hover m-3 ${className}`}>
                 <thead>
                     <tr>
                         {headers.map((header, index) => (

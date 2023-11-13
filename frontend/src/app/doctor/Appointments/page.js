@@ -40,7 +40,7 @@ function docappointments() {
     (state) => state.viewDoctorsAppointmentsReducer.appointments
   );
   const isLoading = useSelector(
-    (state) => state.viewDoctorsAppointmentsReducer.loading
+    (state) => state.doctorFollowUpReducer.loading
   );
 
   const formatDateToISOString = (date) => {
@@ -70,13 +70,10 @@ function docappointments() {
 
   useEffect(() => {
     fetchData();
-  }, [dispatch, selectedDate, selectedStatus]);
+  }, [dispatch, selectedDate, selectedStatus, isLoading]);
 
   const handleFollowupDate = (e) => {
-    e.preventDefault();
     setNewDate(e.target.value);
-    console.log(e.target.value);
-    console.log(newDate);
   };
 
   const handleFollowup = (id) => {
@@ -86,6 +83,7 @@ function docappointments() {
 
   const handleFollowupSubmit = (id) => {
     dispatch(doctorFollowUpAction(id, newDate));
+    setModal(false);
   };
 
   function FollowupModal(show, onHide) {
@@ -107,9 +105,7 @@ function docappointments() {
                 className="form-control py-2"
                 name="appointmentdate"
                 value={newDate}
-                onChange={(e) => {
-                  setNewDate(e.target.value);
-                }}
+                onChange={(e) => {handleFollowupDate(e)}}
               />
             </div>
             <Button
@@ -212,7 +208,7 @@ function docappointments() {
             setAppt(null);
           }}
         />
-        <Table headers={headers} data={apps ? apps : []} />
+        <Table headers={headers} data={apps ? apps : []} className="col-md-10"/>
       </div>
       <FooterDoc />
     </div>
