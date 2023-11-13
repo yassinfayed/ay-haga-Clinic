@@ -13,11 +13,23 @@ function AddFamily(props) {
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [relationToPatient, setRelationToPatient] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+
+  const [email, setEmail] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
   const dispatch = useDispatch();
 
   // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    e.preventDefault();
+    if (password !== passwordConfirm) {
+      alert("Passwords do not match!");
+      return;
+    }
     dispatch(
       addFamilyMembers({
         name: name,
@@ -25,6 +37,18 @@ function AddFamily(props) {
         age: age,
         gender: gender,
         relationToPatient: relationToPatient,
+        username,
+        password,
+        passwordConfirm,
+        dateOfBirth,
+        mobileNumber: phone,
+        email,
+        role: "patient",
+        emergencyContact: {
+          fullName: "hazem abdelghany",
+          mobileNumber: "01000066624",
+          // relationToPatient: formData.erelationToPatient
+        },
       })
     );
     console.log("added fam member");
@@ -60,6 +84,17 @@ function AddFamily(props) {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
+          <div className="form-group my-3">
+            <label htmlFor="email">email</label>
+            <input
+              type="text"
+              className="form-control my-1"
+              id="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
           <div className="form-group my-1 col-md-6">
             <label htmlFor="nationalId">National ID</label>
             <input
@@ -69,6 +104,17 @@ function AddFamily(props) {
               placeholder="National ID"
               value={nationalId}
               onChange={(e) => setNationalId(e.target.value)}
+            />
+          </div>
+          <div className="form-group my-1 col-md-6">
+            <label htmlFor="phone">Phone number</label>
+            <input
+              type="number"
+              className="form-control my-1"
+              id="phone"
+              placeholder="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
             />
           </div>
 
@@ -108,19 +154,63 @@ function AddFamily(props) {
               <option value="child">Child</option>
             </select>
           </div>
+          <label htmlFor="phone" className="text-semibold form-label">
+            Date of Birth
+          </label>
+          <input
+            type="date"
+            className="form-control py-2"
+            name="dateOfBirth"
+            value={dateOfBirth}
+            onChange={(e) => {
+              setDateOfBirth(e.target.value);
+            }}
+          />
 
+          <div className="form-group my-3">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              className="form-control my-1"
+              id="username"
+              placeholder="Enter Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+
+          {/* Password field */}
+          <div className="form-group my-3">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              className="form-control my-1"
+              id="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          {/* Confirm Password field */}
+          <div className="form-group my-3">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              className="form-control my-1"
+              id="confirmPassword"
+              placeholder="Confirm Password"
+              value={passwordConfirm}
+              onChange={(e) => setPasswordConfirm(e.target.value)}
+            />
+          </div>
+
+          {/* Submit button */}
           <div className="row justify-content-end align-items-center mt-5 mb-2">
             <button type="submit" className="btn btn-primary mx-auto col-md-4">
               Submit
             </button>
           </div>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
         </form>
       </Modal.Body>
     </Modal>
