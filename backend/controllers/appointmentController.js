@@ -77,3 +77,10 @@ exports.updateAppointment = handlerFactory.updateOne(Appointment);
 exports.deleteAppointment = handlerFactory.deleteOne(Appointment);
 
 
+
+
+
+// RESERVE AN APPOINTMENT:
+
+
+
