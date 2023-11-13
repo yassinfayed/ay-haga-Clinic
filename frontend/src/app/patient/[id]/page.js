@@ -152,6 +152,7 @@ const handleFileUpload = (patientId) => {
           );
         })}
         <FileModal show={showModal} onHide={closeModal} filePath={modalFilePath} isPdf={isPdf} fileName={fileName} onDelete={handlePatientDataReload}/>
+
       </div>
     );
   };
@@ -176,6 +177,7 @@ const handleFileUpload = (patientId) => {
             <div className="mx-auto">
                 <ChangePassword className="h-100 " />
               </div>
+
           </div>
           <div className="p-3 w-75">
             <div className="border-bottom d-flex ">
