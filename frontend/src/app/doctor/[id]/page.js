@@ -140,6 +140,8 @@ export default function DoctorProfile({ params }) {
       </div>
     );
   }
+
+  
   function formatDateToDDMMYYYY(isoDate) {
     const date = new Date(isoDate);
     const day = date.getDate().toString().padStart(2, "0");
@@ -164,7 +166,7 @@ export default function DoctorProfile({ params }) {
                 </div>
               </div>
               
-              <div className="py-2 d-flex  text-center border-bottom mx-auto">
+              <div className="ps-4 py-2 d-flex  text-center border-bottom mx-auto">
                     <span className="fw-bold w-25 ">
                       <Image src="/dollar.svg" height={30} width={30} />
                     </span>
@@ -272,7 +274,7 @@ export default function DoctorProfile({ params }) {
                   <Button
                     text="Cancel"
                     variant="md"
-                    color="danger"
+                    color="dark"
                     onClick={() => {
                       setEdit(false);
                     }}
