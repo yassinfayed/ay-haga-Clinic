@@ -51,6 +51,7 @@ import {
   doctorFollowUpReducer,
   rejectDoctorReducer,
 } from "./reducers/doctorReducer";
+import { downloadDoctorDocsReducer } from "./reducers/doctorReducer";
 
 const store = configureStore({
   reducer: {
@@ -93,6 +94,7 @@ const store = configureStore({
     uploadHealthRecordsReducer,
     doctorFollowUpReducer,
     rejectDoctorReducer,
+    downloadDoctorDocsReducer
   },
 });
 

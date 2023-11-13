@@ -5,6 +5,7 @@ import { Card } from '../../../../components/Card';
 import { useDispatch, useSelector } from 'react-redux';
 import {login} from '@/app/redux/actions/authActions'
 import { getDoctorsForPatientAction,adminAcceptDoctor, rejectDoctor} from '@/app/redux/actions/doctorActions';
+import { downloadDoctorDocs } from '@/app/redux/actions/doctorActions';
 import Image from 'next/image';
 
 export default function DoctorApps() {
@@ -18,6 +19,10 @@ export default function DoctorApps() {
   useEffect(()=>{
     dispatch(getDoctorsForPatientAction());
   },[isLoading,approvalIsLoading,rejectionisLoading])
+
+  const handleDownload = (id) => {
+    dispatch(downloadDoctorDocs(id));
+  }
 
  
 
@@ -53,7 +58,7 @@ export default function DoctorApps() {
        {person.employmentContract.status==='waitingadmin' &&
         <div className="row mb-3">
           <div className="col-lg-6">
-              <Button variant="xs" text="View Documents"></Button>
+              <Button variant="xs" text="View Documents" onClick={()=>handleDownload(person._id)}></Button>
           </div>
         </div>
       }

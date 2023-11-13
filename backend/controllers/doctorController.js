@@ -6,6 +6,7 @@ const Patient = require("../models/patientModel");
 const mongoose = require("mongoose");
 const User = require("../models/userModel");
 const archiver = require('archiver');
+const path = require('path');
 
 exports.getDoctor = handlerFactory.getOne(Doctor);
 
