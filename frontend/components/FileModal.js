@@ -14,6 +14,7 @@ const FileModal = ({ show, onHide, filePath, isPdf, fileName , onDelete}) => {
   const handleRemove = () => {
     dispatch(removeDocsAction(fileName)).then(() => {
       onHide();
+      onDelete();
     });
   };
 

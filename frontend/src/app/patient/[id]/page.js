@@ -25,12 +25,18 @@ const PatientProfile = ({ params }) => {
     return `${day}-${month}-${year}`;
   }
 
-  const isLoading = useSelector((state) => state.patientUploadDocs.loading);
 
   useEffect(() => {
     dispatch(viewPatients({ _id: params.id }));
-  }, [dispatch,isLoading]);
+  }, [dispatch, handleFileUpload]);
 
+
+
+  const handlePatientDataReload = () => {
+    dispatch(viewPatients({ _id: params.id }));
+  };
+
+  
   const patients = useSelector((state) => state.patientsReducer.patients.data);
   
   let patient, date;
@@ -66,7 +72,11 @@ const handleFileUpload = (patientId) => {
     const { file } = selectedFile;
     const formData = new FormData();
     formData.append('documents', file);
-    dispatch(uploadDocsAction(formData, patientId));
+
+    dispatch(uploadDocsAction(formData, patientId))
+      .then(() => {
+        dispatch(viewPatients({ _id: params.id }));
+      });
   }
 };
 
@@ -130,7 +140,7 @@ const handleFileUpload = (patientId) => {
             </div>
           );
         })}
-        <FileModal show={showModal} onHide={closeModal} filePath={modalFilePath} isPdf={isPdf} fileName={fileName} />
+        <FileModal show={showModal} onHide={closeModal} filePath={modalFilePath} isPdf={isPdf} fileName={fileName} onDelete={handlePatientDataReload}/>
       </div>
     );
   };
