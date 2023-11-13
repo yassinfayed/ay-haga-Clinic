@@ -13,8 +13,8 @@ const PatientProfile = ({ params }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalFilePath, setModalFilePath] = useState("");
   const [isPdf, setIsPdf] = useState(false);
-  const [fileName, setFileName] = useState("");
-  const [uploadedFile, setUploadedFile] = useState(null);
+  const [fileName, setFileName] = useState('');
+ 
 
   function formatDateToDDMMYYYY(isoDate) {
     const date = new Date(isoDate);
@@ -25,11 +25,20 @@ const PatientProfile = ({ params }) => {
     return `${day}-${month}-${year}`;
   }
 
+
   useEffect(() => {
     dispatch(viewPatients({ _id: params.id }));
-  }, [dispatch]);
+  }, [dispatch, handleFileUpload]);
 
+
+
+  const handlePatientDataReload = () => {
+    dispatch(viewPatients({ _id: params.id }));
+  };
+
+  
   const patients = useSelector((state) => state.patientsReducer.patients.data);
+  
   let patient, date;
 
   if (patients) {
@@ -57,16 +66,18 @@ const PatientProfile = ({ params }) => {
     }
   };
 
-  const handleFileUpload = (patientId) => {
-    if (selectedFile) {
-      const { file } = selectedFile;
-      const formData = new FormData();
-      formData.append("documents", file);
-      dispatch(uploadDocsAction(formData, patientId)).then(() => {
-        setUploadedFile(file);
+const handleFileUpload = (patientId) => {
+  if (selectedFile) {
+    const { file } = selectedFile;
+    const formData = new FormData();
+    formData.append('documents', file);
+
+    dispatch(uploadDocsAction(formData, patientId))
+      .then(() => {
+        dispatch(viewPatients({ _id: params.id }));
       });
-    }
-  };
+  }
+};
 
   const HealthRecords = () => {
     return (
@@ -140,13 +151,8 @@ const PatientProfile = ({ params }) => {
             </div>
           );
         })}
-        <FileModal
-          show={showModal}
-          onHide={closeModal}
-          filePath={modalFilePath}
-          isPdf={isPdf}
-          fileName={fileName}
-        />
+        <FileModal show={showModal} onHide={closeModal} filePath={modalFilePath} isPdf={isPdf} fileName={fileName} onDelete={handlePatientDataReload}/>
+
       </div>
     );
   };
@@ -156,7 +162,7 @@ const PatientProfile = ({ params }) => {
       {patient ? (
         <div className="p-5 d-flex mx-auto rounded shadow col-md-9 my-3 ">
           <div className=" w-25 border-end">
-            <div className="border-bottom m-3">
+            <div className="p-3 border-bottom m-3">
               <div className="d-flex justify-content-center ">
                 <Image src="/profile.svg" height={200} width={200} />
               </div>
@@ -169,10 +175,11 @@ const PatientProfile = ({ params }) => {
                    
                   </div>
             <div className="mx-auto">
-              <ChangePassword />
-            </div>
+                <ChangePassword className="h-100 " />
+              </div>
+
           </div>
-          <div className="p-5 w-75">
+          <div className="p-3 w-75">
             <div className="border-bottom d-flex ">
               <div className="w-75">
                 <h1 className=" ms-2 text-primary fw-bold text-capitalize">
@@ -183,10 +190,8 @@ const PatientProfile = ({ params }) => {
 
             <div className="p-2 ">
               <div className="d-flex">
-                <div className="w-50">
-                  <h2 className="text-global fw-bold small pt-3 p-1 me-3">
-                    Patient Information
-                  </h2>
+                <div className="w-60 ">
+                  <h2 className="text-global fw-bold small pt-3 p-1 me-3">Patient Information</h2>
                   <hr className="w-50" />
 
                   <div className="p-2 pt-0 mx-3">
@@ -254,6 +259,7 @@ const PatientProfile = ({ params }) => {
                   </div>
                 </div>
               </div>
+
               <div>
                 <div className="text-global fw-bold small pt-3 p-1">
                   Health Records

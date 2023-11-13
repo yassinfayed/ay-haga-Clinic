@@ -50,6 +50,13 @@ export default function DoctorApps() {
         className="m-3 mb-0 rounded-circle"/>} subtitle={<div className='mt-2 ms-3 text-semibold text-capitalize'>Status: {person.employmentContract.status}</div>}>
        <hr />
        <div className="p-3 pe-0">
+       {person.employmentContract.status==='waitingadmin' &&
+        <div className="row mb-3">
+          <div className="col-lg-6">
+              <Button variant="xs" text="View Documents"></Button>
+          </div>
+        </div>
+      }
           <div className="row">
             <div>
             <Image src='/mail-dark.svg' height={20} width={20} className="me-2"/>{person.email}
