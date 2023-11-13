@@ -272,7 +272,7 @@ export default function DoctorProfile({ params }) {
                   <Button
                     text="Cancel"
                     variant="md"
-                    color="danger"
+                    color="dark"
                     onClick={() => {
                       setEdit(false);
                     }}
