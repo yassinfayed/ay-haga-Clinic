@@ -218,7 +218,7 @@ function HealthPackages() {
                 <>
                   <div className="text-muted text-center ">
                     <small>
-                      Subscription ended on{" "}
+                      Subscription ended on{" "} <br/>
                       {formatDateToDDMMYYYY(patient.cancellationEndDate)}
                     </small>
                   </div>

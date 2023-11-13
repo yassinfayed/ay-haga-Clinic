@@ -154,20 +154,19 @@ const PatientProfile = ({ params }) => {
   return (
     <>
       {patient ? (
-        <div className="p-5 d-flex mx-auto rounded shadow col-md-9 my-3 ">
+        <div className=" d-flex mx-auto rounded shadow col-md-9 my-3 ">
           <div className=" w-25 border-end">
             <div className="border-bottom m-3">
               <div className="d-flex justify-content-center ">
                 <Image src="/profile.svg" height={200} width={200} />
               </div>
             </div>
-            <div className="py-2 d-flex  text-center border-bottom mx-auto">
-                    <span className="fw-bold w-25 ">
-                      <Image src="/dollar.svg" height={30} width={30} />
-                    </span>
-                    <span className="w-50 fs-4">{patient?.user?.wallet}</span>
-                   
-                  </div>
+            <div className="ps-4 py-2 d-flex  text-center border-bottom mx-auto">
+              <span className="fw-bold w-25">
+                <Image src="/dollar.svg" height={30} width={30} />
+              </span>
+              <span className="w-50 fs-4">{patient?.user?.wallet}</span>
+            </div>
             <div className="mx-auto">
               <ChangePassword />
             </div>
