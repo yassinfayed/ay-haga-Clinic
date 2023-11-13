@@ -206,7 +206,7 @@ exports.getAllPatients = handlerFactory.getAll(Patient);
 
 exports.getMyDetails = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ _id: req.user._id }).select('+password');
-  const patient = await Patient.findOne({ user: req.user._id });
+  const patient = await Patient.findOne({ user: req.user._id }).populate('package').exec();
 
   if (!user || !patient) {
     return next(new AppError('User or patient not found', 404));
