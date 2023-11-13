@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { viewFamilyMembers } from '@/app/redux/actions/FamilyMembersAction';
 import { useMemo } from 'react';
+import {viewPatientDetails} from '@/app/redux/actions/patientActions';
 
 function ReserveModal(props) {
-    const { title, subheader, onHide, edit, id, healthPackage  } = props;
+    const { title, subheader, onHide, id ,hourlyRate} = props;
 
     const dispatch=useDispatch();
     
@@ -17,10 +18,13 @@ function ReserveModal(props) {
 
     const familyMembers = useSelector((state) => state.viewFamilyMembersReducer.familyMember);
     const isLoading = useSelector((state) => state. addFamilyMembersReducer.loading);
+    const patientDetails = useSelector((state) => state.viewPatientDetailsReducer);
+
 
 
     async function fetchData() {
         dispatch(viewFamilyMembers());
+        dispatch(viewPatientDetails());
       }
       
       useEffect(() => {
@@ -37,6 +41,15 @@ function ReserveModal(props) {
         return [];
       }, [familyMembers,isLoading]);
 
+      const health = useMemo(() => {
+        if (patientDetails && patientDetails.data && patientDetails.data.healthPackage){
+          return patientDetails.data.package.doctorDiscount;
+        }
+        return null;
+
+      }, [patientDetails,isLoading]);
+      
+    console.log(health)
       console.log(fam)
 
     const handleRecieverChange = (e) => {
@@ -152,6 +165,28 @@ function ReserveModal(props) {
                         />
                         </div>
                     </Form.Group>
+                    
+                    <div className='row m-2'>
+                        <div className='col-md-4'>Total Price</div>
+                        <div className='col-md-6 d-flex align-items-center'>
+                            {health ? (
+                                <>
+                                    <div className='text-decoration-line-through'>
+                                        {hourlyRate.toFixed(2)}
+                                    </div>
+                                    <div className='ms-3'>
+                                        {(hourlyRate - hourlyRate * health / 100).toFixed(2)}
+                                    </div>
+                                </>
+                            ) : (
+                                <div>
+                                    {hourlyRate.toFixed(2)}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                
                     <div className="row justify-content-end align-items-center mt-5 mb-2">
                         <button type="submit" className="btn btn-primary mx-auto col-md-2">Submit</button>
                     </div>

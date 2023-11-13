@@ -61,6 +61,7 @@ export default function AvailableDates({ params }) {
                     show={modalShow}
                     onHide={() => setModalShow(false)}
                     id={doctor._id}
+                    hourlyRate={doctor.HourlyRate}
                 />
             )}
         </div>
