@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form } from "react-bootstrap";
 import { viewFamilyMembers } from "@/app/redux/actions/FamilyMembersAction";
 import { useMemo } from "react";
-import { makeOrder } from "@/app/redux/actions/paymentActions";
+//import { makeOrder } from "@/app/redux/actions/paymentActions";
 
 function SubscribeModal(props) {
   const { title, subheader, onHide, edit, id, healthPackage } = props;
@@ -22,9 +22,9 @@ function SubscribeModal(props) {
   const isLoading = useSelector(
     (state) => state.addFamilyMembersReducer.loading
   );
-  console.log(healthPackage);
-  console.log("heyyyy");
-  console.log(JSON.parse(localStorage.getItem("userInfo")).data.user.wallet);
+  // console.log(healthPackage);
+  // console.log("heyyyy");
+  // console.log(JSON.parse(localStorage.getItem("userInfo")).data.user.wallet);
 
   async function fetchData() {
     dispatch(viewFamilyMembers());
@@ -48,7 +48,7 @@ function SubscribeModal(props) {
     return [];
   }, [familyMembers, isLoading]);
 
-  console.log(fam);
+  // console.log(fam);
 
   const handleRecieverChange = (e) => {
     setPackageReciever(e.target.value);

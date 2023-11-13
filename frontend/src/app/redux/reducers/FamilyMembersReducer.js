@@ -105,7 +105,7 @@ export const linkFamilyMemberReducer = (state = initialState, action) => {
   }
 };
 const initialState3 = {
-  familyMembersWithPatients: [],
+  familyMembersWithPatients: null,
   loading: false,
   error: null,
 };
@@ -113,7 +113,6 @@ export const viewAllFamilyMembersAndPatientsReducer = (
   state = initialState3,
   action
 ) => {
-  console.log(action.type, action.payload);
   switch (action.type) {
     case VIEW_ALL_FAMILY_MEMBERS_AND_PATIENTS_REQUEST:
       return {
