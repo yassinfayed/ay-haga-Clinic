@@ -9,10 +9,12 @@ const FamilyMembersSchema = new mongoose.Schema({
         type:String,
         //required:[true, "Please enter your family member nationalID"],
         min:10,
-        max:20
+        max:20,
+        default: 18281181811313
     },
     age:{
         type:Number,
+        default: 18,
         //required:[true, "Please enter your family member age"],
         min: 0,
         

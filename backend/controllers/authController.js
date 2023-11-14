@@ -110,6 +110,8 @@ exports.signup = catchAsync(async (req, res, next) => {
     const currentUser = await User.findById(decoded.id);
 
     if (!currentUser || currentUser.role !== enums.ROLE.ADMIN) return next(err);
+    var emailValidator = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if(!emailValidator.test(req.body.username)) return next(new AppError('For an administrator, the username must be an email address',400))
   }
 
   const newUser = await User.create({
@@ -285,7 +287,11 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
    
   
   if (!user) {
-    return next(new AppError('There is no user with email address.', 404));
+    user = await User.findOne({username: req.body.email});
+    toBePassed = {...user, email: req.body.email, name: req.body.name};
+    if(!user) {
+        return next(new AppError('There is no user with email address.', 404));
+    }
   }
 
   // 2) Generate the random reset token
@@ -332,6 +338,8 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   // 2) If token has not expired, and there is user, set the new password
   if (!user) {
+    user = await User.findOne({username: req.body.email});
+    if(!user)
     return next(new AppError('Token is invalid or has expired', 400));
   }
   user.password = req.body.password;

@@ -140,8 +140,10 @@ exports.createOrder = catchAsync(async (req,res, next) => {
     const patient = await Patient.findOne({user: req.user._id})
     let id = req.user._id.toString();
     if(req.query.fm) {
-        const familyMember = await FamilyMembers.findOne({_id: req.query.fm});
-        id = familyMember.patient === req.user._id ? familyMember.linkedPatient: familyMember.patient;
+      const familyMember = await FamilyMembers.findOne({_id: req.query.fm});
+      id = familyMember.patientId.toString() == patient._id.toString() ? familyMember.linkedPatientId: familyMember.patientId;
+      const patientToBe = await Patient.findOne({ _id: id });
+      id = patientToBe.user._id
     }
     
     let  price = hp.price
@@ -152,24 +154,31 @@ exports.createOrder = catchAsync(async (req,res, next) => {
         console.log(price)
     }
     else {
-        let familyMemberFound;
-        const familyMembers = await FamilyMembers.find({
-            $or: [
-                { patient: req.user._id},
-                { linkedPatient: req.user._id }
-            ]
-        }).populate('patient').populate('linkedPatient').exec();
-        for (const familyMember of familyMembers) {
-            if (familyMember.package) {
-                familyMemberFound = familyMember;
-            }
-        }
-        if(familyMemberFound) {
-            const pkg = await HealthPackage.findOne( {_id: familyMemberFound.package})
-            if(pkg)
-                price = price * ((100-pkg.familyMemberSubDiscount)/100)
-        }
-    }
+      let familyMemberFound;
+      const familyMembers = await FamilyMembers.find({
+          $or: [
+              { patientId: patient._id},
+              { linkedPatientId: patient._id }
+          ]
+      }).populate('patientId').populate('linkedPatientId').exec();
+      let pkgFound;
+      for (const familyMember of familyMembers) {
+        console.log("theree")
+        console.log(familyMember)
+       
+          if (familyMember.patientId?.package) {
+              pkgFound= familyMember.patientId.package;
+          }
+          if (familyMember.linkedPatientId?.package) {
+            pkgFound = familyMember.linkedPatientId?.package;
+          }
+      }
+      if(pkgFound) {
+          const pkg = await HealthPackage.findOne( {_id: pkgFound})
+          if(pkg)
+              price = price * ((100-pkg.familyMemberSubDiscount)/100)
+      }
+      }
     const user = req.user
     if(req.body.paymentMethod === "wallet") {
             if(price > user.wallet) return next(new AppError("Not enough wallet", 400));
