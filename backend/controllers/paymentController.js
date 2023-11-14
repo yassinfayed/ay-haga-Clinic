@@ -74,8 +74,8 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       client_reference_id:id?.toString(),
       line_items: lineItems,
       mode:'payment',
-      success_url: `http://localhost:3000/patients/${req.user._id}`, // Adjust success and cancel URLs
-      cancel_url: `http://localhost:3000/patients/${req.user._id}`, 
+      success_url: `http://localhost:3000/patient/healthpackages`, // Adjust success and cancel URLs
+      cancel_url: `http://localhost:3000/patient/healthpackages`, 
       metadata: {
         hp: req.params.id
           }
@@ -252,8 +252,8 @@ price = parseInt(price);
       client_reference_id:id?.toString(), 
       line_items: lineItems,
       mode:'payment',
-      success_url: `http://localhost:3000/patients/Appointments`, // Adjust success and cancel URLs
-      cancel_url: `http://localhost:3000/patients/Appointments`, 
+      success_url: `http://localhost:3000/patient/Appointments`, // Adjust success and cancel URLs
+      cancel_url: `http://localhost:3000/patient/Appointments`, 
       metadata: {
         dr: req.params.id,
         date: req.query.date,
