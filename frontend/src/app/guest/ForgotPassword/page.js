@@ -75,10 +75,10 @@ function ForgotPasswordForm() {
         }
         <div className="row gradient-background m-5 rounded shadow mx-auto">
           <div className="col-md-4 mx-auto m-5 p-5">
-            <h1 className="text-bold text-light rounded">XPharmacy</h1>
-            <h2 className="text-light rounded px-3">
-              Convenient pharmacy at your fingertips...
-            </h2>
+            <h1 className="text-bold text-light rounded">XClinics</h1>
+            <h2 className="text-semibold text-light rounded px-3">
+            Convenient healthcare at your fingertips...
+          </h2>
           </div>
           <div className="col-md-5 bg-light mx-auto rounded shadow m-5 h-60 my-auto">
             <div className="text-center mt-5">

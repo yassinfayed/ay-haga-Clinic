@@ -6,7 +6,7 @@ import { removeDocsAction } from '@/app/redux/actions/patientActions';
 
 const FileModal = ({ show, onHide, filePath, isPdf, fileName , onDelete}) => {
   const dispatch = useDispatch();
-
+  const role = JSON.parse(localStorage.getItem('userInfo')).data.user.role;
   const handleDownload = () => {
     dispatch(downloadPatientDocs(fileName));
   };
@@ -25,10 +25,10 @@ const FileModal = ({ show, onHide, filePath, isPdf, fileName , onDelete}) => {
       <Modal.Header closeButton>
         <Modal.Title>
           {fileNameWithoutPathAndDate}
-          <Button className="mx-4" onClick={handleDownload}>
+          {role==='patient' && <Button className="mx-4" onClick={handleDownload}>
             Download
-          </Button>
-          <Button onClick={handleRemove}>Delete</Button>
+          </Button>} 
+          {role==='patient' && <Button onClick={handleRemove}>Delete</Button>}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

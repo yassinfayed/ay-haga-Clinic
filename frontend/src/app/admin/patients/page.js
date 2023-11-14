@@ -38,13 +38,15 @@ export default function Patients() {
 
   let tabledata = patients?.data?.map(item => {
     console.log(item)
-    const { emergencyContact, id ,_id ,user ,__v , renewalDate, cancellationDate, package: packageInfo, cancellationEndDate ,healthRecords, medicalRecords, subscriptionStatus ,...rest } = item;
+    const { appointmentDate, emergencyContact, id ,_id ,user ,__v , renewalDate, cancellationDate, package: packageInfo, cancellationEndDate ,healthRecords, medicalRecords, subscriptionStatus ,...rest } = item;
     rest.dateOfBirth = formatDateToDDMMYYYY(rest.dateOfBirth)
     rest.emergencyContactName = item.emergencyContact.fullName
     rest.emergencyContactNumber = item.emergencyContact.mobileNumber
     rest.button = generateButton(user?._id)
     return rest;
   })
+
+  console.log(tabledata)
 
   function formatDateToDDMMYYYY(isoDate) {
     const date = new Date(isoDate);

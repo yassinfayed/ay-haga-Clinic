@@ -4,6 +4,7 @@ const factory = require('./handlerFactory');
 const AppError = require('../utils/appError');
 const Doctor = require('../models/doctorModel');
 const Patient = require('../models/patientModel');
+const FamilyMembers = require('../models/familyMembersModel');
 
 
 exports.deleteUser = catchAsync(async (req, res, next) => {
@@ -21,7 +22,14 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
         await Doctor.findOneAndDelete( {user: req.params.id});
     }
     if (role === 'patient') {
-        await Patient.findOneAndDelete( {user: req.params.id});
+        const patient = await Patient.findOneAndDelete( {user: req.params.id});
+        console.log(patient)
+        const familyMembers = await FamilyMembers.deleteMany({
+            $or: [
+              { patientId: patient._id },
+              { linkedPatientId: patient._id }
+            ]
+          });
     }
 
     res.status(204).json({

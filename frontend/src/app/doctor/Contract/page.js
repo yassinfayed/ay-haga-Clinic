@@ -75,7 +75,7 @@ const ContractPage = () => {
             <div className={`links&buttons collapse navbar-collapse col-md-6 show`}>
               <ul className=" navbar-nav container d-flex justify-content-end ms-auto">
                 <li className="nav-item rounded ms-2">
-                  <a className="btn btn-primary text-light mx-1" href="/guest/Login" onClick={(e)=> handleLogout}>
+                  <a className="btn btn-primary text-light mx-1" href="/guest/Login" onClick={()=> handleLogout()}>
                   Log Out
                   </a>
                 </li>
@@ -171,7 +171,7 @@ const ContractPage = () => {
               <div className='d-flex justify-content-center align-items-center'><hr className='w-50'/></div>
               <h5 className='text-semi-bold text-center my-3'> We regret to inform you that you have not passed our application screening phase.
               <br /> We wish you the best of luck in your future endevours.</h5>
-            </div>): (
+            </div>): (docStatus === 'Doctor rejected' && ( 
             <div>
               <br />
               <br />
@@ -180,7 +180,7 @@ const ContractPage = () => {
               <div className='d-flex justify-content-center align-items-center'><hr className='w-50'/></div>
               <h5 className='text-semi-bold text-center my-3'> Your application has been terminated as you have rejected our employment contract,
               <br /> We wish you the best of luck in your future endevours.</h5>
-            </div>)
+            </div>))
             ))}
       </div>
     </div>

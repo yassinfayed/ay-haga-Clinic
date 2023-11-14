@@ -25,7 +25,7 @@ const PatientProfile = ({ params }) => {
     return `${day}-${month}-${year}`;
   }
 
-
+  const role = JSON.parse(localStorage.getItem('userInfo')).data.user.role;
   useEffect(() => {
     dispatch(viewPatients({ _id: params.id }));
   }, [dispatch, handleFileUpload]);
@@ -167,14 +167,14 @@ const handleFileUpload = (patientId) => {
                 <Image src="/profile.svg" height={200} width={200} />
               </div>
             </div>
-            <div className="ps-4 py-2 d-flex  text-center border-bottom mx-auto">
+            {role==='patient' && <div className="ps-4 py-2 d-flex  text-center border-bottom mx-auto">
               <span className="fw-bold w-25">
                 <Image src="/dollar.svg" height={30} width={30} />
               </span>
               <span className="w-50 fs-4">{patient?.user?.wallet}</span>
-            </div>
+            </div>}
             <div className="mx-auto">
-                <ChangePassword className="h-100 " />
+               {role==='patient' && <ChangePassword className="h-100 " />}
               </div>
 
           </div>
@@ -221,7 +221,7 @@ const handleFileUpload = (patientId) => {
                   </div>
                 </div>
                 <div className="ms-5 w-50">
-                  <div>
+                  {role==='patient' && <div>
                     <h2 className="text-global fw-bold small p-1 pt-3">
                       Health Package
                     </h2>
@@ -234,7 +234,7 @@ const handleFileUpload = (patientId) => {
                         </span>
                       </div>
                     )}
-                  </div>
+                  </div>}
                   <div className="w-100">
                     <h2 className="text-global fw-bold small pt-3 p-1">
                       Emergency Contact
@@ -269,6 +269,7 @@ const handleFileUpload = (patientId) => {
               <div>
                 <div className="text-global fw-bold small pt-3 p-1 mt-3">
                   Medical Records{" "}
+                 {role==='patient' &&  <>
                   <input
                     className=" mx-4 mt-1 col-lg-3"
                     type="file"
@@ -276,6 +277,7 @@ const handleFileUpload = (patientId) => {
                     id="formFile"
                   />{" "}
                   <Button onClick={handleFileUpload}>Upload</Button>
+                  </> }
                 </div>
                 <hr className="w-50" />
                 <MedicalRecords></MedicalRecords>

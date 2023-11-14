@@ -16,8 +16,11 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     let id = req.user._id.toString();
     if(req.query.fm) {
         const familyMember = await FamilyMembers.findOne({_id: req.query.fm});
-        id = familyMember.patient === req.user._id ? familyMember.linkedPatient: familyMember.patient;
+        id = familyMember.patientId.toString() == patient._id.toString() ? familyMember.linkedPatientId: familyMember.patientId;
+        const patientToBe = await Patient.findOne({ _id: id });
+        id = patientToBe.user._id
     }
+    console.log(id)
     
     let  price = hp.price
     // const familyMember = await FamilyMembers.findOne()
@@ -31,17 +34,24 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         let familyMemberFound;
         const familyMembers = await FamilyMembers.find({
             $or: [
-                { patient: req.user._id},
-                { linkedPatient: req.user._id }
+                { patientId: patient._id},
+                { linkedPatientId: patient._id }
             ]
-        }).populate('patient').populate('linkedPatient').exec();
+        }).populate('patientId').populate('linkedPatientId').exec();
+        let pkgFound;
         for (const familyMember of familyMembers) {
-            if (familyMember.package) {
-                familyMemberFound = familyMember;
+          console.log("theree")
+          console.log(familyMember)
+         
+            if (familyMember.patientId?.package) {
+                pkgFound= familyMember.patientId.package;
+            }
+            if (familyMember.linkedPatientId?.package) {
+              pkgFound = familyMember.linkedPatientId?.package;
             }
         }
-        if(familyMemberFound) {
-            const pkg = await HealthPackage.findOne( {_id: familyMemberFound.package})
+        if(pkgFound) {
+            const pkg = await HealthPackage.findOne( {_id: pkgFound})
             if(pkg)
                 price = price * ((100-pkg.familyMemberSubDiscount)/100)
         }
@@ -61,7 +71,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       ]
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      client_reference_id:id ,
+      client_reference_id:id?.toString(),
       line_items: lineItems,
       mode:'payment',
       success_url: `http://localhost:3000/patients/${req.user._id}`, // Adjust success and cancel URLs
@@ -82,6 +92,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   
   const createSubscriptionsCheckout = async session => {
     const userId = session.client_reference_id;
+    console.log(userId)
     
     await Patient.findOneAndUpdate({user: userId},{
         package: session.metadata.hp,
@@ -201,8 +212,9 @@ exports.getReservationCheckoutSession = catchAsync(async (req, res, next) => {
     let id = patient._id.toString();
     if(req.query.fm) {
         const familyMember = await FamilyMembers.findOne({_id: req.query.fm});
-        id = familyMember.patient === req.user._id ? familyMember.linkedPatient: familyMember.patient;
+        id = familyMember.patientId.toString() == patient._id.toString() ? familyMember.linkedPatientId: familyMember.patientId;
     }
+    console.log(id)
     
     let  price = req.params.price
 
@@ -225,7 +237,7 @@ exports.getReservationCheckoutSession = catchAsync(async (req, res, next) => {
       ]
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      client_reference_id:id ,
+      client_reference_id:id?.toString(), 
       line_items: lineItems,
       mode:'payment',
       success_url: `http://localhost:3000/patients/Appointments`, // Adjust success and cancel URLs
