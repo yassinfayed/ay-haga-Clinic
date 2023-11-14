@@ -20,14 +20,16 @@ function Familymembers() {
   const isLoading = useSelector(
     (state) => state.addFamilyMembersReducer.loading
   );
-
+  const linkisLoading = useSelector(
+    (state) => state.linkFamilyMemberReducer.loading
+  );
   async function fetchData() {
     dispatch(viewFamilyMembers());
   }
 
   useEffect(() => {
     fetchData();
-  }, [dispatch, isLoading, modalShow]);
+  }, [dispatch, isLoading, modalShow,linkisLoading]);
 
   const fam = useMemo(() => {
     if (familyMembers && familyMembers.data) {

@@ -36,16 +36,18 @@ export default function DoctorProfile({ params }) {
   const isLoading = useSelector(
     (state) => state.doctorAddAvailableDateReducer.loading
   );
-
-  useEffect(() => {
-    dispatch(viewDoctorDetails(params.id));
-    dispatch(doctorViewContract(params.id));
-  }, [dispatch, doctor, doctorContract, id, newEmail, newdoctor, isLoading]);
-
   const doctor = useSelector((state) => state.doctorReducer.doctor);
   const doctorContract = useSelector(
     (state) => state.doctorViewContractReducer.contract
   );
+
+  useEffect(() => {
+    dispatch(viewDoctorDetails(params.id));
+    dispatch(doctorViewContract(params.id));
+  }, [dispatch, id, newEmail, newdoctor, isLoading]);
+
+  
+
   const docStatus = doctorContract?.data.status;
 
   if (localStorage) {
@@ -119,8 +121,8 @@ export default function DoctorProfile({ params }) {
     setNewAffiliation("");
   };
 
-  console.log(docStatus)
-  console.log(doctor)
+  // console.log(docStatus)
+  // console.log(doctor)
 
 
   function DateCardList() {

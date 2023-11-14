@@ -276,7 +276,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on POSTed email
   let user;
-  let toBePassed =  await Patient.findOne({email: req.body.email})  || await Pharmacist.findOne({email: req.body.email}) 
+  let toBePassed =  await Patient.findOne({email: req.body.email})  || await Doctor.findOne({email: req.body.email}) 
  
    user = await User.findOne({ _id: toBePassed.user });
    
@@ -317,7 +317,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
   
-  const user2 = await Patient.findOne({email: req.body.email})  || await Pharmacist.findOne({email: req.body.email}) 
+  const user2 = await Patient.findOne({email: req.body.email})  || await Doctor.findOne({email: req.body.email}) 
   console.log(user2)
   const user = await User.findOne({
     OTP: req.body.OTP,

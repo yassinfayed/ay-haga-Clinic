@@ -74,8 +74,53 @@ exports.linkFamilyMember = catchAsync(async (req, res, next) => {
 exports.viewRegisteredFamilyMembers = catchAsync(async (req, res, next) => {
   const patient = await Patient.findOne({ user: req.user._id });
   const patientId = patient._id;
-  req.query["patientId"] = { eq: patientId };
-  handlerFactory.getAll(FamilyMember)(req, res, next);
+
+  const familyMembers = await FamilyMember.find({
+    $or: [
+      { patientId: patientId },
+      { linkedPatientId: patientId }
+    ]
+  }).populate('patientId linkedPatientId');
+
+  const gender=patient.gender;
+
+  familyMembers.forEach(member => {
+
+
+    if (member.linkedPatientId?._id == patientId.toString()) {
+      // Swap patientId and linkedPatientId
+      const temp = member.patientId;
+      member.patientId = member.linkedPatientId;
+      
+      member.linkedPatientId = temp;
+   
+      
+      switch(member.relationToPatient)
+      {
+      case 'wife': member.relationToPatient='husband'; break;
+
+      case 'husband': member.relationToPatient='wife'; break;
+ 
+      case 'child' : {
+        if(gender==='male')
+        member.relationToPatient='father'
+      else
+      member.relationToPatient='mother'
+      }; break;
+      };
+    }
+    // member.relationToPatient='amir'
+    
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      data: familyMembers,
+    },
+  });
+
+  
 });
 
 exports.viewAllFamilyMembersAndPatients = catchAsync(async (req, res, next) => {
