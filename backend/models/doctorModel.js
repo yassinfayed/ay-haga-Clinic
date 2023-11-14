@@ -88,6 +88,7 @@ DoctorSchema.statics.getAllSpecialities = async function () {
 
         // Extract and add unique medicinal uses to the set
         doctors.forEach(doctor => {
+            if(doctor?.employmentContract.status==='accepted')
            allSpecialtiesSet.add( doctor.speciality);
         });
 
