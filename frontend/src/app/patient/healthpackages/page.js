@@ -280,7 +280,7 @@ function HealthPackages() {
                       {patientDetails2.cancellationEndDate &&
                         patientDetails2.subscriptionStatus == "cancelled" && (
                           <div>
-                            subscription ended on{" "}
+                            subscription will end on{" "}
                             {formatDateToDDMMYYYY(
                               patientDetails2.cancellationEndDate
                             )}
