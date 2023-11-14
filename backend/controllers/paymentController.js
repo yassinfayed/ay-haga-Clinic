@@ -184,8 +184,10 @@ exports.createOrder = catchAsync(async (req,res, next) => {
             if(price > user.wallet) return next(new AppError("Not enough wallet", 400));
 
             else {
+                console.log(price)
                 user.wallet = user.wallet - price;
                 req.body.isPaid = true;
+                await user.save({validateBeforeSave: false})
             }
         }
         const patient2=    await Patient.findOneAndUpdate({user: id},{

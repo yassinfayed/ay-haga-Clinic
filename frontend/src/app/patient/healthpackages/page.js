@@ -184,7 +184,7 @@ function HealthPackages() {
 
               <div className="col-md-10 my-3 mb-4 mx-auto">
                 {(patient?.package == pack._id &&
-                  patient?.subscriptionStatus == "subscribed") || (
+                  patient?.subscriptionStatus !== "subscribed") || (
                   <Button
                     text="Subscribe"
                     variant="md"
@@ -236,10 +236,20 @@ function HealthPackages() {
                 patient?.subscriptionStatus == "cancelled" && (
                   <>
                     <div className="text-muted text-center ">
+                    <Button
+                    text="Subscribe"
+                    variant="md"
+                    className="col-md-12"
+                    onClick={() => {
+                      setHealthPackage(pack);
+                      setModalShow(true);
+                    }}
+                  />
                       <small>
                         Subscription will end on <br />
                         {formatDateToDDMMYYYY(patient.cancellationEndDate)}
                       </small>
+                      
                     </div>
                   </>
                 )}
