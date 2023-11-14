@@ -34,7 +34,14 @@ function HealthPackages() {
     if (patients) {
       dispatch(viewAllFamilyMembersAndPatients(patient._id));
     }
-  }, [dispatch, isLoading, modalShow, familyMembers, patient]);
+  }, [
+    dispatch,
+    isLoading,
+    modalShow,
+    familyMembers,
+    patient,
+    subscription_load,
+  ]);
 
   const familyMembers = useSelector(
     (state) => state.viewFamilyMembersReducer.familyMember
@@ -45,6 +52,9 @@ function HealthPackages() {
   );
   const isLoading = useSelector(
     (state) => state.addFamilyMembersReducer.loading
+  );
+  const subscription_load = useSelector(
+    (state) => state.cancelSubscriptionReducer.loading
   );
   const healthPackages = useSelector(
     (state) => state.getHealthPackagesReducer.healthPackages
@@ -174,7 +184,7 @@ function HealthPackages() {
 
               <div className="col-md-10 my-3 mb-4 mx-auto">
                 {(patient?.package == pack._id &&
-                  patient?.subscriptionStatus == "unsubscribed") || (
+                  patient?.subscriptionStatus == "subscribed") || (
                   <Button
                     text="Subscribe"
                     variant="md"
@@ -205,7 +215,7 @@ function HealthPackages() {
                         color="danger"
                         className="col-xl-4"
                         onClick={() => {
-                          cancelSubscription(patient._id);
+                          handleCancellation(patient._id);
                         }}
                       />
                     </>
@@ -216,22 +226,23 @@ function HealthPackages() {
                   <>
                     <div className="text-muted text-center ">
                       <small>
-                        to be renewed on{" "} <br/>
+                        to be renewed on <br />
                         {formatDateToDDMMYYYY(patient.renewalDate)}
                       </small>
                     </div>
                   </>
                 )}
-              {patient?.package == pack._id && patient?.cancellationEndDate && (
-                <>
-                  <div className="text-muted text-center ">
-                    <small>
-                      Subscription ended on{" "} <br/>
-                      {formatDateToDDMMYYYY(patient.cancellationEndDate)}
-                    </small>
-                  </div>
-                </>
-              )}
+              {patient?.package == pack._id &&
+                patient?.subscriptionStatus == "cancelled" && (
+                  <>
+                    <div className="text-muted text-center ">
+                      <small>
+                        Subscription will end on <br />
+                        {formatDateToDDMMYYYY(patient.cancellationEndDate)}
+                      </small>
+                    </div>
+                  </>
+                )}
             </div>
           </div>
         ))}
@@ -266,14 +277,15 @@ function HealthPackages() {
                           package: {idToPackageName(patientDetails2.package)}
                         </div>
                       )}
-                      {patientDetails2.cancellationEndDate && (
-                        <div>
-                          subscription ended on{" "}
-                          {formatDateToDDMMYYYY(
-                            patientDetails2.cancellationEndDate
-                          )}
-                        </div>
-                      )}
+                      {patientDetails2.cancellationEndDate &&
+                        patientDetails2.subscriptionStatus == "cancelled" && (
+                          <div>
+                            subscription will end on{" "}
+                            {formatDateToDDMMYYYY(
+                              patientDetails2.cancellationEndDate
+                            )}
+                          </div>
+                        )}
                       {patientDetails2.subscriptionStatus == "subscribed" && (
                         <div>
                           renewal date:{" "}
