@@ -314,8 +314,10 @@ exports.getReservationCheckoutSession = catchAsync(async (req, res, next) => {
     let id = patientId.toString();
     if(req.query.fm) {
         const familyMember = await FamilyMembers.findOne({_id: req.query.fm});
-        id = familyMember.patient === req.user._id ? familyMember.linkedPatient: familyMember.patient;
+        id = familyMember.patientId.toString() == patient._id.toString() ? familyMember.linkedPatientId: familyMember.patientId;
     }
+
+    console.log(id)
     
     let  price = req.params.price
 
@@ -353,5 +355,6 @@ exports.getReservationCheckoutSession = catchAsync(async (req, res, next) => {
     // Save the updated doctor
     await doctor.save({validateBeforeSave: false})
     await user.save({validateBeforeSave: false})
+    res.status(200).json({message: "success"})
 
   })
