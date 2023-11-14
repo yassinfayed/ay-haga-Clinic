@@ -283,7 +283,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   let user;
   let toBePassed =  await Patient.findOne({email: req.body.email})  || await Doctor.findOne({email: req.body.email}) 
  
-   user = await User.findOne({ _id: toBePassed.user });
+   user = await User.findOne({ _id: toBePassed?.user });
    
   
   if (!user) {
@@ -328,9 +328,9 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   
   const user2 = await Patient.findOne({email: req.body.email})  || await Doctor.findOne({email: req.body.email}) 
   console.log(user2)
-  const user = await User.findOne({
+  let user = await User.findOne({
     OTP: req.body.OTP,
-    _id: user2.user,
+    _id: user2?.user,
     passwordResetExpires: { $gt: Date.now() }
   });
   console.log(req.body.OTP)

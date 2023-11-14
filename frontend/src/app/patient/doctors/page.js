@@ -32,7 +32,7 @@ function DoctorList() {
 
       const dateObj = new Date(selectedDate);
 
-      dateObj.setUTCHours(dateObj.getUTCHours() + 3);
+     
 
       const formattedDate = dateObj.toISOString();
 
