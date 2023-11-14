@@ -27,7 +27,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
     if(req.query.fm && patient.package) {
         const pkg = await HealthPackage.findOne( {_id: patient.package})
-        price = price * ((100-pkg.familyMemberSubDiscount)/100)
+        price = price - ((pkg.familyMemberSubDiscount*price)/100)
         console.log(price)
     }
     else {
@@ -53,7 +53,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         if(pkgFound) {
             const pkg = await HealthPackage.findOne( {_id: pkgFound})
             if(pkg)
-                price = price * ((100-pkg.familyMemberSubDiscount)/100)
+                price = price - ((pkg.familyMemberSubDiscount*price)/100)
         }
     }
     // 2) Create checkout session
@@ -227,12 +227,13 @@ exports.getReservationCheckoutSession = catchAsync(async (req, res, next) => {
     }
     console.log(id)
     
-    let  price = req.params.price
+    let price = parseFloat(req.params.price);
+price = parseInt(price);
 
-    if(patient.package) {
-        const pkg = await HealthPackage.findOne( {_id: patient.package})
-        price = price * ((100-pkg.familyMemberSubDiscount)/100)
-    }
+    // if(patient.package) {
+    //     const pkg = await HealthPackage.findOne( {_id: patient.package})
+    //     price = price * ((100-pkg.doctorDiscount)/100)
+    // }
     // 2) Create checkout session
     const lineItems = [
         {
@@ -321,12 +322,10 @@ exports.getReservationCheckoutSession = catchAsync(async (req, res, next) => {
 
     console.log(id)
     
-    let  price = req.params.price
 
-    if(patient.package) {
-        const pkg = await HealthPackage.findOne( {_id: patient.package})
-        price = price * ((100-pkg.familyMemberSubDiscount)/100)
-    }
+
+    let price = parseFloat(req.params.price);
+    price = parseInt(price);
     // if(req.user.wallet < price) return next(new AppError(400,"Not enough money"));
 
     req.user.wallet -= price;
