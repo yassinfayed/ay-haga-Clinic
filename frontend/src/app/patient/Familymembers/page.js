@@ -34,11 +34,11 @@ function Familymembers() {
   const fam = useMemo(() => {
     if (familyMembers && familyMembers.data) {
       return familyMembers.data.map((value) => ({
-        name: value.name,
-        nationalId: value.nationalId,
-        age: value.age,
-        gender: value.gender,
-        relationToPatient: value.relationToPatient,
+        name: value?.linkedPatientId?.name,
+        nationalId: value?.nationalId,
+        age: value?.age,
+        gender: value?.linkedPatientId?.gender,
+        relationToPatient: value?.relationToPatient,
       }));
     }
     return [];

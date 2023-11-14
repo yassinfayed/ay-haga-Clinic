@@ -21,7 +21,8 @@ function AddFamily(props) {
     const emailRegex = /^[A-Za-z0-9+_.-]+@(.+)$/;
 
     // Regular expression for checking if it's a phone number (basic validation)
-    const phoneRegex = /^[0-9-+() ]+$/;
+    const phoneRegex = /^.*$/;
+
 
     if (emailRegex.test(cred)) {
       email = cred;
