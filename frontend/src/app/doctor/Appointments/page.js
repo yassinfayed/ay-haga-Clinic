@@ -19,18 +19,21 @@ import NavbarDoc from "../../../../components/NavbarDoc";
 import FooterDoc from "../../../../components/FooterDoc";
 import Image from "next/image";
 import { Modal, ModalBody, ModalHeader } from "react-bootstrap";
+import DateTimePicker from "react-datetime-picker";
 
 function docappointments() {
   const dispatch = useDispatch();
 
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("");
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [newDate, setNewDate] = useState(null);
   const [modal, setModal] = useState(false);
   const [appt, setAppt] = useState(null);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const handleDateChange = (e) => {
+    console.log(e);
+    const date = new Date(e.target.value);
+    setSelectedDate(e.target.value);
   };
   const handleStatusChange = (event) => {
     setSelectedStatus(event.target.value);
@@ -43,18 +46,9 @@ function docappointments() {
     (state) => state.doctorFollowUpReducer.loading
   );
 
-  const formatDateToISOString = (date) => {
-    if (!date) return ""; // Return an empty string if date is falsy
-    const utcDate = new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
-    );
-    const selected = utcDate.toUTCString();
-    return selected;
-  };
-
   async function fetchData() {
     const queryObj = {
-      date: formatDateToISOString(selectedDate),
+      date: selectedDate,
       status: selectedStatus,
     };
 
@@ -152,7 +146,7 @@ function docappointments() {
   const apps = useMemo(() => {
     if (appointmentsData && appointmentsData.data) {
       return appointmentsData.data.map((value) => ({
-        date: new Date(value.date).toLocaleDateString(),
+        date: new Date(value.date).toLocaleString(),
         patientname: value.patientId?.name,
         status: value.status,
         action: generateButton(value._id,value.status),
@@ -186,13 +180,7 @@ function docappointments() {
               </select>
             </div>
             <div className="col-md-4 text-muted p-2">
-              <DatePicker
-                selected={selectedDate}
-                onChange={handleDateChange}
-                dateFormat="yyyy-MM-dd"
-                placeholderText="Filter by date"
-                className="form-control"
-              />
+              <input type="datetime-local" value={selectedDate} onChange={handleDateChange} placeholder="Filter by date/time" />
             </div>
             <div className="col-md-3 ms-auto">
               <Button
