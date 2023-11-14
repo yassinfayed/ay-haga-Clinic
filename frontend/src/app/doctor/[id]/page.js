@@ -43,12 +43,12 @@ export default function DoctorProfile({ params }) {
 
   useEffect(() => {
     dispatch(viewDoctorDetails(params.id));
-    dispatch(doctorViewContract(params.id));
+    // dispatch(doctorViewContract(params.id));
   }, [dispatch, id, newEmail, newdoctor, isLoading]);
 
   
-
-  const docStatus = doctorContract?.data.status;
+//console.log(doctor?.employmentContract?.status)
+  const docStatus = doctor?.employmentContract?.status;
 
   if (localStorage) {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -192,7 +192,7 @@ export default function DoctorProfile({ params }) {
                       variant="small"
                       onClick={() => {
                         setEdit(true);
-                        console.log("new doctor", newdoctor);
+                        //console.log("new doctor", newdoctor);
                       }}
                     ></Button>
                   )}
@@ -329,7 +329,7 @@ export default function DoctorProfile({ params }) {
       )}
       <FooterDoc />
       </div>)}
-      {(docStatus!=='accepted') && <ContractPage/>}
+      {(docStatus!=='accepted') && <ContractPage doctor={doctor}/>}
     </div>
   );
 }

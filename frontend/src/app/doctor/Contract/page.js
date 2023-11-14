@@ -8,8 +8,9 @@ import { removeUser } from "../../redux/actions/userActions";
 import Image from 'react-bootstrap/Image';
 import { logout } from '@/app/redux/actions/authActions';
 
-const ContractPage = () => {
+const ContractPage = (props) => {
   const dispatch = useDispatch();
+const {doctor}=props;
 
   let userId;
   let doctorId;
@@ -17,8 +18,7 @@ const ContractPage = () => {
 
   const doctorContract = useSelector((state) => state.doctorViewContractReducer.contract);
   const rejectionisLoading=useSelector(state=>state.rejectDoctorReducer.loading);
-  const docStatus = doctorContract?.data.status;
-
+  const docStatus = doctor?.employmentContract?.status;
   if (localStorage) {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
     userId = userInfo?.data.user._id;
@@ -35,14 +35,14 @@ const ContractPage = () => {
     history.back()
   }
 
-  useEffect(() => {
-    dispatch(doctorViewContract(userId));
-  }, [dispatch, doctorContract, rejectionisLoading]);
+  // useEffect(() => {
+  //   //dispatch(doctorViewContract(userId));
+  // }, [dispatch, doctorContract, rejectionisLoading]);
   
 
   const handleAccept = (e) =>{
     e.preventDefault();
-    console.log('accepted')
+   // console.log('accepted')
     dispatch(doctorAcceptContract(userId))
     window.history.pushState({},"",`/doctor/${doctorId}`)
 	  window.location.reload()
@@ -50,7 +50,7 @@ const ContractPage = () => {
 
   const handleReject = (e) =>{
     e.preventDefault();
-    console.log('rejected')
+   //s console.log('rejected')
     dispatch(rejectDoctor(doctorId));
     // handleLogout()
   }
@@ -107,7 +107,7 @@ const ContractPage = () => {
       
                 <h4 className='text-primary text-semibold'>Compensation and Benefits</h4>
                 <p>
-                  Employee will be compensated an <strong>hourly rate of {doctorContract?.data.hourlyRate}</strong> which will be subject to a <strong>{doctorContract?.data.clinicMarkUp * 100}% clinic markup</strong>.
+                  Employee will be compensated an <strong>hourly rate of {doctor?.data?.employmentContract?.hourlyRate}</strong> which will be subject to a <strong>{doctor?.data?.employmentContract?.clinicMarkUp * 100}% clinic markup</strong>.
                   <br />
                   Our employees will have access to <strong>healthcare benefits</strong>, including medical, dental, and vision insurance, as per the Employee Benefits Package provided.
                 </p>
