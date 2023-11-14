@@ -108,6 +108,8 @@ function docappointments() {
                 onChange={(e) => {handleFollowupDate(e)}}
               />
             </div>
+
+
             <Button
               text="Schedule Followup"
               id={`btn`}
@@ -125,8 +127,9 @@ function docappointments() {
     );
   }
 
-  const generateButton = (id) => {
+  const generateButton = (id, status) => {
     return (
+      status !== 'Upcoming' && status!== 'Cancelled' && status !== 'Rescheduled' &&
       <Button
         text="Schedule Followup"
         id={`btn`}
@@ -152,7 +155,7 @@ function docappointments() {
         date: new Date(value.date).toLocaleDateString(),
         patientname: value.patientId?.name,
         status: value.status,
-        action: generateButton(value._id),
+        action: generateButton(value._id,value.status),
       }));
     }
     return [];

@@ -151,6 +151,9 @@ exports.signup = catchAsync(async (req, res, next) => {
   else{
     await FamilyMember.updateOne({_id:req.body.id},
       {linkedPatientId:patient._id});
+      res.status(200).json({
+        FamilyMember,
+      })
   }
   } catch (err) {
     await User.deleteOne({ username: newUser.username });
