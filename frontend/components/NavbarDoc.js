@@ -20,7 +20,7 @@ const NavbarDoc = () => {
     dispatch(logout())
   }
 
-  const id = JSON.parse(localStorage.getItem('userInfo')).data.user.doctor._id;
+  const id = JSON.parse(localStorage.getItem('userInfo'))?.data.user.doctor._id;
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light w-100">
