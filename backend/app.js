@@ -11,6 +11,7 @@ const cors = require("cors");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const dotenv = require("dotenv");
+const socketIO = require('socket.io');
 dotenv.config({ path: "./config.env" });
 const path = require("path");
 
@@ -25,10 +26,43 @@ const familyMembersRouter = require("./routes/familyMembersRoutes.js");
 const healthPackagesRouter = require("./routes/healthPackagesRoutes.js");
 const appointmentRouter = require("./routes/appointmentRoutes.js");
 const paymentController = require("./controllers/paymentController.js");
+const prescriptionRouter = require("./routes/prescriptionRoutes.js");
 
 app.enable("trust proxy");
 
 app.enable("trust proxy");
+
+const port = process.env.PORT || 3000;
+const server = app.listen(port, () => {
+    console.log(`Running on port ${port}`);
+});
+const io = socketIO(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+  },
+});
+
+// Socket.io logic
+io.on('connection', (socket) => {
+  socket.emit('me', socket.id);
+
+  socket.on('disconnect', () => {
+    socket.broadcast.emit('callEnded');
+  });
+
+  socket.on('callUser', (data) => {
+    io.to(data.userToCall).emit('callUser', {
+      signal: data.signalData,
+      from: data.from,
+      name: data.name,
+    });
+  });
+
+  socket.on('answerCall', (data) => {
+    io.to(data.to).emit('callAccepted', data.signal);
+  });
+});
 
 // 1) GLOBAL MIDDLEWARES
 // app.use(cors());
@@ -99,6 +133,7 @@ app.use("/api/v1/patient", patientRouter);
 app.use("/api/v1/appointment", appointmentRouter);
 app.use("/api/v1/familyMembers", familyMembersRouter);
 app.use("/api/v1/healthPackages", healthPackagesRouter);
+app.use("/api/v1/prescriptions", prescriptionRouter);
 
 //404 Error , YOU MUST PUT YOUR ROUTERS ABOVE THAT COMMENT
 app.all("*", (req, res, next) => {

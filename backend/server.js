@@ -1,3 +1,4 @@
+
 process.on('uncaughtException', err => {
     console.log(err.name, err.message);
     console.log(err.stack);
@@ -7,7 +8,10 @@ process.on('uncaughtException', err => {
 
 const dotenv = require("dotenv");
 dotenv.config({ path: './config.env' });
+
+
 const app = require('./app');
+
 const mongoose = require('mongoose');
 
 const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
@@ -21,12 +25,6 @@ mongoose.connect(DB, {
 }).then(con => {
     console.log("Connected to DB");
 })
-
-
-const port = process.env.PORT || 3000;
-const server = app.listen(port, () => {
-    console.log(`Running on port ${port}`);
-});
 
 process.on('unhandledRejection', err => {//handle unhandled errors like mongoDB authentication/promise erros etc..
     console.log(err.name, err.message, err.stack);

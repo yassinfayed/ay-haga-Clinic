@@ -16,7 +16,11 @@ import {
 import { patientsReducer } from "./reducers/patientsReducers";
 import { doctorReducer } from "./reducers/doctorReducers";
 import { prescriptionReducer } from "./reducers/prescriptionsReducers";
-import { viewAllPrescriptionsReducer } from "./reducers/prescriptionsReducers";
+import { viewAllPrescriptionsReducer,
+         downloadPrescriptionReducer,
+         createPrescriptionReducer,
+         updatePrescriptionReducer,
+ } from "./reducers/prescriptionsReducers";
 import { filterPatientsBasedOnUpcomingAppointmentsReducer } from "./reducers/patientsReducers";
 import { getDrsForPatientsReducer } from "./reducers/doctorReducer";
 import {
@@ -94,7 +98,10 @@ const store = configureStore({
     uploadHealthRecordsReducer,
     doctorFollowUpReducer,
     rejectDoctorReducer,
-    downloadDoctorDocsReducer
+    downloadDoctorDocsReducer,
+    downloadPrescriptionReducer,
+    createPrescriptionReducer,
+    updatePrescriptionReducer
   },
 });
 
