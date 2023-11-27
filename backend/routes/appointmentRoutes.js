@@ -4,6 +4,7 @@ const router = express.Router();
 const { protect } = require('../controllers/authController');
 const authController = require('../controllers/authController');
 const paymentController = require('../controllers/paymentController');
+const { RemoveCircleOutlineRounded } = require('@material-ui/icons');
 router.use(protect);
 
 router.get('/get-patient-appointments', appointmentController.getAllPatientAppointments);
@@ -17,6 +18,7 @@ router.post('/followUp', appointmentController.followUpAppointment);
 router.patch('/reschedule/:id',appointmentController.rescheduleAppointment);
 router.patch('/cancel/:id',appointmentController.cancelAppointment);
 router.patch('/update/:id', appointmentController.updateAppointment);
+router.post('/evaluateFollowUp/:id',appointmentController.evaluateFollowUp);
 router.delete('/delete/:id', appointmentController.deleteAppointment);
 
 router.route("/reserveStripe/:id/:price").get(authController.protect, paymentController.getReservationCheckoutSession)

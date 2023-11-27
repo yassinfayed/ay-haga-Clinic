@@ -31,7 +31,10 @@ import {
   DOCTOR_REJECTED_FAIL,
   DOCTOR_DOWNLOAD_DOCS_FAIL,
   DOCTOR_DOWNLOAD_DOCS_REQUEST,
-  DOCTOR_DOWNLOAD_DOCS_SUCCESS
+  DOCTOR_DOWNLOAD_DOCS_SUCCESS,  
+  DOCTOR_EVALUATE_FOLLOWUP_REQUEST,
+  DOCTOR_EVALUATE_FOLLOWUP_SUCCESS,
+  DOCTOR_EVALUATE_FOLLOWUP_FAIL
 } from '../constants/doctorConstants';
 
 export const getDrsForPatientsReducer = (state = {}, action) => {
@@ -335,3 +338,29 @@ export const downloadDoctorDocsReducer = (state = {}, action) => {
           return state;
   }
 };
+export const doctorEvaluateFollowUpReducer = (state ={}, action) => {
+  switch (action.type) {
+    case DOCTOR_EVALUATE_FOLLOWUP_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+      case DOCTOR_EVALUATE_FOLLOWUP_SUCCESS: {
+        return {
+          ...state,
+          appointment: action.payload,
+          loading: false,
+          error: null,
+        };
+      }
+    case DOCTOR_EVALUATE_FOLLOWUP_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+}

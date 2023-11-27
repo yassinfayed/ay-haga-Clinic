@@ -25,7 +25,7 @@ import { formulateQueryString } from "../queryStringBuilder";
 import baseURL from "../baseURL";
 import axios from "axios";
 
-export const getPatientAppointments = (queryObj) => async (dispatch) => {
+export const getPatientAppointments = (queryObj,fm) => async (dispatch) => {
   try {
     dispatch({
       type: PATIENTS_FILTERAPPOINTMENTS_REQUEST,
@@ -42,10 +42,18 @@ export const getPatientAppointments = (queryObj) => async (dispatch) => {
     console.log(queryStr);
     let url;
 
-    if (!queryObj)
-      url = `${baseURL}/api/v1/appointment/get-patient-appointments`;
-    else
-      url = `${baseURL}/api/v1/appointment/get-patient-appointments?${queryStr}`;
+    if (!queryObj) {
+       url = `${baseURL}/api/v1/appointment/get-patient-appointments`;
+      if(fm) {
+        url += `?fm=${fm}`
+    }
+  }
+  else
+      {url = `${baseURL}/api/v1/appointment/get-patient-appointments?${queryStr}`;
+      if(fm) {
+        url += `&fm=${fm}`
+    }  
+    }
     const { data } = await axios.get(url, config);
 
     dispatch({

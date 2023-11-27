@@ -29,6 +29,7 @@ import {
 import {
   viewDoctorPatientsReducer,
   doctorViewContractReducer,
+  doctorEvaluateFollowUpReducer
 } from "./reducers/doctorReducer";
 import {
   updateDoctorsReducer,
@@ -52,7 +53,7 @@ import {
   rejectDoctorReducer,
 } from "./reducers/doctorReducer";
 import { downloadDoctorDocsReducer } from "./reducers/doctorReducer";
-
+import { followUpReducer,rescheduleReducer,cancelReducer } from "./reducers/appointmentReducer";
 const store = configureStore({
   reducer: {
     loginReducer,
@@ -94,7 +95,11 @@ const store = configureStore({
     uploadHealthRecordsReducer,
     doctorFollowUpReducer,
     rejectDoctorReducer,
-    downloadDoctorDocsReducer
+    downloadDoctorDocsReducer,
+    followUpReducer,
+    doctorEvaluateFollowUpReducer,
+    rescheduleReducer,
+    cancelReducer
   },
 });
 
