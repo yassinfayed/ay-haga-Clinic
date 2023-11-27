@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import Peer from "simple-peer"
 import io from "socket.io-client"
-import { CopyToClipboard } from "react-copy-to-clipboard"
 import { Button } from "../../../../components/Button"
 
 const socket = io.connect('http://localhost:8000')
@@ -21,6 +20,7 @@ function Video() {
 	const myVideo = useRef()
 	const userVideo = useRef()
 	const connectionRef= useRef()
+	const [selectedTexts, setSelectedTexts] = useState([]);
 
 	useEffect(() => {
 		navigator.mediaDevices.getUserMedia({ video: true, audio: true })
@@ -38,6 +38,7 @@ function Video() {
 		})
 
 		socket.on("callUser", (data) => {
+			console.log("Received a call:", data);
 			setReceivingCall(true)
 			setCaller(data.from)
 			setName(data.name)
@@ -50,6 +51,7 @@ function Video() {
 	}, [])
 
 	const callUser = (id) => {
+		console.log("calling");
 		const peer = new Peer({
 			initiator: true,
 			trickle: false,
@@ -99,6 +101,19 @@ function Video() {
 		connectionRef.current.destroy()
 	}
 
+	const coptText = () => {
+		const textToCopy = me;
+		const dummyElement = document.createElement('textarea');
+		document.body.appendChild(dummyElement);
+		dummyElement.value = textToCopy;
+		dummyElement.select();
+		document.execCommand('copy');
+		document.body.removeChild(dummyElement);
+	  
+		setSelectedTexts([...selectedTexts, textToCopy]);
+	  };
+	  
+
 	return (
 		<>
 		<div className="container">
@@ -125,10 +140,9 @@ function Video() {
 
                 <br />
 				
-				<CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
-					<Button text="Copy My Room ID" variant="contained" color="primary">
+					<Button text="Copy My Room ID" onClick={coptText} variant="contained" color="primary">
 					</Button>
-				</CopyToClipboard>
+				
 
                 <br />
                 <br />
@@ -153,7 +167,6 @@ function Video() {
 							
 						</Button>
 					)}
-					{idToCall}
 				</div>
 			</div>
 			<div>
