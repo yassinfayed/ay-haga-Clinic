@@ -23,117 +23,100 @@ function Video() {
 	const connectionRef= useRef()
 
 	useEffect(() => {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-          .then((stream) => {
-            setStream(stream);
-            myVideo.current.srcObject = stream;
-          })
-          .catch((error) => {
-            console.error('Error accessing media devices:', error);
-          });
-    
-        const socket = io.connect('http://localhost:8000');
-    
-        socket.on("me", (id) => {
-          console.log("Socket connected. My ID:", id);
-          setMe(id);
-        });
-    
-        socket.on("callUser", (data) => {
-          console.log("Received call from", data.from, "with name", data.name);
-          setReceivingCall(true);
-          setCaller(data.from);
-          setName(data.name);
-          setCallerSignal(data.signal);
-        });
-      }, []);
-    
-      const callUser = (id) => {
-        console.log("Calling user with ID", id);
-        const peer = new Peer({
-          initiator: true,
-          trickle: false,
-          stream: stream
-        });
-    
-        peer.on("signal", (data) => {
-          console.log("Generated signal data for calling user", id, data);
-          socket.emit("callUser", {
-            userToCall: id,
-            signalData: data,
-            from: me,
-            name: name
-          });
-        });
-    
-        peer.on("stream", (stream) => {
-          console.log("Received stream from user", id);
-          userVideo.current.srcObject = stream;
-        });
-    
-        socket.on("callAccepted", (signal) => {
-          console.log("Call accepted by user", id);
-          setCallAccepted(true);
-          peer.signal(signal);
-        });
-    
-        connectionRef.current = peer;
-      }
-    
-      const answerCall = () => {
-        console.log("Answering call from user", caller);
-        setCallAccepted(true);
-        const peer = new Peer({
-          initiator: false,
-          trickle: false,
-          stream: stream
-        });
-    
-        peer.on("signal", (data) => {
-          console.log("Generated signal data for answering call", data);
-          socket.emit("answerCall", { signal: data, to: caller });
-        });
-    
-        peer.on("stream", (stream) => {
-          console.log("Received stream from user", caller);
-          userVideo.current.srcObject = stream;
-        });
-    
-        peer.signal(callerSignal);
-        connectionRef.current = peer;
-      }
-    
-      const leaveCall = () => {
-        console.log("Leaving call");
-        setCallEnded(true);
-        connectionRef.current.destroy();
-      }
+		navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then((stream) => {
+                setStream(stream);
+                myVideo.current.srcObject = stream;
+            })
+            .catch((error) => {
+                console.error('Error accessing media devices:', error);
+            });
+
+		socket.on("me", (id) => {
+			console.log("my socket id : ", id);
+			setMe(id);
+		})
+
+		socket.on("callUser", (data) => {
+			setReceivingCall(true)
+			setCaller(data.from)
+			setName(data.name)
+			setCallerSignal(data.signal)
+		})
+
+
+
+
+	}, [])
+
+	const callUser = (id) => {
+		const peer = new Peer({
+			initiator: true,
+			trickle: false,
+			stream: stream
+		})
+		peer.on("signal", (data) => {
+			socket.emit("callUser", {
+				userToCall: id,
+				signalData: data,
+				from: me,
+				name: name
+			})
+		})
+		peer.on("stream", (stream) => {
+			
+				userVideo.current.srcObject = stream
+			
+		})
+		socket.on("callAccepted", (signal) => {
+			setCallAccepted(true)
+			peer.signal(signal)
+		})
+
+		connectionRef.current = peer
+	}
+
+	const answerCall =() =>  {
+		setCallAccepted(true)
+		const peer = new Peer({
+			initiator: false,
+			trickle: false,
+			stream: stream
+		})
+		peer.on("signal", (data) => {
+			socket.emit("answerCall", { signal: data, to: caller })
+		})
+		peer.on("stream", (stream) => {
+			userVideo.current.srcObject = stream
+		})
+
+		peer.signal(callerSignal)
+		connectionRef.current = peer
+	}
+
+	const leaveCall = () => {
+		setCallEnded(true)
+		connectionRef.current.destroy()
+	}
 
 	return (
 		<>
-			<h1 style={{ textAlign: "center", color: '#fff' }}>Zoomish</h1>
-		<div className="container-fluid">
-			<div className="container-fluid d-flex">
-            <div className="row">
-          <div >
-            <div className="video">
-              {stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: "130%" }} />}
-            </div>
-          </div>
-          <div>
-            <div className="video">
-              {callAccepted && !callEnded ?
-                <video playsInline ref={userVideo} autoPlay style={{ width: "130%" }} /> :
-                null}
-            </div>
-          </div>
-        </div>
+		<div className="container">
+    <div className="video-container">
+				<div className="video">
+					{stream &&  <video playsInline muted ref={myVideo} autoPlay style={{ width: "300px" }} />}
+				</div>
+				<div className="video">
+					{callAccepted && !callEnded ?
+					<video playsInline ref={userVideo} autoPlay style={{ width: "300px"}} />:
+					null}
+				</div>
 			</div>
 			<div className="myId">
 				<input
 					id="filled-basic"
 					label="Name"
-                    placeholder="My Caller Name"
+          placeholder="My Caller Name"
 					variant="filled"
 					value={name}
 					onChange={(e) => setName(e.target.value)}
@@ -143,7 +126,7 @@ function Video() {
                 <br />
 				
 				<CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
-					<Button text="Copy My Room ID"variant="contained" color="primary">
+					<Button text="Copy My Room ID" variant="contained" color="primary">
 					</Button>
 				</CopyToClipboard>
 

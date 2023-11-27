@@ -26,6 +26,7 @@ const familyMembersRouter = require('./routes/familyMembersRoutes.js');
 const healthPackagesRouter = require('./routes/healthPackagesRoutes.js');
 const appointmentRouter = require('./routes/appointmentRoutes.js');
 const paymentController = require('./controllers/paymentController.js');
+const prescriptionRouter = require("./routes/prescriptionRoutes.js");
 
 dotenv.config({ path: './config.env' });
 
@@ -83,6 +84,7 @@ app.use('/api/v1/patient', patientRouter);
 app.use('/api/v1/appointment', appointmentRouter);
 app.use('/api/v1/familyMembers', familyMembersRouter);
 app.use('/api/v1/healthPackages', healthPackagesRouter);
+app.use("/api/v1/prescriptions", prescriptionRouter);
 
 // Handle 404 Error
 app.all('*', (req, res, next) => {
