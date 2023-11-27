@@ -66,12 +66,10 @@
 }
 
 .image-container {
-  width: 70%; /* or any percentage */
+  width: 80%; /* or any percentage */
   max-width: 200px;
   margin: auto; /* For center alignment */
 }
-
-
 
 .active{
     color: black;

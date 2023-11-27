@@ -163,8 +163,14 @@ const handleFileUpload = (patientId) => {
         <div className=" d-flex mx-auto rounded shadow col-md-9 my-3 ">
           <div className=" w-25 border-end">
             <div className="p-3 border-bottom m-3">
-              <div className="d-flex justify-content-center ">
-                <Image src="/profile.svg" height={200} width={200} />
+            <div className="image-container">
+                <Image 
+                  src="/profile.svg" 
+                  alt="Profile"
+                  layout="intrinsic"
+                  width={200}
+                  height={200}
+                />
               </div>
             </div>
             {role==='patient' && <div className="ps-4 py-2 d-flex  text-center border-bottom mx-auto">
@@ -178,7 +184,7 @@ const handleFileUpload = (patientId) => {
               </div>
 
           </div>
-          <div className="p-3 w-75">
+          <div className="p-3 w-75 my-3">
             <div className="border-bottom d-flex ">
               <div className="w-75">
                 <h1 className=" ms-2 text-primary fw-bold text-capitalize">
@@ -240,7 +246,7 @@ const handleFileUpload = (patientId) => {
                       Emergency Contact
                     </h2>
                     <hr className="w-50" />
-                    <div className="w-100 p-3">
+                    <div className="col-md-9">
                       <div className="card global-text shadow border-0">
                         <div className="card-body">
                           <h5
@@ -269,17 +275,24 @@ const handleFileUpload = (patientId) => {
               <div>
                 <div className="text-global fw-bold small pt-3 p-1 mt-3">
                   Medical Records{" "}
+                  <hr className="w-50" />
                  {role==='patient' &&  <>
-                  <input
-                    className=" mx-4 mt-1 col-lg-3"
-                    type="file"
-                    onChange={(e) => handleFileChange(e, patient._id)}
-                    id="formFile"
-                  />{" "}
-                  <Button onClick={handleFileUpload}>Upload</Button>
-                  </> }
+                  <div className="row my-4">
+                    <div className="col-md-6">
+                      <input
+                        className="col-md-3 form-control"
+                        type="file"
+                        onChange={(e) => handleFileChange(e, patient._id)}
+                        id="formFile"
+                      />{" "}
+                    </div>
+                    <div className="col-md-4">
+                      <Button onClick={handleFileUpload} className="ms-3" size='md'>Upload</Button>
+                    </div>
+                  </div>
+                  </>
+                 }
                 </div>
-                <hr className="w-50" />
                 <MedicalRecords></MedicalRecords>
               </div>
             </div>

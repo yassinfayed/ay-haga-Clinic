@@ -19,7 +19,7 @@ const NavbarPatient = () => {
     dispatch(logout())
     
     }
-  const id = JSON.parse(localStorage.getItem('userInfo')).data.user.patient._id;
+  const id = JSON.parse(localStorage.getItem('userInfo'))?.data.user.patient?._id;
   
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light w-100">

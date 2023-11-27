@@ -23,12 +23,14 @@ const FileModal = ({ show, onHide, filePath, isPdf, fileName , onDelete}) => {
   return (
     <Modal show={show} onHide={onHide} size="lg">
       <Modal.Header closeButton>
-        <Modal.Title>
-          {fileNameWithoutPathAndDate}
-          {role==='patient' && <Button className="mx-4" onClick={handleDownload}>
-            Download
-          </Button>} 
-          {role==='patient' && <Button onClick={handleRemove}>Delete</Button>}
+        <Modal.Title className='row col-md-12'>
+          <div className="col-md-6">
+            {fileNameWithoutPathAndDate}
+          </div>
+          <div className="col-md-6 d-flex justify-content-end">
+            {role==='patient' && <Button className="mx-2 bg-primary" onClick={handleDownload}>Download</Button>} 
+            {role==='patient' && <Button className="mx-2 bg-dark" onClick={handleRemove}>Delete</Button>}
+          </div>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -38,7 +40,7 @@ const FileModal = ({ show, onHide, filePath, isPdf, fileName , onDelete}) => {
           <img src={filePath} alt="Preview" className="img-fluid" />
         )}
       </Modal.Body>
-      <Modal.Footer>
+      <Modal.Footer className="p-5">
         <Button variant="secondary" onClick={onHide}>
           Close
         </Button>

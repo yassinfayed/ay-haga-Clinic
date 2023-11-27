@@ -41,10 +41,10 @@ function LoginForm() {
           ? "/admin"
           : role === "patient"
           ? `/patient/${
-              JSON.parse(localStorage.getItem("userInfo")).data.user.patient._id
+              JSON.parse(localStorage.getItem("userInfo"))?.data.user.patient?._id
             }`
           : `/doctor/${
-              JSON.parse(localStorage.getItem("userInfo")).data.user.doctor._id
+              JSON.parse(localStorage.getItem("userInfo"))?.data.user.doctor?._id
             }`;
       console.log(role);
       console.log("here??");
