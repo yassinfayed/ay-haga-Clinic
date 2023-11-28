@@ -57,10 +57,10 @@ function Familymembers() {
         />
       </div>
       <NewOrOldFamily show={modalShow} onHide={() => setModalShow(false)} />
-      <div className="container-fluid my-3">
+      <div className="container-fluid my-5">
         {fam.map((familymember) => (
           <Card
-            className="my-2"
+            className="my-2 col-md-3 m-2"
             key={familymember._id}
             title={familymember.name}
             subtitle={`National ID: ${familymember.nationalId}`}
