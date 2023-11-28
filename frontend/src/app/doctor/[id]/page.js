@@ -10,6 +10,7 @@ import NavbarDoc from "../../../../components/NavbarDoc";
 import FooterDoc from "../../../../components/FooterDoc";
 import ChangePassword from "../../../../components/ChangePassword";
 import ContractPage from "../Contract/page";
+import { Alert } from "react-bootstrap";
 import {
   viewDoctorDetails,
   doctorAddAvailableDate,
@@ -33,6 +34,7 @@ export default function DoctorProfile({ params }) {
   const [newAffiliation, setNewAffiliation] = useState("");
   const [newdoctor, setNewDoctor] = useState({});
   const [newDate, setNewDate] = useState("");
+  const [editSuccess,setEditSuccess] = useState(false);
   const isLoading = useSelector(
     (state) => state.doctorAddAvailableDateReducer.loading
   );
@@ -99,6 +101,8 @@ export default function DoctorProfile({ params }) {
   };
 
   const handleSubmit = () => {
+    setEditSuccess(false);
+
     let updatedDoctor = { ...newdoctor };
     if (newEmail) {
       updatedDoctor.email = newEmail;
@@ -112,8 +116,10 @@ export default function DoctorProfile({ params }) {
       updatedDoctor.affiliation = newAffiliation;
     }
     setNewDoctor(updatedDoctor);
-    dispatch(updateDoctor(updatedDoctor));
-    dispatch(viewDoctorDetails(params.id));
+    dispatch(updateDoctor(updatedDoctor)).then(() => {
+      dispatch(viewDoctorDetails(params.id));
+      setEditSuccess(true);
+    });
     setNewEmail("");
     setNewHourlyRate("");
     setNewAffiliation("");
@@ -199,6 +205,9 @@ export default function DoctorProfile({ params }) {
                 
               </div>
               <div className="p-2 border-bottom row">
+                {editSuccess && <Alert variant="success" dismissible className="px-2">
+                  <strong>Success! </strong> Profile edited successfully.
+                </Alert>}
                 <div className="p-3 col-md-6">
                   <div className="text-body-secondary fw-bold small">
                     Doctor Information
@@ -281,7 +290,7 @@ export default function DoctorProfile({ params }) {
                     className="mx-1 my-2 col"
                   ></Button>
                   <Button
-                    text="Submit"
+                    text="Confirm"
                     variant="md"
                     onClick={() => {
                       handleSubmit();

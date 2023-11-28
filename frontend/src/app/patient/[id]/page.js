@@ -7,6 +7,7 @@ import { Card, Button, Modal } from "react-bootstrap";
 import FileModal from "../../../../components/FileModal";
 import { uploadDocsAction } from "@/app/redux/actions/patientActions";
 import ChangePassword from "../../../../components/ChangePassword";
+import { Alert } from "react-bootstrap";
 
 const PatientProfile = ({ params }) => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ const PatientProfile = ({ params }) => {
   const [modalFilePath, setModalFilePath] = useState("");
   const [isPdf, setIsPdf] = useState(false);
   const [fileName, setFileName] = useState('');
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [fileDeleted, setFileDeleted] = useState(false);
  
 
   function formatDateToDDMMYYYY(isoDate) {
@@ -25,7 +28,7 @@ const PatientProfile = ({ params }) => {
     return `${day}-${month}-${year}`;
   }
 
-  const role = JSON.parse(localStorage.getItem('userInfo')).data.user.role;
+  const role = JSON.parse(localStorage.getItem('userInfo'))?.data.user.role;
   useEffect(() => {
     dispatch(viewPatients({ _id: params.id }));
   }, [dispatch, handleFileUpload]);
@@ -33,7 +36,8 @@ const PatientProfile = ({ params }) => {
 
 
   const handlePatientDataReload = () => {
-    dispatch(viewPatients({ _id: params.id }));
+    setFileDeleted(false)
+    dispatch(viewPatients({ _id: params.id })).then(()=>{setFileDeleted(true);});
   };
 
   
@@ -67,6 +71,7 @@ const PatientProfile = ({ params }) => {
   };
 
 const handleFileUpload = (patientId) => {
+  setUploadSuccess(false);
   if (selectedFile) {
     const { file } = selectedFile;
     const formData = new FormData();
@@ -75,6 +80,7 @@ const handleFileUpload = (patientId) => {
     dispatch(uploadDocsAction(formData, patientId))
       .then(() => {
         dispatch(viewPatients({ _id: params.id }));
+        setUploadSuccess(true);
       });
   }
 };
@@ -151,7 +157,7 @@ const handleFileUpload = (patientId) => {
             </div>
           );
         })}
-        <FileModal show={showModal} onHide={closeModal} filePath={modalFilePath} isPdf={isPdf} fileName={fileName} onDelete={handlePatientDataReload}/>
+        <FileModal show={showModal} onHide={closeModal} filePath={modalFilePath} isPdf={isPdf} fileName={fileName} onDelete={()=>{ setFileDeleted(true); handlePatientDataReload()}}/>
 
       </div>
     );
@@ -274,8 +280,14 @@ const handleFileUpload = (patientId) => {
               </div>
               <div>
                 <div className="text-global fw-bold small pt-3 p-1 mt-3">
-                  Medical Records{" "}
+                  Medical Records{" "} 
                   <hr className="w-50" />
+                  {uploadSuccess && <Alert variant="success" dismissible className="px-2 w-50">
+                  <strong>Success! </strong> Upload successful.
+                  </Alert>}
+                  {fileDeleted && <Alert variant="success" dismissible onDismiss={() => {}} className="px-2 w-50">
+                  <strong>Success! </strong> File deleted successfully.
+                  </Alert>}
                  {role==='patient' &&  <>
                   <div className="row my-4">
                     <div className="col-md-6">
