@@ -1,10 +1,10 @@
 'use client'
 import React, { useEffect, useRef, useState } from "react"
 import Peer from "simple-peer"
-import io from "socket.io-client"
+import io, { Socket } from "socket.io-client"
 import { Button } from "../../../../components/Button"
 
-const socket = io.connect('http://localhost:8000')
+
 
 
 function Video() {
@@ -22,7 +22,19 @@ function Video() {
 	const connectionRef= useRef()
 	const [selectedTexts, setSelectedTexts] = useState([]);
 
+	const socketRef = useRef();
+
 	useEffect(() => {
+
+		socketRef.current = io.connect("http://localhost:8000");
+
+		socketRef.current.on("me", (id) => {
+			setMe(id);
+			console.log("my socket id : ", id);
+			
+		})
+
+
 		navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             .then((stream) => {
                 setStream(stream);
@@ -32,12 +44,9 @@ function Video() {
                 console.error('Error accessing media devices:', error);
             });
 
-		socket.on("me", (id) => {
-			console.log("my socket id : ", id);
-			setMe(id);
-		})
+		
 
-		socket.on("callUser", (data) => {
+		socketRef.current.on("callUser", (data) => {
 			console.log("Received a call:", data);
 			setReceivingCall(true)
 			setCaller(data.from)
@@ -58,7 +67,7 @@ function Video() {
 			stream: stream
 		})
 		peer.on("signal", (data) => {
-			socket.emit("callUser", {
+			socketRef.current.emit("callUser", {
 				userToCall: id,
 				signalData: data,
 				from: me,
@@ -70,7 +79,7 @@ function Video() {
 				userVideo.current.srcObject = stream
 			
 		})
-		socket.on("callAccepted", (signal) => {
+		socketRef.current.on("callAccepted", (signal) => {
 			setCallAccepted(true)
 			peer.signal(signal)
 		})
@@ -86,7 +95,7 @@ function Video() {
 			stream: stream
 		})
 		peer.on("signal", (data) => {
-			socket.emit("answerCall", { signal: data, to: caller })
+			socketRef.current.emit("answerCall", { signal: data, to: caller })
 		})
 		peer.on("stream", (stream) => {
 			userVideo.current.srcObject = stream
@@ -109,7 +118,6 @@ function Video() {
 		dummyElement.select();
 		document.execCommand('copy');
 		document.body.removeChild(dummyElement);
-	  
 		setSelectedTexts([...selectedTexts, textToCopy]);
 	  };
 	  
@@ -128,10 +136,11 @@ function Video() {
 				</div>
 			</div>
 			<div className="myId">
+				{me}
 				<input
 					id="filled-basic"
 					label="Name"
-          placeholder="My Caller Name"
+          			placeholder="My Caller Name"
 					variant="filled"
 					value={name}
 					onChange={(e) => setName(e.target.value)}
