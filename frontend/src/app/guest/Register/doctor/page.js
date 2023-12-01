@@ -34,6 +34,37 @@ const SignUp = () => {
 
   const dispatch = useDispatch();
 
+  const [phoneValid, setPhoneValid] = useState(true);
+  const [emergencyPhoneValid, setEmergencyPhoneValid] = useState(true);
+  const [emailValid, setEmailValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
+  const [dateValid, setDateValid] = useState(true);
+  
+
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+/;
+    return emailRegex.test(email);
+  };
+
+  const isPhoneValid = (phoneNumber) => {
+    const phoneRegex = /^0[0-9]{10}$/;
+    return phoneRegex.test(phoneNumber);
+  };
+
+  function isValidPassword(password) {
+    const pattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[A-Z]).{8,}$/;
+    return pattern.test(password);
+  }
+
+  function isDateValid(isoDate) {
+    const inputDate = new Date(isoDate);
+    const currentDate = new Date();
+    const normalizedInputDate = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate());
+    const normalizedCurrentDate = new Date(currentDate.getFullYear()-25, currentDate.getMonth(), currentDate.getDate());
+
+    return (normalizedInputDate <= normalizedCurrentDate)
+  }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({

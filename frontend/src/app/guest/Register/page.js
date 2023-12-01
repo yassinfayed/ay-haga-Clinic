@@ -8,8 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { registerAction } from "@/app/redux/actions/authActions";
 import Image from "next/image";
-import Lottie from "lottie-react";
+import { Alert } from "react-bootstrap";
 import TickAnimation from '../../../../public/tickanimation';
+import Lottie from "lottie-react";
+
 
 
 const Register = () => {
@@ -25,6 +27,37 @@ const Register = () => {
     eNumber: "",
     erelationToPatient: "",
   });
+
+  const [phoneValid, setPhoneValid] = useState(true);
+  const [emergencyPhoneValid, setEmergencyPhoneValid] = useState(true);
+  const [emailValid, setEmailValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
+  const [dateValid, setDateValid] = useState(true);
+  
+
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+/;
+    return emailRegex.test(email);
+  };
+
+  const isPhoneValid = (phoneNumber) => {
+    const phoneRegex = /^0[0-9]{10}$/;
+    return phoneRegex.test(phoneNumber);
+  };
+
+  function isValidPassword(password) {
+    const pattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[A-Z]).{8,}$/;
+    return pattern.test(password);
+  }
+
+  function isDateValid(isoDate) {
+    const inputDate = new Date(isoDate);
+    const currentDate = new Date();
+    const normalizedInputDate = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate());
+    const normalizedCurrentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
+    return (normalizedInputDate <= normalizedCurrentDate)
+  }
 
   const handleGenderChange = (selectedGender) => {
     setFormData({
@@ -67,7 +100,7 @@ const Register = () => {
         }`
       );
       window.location.reload();
-    } else if (error) window.alert("error");
+    } 
   }, [isLoading, error, isAuthenticated]);
 
   const handleSignUp = () => {
@@ -107,10 +140,13 @@ const Register = () => {
                 <h6 className="text-global text-center mb-3">
                   Join us as a Patient!
                 </h6>
-                <div className="underline mx-auto mb-5"></div>
+                <div className="underline mx-auto mb-3"></div>
               </div>
+              {error && <Alert variant="danger" dismissible className="px-2 m-3">
+                <strong>Error! </strong> Carefully fill out all required fields.
+              </Alert>}
               <br />
-              <div className="d-flex p-3">
+              <div className="d-flex p-3 mt-3">
                 <div className="col mx-2">
                   <h4 className="text-global mb-1">
                     Personal Details
@@ -138,11 +174,11 @@ const Register = () => {
                         </label>
                         <input
                           type="email"
-                          className="form-control py-2"
+                          className={`py-2 ${!emailValid?"form-control-invalid":"form-control"}`}
                           placeholder="example@mail.com"
                           name="email"
                           value={formData.email}
-                          onChange={handleInputChange}
+                          onChange={(e)=>{setEmailValid(isEmailValid(e.target.value)); handleInputChange(e);}}
                         />
                       </div>
                     </div>
@@ -167,11 +203,11 @@ const Register = () => {
                           <div className="col-md-10">
                             <input
                               type={showPassword ? 'text' : 'password'}
-                              className="form-control py-2"
+                              className={`py-2 ${!passwordValid?"form-control-invalid":"form-control"}`}
                               placeholder="********"
                               name="password"
                               value={formData.password}
-                              onChange={handleInputChange}
+                              onChange={(e)=>{setPasswordValid(isValidPassword(e.target.value));handleInputChange(e)}}
                             />
                           </div>
                           <div className="col-md-2 d-flex align-items-center bg-white rounded">
@@ -194,12 +230,12 @@ const Register = () => {
                         <span className="px-2 position-absolute start-0 text-global fw-bold">(+2)</span>
                         <input
                           type="tel"
-                          className="pl-5 form-control py-2"
+                          className={`pl-5 py-2 ${!phoneValid?"form-control-invalid":"form-control"}`}
                           style={{ paddingLeft: '50px' }}
                           placeholder="01234567890"
                           name="mobileNumber"
                           value={formData.mobileNumber}
-                          onChange={handleInputChange}
+                          onChange={(e)=>{setPhoneValid(isPhoneValid(e.target.value)); handleInputChange(e);}}
                         />
                       </div>
                     </div>
@@ -227,10 +263,10 @@ const Register = () => {
                         </label>
                         <input
                           type="date"
-                          className="form-control py-2"
+                          className={`py-2 ${!dateValid?"form-control-invalid":"form-control"}`}
                           name="dateOfBirth"
                           value={formData.dateOfBirth}
-                          onChange={handleInputChange}
+                          onChange={(e)=>{setDateValid(isDateValid(e.target.value));console.log(e.target.value);console.log(dateValid);handleInputChange(e);}}
                         />
                       </div>
                     </div>
@@ -252,7 +288,7 @@ const Register = () => {
                         <input
                           type="text"
                           className="form-control py-2"
-                          placeholder="Emergency Contact Name"
+                          placeholder=""
                           name="eName"
                           value={formData.eName}
                           onChange={handleInputChange}
@@ -262,14 +298,17 @@ const Register = () => {
                         <label htmlFor="phone" className="text-semibold form-label">
                           Phone Number
                         </label>
-                        <input
-                          type="tel"
-                          className="form-control py-2"
-                          placeholder="Emergency Contact Phone"
-                          name="eNumber"
-                          value={formData.eNumber}
-                          onChange={handleInputChange}
-                        />
+                        <div className="mb-1 position-relative d-flex align-items-center">
+                          <span className="px-2 position-absolute start-0 text-global fw-bold">(+2)</span>
+                          <input
+                            type="tel"
+                            className={`ps-5 py-2 ${!emergencyPhoneValid?"form-control-invalid":"form-control"}`}
+                            placeholder="01234567890"
+                            name="eNumber"
+                            value={formData.eNumber}
+                            onChange={(e)=>{setEmergencyPhoneValid(isPhoneValid(e.target.value)); handleInputChange(e);}}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -286,10 +325,18 @@ const Register = () => {
       )}
       {isLoading && <h1>Loading</h1>}
       {isAuthenticated && (
-        <>
-          {/* <Lottie animationData={TickAnimation} loop={false} /> */}
-          <h1>Registration Successful</h1>
-        </>
+        <div className="d-flex flex-grow-1 min-vh-100 w-100 flex-col align-items-center justify-content-center">
+          <div className="card p-5 text-center">
+            <Lottie animationData={TickAnimation} loop={false} className="w-50 mx-auto" />
+            <h1>Application Successful!</h1>
+            <h5>Thank you, we'll get back to you as soon as possible.</h5>
+          </div>
+          {setTimeout(() => {
+            window.history.pushState({}, "", "/patients/medicines");
+            window.location.reload();
+          }, 5000)}
+        </div>
+        
       )
       }
       <Footer />

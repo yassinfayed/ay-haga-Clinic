@@ -55,6 +55,7 @@ function LoginForm() {
   }, [dispatch, isAuthenticated, error]);
 
   const handleInputChange = (e) => {
+    setInvalidCred(false);
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -98,7 +99,7 @@ function LoginForm() {
               <div className="mb-3">
                 <input
                   type="email"
-                  className={`form-control py-3 ${invalidCred?'invalid':''}`}
+                  className={`py-3 ${invalidCred?"form-control-invalid invalid":"form-control"}`}
                   placeholder="Email"
                   name="email"
                   value={formData.email}
@@ -109,11 +110,11 @@ function LoginForm() {
               <div className="col-md-10">
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  className={`form-control py-3 ${invalidCred?'invalid':''}`}
+                  className={`rounded py-3 ${invalidCred?"form-control-invalid invalid":"form-control"}`}
                   placeholder="Password"
                   name="password"
                   value={formData.password}
-                  onChange={handleInputChange}
+                  onChange={(e)=>{handleInputChange(e)}}
                 />
               </div>
               <div className="col-md-2 d-flex align-items-center bg-light rounded">

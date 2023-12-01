@@ -7,7 +7,7 @@ const paymentController = require('../controllers/paymentController');
 
 
 router.route("/")
-    .get(authController.protect, healthPackagesController.getAllHealthPackage)
+    .get(healthPackagesController.getAllHealthPackage)
     .post(authController.protect, authController.restrictTo("administrator"), healthPackagesController.createHealthPackage)
 
 router.route("/subscribeStripe/:id").get(authController.protect, paymentController.getCheckoutSession)
@@ -17,6 +17,8 @@ router.route("/:id").get(healthPackagesController.getHealthPackage)
     .patch(authController.protect, authController.restrictTo("administrator"),healthPackagesController.updateHealthPackage)
     .delete(authController.protect, authController.restrictTo("administrator"), (healthPackagesController.deleteHealthPackage))
 
-
+router.route("/services")
+    .get(healthPackagesController.getAllHealthPackage)
+    .post(authController.protect, authController.restrictTo("administrator"), healthPackagesController.createHealthPackage)
 
 module.exports = router;
