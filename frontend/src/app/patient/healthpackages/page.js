@@ -292,7 +292,9 @@ function HealthPackages() {
       </div>
       <hr />
       <div>
-        <h2 className="text-center text-primary fw-bold">Family Members</h2>
+        {familyMembers2?.length != 0 && (
+          <h2 className="text-center text-primary fw-bold">Family Members</h2>
+        )}
         <div className="d-flex row">
           {familyMembers2?.map((familymember) => {
             const familyMember2 = familymember.familyMember;
