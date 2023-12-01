@@ -42,6 +42,8 @@ const PatientProfile = ({ params }) => {
 
   
   const patients = useSelector((state) => state.patientsReducer.patients.data);
+  const { error } = useSelector((state) => state.patientUploadDocs);
+
   
   let patient, date;
 
@@ -77,18 +79,18 @@ const handleFileUpload = (patientId) => {
     const formData = new FormData();
     formData.append('documents', file);
 
-    dispatch(uploadDocsAction(formData, patientId))
-      .then(() => {
+    dispatch(uploadDocsAction(formData, patientId)).then(() => 
+      {
         dispatch(viewPatients({ _id: params.id }));
         setUploadSuccess(true);
-      });
+      })
   }
 };
 
   const HealthRecords = () => {
     return (
       <div className="">
-        {patient.healthRecords?.map((filename, index) => {
+        {patient.healthRecords.length!=0 ? patient.healthRecords?.map((filename, index) => {
           const filePath = `http://localhost:8000/${filename}`;
           const isPdf = filename.toLowerCase().endsWith(".pdf");
           const fileNameWithoutPathAndDate = filename
@@ -114,7 +116,11 @@ const handleFileUpload = (patientId) => {
               </div>
             </div>
           );
-        })}
+        }) :(
+          <div className="text-muted fw-bold small px-2">
+              No health records available...
+          </div>
+        )}
         <FileModal
           show={showModal}
           onHide={closeModal}
@@ -162,6 +168,8 @@ const handleFileUpload = (patientId) => {
       </div>
     );
   };
+
+  console.log(error)
 
   return (
     <>
@@ -224,7 +232,7 @@ const handleFileUpload = (patientId) => {
                       </span>
                       <span>{patient.mobileNumber}</span>
                     </div>
-                    <div className="py-3 d-flex">
+                    <div className="py-2 d-flex">
                       <span className="fw-bold w-25">
                         <Image src="/mail-dark.svg" height={25} width={25} />
                       </span>
@@ -270,7 +278,7 @@ const handleFileUpload = (patientId) => {
                   </div>
                 </div>
               </div>
-
+              <br />
               <div>
                 <div className="text-global fw-bold small pt-3 p-1">
                   Health Records
@@ -280,15 +288,21 @@ const handleFileUpload = (patientId) => {
               </div>
               <div>
                 <div className="text-global fw-bold small pt-3 p-1 mt-3">
-                  Medical Records{" "} 
+                  Medical Records{" "}
                   <hr className="w-50" />
-                  {uploadSuccess && <Alert variant="success" dismissible className="px-2 w-50">
-                  <strong>Success! </strong> Upload successful.
+                 {role==='patient' &&  <>
+                  <div className="row text-muted px-3  mb-4">
+                    Note that all uploaded files should be in following formats: PDF, JPEG, JPG, PNG.
+                  </div>
+                  {uploadSuccess && !error && <Alert variant="success" dismissible className="px-2">
+                  <strong>Success! </strong> File uploaded successfully.
                   </Alert>}
-                  {fileDeleted && <Alert variant="success" dismissible onDismiss={() => {}} className="px-2 w-50">
+                  {error && <Alert variant="danger" dismissible className="px-2">
+                  <strong>Error! </strong> File was not uploaded, try again later.
+                  </Alert>}
+                  {fileDeleted && <Alert variant="success" dismissible onDismiss={() => {}} className="px-2">
                   <strong>Success! </strong> File deleted successfully.
                   </Alert>}
-                 {role==='patient' &&  <>
                   <div className="row my-4">
                     <div className="col-md-6">
                       <input

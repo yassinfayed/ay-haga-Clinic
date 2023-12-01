@@ -89,7 +89,7 @@ function LoginForm() {
               <h1 className="text-primary fw-bold mb-2">Login</h1>
               <div className="underline-sm mx-auto"></div>
             </div>
-            {invalidCred && 
+            {error && 
               <Alert variant="danger" dismissible className="mt-3">
                 <strong>Error!</strong>  Invalid Credentials.
               </Alert>

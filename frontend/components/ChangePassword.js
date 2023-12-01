@@ -78,8 +78,8 @@ function ChangePassword() {
       <h5 className="mx-auto text-primary text-center text-bold mt-3">
         Change Password
       </h5>
-      <hr />
-      <div className="px-4 text-center">
+      <hr className='mb-4'/>
+      <div className="px-3 ">
         <div className="mb-1">
           <label htmlFor="oldPassword" className="form-label text-semibold">
             Old Password
@@ -157,12 +157,11 @@ function ChangePassword() {
             </div>
           </div>
         </div>
-        <button
-          className="btn btn-primary my-3"
-          onClick={handlePasswordChange}
-        >
-          Confirm
-        </button>
+        <div className="mx-auto row col-md-6">
+          <button className="btn btn-primary my-3" onClick={handlePasswordChange}>
+            Confirm
+          </button>
+        </div>
       </div>
     </div>
   </div></Card>

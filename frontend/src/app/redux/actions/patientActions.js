@@ -126,7 +126,7 @@ export const uploadDocsAction = (formdata) => async (dispatch) => {
       type: PATIENT_UPLOAD_DOCS_FAIL,
       payload: error.response
         ? error.response.data.message
-        : "Fetching patient details failed. Please try again.",
+        : "Fetching patient details failed. Please try again.", //message misleading
     });
   }
 };
