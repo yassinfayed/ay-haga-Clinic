@@ -5,7 +5,16 @@ import {
   PRESCRIPTIONS_FAIL,
   VIEW_PRESCRIPTIONS_REQUEST,
   VIEW_PRESCRIPTIONS_SUCCESS,
-  VIEW_PRESCRIPTIONS_FAIL
+  VIEW_PRESCRIPTIONS_FAIL,
+  DOWNLOAD_PRESCRIPTIONS_FAIL,
+  DOWNLOAD_PRESCRIPTIONS_REQUEST,
+  DOWNLOAD_PRESCRIPTIONS_SUCCESS,
+  ADD_PRESCRIPTIONS_FAIL,
+  ADD_PRESCRIPTIONS_REQUEST,
+  ADD_PRESCRIPTIONS_SUCCESS,
+  UPDATE_PRESCRIPTIONS_FAIL,
+  UPDATE_PRESCRIPTIONS_REQUEST,
+  UPDATE_PRESCRIPTIONS_SUCCESS
 
 } from '../constants/prescriptionsConstants'; // Make sure to import the correct constants file
 
@@ -77,3 +86,109 @@ export const viewALLPrescriptions = (queryObj) => async (dispatch) => {
     });
   }
 };
+
+export const downloadPrescription = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: DOWNLOAD_PRESCRIPTIONS_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      responseType: 'blob',
+      withCredentials: true
+    };
+
+    const response = await axios.get(
+      `${baseURL}/api/v1/prescriptions/download/${id}`,
+      config
+    );
+
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `prescription.pdf`);
+    document.body.appendChild(link);
+    link.click();
+
+    dispatch({
+      type: DOWNLOAD_PRESCRIPTIONS_SUCCESS,
+    });
+  } catch (error) {
+    console.error(error);
+    dispatch({
+      type: DOWNLOAD_PRESCRIPTIONS_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Downloading prescription failed. Please try again.',
+    });
+  }
+};
+
+export const createPrescription = (prescription) => async (dispatch) => {
+  try {
+      dispatch({
+          type:  ADD_PRESCRIPTIONS_REQUEST,
+      });
+
+      const config = {
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          withCredentials: true
+      };
+
+      const { data } = await axios.post(
+          `${baseURL}/api/v1/prescriptions/addPrescription`,
+          prescription,
+          config
+      );
+
+      dispatch({
+          type: ADD_PRESCRIPTIONS_SUCCESS,
+          payload: data.data,
+      });
+  } catch (error) {
+      dispatch({
+          type: ADD_PRESCRIPTIONS_FAIL,
+          payload: error.response
+              ? error.response.data.message
+              : error.message,
+      });
+  }
+}
+
+export const updatePrescription = (id,reqbody) => async (dispatch) => {
+  try {
+      dispatch({
+          type: UPDATE_PRESCRIPTIONS_REQUEST,
+      });
+      
+      const config = {
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          withCredentials: true
+      };
+      const { data } = await axios.patch(
+          `${baseURL}/api/v1/prescriptions/update/${id}`,
+          reqbody,
+          config
+      );
+      dispatch({
+          type: UPDATE_PRESCRIPTIONS_SUCCESS,
+          payload: data.data,
+      });
+  } catch (error) {
+      console.log(error)
+      dispatch({
+          type: UPDATE_PRESCRIPTIONS_FAIL,
+          payload: error.response
+              ? error.response.data.message
+              : error.message,
+      });
+  }
+}
