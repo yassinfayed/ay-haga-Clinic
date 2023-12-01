@@ -23,7 +23,6 @@ function AddFamily(props) {
     // Regular expression for checking if it's a phone number (basic validation)
     const phoneRegex = /^.*$/;
 
-
     if (emailRegex.test(cred)) {
       email = cred;
     } else if (phoneRegex.test(cred)) {
@@ -48,7 +47,7 @@ function AddFamily(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton>
+      <Modal.Header closeButton className="bg-primary">
         <Modal.Title id="contained-modal-title-vcenter">{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -78,18 +77,13 @@ function AddFamily(props) {
               <option value="child">Child</option>
             </select>
           </div>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
+          <div className="row justify-content-end align-items-center mt-5 mb-2">
+            <button type="submit" className="btn btn-primary mx-auto col-md-4">
+              Submit
+            </button>
+          </div>
         </form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={onHide}>Close</Button>
-      </Modal.Footer>
     </Modal>
   );
 }

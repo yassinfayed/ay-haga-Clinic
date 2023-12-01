@@ -68,7 +68,7 @@ function AddFamily(props) {
           id="contained-modal-title-vcenter"
           className="px-2 text-global text-bold text-center"
         >
-          {title}
+          Enter Family Member Details
         </Modal.Title>
         <div className="underline-Bold mx-auto mt-2 mb-5"></div>
         <h4>{subheader}</h4>
@@ -118,7 +118,7 @@ function AddFamily(props) {
             />
           </div>
 
-          <div className="row mx-3">
+          <div className="row ">
             <div className="form-group my-1 col-md-6">
               <label htmlFor="age">Age</label>
               <input
