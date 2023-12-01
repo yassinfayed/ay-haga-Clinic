@@ -78,6 +78,32 @@ export const patientViewMyDetailsReducer = (state = {}, action) => {
 
 export const patientUploadDocs = (state = {}, action) => { //misleading state names switch with other function
   switch (action.type) {
+      case PATIENT_UPLOAD_DOCS_REQUEST:
+        return {
+          ...state,
+          loading: true,
+          error: null,
+        };
+      case PATIENT_UPLOAD_DOCS_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          error: null,
+        };
+      }
+      case PATIENT_UPLOAD_DOCS_FAIL:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+    default:
+      return state;
+  }
+};
+
+export const uploadHealthRecordsReducer = (state = {}, action) => { //misleading state names switch with other function
+  switch (action.type) {
     case PATIENT_UPLOAD_HEALTHRECORDS_REQUEST:
       return {
         ...state,
@@ -93,32 +119,6 @@ export const patientUploadDocs = (state = {}, action) => { //misleading state na
     }
     case PATIENT_UPLOAD_HEALTHRECORDS_FAIL:
       console.log(action.payload);
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export const uploadHealthRecordsReducer = (state = {}, action) => { //misleading state names switch with other function
-  switch (action.type) {
-    case PATIENT_UPLOAD_DOCS_REQUEST:
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
-    case PATIENT_UPLOAD_DOCS_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        error: null,
-      };
-    }
-    case PATIENT_UPLOAD_DOCS_FAIL:
       return {
         ...state,
         loading: false,

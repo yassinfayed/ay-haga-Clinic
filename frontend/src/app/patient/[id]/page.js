@@ -42,7 +42,7 @@ const PatientProfile = ({ params }) => {
 
   
   const patients = useSelector((state) => state.patientsReducer.patients.data);
-  const { error } = useSelector((state) => state.patientUploadDocs);
+  const error = useSelector((state) => state.patientUploadDocs);
 
   
   let patient, date;
@@ -79,13 +79,14 @@ const handleFileUpload = (patientId) => {
     const formData = new FormData();
     formData.append('documents', file);
 
-    dispatch(uploadDocsAction(formData, patientId)).then(() => 
-      {
-        dispatch(viewPatients({ _id: params.id }));
+    dispatch(uploadDocsAction(formData, patientId)).then(() => {
         setUploadSuccess(true);
+        dispatch(viewPatients({ _id: params.id }));
       })
   }
 };
+
+console.log(error)
 
   const HealthRecords = () => {
     return (
@@ -249,7 +250,7 @@ const handleFileUpload = (patientId) => {
                     {JSON.parse(localStorage.getItem("userInfo")).data.user
                       .role === "patient" && (
                       <div className="pb-2 d-flex">
-                        <span className="px-3">
+                        <span className="px-3 fw-bold text-muted">
                           {patient.package ? patient.package.name : "none"}
                         </span>
                       </div>
@@ -297,7 +298,7 @@ const handleFileUpload = (patientId) => {
                   {uploadSuccess && !error && <Alert variant="success" dismissible className="px-2">
                   <strong>Success! </strong> File uploaded successfully.
                   </Alert>}
-                  {error && <Alert variant="danger" dismissible className="px-2">
+                  {error.error && <Alert variant="danger" dismissible className="px-2">
                   <strong>Error! </strong> File was not uploaded, try again later.
                   </Alert>}
                   {fileDeleted && <Alert variant="success" dismissible onDismiss={() => {}} className="px-2">
