@@ -153,7 +153,9 @@ function SubscribeModal(props) {
                 >
                   <option value={null}>Choose...</option>
                   {fam.map((mem) => (
-                    <option value={mem._id}>{mem.name}</option>
+                    <option key={mem.id} value={mem._id}>
+                      {mem.name}
+                    </option>
                   ))}
                 </Form.Control>
               </div>

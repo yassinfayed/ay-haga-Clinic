@@ -21,7 +21,7 @@ function HealthPackages() {
   const [modalShow, setModalShow] = useState(false);
   const [healthPackage, setHealthPackage] = useState(null);
   const [subscriptionData, setSubscriptionData] = useState("");
-  const [patient, setPatient] = useState({});
+  //const [patient, setPatient] = useState({});
   const [subscribeAlert, setSubscribeAlert] = useState(0);
   const [SubscriptionSuccess, setSubscriptionSuccess] = useState(false);
 
@@ -48,15 +48,24 @@ function HealthPackages() {
   const cancel_subscription_success = useSelector(
     (state) => state.cancelSubscriptionReducer.success
   );
+  const patients = useSelector((state) => state.patientsReducer.patients.data);
   useEffect(() => {
     dispatch(listHealthPackages());
     dispatch(viewPatients({ _id: id }));
-    if (patients) {
-      setPatient(patients[0]);
-      dispatch(viewAllFamilyMembersAndPatients(patient._id));
-    }
-  }, [dispatch, isLoading, modalShow, patient, patientLoading]);
-
+  }, [
+    dispatch,
+    isLoading,
+    modalShow,
+    CancelSubscriptionSuccess,
+    subscribeAlert,
+  ]);
+  useEffect(() => {
+    if (patients) dispatch(viewAllFamilyMembersAndPatients(patients[0]._id));
+  }, [patientLoading, CancelSubscriptionSuccess, subscribeAlert]);
+  let patient;
+  if (patients) {
+    patient = patients[0];
+  }
   useEffect(() => {
     if (cancel_subscription_success) {
       setCancelSubscriptionSuccess(true);
@@ -67,8 +76,8 @@ function HealthPackages() {
     (state) => state.getHealthPackagesReducer.healthPackages
   );
 
-  const patients = useSelector((state) => state.patientsReducer.patients.data);
-
+  console.log(patients);
+  console.log(patient);
   function formatDateToDDMMYYYY(isoDate) {
     const date = new Date(isoDate);
     const day = date.getDate().toString().padStart(2, "0");
@@ -143,7 +152,7 @@ function HealthPackages() {
           <button
             type="button"
             className="btn-close"
-            onClick={() => setSubscribeAlert(false)}
+            onClick={() => setSubscribeAlert(0)}
           ></button>
         </div>
       )}
@@ -156,13 +165,12 @@ function HealthPackages() {
           <button
             type="button"
             className="btn-close"
-            onClick={() => setSubscribeAlert(false)}
+            onClick={() => setSubscribeAlert(0)}
           ></button>
         </div>
       )}
-      {familyMembers2 && (
-        <h3 className="my-1 mt-0 text-center text-title">Health Packages</h3>
-      )}
+      <h3 className="my-1 mt-0 text-center text-title">Health Packages</h3>
+
       <div className="underline-Bold mx-auto mb-5"></div>
       {/* <h5 className='my-1 mt-0 text-center text-primary mb-3 text-semibold'>Current active health package subscription:</h5> */}
       <div className="w-100 row m-3 justify-content-center ">
@@ -184,7 +192,7 @@ function HealthPackages() {
           healthPackage={healthPackage}
         />
         {packages.map((pack) => (
-          <div className={`col-lg-3 m-2 p-4 `}>
+          <div className={`col-lg-3 m-2 p-4 `} key={pack._id}>
             <div
               className={`card shadow p-4  border border-5 ${
                 patient?.package == pack._id &&
