@@ -1,18 +1,15 @@
 "use client";
 import React from "react";
 import { useEffect } from "react";
-import { login } from "../../redux/actions/authActions";
-import { viewPatients } from "../../redux/actions/patientsActions";
-import { viewDoctorDetails } from "../../redux/actions/doctorActions";
-import { useRouter } from "next/navigation";
-
 import { useDispatch, useSelector } from "react-redux";
-//import { Button } from './Register/Button.js';
 import { useState } from "react";
+import { login } from "../../redux/actions/authActions";
+import { useRouter } from "next/navigation";
+import { Alert } from 'react-bootstrap';
+import Image from "next/image";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import { Button } from "../../../../components/Button";
-import Image from "next/image";
 
 function LoginForm() {
   const router = useRouter();
@@ -26,6 +23,7 @@ function LoginForm() {
 
   const { isAuthenticated, error } = useSelector((state) => state.loginReducer);
 
+  const [invalidCred, setInvalidCred] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
 
@@ -43,17 +41,17 @@ function LoginForm() {
           ? "/admin"
           : role === "patient"
           ? `/patient/${
-              JSON.parse(localStorage.getItem("userInfo")).data.user.patient._id
+              JSON.parse(localStorage.getItem("userInfo"))?.data.user.patient?._id
             }`
           : `/doctor/${
-              JSON.parse(localStorage.getItem("userInfo")).data.user.doctor._id
+              JSON.parse(localStorage.getItem("userInfo"))?.data.user.doctor?._id
             }`;
       console.log(role);
       console.log("here??");
       window.history.pushState({}, url, url);
       window.location.reload();
     }
-    if (error) window.alert("error");
+    if (error) {setInvalidCred(true)};
   }, [dispatch, isAuthenticated, error]);
 
   const handleInputChange = (e) => {
@@ -66,6 +64,7 @@ function LoginForm() {
 
   const handleLogin = () => {
     // Gather data in the formData object and send it to the backend
+    setInvalidCred(false)
     console.log("Form Data:", formData);
     dispatch(login(formData.email, formData.password));
     // Add your code to send data to the backend here
@@ -90,11 +89,16 @@ function LoginForm() {
               <h1 className="text-primary fw-bold mb-2">Login</h1>
               <div className="underline-sm mx-auto"></div>
             </div>
+            {error && 
+              <Alert variant="danger" dismissible className="mt-3">
+                <strong>Error!</strong>  Invalid Credentials.
+              </Alert>
+            }
             <div className="p-4">
               <div className="mb-3">
                 <input
                   type="email"
-                  className="form-control py-3"
+                  className={`form-control py-3 ${invalidCred?'invalid':''}`}
                   placeholder="Email"
                   name="email"
                   value={formData.email}
@@ -105,7 +109,7 @@ function LoginForm() {
               <div className="col-md-10">
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  className="form-control py-3"
+                  className={`form-control py-3 ${invalidCred?'invalid':''}`}
                   placeholder="Password"
                   name="password"
                   value={formData.password}
@@ -122,9 +126,11 @@ function LoginForm() {
                 </button>
               </div>
               </div>
-              <a href ="http://localhost:3000/guest/ForgotPassword">
-                Forgot Password 
-              </a>
+              <div className="mb-1">
+                <a href ="http://localhost:3000/guest/ForgotPassword" >
+                  Forgot Password 
+                </a>
+              </div>
               <div className="text-center pb-3">
                 <Button text="Login" onClick={handleLogin} />
               </div>
