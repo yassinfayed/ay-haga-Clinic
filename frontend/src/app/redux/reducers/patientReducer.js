@@ -78,32 +78,6 @@ export const patientViewMyDetailsReducer = (state = {}, action) => {
 
 export const patientUploadDocs = (state = {}, action) => {
   switch (action.type) {
-    case PATIENT_UPLOAD_HEALTHRECORDS_REQUEST:
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
-    case PATIENT_UPLOAD_HEALTHRECORDS_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        error: null,
-      };
-    }
-    case PATIENT_UPLOAD_HEALTHRECORDS_FAIL:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export const uploadHealthRecordsReducer = (state = {}, action) => {
-  switch (action.type) {
     case PATIENT_UPLOAD_DOCS_REQUEST:
       return {
         ...state,
@@ -118,6 +92,32 @@ export const uploadHealthRecordsReducer = (state = {}, action) => {
       };
     }
     case PATIENT_UPLOAD_DOCS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const uploadHealthRecordsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENT_UPLOAD_HEALTHRECORDS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case PATIENT_UPLOAD_HEALTHRECORDS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    }
+    case PATIENT_UPLOAD_HEALTHRECORDS_FAIL:
       return {
         ...state,
         loading: false,

@@ -21,8 +21,10 @@ function Video() {
 	const userVideo = useRef()
 	const connectionRef= useRef()
 	const [selectedTexts, setSelectedTexts] = useState([]);
-
 	const socketRef = useRef();
+
+
+	const role = JSON.parse(localStorage.getItem('userInfo')).data.user.role;
 
 	useEffect(() => {
 
