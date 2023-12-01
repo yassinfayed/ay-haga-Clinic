@@ -35,8 +35,10 @@ export default function DoctorProfile({ params }) {
   const [newdoctor, setNewDoctor] = useState({});
   const [newDate, setNewDate] = useState("");
   const [editSuccess,setEditSuccess] = useState(false);
-  const isLoading = useSelector(
-    (state) => state.doctorAddAvailableDateReducer.loading
+  const [addDateSuccess, setAddDateSuccess] = useState(false);
+  const [dateError, setDateError] = useState(false)
+  const loading = useSelector(
+    (state) => state.doctorAddAvailableDateReducer
   );
   const doctor = useSelector((state) => state.doctorReducer.doctor);
   const doctorContract = useSelector(
@@ -45,7 +47,7 @@ export default function DoctorProfile({ params }) {
 
   useEffect(() => {
     dispatch(viewDoctorDetails(params.id));
-  }, [dispatch, id, newEmail, newdoctor, isLoading]);
+  }, [dispatch, id, newEmail, newdoctor, loading]);
 
   
   const docStatus = doctor?.employmentContract?.status;
@@ -81,11 +83,23 @@ export default function DoctorProfile({ params }) {
   }
 
   const handleDateChange = (e) => {
-    setNewDate(e.target.value);
+    date = new Date(e.target.value);
+    const now = new Date();
+    if(date<now){
+      setDateError(true)
+      setNewDate("");
+      return;
+    }
+    setNewDate(e.target.value)
   };
 
   const handleAddDate = () => {
-    dispatch(doctorAddAvailableDate({ availableDate: newDate }));
+    setAddDateSuccess(false);
+    if (newDate==""){
+      setDateError(true);
+      return;
+    }
+    dispatch(doctorAddAvailableDate({ availableDate: newDate })).then(()=>setAddDateSuccess(true));
   };
 
   const handleEmailChange = (e) => {
@@ -128,9 +142,9 @@ export default function DoctorProfile({ params }) {
 
   function DateCardList() {
     return (
-      <div className="card-list d-flex">
+      <div className="card-list row col-md-12">
         {doctor.availableDates.map((date, index) => (
-          <div className="w-25 p-2" key={index}>
+          <div className="p-2 col-md-3" key={index}>
             <Card
               subtitle=""
               text={<div className="text-semibold text-center text-primary">{formatDateToDDMMYYYYHHMM(date)}</div>}
@@ -307,6 +321,12 @@ export default function DoctorProfile({ params }) {
                   <div className="w-50 mb-4">
                     <hr className="w-50" />
                   </div>
+                  {addDateSuccess && <Alert variant="success" dismissible className="px-2">
+                  <strong>Success! </strong> Available date added successfully.
+                  </Alert>}
+                  {dateError && <Alert variant="danger" dismissible className="px-2">
+                  <strong>Error! </strong> Something went wrong.
+                  </Alert>}
                   <div className=" row mx-auto">
                     <div className="col-md-6">
                     <input
