@@ -25,6 +25,7 @@ function AddFamily(props) {
     const phoneRegex = /^.*$/;
     if (!relationToPatient || relationToPatient == 0) {
       alert("fill out the relation with patient");
+      return;
     }
     if (emailRegex.test(cred)) {
       email = cred;
