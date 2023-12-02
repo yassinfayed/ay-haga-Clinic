@@ -23,7 +23,9 @@ function AddFamily(props) {
     let email;
     const emailRegex = /^[A-Za-z0-9+_.-]+@(.+)$/;
     const phoneRegex = /^.*$/;
-
+    if (!relationToPatient || relationToPatient == 0) {
+      alert("fill out the relation with patient");
+    }
     if (emailRegex.test(cred)) {
       email = cred;
     } else if (phoneRegex.test(cred)) {
