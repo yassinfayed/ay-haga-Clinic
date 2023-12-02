@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { viewFamilyMembers } from "@/app/redux/actions/FamilyMembersAction";
 import { useEffect } from "react";
 import { useMemo } from "react";
-import { Dna } from "react-loader-spinner";
+import Spinner from "../../../../components/Spinner";
 
 function Familymembers() {
   const [modalShow, setModalShow] = useState(false);
@@ -116,19 +116,7 @@ function Familymembers() {
           </div>
         </div>
       ) : (
-        <Dna
-          visible={true}
-          height="120"
-          width="120"
-          ariaLabel="dna-loading"
-          wrapperStyle={{
-            margin: "auto",
-            position: "absolute",
-            bottom: "55vh",
-            left: "100vh",
-          }}
-          wrapperClass="dna-wrapper primary"
-        />
+        <Spinner />
       )}
     </>
   );

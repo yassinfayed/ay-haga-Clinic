@@ -17,7 +17,7 @@ import { viewPatients } from "@/app/redux/actions/patientsActions";
 import SubscribeModal from "../../../../components/SubscribeModal";
 import { Card } from "../../../../components/Card";
 import Image from "next/image";
-import { Dna } from "react-loader-spinner";
+import Spinner from "../../../../components/Spinner";
 
 function HealthPackages() {
   const [modalShow, setModalShow] = useState(false);
@@ -431,19 +431,7 @@ function HealthPackages() {
           }
         </>
       ) : (
-        <Dna
-          visible={true}
-          height="120"
-          width="120"
-          ariaLabel="dna-loading"
-          wrapperStyle={{
-            margin: "auto",
-            position: "absolute",
-            bottom: "55vh",
-            left: "100vh",
-          }}
-          wrapperClass="dna-wrapper primary"
-        />
+        <Spinner />
       )}
     </>
   );
