@@ -5,7 +5,7 @@ import AddFamily from "./AddFamilyMemberModal";
 import LinkFamily from "./LinkFamilyMemberModal";
 
 function NewOrOldFamilyMember(props) {
-  const { title, subheader, onHide } = props;
+  const { title, subheader, onHide, onSuccess, onError } = props;
   const [NewShow, setNewShow] = useState(false);
   const [OldShow, setOldShow] = useState(false);
   const [mainShow, setMainShow] = useState(true);
@@ -50,6 +50,8 @@ function NewOrOldFamilyMember(props) {
               onHide();
               setNewShow(false);
             }}
+            onSuccess={() => onSuccess()}
+            onError={() => onError()}
           />
           <LinkFamily
             show={OldShow}
@@ -57,6 +59,8 @@ function NewOrOldFamilyMember(props) {
               onHide();
               setOldShow(false);
             }}
+            onSuccess={() => onSuccess()}
+            onError={() => onError()}
           />
         </Modal.Body>
         <Modal.Footer>

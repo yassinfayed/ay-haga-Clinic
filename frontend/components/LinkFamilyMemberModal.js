@@ -1,26 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Import useEffect
 import Button from "react-bootstrap/Button";
-
 import Modal from "react-bootstrap/Modal";
 import { LinkFamilyMember } from "@/app/redux/actions/FamilyMembersAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function AddFamily(props) {
-  const { title, subheader, onHide } = props;
+  const { title, subheader, onHide, onSuccess, onError } = props;
 
   // State variables for form input values
   const [cred, setCred] = useState("");
   const [relationToPatient, setRelationToPatient] = useState("");
+  const [submitted, setSubmitted] = useState(false); // Add submitted state
+  const error = useSelector((state) => state.linkFamilyMemberReducer.error);
+  const loading = useSelector((state) => state.linkFamilyMemberReducer.loading);
   const dispatch = useDispatch();
 
   // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let phone;
     let email;
     const emailRegex = /^[A-Za-z0-9+_.-]+@(.+)$/;
-
-    // Regular expression for checking if it's a phone number (basic validation)
     const phoneRegex = /^.*$/;
 
     if (emailRegex.test(cred)) {
@@ -37,8 +37,20 @@ function AddFamily(props) {
         relationToPatient: relationToPatient,
       })
     );
-    onHide();
+    setSubmitted(true); // Set submitted to true after dispatch
   };
+
+  useEffect(() => {
+    if (submitted & !loading) {
+      console.log(error);
+      if (error) {
+        onError();
+      } else {
+        onSuccess();
+      }
+      onHide();
+    }
+  }, [error, submitted]);
 
   return (
     <Modal

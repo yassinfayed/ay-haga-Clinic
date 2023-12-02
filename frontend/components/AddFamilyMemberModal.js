@@ -1,11 +1,11 @@
 import "./components.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { addFamilyMembers } from "@/app/redux/actions/FamilyMembersAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function AddFamily(props) {
-  const { title, subheader, onHide } = props;
+  const { title, subheader, onHide, onSuccess, onError } = props;
 
   // State variables for form input values
   const [name, setName] = useState("");
@@ -20,6 +20,9 @@ function AddFamily(props) {
 
   const [email, setEmail] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
+  const error = useSelector((state) => state.addFamilyMembersReducer.error);
+  const [submitted, setSubmitted] = useState(false); // Add submitted state
+  const loading = useSelector((state) => state.addFamilyMembersReducer.loading);
   const dispatch = useDispatch();
 
   // Function to handle form submission
@@ -51,9 +54,21 @@ function AddFamily(props) {
         },
       })
     );
-    console.log("added fam member");
-    onHide();
+    setSubmitted(true);
+    console.log(relationToPatient, gender, passwordConfirm);
   };
+
+  useEffect(() => {
+    if (submitted & !loading) {
+      console.log(error);
+      if (error) {
+        onError();
+      } else {
+        onSuccess();
+      }
+      onHide();
+    }
+  }, [error, submitted]);
 
   return (
     <Modal

@@ -13,6 +13,8 @@ import { Dna } from "react-loader-spinner";
 
 function Familymembers() {
   const [modalShow, setModalShow] = useState(false);
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [errorAlert, setErrorAlert] = useState(false);
   const dispatch = useDispatch();
 
   const familyMembers = useSelector(
@@ -45,10 +47,34 @@ function Familymembers() {
     return [];
   }, [familyMembers, modalShow, isLoading]);
 
-  console.log(fam);
-
   return (
     <>
+      {successAlert && (
+        <div
+          className="alert alert-primary alert-dismissible fade show"
+          role="alert"
+        >
+          Family member added successfuly
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setSuccessAlert(false)}
+          ></button>
+        </div>
+      )}
+      {errorAlert && (
+        <div
+          className="alert alert-danger alert-dismissible fade show"
+          role="alert"
+        >
+          Family member was not added
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setErrorAlert(false)}
+          ></button>
+        </div>
+      )}
       {familyMembers ? (
         <div className="m-2">
           <h3 className="my-1 mt-0 text-center text-title">Family Members</h3>
@@ -59,11 +85,20 @@ function Familymembers() {
               onClick={() => setModalShow(true)}
             />
           </div>
-          <NewOrOldFamily show={modalShow} onHide={() => setModalShow(false)} />
-          <div className="container-fluid my-5">
+          <NewOrOldFamily
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            onSuccess={() => {
+              setSuccessAlert(true);
+            }}
+            onError={() => {
+              setErrorAlert(true);
+            }}
+          />
+          <div className="container-fluid my-5 mx-2 d-flex justify-content-center col-12 flex-wrap">
             {fam.map((familymember) => (
               <Card
-                className="my-2 col-md-3 m-2"
+                className="my-2 mx-2 col-md-3  p-2 "
                 key={familymember._id}
                 title={familymember.name}
                 subtitle={`National ID: ${familymember.nationalId}`}
