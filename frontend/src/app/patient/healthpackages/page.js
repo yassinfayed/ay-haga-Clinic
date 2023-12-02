@@ -11,6 +11,7 @@ import {
   viewFamilyMembers,
   viewAllFamilyMembersAndPatients,
 } from "@/app/redux/actions/FamilyMembersAction";
+import { Alert } from "react-bootstrap";
 import { cancelSubscription } from "@/app/redux/actions/patientActions";
 import { viewPatients } from "@/app/redux/actions/patientsActions";
 import SubscribeModal from "../../../../components/SubscribeModal";
@@ -28,8 +29,8 @@ function HealthPackages() {
 
   const [CancelSubscriptionSuccess, setCancelSubscriptionSuccess] =
     useState(false);
-  const [subscribed, setSubscribed] = useState("");
-  const [familyMemberPatients, setFamilyMemberPatients] = useState([]);
+  const [cancelConfirm, setCancelConfirm] = useState("");
+  const [cancelId, setCancelId] = useState("");
   const dispatch = useDispatch();
   const id = JSON.parse(localStorage.getItem("userInfo")).data.user.patient._id;
 
@@ -128,8 +129,9 @@ function HealthPackages() {
     }
   }
 
-  function handleCancellation(PatientId) {
-    dispatch(cancelSubscription(PatientId));
+  function handleCancellation() {
+    dispatch(cancelSubscription(cancelId));
+    setCancelConfirm(false);
     //6549f806f3ee984c4052aa62
   }
   return (
@@ -138,12 +140,15 @@ function HealthPackages() {
         <>
           {
             <div className="m-3 mb-5">
+              <h3 className="my-1 mt-0 text-center text-title">
+                Health Packages
+              </h3>
               {CancelSubscriptionSuccess && (
                 <div
-                  className="alert alert-danger alert-dismissible fade show"
+                  className="alert alert-primary alert-dismissible fade show"
                   role="alert"
                 >
-                  Your subscription has been cancelled
+                  Success! Subscription Cancelled Successfully
                   <button
                     type="button"
                     className="btn-close"
@@ -156,7 +161,7 @@ function HealthPackages() {
                   className="alert alert-primary alert-dismissible fade show"
                   role="alert"
                 >
-                  Your subscription has been done successfuly
+                  Success! You have subscribed to the health package package
                   <button
                     type="button"
                     className="btn-close"
@@ -177,10 +182,30 @@ function HealthPackages() {
                   ></button>
                 </div>
               )}
-
-              <h3 className="my-1 mt-0 text-center text-title">
-                Health Packages
-              </h3>
+              {cancelConfirm && (
+                <Alert variant="danger" className="row align-items-center">
+                  <div className="col-md-8">
+                    <strong>Warning!</strong> Are you sure you want to cancel
+                    your Subscription?
+                  </div>
+                  <div className="d-flex justify-content-end col-md-4">
+                    <Button
+                      className="mx-2 bg-danger"
+                      onClick={() => handleCancellation()}
+                      text="confirm"
+                    >
+                      Confirm
+                    </Button>
+                    <Button
+                      className="mx-2 bg-dark"
+                      onClick={() => setCancelConfirm(false)}
+                      text="cancel"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </Alert>
+              )}
 
               <div className="underline-Bold mx-auto mb-5"></div>
               {/* <h5 className='my-1 mt-0 text-center text-primary mb-3 text-semibold'>Current active health package subscription:</h5> */}
@@ -280,7 +305,8 @@ function HealthPackages() {
                                 color="danger"
                                 className="col-xl-4"
                                 onClick={() => {
-                                  handleCancellation(patient._id);
+                                  setCancelConfirm(true);
+                                  setCancelId(patient._id);
                                 }}
                               />
                             </>
@@ -388,9 +414,10 @@ function HealthPackages() {
                                 "subscribed" && true
                             }
                             buttonClass="col-md-12 m-3 ms-auto btn btn-danger"
-                            onClickButton={() =>
-                              handleCancellation(patientDetails2._id)
-                            }
+                            onClickButton={() => {
+                              setCancelId(patientDetails2._id);
+                              setCancelConfirm(true);
+                            }}
                           />
                         </div>
                       );
