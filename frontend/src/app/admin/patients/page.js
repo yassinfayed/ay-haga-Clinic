@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table} from '../../../../components/Table'; 
 
 import { Button } from '../../../../components/Button';
@@ -9,6 +9,8 @@ import { viewPatients } from '@/app/redux/actions/patientsActions';
 import { login } from '@/app/redux/actions/authActions';
 import { removeUser } from '@/app/redux/actions/userActions';
 import Image from 'next/image';
+import { Alert } from 'react-bootstrap';
+
 
 export default function Patients() {
 
@@ -18,14 +20,25 @@ export default function Patients() {
   const patients=useSelector(state=>state.patientsReducer.patients);
   const isLoading=useSelector(state=>state.removeUserReducer.loading);
 
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertVariant, setAlertVariant] = useState('');
+
   
   useEffect(()=>{
     dispatch(viewPatients());
   },[dispatch,isLoading])
 
-  const onRemoveHandler = (id)=>{
-    dispatch(removeUser(id))
-  }
+  const onRemoveHandler = async (id) => {
+    try {
+      dispatch(removeUser(id));
+      setAlertMessage('Patient removed successfully.');
+      setAlertVariant('success');
+    } catch (error) {
+      setAlertMessage('Error removing patient.');
+      setAlertVariant('danger');
+    }
+  };
+  
 
   const generateButton = (id) => {
     return (
@@ -59,6 +72,11 @@ export default function Patients() {
 
   return (
     <div className="mx-3">
+      {alertMessage && 
+    <Alert variant={alertVariant} dismissible onClose={() => setAlertMessage('')} className="mt-3">
+      {alertMessage}
+    </Alert>
+  }
     <h3 className='my-1 mt-0 text-center text-title'>Patients</h3>
     <div className='underline-Bold mx-auto mb-5'></div>
     <Table headers={tableHeaders} data={tabledata}  itemsPerPageOptions={[5, 10, 15]} className="" />

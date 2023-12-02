@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import {login} from '@/app/redux/actions/authActions'
 import { getDoctorsForPatientAction,adminAcceptDoctor, rejectDoctor} from '@/app/redux/actions/doctorActions';
 import { downloadDoctorDocs } from '@/app/redux/actions/doctorActions';
 import Image from 'next/image';
+import { Alert } from 'react-bootstrap';
 
 export default function DoctorApps() {
   const dispatch=useDispatch();
@@ -15,6 +16,9 @@ export default function DoctorApps() {
   const isLoading=useSelector(state=>state.removeUserReducer.loading);
   const approvalIsLoading=useSelector(state=>state.adminAcceptDoctorReducer.loading);
   const rejectionisLoading=useSelector(state=>state.rejectDoctorReducer.loading);
+
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertVariant, setAlertVariant] = useState('');
 
   useEffect(()=>{
     dispatch(getDoctorsForPatientAction());
@@ -26,12 +30,27 @@ export default function DoctorApps() {
 
  
 
-  const onRemoveHandler = (id)=>{
-    dispatch(rejectDoctor(id))
-  }
-  const onApproveHandler =(id)=>{
-     dispatch(adminAcceptDoctor(id))
-   }
+  const onRemoveHandler = async (id) => {
+    try {
+      dispatch(rejectDoctor(id));
+      setAlertMessage('Doctor application rejected successfully.');
+      setAlertVariant('success');
+    } catch (error) {
+      setAlertMessage('Error rejecting application.');
+      setAlertVariant('danger');
+    }
+  };
+
+    const onApproveHandler = async (id) => {
+    try {
+      dispatch(adminAcceptDoctor(id));
+      setAlertMessage('Doctor application approved successfully.');
+      setAlertVariant('success');
+    } catch (error) {
+      setAlertMessage('Error approving application.');
+      setAlertVariant('danger');
+    }
+  };
   function formatDateToDDMMYYYY(isoDate) {
     const date = new Date(isoDate);
     const day = date.getDate().toString().padStart(2, '0');
@@ -47,6 +66,12 @@ export default function DoctorApps() {
     <div className='underline-Bold mx-auto mb-5'></div>
     <div className="justify-content-center align-items-center min-vh-100">
       <div className='row'>
+
+      {alertMessage && 
+          <Alert variant={alertVariant} dismissible onClose={() => setAlertMessage('')} className="mt-3">
+            {alertMessage}
+          </Alert>
+        }
       {doctors?.data?.map((person)=>{
         if(person.employmentContract.status==='accepted')
         return

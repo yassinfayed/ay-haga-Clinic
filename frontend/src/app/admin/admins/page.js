@@ -6,6 +6,7 @@ import CenteredModalAdmin from '../../../../components/AddAdminModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers, removeUser } from '@/app/redux/actions/userActions';
 import Image from 'next/image';
+import { Alert } from 'react-bootstrap';
 
 
 
@@ -18,9 +19,12 @@ export default function Admins() {
   const dispatch=useDispatch();
   const [id,setId]=useState(0);
   const admins = useSelector(state=>state.getUsersReducer.user)
-   const CreateisLoading = useSelector(state=>state.registerReducer.loading)
+  const CreateisLoading = useSelector(state=>state.registerReducer.loading)
   const RemoveisLoading = useSelector(state=>state.removeUserReducer.loading)
   // const UpdateisLoading = useSelector(state=>state.updateHealthPackageReducer.loading)
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertVariant, setAlertVariant] = useState('');
+
 
   const generateButton = (id) => {
     return (
@@ -31,9 +35,17 @@ export default function Admins() {
     );
   };
 
-  const handleRemove =(id)=>{
-    dispatch(removeUser(id))
-  } 
+  const handleRemove = async (id) => {
+    try {
+      dispatch(removeUser(id));
+      setAlertMessage('Admin removed successfully.');
+      setAlertVariant('success');
+    } catch (error) {
+      setAlertMessage('Error removing admin.');
+      setAlertVariant('danger');
+    }
+  };
+  
 
   const adminlist = useMemo(() => {
     if (admins && admins.data) {
@@ -68,6 +80,11 @@ export default function Admins() {
     <h3 className='my-1 mt-0 text-center text-title'>Admins</h3>
     <div className='underline-Bold mx-auto mb-5'></div>
     <div className=" justify-content-center align-items-center min-vh-100 container">
+    {alertMessage && 
+      <Alert variant={alertVariant} dismissible onClose={() => setAlertMessage('')} className="mt-3">
+        {alertMessage}
+      </Alert>
+    }
       <div className="row justify-content-end align-items-center">
         <Button text='Add Admin' onClick={()=>{setModalShow(true)}} variant='md' className='ms-auto col-md-2'></Button>
       </div>

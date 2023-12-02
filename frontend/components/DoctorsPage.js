@@ -1,14 +1,16 @@
 "use client"
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from './Card';
 import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeUser } from '@/app/redux/actions/userActions';
-
+import { Alert } from 'react-bootstrap';
 
 export default function DoctorsPage(doctors, admin) {
   
     const dispatch=useDispatch();
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertVariant, setAlertVariant] = useState('');
 
     const handleCardClick = (doctor) => {
       window.history.pushState({},"",`/patient/Appointments/${doctor._id}`)
@@ -24,16 +26,28 @@ export default function DoctorsPage(doctors, admin) {
       return `${day}-${month}-${year}`;
   }
 
-  const onRemoveHandler = (id)=>{
-    dispatch(removeUser(id))
-  }
-
+  const onRemoveHandler = async (id) => {
+    try {
+      dispatch(removeUser(id));
+      setAlertMessage('Doctor removed successfully.');
+      setAlertVariant('success');
+    } catch (error) {
+      setAlertMessage('Error removing doctor.');
+      setAlertVariant('danger');
+    }
+  };
+  
   console.log(doctors.doctors)
   console.log(doctors.admin)
 
   return (
     <>
     <div className="justify-content-center align-items-center min-vh-100">
+    {alertMessage && 
+          <Alert variant={alertVariant} dismissible onClose={() => setAlertMessage('')} className="mt-3">
+            {alertMessage}
+          </Alert>
+        }
       <div className='row'>
       {doctors?.doctors?.data?.map((person)=>{
         if(person.employmentContract.status!=='accepted')
