@@ -17,6 +17,7 @@ function SubscribeModal(props) {
   const [familyMember, setFamilyMember] = useState(null); //fam member national id
   const [paymentMethod, setPaymentMethod] = useState(null); //wallet or card
   const [submitted, setSubmitted] = useState(false); //wallet or card
+  const [alert, setAlert] = useState(false); //wallet or card
 
   const { loading, error, session } = useSelector(
     (state) => state.orderReducer
@@ -92,7 +93,7 @@ function SubscribeModal(props) {
       (packageReciever == "family" && !familyMember) ||
       !paymentMethod
     ) {
-      console.log("please enter all data");
+      setAlert(true);
       return;
     }
 
@@ -120,6 +121,19 @@ function SubscribeModal(props) {
         <div className="underline-Bold mx-auto mt-2 mb-5"></div>
         <h4>{subheader}</h4>
         <div>
+          {alert && (
+            <div
+              className="alert alert-danger alert-dismissible fade show"
+              role="alert"
+            >
+              please enter all data
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => setAlert(false)}
+              ></button>
+            </div>
+          )}
           <Form
             onSubmit={(e) => {
               handleSubmit(e);
