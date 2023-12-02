@@ -293,7 +293,7 @@ function HealthPackages() {
                                 variant="md"
                                 color="secondary"
                                 disabled="true"
-                                className="col-xl-7 me-3 my-3"
+                                className="col-12 me-3 my-3"
                                 onClick={() => {
                                   setHealthPackage(pack);
                                   setModalShow(true);
@@ -303,7 +303,7 @@ function HealthPackages() {
                                 text="cancel"
                                 variant="md"
                                 color="danger"
-                                className="col-xl-4"
+                                className="col-12"
                                 onClick={() => {
                                   setCancelConfirm(true);
                                   setCancelId(patient._id);

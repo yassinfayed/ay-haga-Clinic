@@ -18,7 +18,9 @@ function SubscribeModal(props) {
   const [paymentMethod, setPaymentMethod] = useState(null); //wallet or card
   const [submitted, setSubmitted] = useState(false); //wallet or card
 
-  const success = useSelector((state) => state.orderReducer);
+  const { loading, error, session } = useSelector(
+    (state) => state.orderReducer
+  );
   const familyMembers = useSelector(
     (state) => state.viewFamilyMembersReducer.familyMember
   );
@@ -38,16 +40,21 @@ function SubscribeModal(props) {
   }, [dispatch, isLoading]);
   useEffect(() => {
     if (submitted) {
-      if (success.error) {
-        props.onError(success.error);
+      console.log(session, error, loading);
+      if (error && !loading) {
+        console.log("errorrr");
+        props.onError(error);
       } else {
-        props.onSuccess();
+        if (!error && !loading && session) {
+          console.log(session);
+          props.onSuccess();
+        }
       }
       // Close the modal on success
       // Additional success handling...
       props.onHide();
     }
-  }, [success, submitted]);
+  }, [error, submitted, session, loading]);
 
   const fam = useMemo(() => {
     if (familyMembers && familyMembers.data) {

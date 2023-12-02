@@ -20,7 +20,7 @@ function AddFamily(props) {
 
   const [email, setEmail] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
-  const error = useSelector((state) => state.addFamilyMembersReducer.error);
+  const { error } = useSelector((state) => state.addFamilyMembersReducer);
   const [submitted, setSubmitted] = useState(false); // Add submitted state
   const loading = useSelector((state) => state.addFamilyMembersReducer.loading);
   const dispatch = useDispatch();
