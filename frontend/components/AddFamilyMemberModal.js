@@ -20,9 +20,10 @@ function AddFamily(props) {
 
   const [email, setEmail] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
-  const { error } = useSelector((state) => state.addFamilyMembersReducer);
+  const { error, loading, familyMember } = useSelector(
+    (state) => state.addFamilyMembersReducer
+  );
   const [submitted, setSubmitted] = useState(false); // Add submitted state
-  const loading = useSelector((state) => state.addFamilyMembersReducer.loading);
   const dispatch = useDispatch();
 
   // Function to handle form submission
@@ -61,10 +62,12 @@ function AddFamily(props) {
   useEffect(() => {
     if (submitted & !loading) {
       console.log(error);
-      if (error) {
-        onError();
+      if (error && !familyMember && !loading) {
+        onError(error);
       } else {
-        onSuccess();
+        if (!error && familyMember && !loading) {
+          onSuccess();
+        }
       }
       onHide();
     }
@@ -96,6 +99,7 @@ function AddFamily(props) {
               id="name"
               placeholder="Enter Name"
               value={name}
+              required
               onChange={(e) => setName(e.target.value)}
             />
           </div>
@@ -107,6 +111,7 @@ function AddFamily(props) {
               id="email"
               placeholder="Enter email"
               value={email}
+              required
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -118,6 +123,7 @@ function AddFamily(props) {
               id="nationalId"
               placeholder="National ID"
               value={nationalId}
+              required
               onChange={(e) => setNationalId(e.target.value)}
             />
           </div>
@@ -129,6 +135,7 @@ function AddFamily(props) {
               id="phone"
               placeholder="phone"
               value={phone}
+              required
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
@@ -142,12 +149,14 @@ function AddFamily(props) {
                 id="age"
                 placeholder="Enter Age"
                 value={age}
+                required
                 onChange={(e) => setAge(e.target.value)}
               />
             </div>
             <div className="form-group my-1 col-md-6">
               <label htmlFor="gender">Gender</label>
               <select
+                required
                 onChange={(e) => setGender(e.target.value)}
                 className="my-1 w-100 form-control text-muted p-2"
               >
@@ -160,6 +169,7 @@ function AddFamily(props) {
           <div className="form-group my-3">
             <label htmlFor="relationToPatient">Relation to patient</label>
             <select
+              required
               onChange={(e) => setRelationToPatient(e.target.value)}
               className="my-1 w-100 form-control text-muted p-2"
             >
@@ -177,6 +187,7 @@ function AddFamily(props) {
             className="form-control py-2"
             name="dateOfBirth"
             value={dateOfBirth}
+            required
             onChange={(e) => {
               setDateOfBirth(e.target.value);
             }}
@@ -190,6 +201,7 @@ function AddFamily(props) {
               id="username"
               placeholder="Enter Username"
               value={username}
+              required
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
@@ -203,6 +215,7 @@ function AddFamily(props) {
               id="password"
               placeholder="Enter Password"
               value={password}
+              required
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
@@ -216,6 +229,7 @@ function AddFamily(props) {
               id="confirmPassword"
               placeholder="Confirm Password"
               value={passwordConfirm}
+              required
               onChange={(e) => setPasswordConfirm(e.target.value)}
             />
           </div>

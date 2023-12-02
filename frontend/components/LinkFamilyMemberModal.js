@@ -11,8 +11,9 @@ function AddFamily(props) {
   const [cred, setCred] = useState("");
   const [relationToPatient, setRelationToPatient] = useState("");
   const [submitted, setSubmitted] = useState(false); // Add submitted state
-  const error = useSelector((state) => state.linkFamilyMemberReducer.error);
-  const loading = useSelector((state) => state.linkFamilyMemberReducer.loading);
+  const { error, loading, familyMember } = useSelector(
+    (state) => state.linkFamilyMemberReducer
+  );
   const dispatch = useDispatch();
 
   // Function to handle form submission
@@ -30,6 +31,7 @@ function AddFamily(props) {
     } else {
       console.log("please enter a valid email or phone");
     }
+    console.log(relationToPatient);
     dispatch(
       LinkFamilyMember({
         email,
@@ -42,15 +44,18 @@ function AddFamily(props) {
 
   useEffect(() => {
     if (submitted & !loading) {
-      console.log(error);
-      if (error) {
+      console.log(error, loading, familyMember);
+      if (error && !loading) {
         onError();
+        onHide();
       } else {
-        onSuccess();
+        if (!error && familyMember && !loading) {
+          onSuccess();
+          onHide();
+        }
       }
-      onHide();
     }
-  }, [error, submitted]);
+  }, [error, submitted, loading, familyMember]);
 
   return (
     <Modal
@@ -69,12 +74,17 @@ function AddFamily(props) {
             <label htmlFor="emailOrPhone">Enter email or phone number</label>
             <input
               type="text"
-              className="form-control my-1"
+              className="form-control my-1 is-invalid"
               id="emailOrPhone"
+              aria-describedby="emailOrPhoneFeedback"
               placeholder=""
               value={cred}
               onChange={(e) => setCred(e.target.value)}
+              required
             />
+          </div>
+          <div id="emailOrPhoneFeedback" className="invalid-feedback">
+            Please enter an email or phone
           </div>
 
           <div className="form-group my-3">
@@ -82,8 +92,13 @@ function AddFamily(props) {
             <select
               onChange={(e) => setRelationToPatient(e.target.value)}
               className="my-1 w-100 form-control text-muted p-2"
+              required
+              id="select"
             >
-              <option value={null}>Relation to patient</option>
+              <div id="select" class="invalid-feedback">
+                Please choose a relation to patient.
+              </div>
+              <option value="0">choose</option>
               <option value="wife">Wife</option>
               <option value="husband">Husband</option>
               <option value="child">Child</option>
