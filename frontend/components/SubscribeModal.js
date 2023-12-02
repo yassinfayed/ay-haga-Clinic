@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { Form } from "react-bootstrap";
+
 import { viewFamilyMembers } from "@/app/redux/actions/FamilyMembersAction";
 import { useMemo } from "react";
 import { makeOrder } from "@/app/redux/actions/paymentActions";
@@ -16,6 +17,7 @@ function SubscribeModal(props) {
   const [familyMember, setFamilyMember] = useState(null); //fam member national id
   const [paymentMethod, setPaymentMethod] = useState(null); //wallet or card
 
+  const success = useSelector((state) => state.orderReducer);
   const familyMembers = useSelector(
     (state) => state.viewFamilyMembersReducer.familyMember
   );
@@ -48,8 +50,6 @@ function SubscribeModal(props) {
     return [];
   }, [familyMembers, isLoading]);
 
-  // console.log(fam);
-
   const handleRecieverChange = (e) => {
     setPackageReciever(e.target.value);
     console.log(e.target.value);
@@ -75,16 +75,20 @@ function SubscribeModal(props) {
       console.log("please enter all data");
       return;
     }
-    console.log(id);
-    console.log("here");
+
     dispatch(makeOrder({ id, paymentMethod }, familyMember));
+    if (success.error) {
+      props.onError(success.error);
+    } else {
+      props.onSuccess();
+    }
+    // Close the modal on success
+    // Additional success handling...
+    props.onHide();
     setFamilyMember(null);
     setPackageReciever(null);
     setPaymentMethod(null);
-    console.log("submitted");
-    props.onHide();
   };
-
   return (
     <Modal
       {...props}
@@ -149,7 +153,9 @@ function SubscribeModal(props) {
                 >
                   <option value={null}>Choose...</option>
                   {fam.map((mem) => (
-                    <option value={mem._id}>{mem.name}</option>
+                    <option key={mem.id} value={mem._id}>
+                      {mem.name}
+                    </option>
                   ))}
                 </Form.Control>
               </div>
