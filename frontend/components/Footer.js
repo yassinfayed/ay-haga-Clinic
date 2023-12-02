@@ -4,7 +4,16 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary text-white pt-4 pb-1 mt-auto">
+    <footer
+      className="bg-primary text-white pt-4 pb-1 "
+      style={{
+        marginTop: " rem",
+        position: "absolute",
+        bottom: "0",
+        width: "100%",
+        height: "14rem",
+      }}
+    >
       <div className="container">
         <div className="row">
           <div className="col-md-2">

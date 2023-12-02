@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { Form } from "react-bootstrap";
+
 import { viewFamilyMembers } from "@/app/redux/actions/FamilyMembersAction";
 import { useMemo } from "react";
 import { makeOrder } from "@/app/redux/actions/paymentActions";
@@ -15,7 +16,12 @@ function SubscribeModal(props) {
   const [packageReciever, setPackageReciever] = useState(null); //package reciever me or fam?
   const [familyMember, setFamilyMember] = useState(null); //fam member national id
   const [paymentMethod, setPaymentMethod] = useState(null); //wallet or card
+  const [submitted, setSubmitted] = useState(false); //wallet or card
+  const [alert, setAlert] = useState(false); //wallet or card
 
+  const { loading, error, session } = useSelector(
+    (state) => state.orderReducer
+  );
   const familyMembers = useSelector(
     (state) => state.viewFamilyMembersReducer.familyMember
   );
@@ -33,6 +39,23 @@ function SubscribeModal(props) {
   useEffect(() => {
     fetchData();
   }, [dispatch, isLoading]);
+  useEffect(() => {
+    if (submitted) {
+      console.log(session, error, loading);
+      if (error && !loading) {
+        console.log("errorrr");
+        props.onError(error);
+      } else {
+        if (!error && !loading && session) {
+          console.log(session);
+          props.onSuccess();
+        }
+      }
+      // Close the modal on success
+      // Additional success handling...
+      props.onHide();
+    }
+  }, [error, submitted, session, loading]);
 
   const fam = useMemo(() => {
     if (familyMembers && familyMembers.data) {
@@ -47,8 +70,6 @@ function SubscribeModal(props) {
     }
     return [];
   }, [familyMembers, isLoading]);
-
-  // console.log(fam);
 
   const handleRecieverChange = (e) => {
     setPackageReciever(e.target.value);
@@ -72,19 +93,16 @@ function SubscribeModal(props) {
       (packageReciever == "family" && !familyMember) ||
       !paymentMethod
     ) {
-      console.log("please enter all data");
+      setAlert(true);
       return;
     }
-    console.log(id);
-    console.log("here");
+
     dispatch(makeOrder({ id, paymentMethod }, familyMember));
+    setSubmitted(true);
     setFamilyMember(null);
     setPackageReciever(null);
     setPaymentMethod(null);
-    console.log("submitted");
-    props.onHide();
   };
-
   return (
     <Modal
       {...props}
@@ -103,6 +121,19 @@ function SubscribeModal(props) {
         <div className="underline-Bold mx-auto mt-2 mb-5"></div>
         <h4>{subheader}</h4>
         <div>
+          {alert && (
+            <div
+              className="alert alert-danger alert-dismissible fade show"
+              role="alert"
+            >
+              please enter all data
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => setAlert(false)}
+              ></button>
+            </div>
+          )}
           <Form
             onSubmit={(e) => {
               handleSubmit(e);
@@ -149,7 +180,9 @@ function SubscribeModal(props) {
                 >
                   <option value={null}>Choose...</option>
                   {fam.map((mem) => (
-                    <option value={mem._id}>{mem.name}</option>
+                    <option key={mem.id} value={mem._id}>
+                      {mem.name}
+                    </option>
                   ))}
                 </Form.Control>
               </div>
