@@ -62,7 +62,7 @@ function CenteredModalAdmin(props) {
     >
     <Modal.Header closeButton className='bg-primary'>
     </Modal.Header>
-    <Modal.Body className='bg-light'>
+    <Modal.Body className='bg-light p-5'>
         <Modal.Title id="contained-modal-title-vcenter" className='px-2 text-global text-bold text-center'>
             {title}
         </Modal.Title>
@@ -87,7 +87,7 @@ function CenteredModalAdmin(props) {
                   <div className="col-md-10">
                     <input
                       type={showPassword ? 'text' : 'password'}
-                      className="form-control py-3"
+                      className="form-control"
                       placeholder="Password"
                       name="password"
                       id='passwordInput'
@@ -108,19 +108,11 @@ function CenteredModalAdmin(props) {
               </div>
               <div className="form-group my-3 col-md-6">
                 <label htmlFor="passwordInput">Confrim Password</label>
-                {/* <input
-                  onChange={handlePasswordConfrimChange}
-                  type="password"
-                  className="form-control my-1"
-                  id="passwordInput"
-                  placeholder="Password"
-                  value={passwordconfirmValue}
-                /> */}
                 <div className="mb-3 row my-1">
                   <div className="col-md-10">
                     <input
                       type={showConfirmPassword ? 'text' : 'password'}
-                      className="form-control py-3"
+                      className="form-control"
                       placeholder="Password"
                       name="password"
                       id='passwordInput'

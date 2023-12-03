@@ -61,15 +61,15 @@ export default function Patients() {
     return (
       <div style={{ fontSize: '1px' }}>
         {isDeleting ?  (
-                        <Button variant="primary" disabled>
-                          <span
-                            className="spinner-border spinner-border-sm"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                          Loading...
-                        </Button>
-                      ) : (
+          <Button variant="primary" disabled>
+            <span
+              className="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Loading...
+          </Button>
+          ) : (
           <Button text={<Image src='/delete.svg' height={20} width={20} className="rounded-circle"/>} variant='xs' color='light' className="rounded-circle" onClick={() => onRemoveHandler(id)}>
           </Button>
         )}
@@ -83,7 +83,17 @@ export default function Patients() {
     rest.emergencyContactName = item.emergencyContact.fullName
     rest.emergencyContactNumber = item.emergencyContact.mobileNumber
     rest.button = generateButton(user?._id)
-    return rest;
+    const final = {
+    name: rest.name,
+    email: rest.email,
+    dateOfBirth: rest.dateOfBirth,
+    gender: rest.gender,
+    phone: rest.mobileNumber,
+    emergencyContactName: rest.emergencyContactName,
+    emergencyContactNumber: rest.emergencyContactNumber,
+    button: rest.button}
+    //['name','email','birth date','gender', 'phone', 'emergency contact','emergency number','actions']; 
+    return final;
   })
 
   function formatDateToDDMMYYYY(isoDate) {

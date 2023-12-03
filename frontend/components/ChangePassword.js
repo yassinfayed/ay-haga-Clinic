@@ -1,10 +1,20 @@
 import './components.css';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Alert } from 'react-bootstrap';
 import { changePasswordAction } from '../src/app/redux/actions/authActions'; // Import your changePasswordAction
 import Image from 'next/image';
+import {
+  Alert, 
+  Card,
+  Button,
+  Form,
+  Container,
+  Row,
+  Col,
+} from "react-bootstrap";
+import { validatePassword } from '@/app/assets/validators';
+
 
 function ChangePassword() {
   const dispatch = useDispatch();
@@ -12,12 +22,14 @@ function ChangePassword() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const {success, error} = useSelector(state => state.changePasswordReducer);
-  const [showError, setShowError] = useState(false);
+  const [passwordMatch, setPasswordMatch] = useState(true);
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handlePasswordChange = () => {
+    if(!passwordMatch || !validatePassword(newPassword))
+      return;
     dispatch(changePasswordAction({
         passwordCurrent: oldPassword,
         password: newPassword,
@@ -40,18 +52,15 @@ function ChangePassword() {
     }
   };
 
-  const handleClick = () => {
-    if (newPassword !== confirmPassword) {
-      setShowError(true);
-      return;
-    }
-
-    setShowError(false);
-    dispatch(changePasswordAction(currentPassword, newPassword));
+  const handlePasswordConfirmChange = (e) => {
+    const confirmPasswordCurr = e.target.value;
+    setPasswordMatch(
+      newPassword === confirmPasswordCurr ||
+        confirmPassword === confirmPasswordCurr
+    );
   };
-  const onSubmit = () => {
-    
-  }
+
+
   return (
     <div className='mx-auto'>
      <div>
@@ -65,106 +74,117 @@ function ChangePassword() {
         </Alert>
       )}
     </div>
-    <Card
-      key="change-password"
-      className="my-2 bg-white px-2 border-0"
-      variant='sm'
-      title=''
-      subtitle={<></>}
-      buttonText="Details"
-      onClickButton={() => {}}>  
-    <div className="container">
-    <div className="row global-text">
-      <h5 className="mx-auto text-primary text-center text-bold mt-3">
-        Change Password
-      </h5>
-      <hr className='mb-4'/>
-      <div className="px-3 ">
-        <div className="mb-1">
-          <label htmlFor="oldPassword" className="form-label text-semibold">
-            Old Password
-          </label>
-          <div className="row">
-            <div className="col-md-10">
-              <input
-                type={showOldPassword ? 'text' : 'password'}
-                className={`form-control ${error? "invalid" : ""}`}
-                id="oldPassword"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
-              />
-            </div>
-            <div className="col-md-2 d-flex align-items-center bg-white rounded">
-                <button
-                  type="button"
+
+    <div className="global-text">
+      <Container>
+        <Row className="justify-content-md-center">
+          <Col md={11}>
+            <h5 className="text-primary text-center text-bold mt-3">
+              Change Password
+            </h5>
+            <hr className='mb-4'/>
+
+            {/* Old Password Field */}
+            <Form.Group as={Row} className="mb-3" controlId="oldPassword">
+              <Form.Label column md={12} className="text-semibold pl-3">
+                Old Password
+              </Form.Label>
+              <Row>
+              <Col md={10}>
+                <Form.Control
+                  type={showOldPassword ? 'text' : 'password'}
+                  isInvalid={error} //write validation instead of error
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Old Password is incorrect.
+                </Form.Control.Feedback>
+              </Col>
+              <Col md={2} className="d-flex align-items-center">
+                <Button
+                  variant="outline-secondary"
                   onClick={() => togglePasswordVisibility('oldPassword')}
-                  className="border-0  bg-white rounded"
+                  className="bg-white rounded"
                 >
                   <Image src={showOldPassword ? "/hide.svg" : "/show.svg"} width={25} height={25} />
-                </button>
-              </div>
-          </div>
-        </div>
-        <div className="">
-          <div className="mb-1 ">
-            <label htmlFor="newPassword" className="form-label text-semibold">
-              New Password
-            </label>
-            <div className="row">
-              <div className="col-md-10">
-                <input
+                </Button>
+              </Col>
+              </Row>
+            </Form.Group>
+
+            {/* New Password Field */}
+            <Form.Group as={Row} className="mb-3" controlId="newPassword">
+              <Form.Label column md={12} className="text-semibold pl-3">
+                New Password
+              </Form.Label>
+              <Row>
+              <Col md={10}>
+                <Form.Control
                   type={showNewPassword ? 'text' : 'password'}
-                  className={`form-control ${error? "invalid" : ""}`}
-                  id="newPassword"
+                  isInvalid={newPassword && !validatePassword(newPassword)} //write validation instead of error
                   value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
+                  onChange={(e) => {setNewPassword(e.target.value);handlePasswordConfirmChange(e);}}
                 />
-              </div>
-              <div className="col-md-2 d-flex align-items-center bg-white rounded">
-                <button
-                  type="button"
+                <Form.Control.Feedback type="invalid">
+                  Password must be at least 8 characters,
+                  including 1 uppercase letter and 1 digit.
+                </Form.Control.Feedback>
+              </Col>
+              <Col md={2} className="d-flex align-items-center">
+                <Button
+                  variant="outline-secondary"
                   onClick={() => togglePasswordVisibility('newPassword')}
-                  className="border-0  bg-white rounded"
+                  className="bg-white rounded"
                 >
                   <Image src={showNewPassword ? "/hide.svg" : "/show.svg"} width={25} height={25} />
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="mb-3 ">
-            <label htmlFor="confirmPassword" className="form-label text-semibold">
-              Confirm Password
-            </label>
-            <div className="row">
-              <div className="col-md-10">               
-                <input
+                </Button>
+              </Col>
+              </Row>
+            </Form.Group>
+
+            {/* Confirm Password Field */}
+            <Form.Group as={Row} className="mb-3" controlId="confirmPassword">
+              <Form.Label column md={12} className="text-semibold">
+                Confirm Password
+              </Form.Label>
+              <Row>
+              <Col md={10}>
+                <Form.Control
                   type={showConfirmPassword ? 'text' : 'password'}
-                  className={`form-control ${error? "invalid" : ""}`}
-                  id="confirmPassword"
+                  isInvalid={!passwordMatch} //write validation instead of error
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={(e) => {setConfirmPassword(e.target.value);handlePasswordConfirmChange(e)}}
                 />
-              </div>
-              <div className="col-md-2 d-flex align-items-center bg-white rounded">
-                <button
-                  type="button"
+                <Form.Control.Feedback type="invalid">
+                  Passwords do not match.
+                </Form.Control.Feedback>
+              </Col>
+              <Col md={2} className="d-flex align-items-center">
+                <Button
+                  variant="outline-secondary"
                   onClick={() => togglePasswordVisibility('confirmPassword')}
-                  className="border-0  bg-white rounded"
+                  className="bg-white rounded"
                 >
                   <Image src={showConfirmPassword ? "/hide.svg" : "/show.svg"} width={25} height={25} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="mx-auto row col-md-6">
-          <button className="btn btn-primary my-3" onClick={handlePasswordChange}>
-            Confirm
-          </button>
-        </div>
-      </div>
+                </Button>
+              </Col>
+              </Row>
+            </Form.Group>
+
+            {/* Submit Button */}
+            <Row className="justify-content-md-center">
+              <Col md={6}>
+                <Button className="btn btn-primary my-3 w-100" onClick={handlePasswordChange}>
+                  Confirm
+                </Button>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
     </div>
-  </div></Card>
+
 </div>
   );
 }
