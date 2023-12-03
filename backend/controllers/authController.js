@@ -6,21 +6,16 @@ const AppError = require("./../utils/appError");
 const enums = require("../constants/enums");
 const Patient = require("../models/patientModel");
 const Doctor = require("./../models/doctorModel");
-const Email = require('./../utils/email');
-const crypto = require('crypto');
-const FamilyMember = require("./../models/familyMembersModel")
-const multer = require('multer');
-
-
-
-
-
+const Email = require("./../utils/email");
+const crypto = require("crypto");
+const FamilyMember = require("./../models/familyMembersModel");
+const multer = require("multer");
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
+  destination: function(req, file, cb) {
+    cb(null, "uploads/");
   },
-  filename: function (req, file, cb) {
+  filename: function(req, file, cb) {
     if (!req.locals) {
       req.locals = {};
     }
@@ -35,21 +30,28 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'application/pdf' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
+  if (
+    file.mimetype === "application/pdf" ||
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/jpg"
+  ) {
     cb(null, true);
   } else {
-    cb(new Error('Invalid file type. Only PDF, PNG, JPEG, and JPG files are allowed.'), false);
+    cb(
+      new Error(
+        "Invalid file type. Only PDF, PNG, JPEG, and JPG files are allowed."
+      ),
+      false
+    );
   }
 };
 
 exports.upload = multer({ storage, fileFilter });
 
-
-
-
 function generateOTP(length) {
-  const digits = '0123456789';
-  let otp = '';
+  const digits = "0123456789";
+  let otp = "";
 
   for (let i = 0; i < length; i++) {
     const randomIndex = crypto.randomInt(0, digits.length);
@@ -68,23 +70,23 @@ const signToken = (id) => {
 const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
-  res.cookie('jwt', token, {
+  res.cookie("jwt", token, {
     Expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
-    secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
+    secure: req.secure || req.headers["x-forwarded-proto"] === "https",
   });
 
   // Remove password from output
   user.password = undefined;
 
   res.status(statusCode).json({
-    status: 'success',
+    status: "success",
     token,
     data: {
-      user
-    }
+      user,
+    },
   });
 };
 
@@ -111,7 +113,13 @@ exports.signup = catchAsync(async (req, res, next) => {
 
     if (!currentUser || currentUser.role !== enums.ROLE.ADMIN) return next(err);
     var emailValidator = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if(!emailValidator.test(req.body.username)) return next(new AppError('For an administrator, the username must be an email address',400))
+    if (!emailValidator.test(req.body.username))
+      return next(
+        new AppError(
+          "For an administrator, the username must be an email address",
+          400
+        )
+      );
   }
 
   const newUser = await User.create({
@@ -135,30 +143,32 @@ exports.signup = catchAsync(async (req, res, next) => {
     return;
   }
   try {
-    if (req.body?.role === undefined || req.body?.role === enums.ROLE.PATIENT){
+    if (req.body?.role === undefined || req.body?.role === enums.ROLE.PATIENT) {
       patient = await Patient.create(req.body);
       newUser.patient = patient;
-    
     }
 
-    if (req.body.role === enums.ROLE.DOCTOR){ 
+    if (req.body.role === enums.ROLE.DOCTOR) {
       req.body.documents = req.locals?.docs;
       console.log(req.body.documents);
       doctor = await Doctor.create(req.body);
       newUser.doctor = doctor;
-    
     }
-    if(req.body.sendtoken!==false)
-    createSendToken(newUser, 201, req, res);
-  else{
-    await FamilyMember.updateOne({_id:req.body.id},
-      {linkedPatientId:patient._id});
+    if (req.body.sendtoken !== false) createSendToken(newUser, 201, req, res);
+    else {
+      await FamilyMember.updateOne(
+        { _id: req.body.id },
+        { linkedPatientId: patient._id }
+      );
       res.status(200).json({
         FamilyMember,
-      })
-  }
+      });
+    }
   } catch (err) {
     await User.deleteOne({ username: newUser.username });
+
+    //revert
+    await FamilyMember.deleteOne({ _id: req.body.id });
     res.status(400).json({
       status: "fail",
       data: {
@@ -233,38 +243,34 @@ exports.login = catchAsync(async (req, res, next) => {
   if (user.role === enums.ROLE.DOCTOR && doct.isApproved === false) {
     return next(new AppError("Doctor is not approved", 400));
   }
-  
 
-  if(user.role === 'doctor'){
-    const doc = await Doctor.findOne({user: user._id})
+  if (user.role === "doctor") {
+    const doc = await Doctor.findOne({ user: user._id });
     user.doctor = doc;
-  }
-  else if(user.role=== 'patient'){
-    const pat = await Patient.findOne({user: user._id})
+  } else if (user.role === "patient") {
+    const pat = await Patient.findOne({ user: user._id });
     user.patient = pat;
   }
-  console.log(user)
-  
-  createSendToken(user, 200, req, res);
+  console.log(user);
 
+  createSendToken(user, 200, req, res);
 });
 
-
 exports.logout = (req, res) => {
-  res.cookie('jwt', 'loggedout', {
+  res.cookie("jwt", "loggedout", {
     expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true
+    httpOnly: true,
   });
-  res.status(200).json({ status: 'success' });
+  res.status(200).json({ status: "success" });
 };
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
   // 1) Get user from collection
-  const user = await User.findById(req.user.id).select('+password');
+  const user = await User.findById(req.user.id).select("+password");
 
   // 2) Check if POSTed current password is correct
   if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
-    return next(new AppError('Your current password is wrong.', 401));
+    return next(new AppError("Your current password is wrong.", 401));
   }
 
   // 3) If so, update password
@@ -277,20 +283,20 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, req, res);
 });
 
-
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on POSTed email
   let user;
-  let toBePassed =  await Patient.findOne({email: req.body.email})  || await Doctor.findOne({email: req.body.email}) 
- 
-   user = await User.findOne({ _id: toBePassed?.user });
-   
-  
+  let toBePassed =
+    (await Patient.findOne({ email: req.body.email })) ||
+    (await Doctor.findOne({ email: req.body.email }));
+
+  user = await User.findOne({ _id: toBePassed?.user });
+
   if (!user) {
-    user = await User.findOne({username: req.body.email});
-    toBePassed = {...user, email: req.body.email, name: req.body.name};
-    if(!user) {
-        return next(new AppError('There is no user with email address.', 404));
+    user = await User.findOne({ username: req.body.email });
+    toBePassed = { ...user, email: req.body.email, name: req.body.name };
+    if (!user) {
+      return next(new AppError("There is no user with email address.", 404));
     }
   }
 
@@ -306,41 +312,40 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     await new Email(toBePassed, OTP).sendPasswordReset();
 
     res.status(200).json({
-      status: 'success',
-      message: 'OTP sent to email!'
+      status: "success",
+      message: "OTP sent to email!",
     });
   } catch (err) {
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
-    console.log(err)
+    console.log(err);
 
     return next(
-      new AppError('There was an error sending the email. Try again later!'),
+      new AppError("There was an error sending the email. Try again later!"),
       500
     );
   }
 });
 
-
-
 exports.resetPassword = catchAsync(async (req, res, next) => {
-  
-  const user2 = await Patient.findOne({email: req.body.email})  || await Doctor.findOne({email: req.body.email}) 
-  console.log(user2)
+  const user2 =
+    (await Patient.findOne({ email: req.body.email })) ||
+    (await Doctor.findOne({ email: req.body.email }));
+  console.log(user2);
   let user = await User.findOne({
     OTP: req.body.OTP,
     _id: user2?.user,
-    passwordResetExpires: { $gt: Date.now() }
+    passwordResetExpires: { $gt: Date.now() },
   });
-  console.log(req.body.OTP)
-  console.log(user)
+  console.log(req.body.OTP);
+  console.log(user);
 
   // 2) If token has not expired, and there is user, set the new password
   if (!user) {
-    user = await User.findOne({username: req.body.email});
-    if(!user)
-    return next(new AppError('Token is invalid or has expired', 400));
+    user = await User.findOne({ username: req.body.email });
+    if (!user)
+      return next(new AppError("Token is invalid or has expired", 400));
   }
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
@@ -352,4 +357,3 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   // 4) Log the user in, send JWT
   createSendToken(user, 200, req, res);
 });
-  
