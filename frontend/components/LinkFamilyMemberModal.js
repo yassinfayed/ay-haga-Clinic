@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react"; // Import useEffect
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+
+import { Modal, Form, Row, Col, InputGroup, Button } from "react-bootstrap";
+import {
+  validateEmail,
+  validatePassword,
+  validatePhoneNumber,
+  validateDate,
+} from "../src/app/assets/validators";
 import { LinkFamilyMember } from "@/app/redux/actions/FamilyMembersAction";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,6 +21,9 @@ function AddFamily(props) {
     (state) => state.linkFamilyMemberReducer
   );
   const dispatch = useDispatch();
+  const isValidCred = (cred) => {
+    return validateEmail(cred) || validatePhoneNumber(cred);
+  };
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
@@ -72,47 +81,48 @@ function AddFamily(props) {
       </Modal.Header>
       <Modal.Body>
         <h4>{subheader}</h4>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group my-3">
-            <label htmlFor="emailOrPhone">Enter email or phone number</label>
-            <input
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="my-3">
+            <Form.Label htmlFor="emailOrPhone">
+              Enter email or phone number
+            </Form.Label>
+            <Form.Control
               type="text"
-              className="form-control my-1 is-invalid"
               id="emailOrPhone"
-              aria-describedby="emailOrPhoneFeedback"
               placeholder=""
               value={cred}
               onChange={(e) => setCred(e.target.value)}
               required
+              isInvalid={cred && !isValidCred(cred)}
             />
-          </div>
-          <div id="emailOrPhoneFeedback" className="invalid-feedback">
-            Please enter an email or phone
-          </div>
+            <Form.Control.Feedback type="invalid">
+              Please enter a valid email or phone number.
+            </Form.Control.Feedback>
+          </Form.Group>
 
-          <div className="form-group my-3">
-            <label htmlFor="relationToPatient">Relation to patient</label>
-            <select
+          <Form.Group className="my-3">
+            <Form.Label htmlFor="relationToPatient">
+              Relation to patient
+            </Form.Label>
+            <Form.Select
               onChange={(e) => setRelationToPatient(e.target.value)}
-              className="my-1 w-100 form-control text-muted p-2"
               required
-              id="select"
+              id="relationToPatient"
+              value={relationToPatient}
             >
-              <div id="select" class="invalid-feedback">
-                Please choose a relation to patient.
-              </div>
-              <option value="0">choose</option>
+              <option value="">Choose...</option>
               <option value="wife">Wife</option>
               <option value="husband">Husband</option>
               <option value="child">Child</option>
-            </select>
-          </div>
-          <div className="row justify-content-end align-items-center mt-5 mb-2">
-            <button type="submit" className="btn btn-primary mx-auto col-md-4">
+            </Form.Select>
+          </Form.Group>
+
+          <div className="text-center mt-5 mb-2">
+            <Button type="submit" className="btn btn-primary">
               Submit
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </Modal.Body>
     </Modal>
   );

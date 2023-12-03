@@ -102,7 +102,6 @@ const Register = () => {
   }, [isLoading, error, isAuthenticated, formData, passwordMatch]);
 
   const handleSignUp = (e) => {
-    debugger;
     // Gather data in the formData object and send it to the backend
     e.preventDefault();
 
