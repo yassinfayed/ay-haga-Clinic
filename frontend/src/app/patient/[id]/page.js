@@ -8,7 +8,7 @@ import FileModal from "../../../../components/FileModal";
 import { uploadDocsAction } from "@/app/redux/actions/patientActions";
 import ChangePassword from "../../../../components/ChangePassword";
 import { Alert } from "react-bootstrap";
-import { Dna } from "react-loader-spinner";
+import Spinner from "../../../../components/Spinner";
 
 const PatientProfile = ({ params }) => {
   const dispatch = useDispatch();
@@ -359,19 +359,7 @@ const PatientProfile = ({ params }) => {
           </div>
         </div>
       ) : (
-        <Dna
-          visible={true}
-          height="120"
-          width="120"
-          ariaLabel="dna-loading"
-          wrapperStyle={{
-            margin: "auto",
-            position: "absolute",
-            bottom: "55vh",
-            left: "100vh",
-          }}
-          wrapperClass="dna-wrapper primary"
-        />
+        <Spinner />
       )}
     </>
   );
