@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { registerAction } from "@/app/redux/actions/authActions";
 import Image from "next/image";
-import TickAnimation from '../../../../public/tickanimation';
+import TickAnimation from "../../../../public/tickanimation";
 import Lottie from "lottie-react";
 import {
   Alert,
@@ -23,7 +23,7 @@ import {
   validateEmail,
   validatePassword,
   validatePhoneNumber,
-  validateDate
+  validateDate,
 } from "../../assets/validators";
 
 const Register = () => {
@@ -42,7 +42,6 @@ const Register = () => {
   const [showPasswordConfirm, setShowPasswordConfrim] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true); // Passwords match state
   const [formValid, setFormValid] = useState(false);
-
 
   const handlePasswordConfirmChange = (e) => {
     const confirmPassword = e.target.value;
@@ -82,11 +81,11 @@ const Register = () => {
 
   useEffect(() => {
     const isValid =
-    validateEmail(formData.email) &&
-    validatePhoneNumber(formData.mobileNumber) &&
-    validatePassword(formData.password) && 
-    validateDate(formData.dateOfBirth) && 
-    passwordMatch;
+      validateEmail(formData.email) &&
+      validatePhoneNumber(formData.mobileNumber) &&
+      validatePassword(formData.password) &&
+      validateDate(formData.dateOfBirth) &&
+      passwordMatch;
 
     setFormValid(isValid);
 
@@ -94,11 +93,12 @@ const Register = () => {
       window.history.pushState(
         {},
         "",
-        `/patient/${JSON.parse(localStorage.getItem("userInfo")).data.user.patient._id
+        `/patient/${
+          JSON.parse(localStorage.getItem("userInfo")).data.user.patient._id
         }`
       );
       window.location.reload();
-    } 
+    }
   }, [isLoading, error, isAuthenticated, formData, passwordMatch]);
 
   const handleSignUp = (e) => {
@@ -131,7 +131,7 @@ const Register = () => {
   return (
     <>
       <Navbar />
-      { !isAuthenticated &&
+      {!isAuthenticated && (
         <>
           <Container className="mt-5">
             <Row className="col-md-7 mx-auto rounded shadow my-5 p-2">
@@ -151,7 +151,7 @@ const Register = () => {
                     <h6 className="text-primary mb-4 text-muted">
                       Let us know more about you.
                     </h6>
-  
+
                     <Form onSubmit={handleSignUp}>
                       <div className="personal-section px-2">
                         <Row className="py-2">
@@ -179,7 +179,8 @@ const Register = () => {
                                 onChange={handleInputChange}
                                 required={true}
                                 isInvalid={
-                                  formData.email && !validateEmail(formData.email)
+                                  formData.email &&
+                                  !validateEmail(formData.email)
                                 }
                               />
                               <Form.Control.Feedback type="invalid">
@@ -248,15 +249,18 @@ const Register = () => {
                                     !validatePassword(formData.password)
                                   }
                                 />
-  
+
                                 <Button
-                                  variant="outline-secondary" className="border-light"
+                                  variant="outline-secondary"
+                                  className="border-light"
                                   onClick={() =>
                                     togglePasswordVisibility("password")
                                   }
                                 >
                                   <Image
-                                    src={showPassword ? "/hide.svg" : "/show.svg"}
+                                    src={
+                                      showPassword ? "/hide.svg" : "/show.svg"
+                                    }
                                     width={25}
                                     height={25}
                                   />
@@ -273,16 +277,19 @@ const Register = () => {
                               <Form.Label>Confirm Password</Form.Label>
                               <InputGroup>
                                 <Form.Control
-                                  type={showPasswordConfirm ? "text" : "password"}
+                                  type={
+                                    showPasswordConfirm ? "text" : "password"
+                                  }
                                   name="passwordConfirm"
                                   value={formData.passwordConfirm}
                                   required
                                   isInvalid={!passwordMatch}
                                   onChange={handlePasswordConfirmChange}
                                 />
-  
+
                                 <Button
-                                  variant="outline-secondary" className="border-light"
+                                  variant="outline-secondary"
+                                  className="border-light"
                                   onClick={() =>
                                     togglePasswordVisibility("passwordConfirm")
                                   }
@@ -332,7 +339,8 @@ const Register = () => {
                                 name="dateOfBirth"
                                 value={formData.dateOfBirth}
                                 isInvalid={
-                                  formData.dateOfBirth && !validateDate(formData.dateOfBirth)
+                                  formData.dateOfBirth &&
+                                  !validateDate(formData.dateOfBirth)
                                 }
                                 onChange={handleInputChange}
                               />
@@ -345,9 +353,12 @@ const Register = () => {
                       </div>
                       <hr className="w-50 mx-auto mb-5" />
                       <div className="mx-2">
-                        <h4 className="text-global">Emergency Contact Details</h4>
+                        <h4 className="text-global">
+                          Emergency Contact Details
+                        </h4>
                         <h6 className="text-primary mb-4 text-muted">
-                          We will contact this person in case of any emergencies.
+                          We will contact this person in case of any
+                          emergencies.
                         </h6>
                         <div className="row px-2">
                           <Row className="py-2">
@@ -366,9 +377,7 @@ const Register = () => {
                             </Col>
                             <Col>
                               <Form.Group className="mb-3">
-                                <Form.Label>
-                                  Phone
-                                </Form.Label>
+                                <Form.Label>Phone</Form.Label>
                                 <div className="mb-1 position-relative d-flex align-items-center">
                                   <span className="px-2 position-absolute start-0 text-global fw-bold">
                                     (+2)
@@ -425,11 +434,15 @@ const Register = () => {
             </Row>
           </Container>
         </>
-      }
+      )}
       {isAuthenticated && (
         <div className="d-flex flex-grow-1 min-vh-100 w-100 flex-col align-items-center justify-content-center">
           <div className="card p-5 text-center">
-            <Lottie animationData={TickAnimation} loop={false} className="w-50 mx-auto" />
+            <Lottie
+              animationData={TickAnimation}
+              loop={false}
+              className="w-50 mx-auto"
+            />
             <h1>Application Successful!</h1>
             <h5>Thank you, we'll get back to you as soon as possible.</h5>
           </div>
@@ -440,7 +453,6 @@ const Register = () => {
         </div>
       )}
       {isLoading && <h1>Loading</h1>}
-      <Footer />
     </>
   );
 };

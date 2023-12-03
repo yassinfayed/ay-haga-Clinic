@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerAction } from "@/app/redux/actions/authActions";
 import Image from "next/image";
-import TickAnimation from '../../../../../public/tickanimation';
+import TickAnimation from "../../../../../public/tickanimation";
 import Lottie from "lottie-react";
 import Navbar from "../../../../../components/Navbar";
 import Footer from "../../../../../components/Footer";
@@ -23,7 +23,7 @@ import {
   validateEmail,
   validatePassword,
   validatePhoneNumber,
-  validateDateDoc
+  validateDateDoc,
 } from "../../../assets/validators";
 
 const SignUp = () => {
@@ -49,11 +49,11 @@ const SignUp = () => {
   });
 
   const dispatch = useDispatch();
-  
+
   const [showPasswordConfirm, setShowPasswordConfrim] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true); // Passwords match state
   const [formValid, setFormValid] = useState(false);
-  
+
   const handlePasswordConfirmChange = (e) => {
     const confirmPassword = e.target.value;
     setPasswordMatch(
@@ -74,30 +74,27 @@ const SignUp = () => {
   const handleSignUp = (e) => {
     e.preventDefault();
     const NewFormData = new FormData();
-    NewFormData.append('username', formData.username);
-    NewFormData.append('name', formData.name);
-    NewFormData.append('email', formData.email);
-    NewFormData.append('password', formData.password);
-    NewFormData.append('passwordConfirm', formData.password);
-    NewFormData.append('DateOfbirth', formData.DateOfbirth);
-    NewFormData.append('gender', formData.gender);
-    NewFormData.append('phoneNumber', formData.phoneNumber);
-    NewFormData.append('HourlyRate', formData.hourlyRate);
-    NewFormData.append('educationalbackground', formData.educationalBackground);
-    NewFormData.append('role', 'doctor');
-    NewFormData.append('affiliation', formData.affiliation);
-    NewFormData.append('workingHours', formData.workingHours);
-    NewFormData.append('speciality', formData.speciality);
-    NewFormData.append('documents',files.document1);
-    NewFormData.append('documents',files.document2);
-    NewFormData.append('documents',files.document3);
-    
-    dispatch(
-      registerAction(NewFormData)
-    );
+    NewFormData.append("username", formData.username);
+    NewFormData.append("name", formData.name);
+    NewFormData.append("email", formData.email);
+    NewFormData.append("password", formData.password);
+    NewFormData.append("passwordConfirm", formData.password);
+    NewFormData.append("DateOfbirth", formData.DateOfbirth);
+    NewFormData.append("gender", formData.gender);
+    NewFormData.append("phoneNumber", formData.phoneNumber);
+    NewFormData.append("HourlyRate", formData.hourlyRate);
+    NewFormData.append("educationalbackground", formData.educationalBackground);
+    NewFormData.append("role", "doctor");
+    NewFormData.append("affiliation", formData.affiliation);
+    NewFormData.append("workingHours", formData.workingHours);
+    NewFormData.append("speciality", formData.speciality);
+    NewFormData.append("documents", files.document1);
+    NewFormData.append("documents", files.document2);
+    NewFormData.append("documents", files.document3);
+
+    dispatch(registerAction(NewFormData));
   };
 
-  
   const { isAuthenticated, error, isLoading } = useSelector(
     (state) => state.registerReducer
   );
@@ -113,15 +110,14 @@ const SignUp = () => {
   };
 
   useEffect(() => {
-
-    console.log(isAuthenticated)
+    console.log(isAuthenticated);
 
     const isValid =
-    validateEmail(formData.email) &&
-    validatePhoneNumber(formData.mobileNumber) &&
-    validatePassword(formData.password) &&
-    validateDateDoc(formData.DateOfbirth) && 
-    passwordMatch;
+      validateEmail(formData.email) &&
+      validatePhoneNumber(formData.mobileNumber) &&
+      validatePassword(formData.password) &&
+      validateDateDoc(formData.DateOfbirth) &&
+      passwordMatch;
 
     setFormValid(isValid);
 
@@ -129,7 +125,8 @@ const SignUp = () => {
       window.history.pushState(
         {},
         "",
-        `/doctor/${JSON.parse(localStorage.getItem("userInfo")).data.user.doctor._id
+        `/doctor/${
+          JSON.parse(localStorage.getItem("userInfo")).data.user.doctor._id
         }`
       );
       window.location.reload();
@@ -144,14 +141,13 @@ const SignUp = () => {
     }));
   };
 
-
   const [action] = useState("Sign up");
 
   return (
     <>
-      {!isAuthenticated &&
+      {!isAuthenticated && (
         <>
-          <Navbar/>
+          <Navbar />
           <Container className="mt-5">
             <Row className="col-md-7 mx-auto rounded shadow my-5 p-2">
               <Col>
@@ -163,7 +159,12 @@ const SignUp = () => {
                   <div className="underline mx-auto mb-5"></div>
                 </div>
                 <br />
-                {error && <Alert variant="danger" dismissible><strong>Error! {"  "}</strong>{error}</Alert>}
+                {error && (
+                  <Alert variant="danger" dismissible>
+                    <strong>Error! {"  "}</strong>
+                    {error}
+                  </Alert>
+                )}
                 <div className="d-flex p-3">
                   <Col>
                     <h4 className="text-global mb-1">Personal Details</h4>
@@ -197,7 +198,8 @@ const SignUp = () => {
                                 onChange={handleInputChange}
                                 required={true}
                                 isInvalid={
-                                  formData.email && !validateEmail(formData.email)
+                                  formData.email &&
+                                  !validateEmail(formData.email)
                                 }
                               />
                               <Form.Control.Feedback type="invalid">
@@ -266,15 +268,18 @@ const SignUp = () => {
                                     !validatePassword(formData.password)
                                   }
                                 />
-  
+
                                 <Button
-                                  variant="outline-secondary" className="border-light"
+                                  variant="outline-secondary"
+                                  className="border-light"
                                   onClick={() =>
                                     togglePasswordVisibility("password")
                                   }
                                 >
                                   <Image
-                                    src={showPassword ? "/hide.svg" : "/show.svg"}
+                                    src={
+                                      showPassword ? "/hide.svg" : "/show.svg"
+                                    }
                                     width={25}
                                     height={25}
                                   />
@@ -291,16 +296,19 @@ const SignUp = () => {
                               <Form.Label>Confirm Password</Form.Label>
                               <InputGroup>
                                 <Form.Control
-                                  type={showPasswordConfirm ? "text" : "password"}
+                                  type={
+                                    showPasswordConfirm ? "text" : "password"
+                                  }
                                   name="passwordConfirm"
                                   value={formData.passwordConfirm}
                                   required
                                   isInvalid={!passwordMatch}
                                   onChange={handlePasswordConfirmChange}
                                 />
-  
+
                                 <Button
-                                  variant="outline-secondary" className="border-light"
+                                  variant="outline-secondary"
+                                  className="border-light"
                                   onClick={() =>
                                     togglePasswordVisibility("passwordConfirm")
                                   }
@@ -350,12 +358,14 @@ const SignUp = () => {
                                 name="DateOfbirth"
                                 value={formData.DateOfbirth}
                                 isInvalid={
-                                  formData.DateOfbirth && !validateDateDoc(formData.DateOfbirth)
+                                  formData.DateOfbirth &&
+                                  !validateDateDoc(formData.DateOfbirth)
                                 }
                                 onChange={handleInputChange}
                               />
                               <Form.Control.Feedback type="invalid">
-                                Applying doctors need to be atleast 25 years old.
+                                Applying doctors need to be atleast 25 years
+                                old.
                               </Form.Control.Feedback>
                             </Form.Group>
                           </Col>
@@ -364,28 +374,55 @@ const SignUp = () => {
                       <hr className="w-50 mx-auto mb-5" />
                       <div className="mx-2">
                         <h4 className="text-global mb-1">
-                        Professional Details
+                          Professional Details
                         </h4>
                         <h6 className="text-primary mb-3 text-muted">
                           Let us know more about your work experience.
                         </h6>
-                        <Form.Group className="mb-3" controlId="educationalBackground">
-                        <Form.Label className="text-semibold">Educational Background</Form.Label>
-                        <Form.Control type="text" name="educationalBackground" value={formData.educationalBackground} onChange={handleInputChange} required/>
+                        <Form.Group
+                          className="mb-3"
+                          controlId="educationalBackground"
+                        >
+                          <Form.Label className="text-semibold">
+                            Educational Background
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="educationalBackground"
+                            value={formData.educationalBackground}
+                            onChange={handleInputChange}
+                            required
+                          />
                         </Form.Group>
 
                         {/* Row for Affiliation and Speciality */}
                         <Row>
                           <Col md={6} className="mb-3">
                             <Form.Group controlId="affiliation">
-                              <Form.Label className="text-semibold">Affiliation</Form.Label>
-                              <Form.Control type="text" name="affiliation" value={formData.affiliation} onChange={handleInputChange} required/>
+                              <Form.Label className="text-semibold">
+                                Affiliation
+                              </Form.Label>
+                              <Form.Control
+                                type="text"
+                                name="affiliation"
+                                value={formData.affiliation}
+                                onChange={handleInputChange}
+                                required
+                              />
                             </Form.Group>
                           </Col>
                           <Col md={6} className="mb-3">
                             <Form.Group controlId="speciality">
-                              <Form.Label className="text-semibold">Speciality</Form.Label>
-                              <Form.Control type="text" name="speciality" value={formData.speciality} onChange={handleInputChange} required/>
+                              <Form.Label className="text-semibold">
+                                Speciality
+                              </Form.Label>
+                              <Form.Control
+                                type="text"
+                                name="speciality"
+                                value={formData.speciality}
+                                onChange={handleInputChange}
+                                required
+                              />
                             </Form.Group>
                           </Col>
                         </Row>
@@ -394,39 +431,78 @@ const SignUp = () => {
                         <Row>
                           <Col md={6} className="mb-3">
                             <Form.Group controlId="hourlyRate">
-                              <Form.Label className="text-semibold">Hourly Rate</Form.Label>
-                              <Form.Control type="number" name="hourlyRate" value={formData.hourlyRate} onChange={handleInputChange} required/>
+                              <Form.Label className="text-semibold">
+                                Hourly Rate
+                              </Form.Label>
+                              <Form.Control
+                                type="number"
+                                name="hourlyRate"
+                                value={formData.hourlyRate}
+                                onChange={handleInputChange}
+                                required
+                              />
                             </Form.Group>
                           </Col>
                           <Col md={6} className="mb-3">
                             <Form.Group controlId="workingHours">
-                              <Form.Label className="text-semibold">Working Hours</Form.Label>
-                              <Form.Control type="number" name="workingHours" value={formData.workingHours} onChange={handleInputChange} required/>
+                              <Form.Label className="text-semibold">
+                                Working Hours
+                              </Form.Label>
+                              <Form.Control
+                                type="number"
+                                name="workingHours"
+                                value={formData.workingHours}
+                                onChange={handleInputChange}
+                                required
+                              />
                             </Form.Group>
                           </Col>
                         </Row>
                       </div>
                       <hr className="w-50 mx-auto mb-5" />
                       <div className="">
-                        <h4 className="text-global mb-1">
-                          Required Documents
-                        </h4>
+                        <h4 className="text-global mb-1">Required Documents</h4>
                         <h6 className="text-primary mb-3 text-muted">
-                        Note that all files should be in following formats: PDF, JPEG, JPG, PNG.
+                          Note that all files should be in following formats:
+                          PDF, JPEG, JPG, PNG.
                         </h6>
-                        <Form.Group controlId="document1" className="p-2 d-flex align-items-center justify-content-between">
-                          <Form.Label className="col-lg-3">National ID</Form.Label>
-                          <Form.Control type="file" onChange={(e) => handleFileUpload(e, 'document1')} />
+                        <Form.Group
+                          controlId="document1"
+                          className="p-2 d-flex align-items-center justify-content-between"
+                        >
+                          <Form.Label className="col-lg-3">
+                            National ID
+                          </Form.Label>
+                          <Form.Control
+                            type="file"
+                            onChange={(e) => handleFileUpload(e, "document1")}
+                          />
                         </Form.Group>
 
-                        <Form.Group controlId="document2" className="p-2 d-flex align-items-center justify-content-between">
-                          <Form.Label className="col-lg-3">Medical Degree</Form.Label>
-                          <Form.Control type="file" onChange={(e) => handleFileUpload(e, 'document2')} />
+                        <Form.Group
+                          controlId="document2"
+                          className="p-2 d-flex align-items-center justify-content-between"
+                        >
+                          <Form.Label className="col-lg-3">
+                            Medical Degree
+                          </Form.Label>
+                          <Form.Control
+                            type="file"
+                            onChange={(e) => handleFileUpload(e, "document2")}
+                          />
                         </Form.Group>
 
-                        <Form.Group controlId="document3" className="p-2 d-flex align-items-center justify-content-between">
-                          <Form.Label className="col-lg-3">Medical License</Form.Label>
-                          <Form.Control type="file" onChange={(e) => handleFileUpload(e, 'document3')} />
+                        <Form.Group
+                          controlId="document3"
+                          className="p-2 d-flex align-items-center justify-content-between"
+                        >
+                          <Form.Label className="col-lg-3">
+                            Medical License
+                          </Form.Label>
+                          <Form.Control
+                            type="file"
+                            onChange={(e) => handleFileUpload(e, "document3")}
+                          />
                         </Form.Group>
                       </div>
                       <br />
@@ -458,28 +534,30 @@ const SignUp = () => {
               </Col>
             </Row>
           </Container>
-          <Footer/>
         </>
-      }
+      )}
 
-      {isAuthenticated &&
+      {isAuthenticated && (
         <>
-        <Navbar/>
+          <Navbar />
           <div className="d-flex flex-grow-1 min-vh-100 w-100 flex-col align-items-center justify-content-center">
             <div className="card p-5 text-center">
-              <Lottie animationData={TickAnimation} loop={false} className="w-50 mx-auto" />
+              <Lottie
+                animationData={TickAnimation}
+                loop={false}
+                className="w-50 mx-auto"
+              />
               <h1>Application Successful!</h1>
               <h5>Thank you, we'll get back to you as soon as possible.</h5>
             </div>
             {setTimeout(() => {
-            window.history.pushState({}, "", "/patients/medicines");
-            window.location.reload();
-          }, 7000)}
+              window.history.pushState({}, "", "/patients/medicines");
+              window.location.reload();
+            }, 7000)}
           </div>
         </>
-      }
+      )}
     </>
-
   );
 };
 

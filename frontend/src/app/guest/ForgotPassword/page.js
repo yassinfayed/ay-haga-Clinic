@@ -5,7 +5,11 @@ import { useState } from "react";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import { Button } from "../../../../components/Button";
-import { forgetPasswordAction, login, resetPasswordAction } from "@/app/redux/actions/authActions";
+import {
+  forgetPasswordAction,
+  login,
+  resetPasswordAction,
+} from "@/app/redux/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "react-bootstrap";
 
@@ -19,8 +23,12 @@ function ForgotPasswordForm() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [counter, setCounter] = useState(0);
-  const {success, error} = useSelector(state => state.forgetPasswordReducer)
-  const {success: success2, error: error2} = useSelector(state => state.resetPasswordReducer)
+  const { success, error } = useSelector(
+    (state) => state.forgetPasswordReducer
+  );
+  const { success: success2, error: error2 } = useSelector(
+    (state) => state.resetPasswordReducer
+  );
 
   //const { isAuthenticated, error } = useSelector((state) => state.loginReducer);
 
@@ -38,27 +46,24 @@ function ForgotPasswordForm() {
 
   const handleForgotPassword = () => {
     if (counter === 0 && success !== true) {
-        dispatch(forgetPasswordAction(formData))
-      if(success)
-        setCounter(1);
-      console.log('you forgot')
-    }
-    else{
-      dispatch(resetPasswordAction(formData))
-      console.log('you reset')
+      dispatch(forgetPasswordAction(formData));
+      if (success) setCounter(1);
+      console.log("you forgot");
+    } else {
+      dispatch(resetPasswordAction(formData));
+      console.log("you reset");
     }
   };
-
 
   return (
     <>
       <Navbar />
       <div className="container">
-      {
-        success2 ? (
-          <Alert variant="success" dismissible className="px-2">
-            <strong>Success! </strong> Password Reset successfully.
-          </Alert>
+        {
+          success2 ? (
+            <Alert variant="success" dismissible className="px-2">
+              <strong>Success! </strong> Password Reset successfully.
+            </Alert>
           ) : error2 ? (
             <Alert variant="danger" dismissible className="px-2">
               <strong>Error! </strong> {error}.
@@ -71,14 +76,16 @@ function ForgotPasswordForm() {
             <Alert variant="danger" dismissible className="px-2">
               <strong>Error! </strong> {error2}.
             </Alert>
-          ) : <></> // Add a default case or use 'null' if there's nothing to render
+          ) : (
+            <></>
+          ) // Add a default case or use 'null' if there's nothing to render
         }
         <div className="row gradient-background m-5 rounded shadow mx-auto">
           <div className="col-md-4 mx-auto m-5 p-5">
             <h1 className="text-bold text-light rounded">XClinics</h1>
             <h2 className="text-semibold text-light rounded px-3">
-            Convenient healthcare at your fingertips...
-          </h2>
+              Convenient healthcare at your fingertips...
+            </h2>
           </div>
           <div className="col-md-5 bg-light mx-auto rounded shadow m-5 h-60 my-auto">
             <div className="text-center mt-5">
@@ -100,17 +107,17 @@ function ForgotPasswordForm() {
               )}
               {success === true && (
                 <>
-                <div className="mb-3">
-                  <input
-                    type="text"
-                    className="form-control py-3"
-                    placeholder="OTP"
-                    name="OTP"
-                    value={formData.OTP}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="mb-3">
+                  <div className="mb-3">
+                    <input
+                      type="text"
+                      className="form-control py-3"
+                      placeholder="OTP"
+                      name="OTP"
+                      value={formData.OTP}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="mb-3">
                     <input
                       type={showPassword ? "text" : "password"}
                       className="form-control py-3"
@@ -130,8 +137,8 @@ function ForgotPasswordForm() {
                       onChange={handleInputChange}
                     />
                   </div>
-                  </>
-                )}
+                </>
+              )}
               <div className="text-center pb-3 mt-auto">
                 <Button text="Submit" onClick={handleForgotPassword} />
               </div>
@@ -139,7 +146,6 @@ function ForgotPasswordForm() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }
