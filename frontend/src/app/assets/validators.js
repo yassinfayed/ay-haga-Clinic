@@ -23,3 +23,12 @@ export const validateDate = (isoDate) => {
 
   return (normalizedInputDate <= normalizedCurrentDate)
 }
+
+export const validateDateDoc = (isoDate) => {
+  const inputDate = new Date(isoDate);
+  const currentDate = new Date();
+  const normalizedInputDate = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate());
+  const normalizedCurrentDate = new Date(currentDate.getFullYear()-25, currentDate.getMonth(), currentDate.getDate());
+
+  return (normalizedInputDate <= (normalizedCurrentDate))
+}

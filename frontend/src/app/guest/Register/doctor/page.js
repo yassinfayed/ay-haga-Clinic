@@ -5,10 +5,26 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerAction } from "@/app/redux/actions/authActions";
 import Image from "next/image";
-import { Button } from "../../../../../components/Button";
 import TickAnimation from '../../../../../public/tickanimation';
 import Lottie from "lottie-react";
 import Navbar from "../../../../../components/Navbar";
+import Footer from "../../../../../components/Footer";
+import {
+  Alert,
+  Button,
+  Form,
+  InputGroup,
+  Container,
+  Row,
+  Col,
+} from "react-bootstrap";
+
+import {
+  validateEmail,
+  validatePassword,
+  validatePhoneNumber,
+  validateDateDoc
+} from "../../../assets/validators";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -19,7 +35,7 @@ const SignUp = () => {
     educationalBackground: "",
     affiliation: "",
     hourlyRate: "",
-    dateOfbirth: "",
+    DateOfbirth: "",
     gender: "",
     mobileNumber: "",
     speciality: "",
@@ -33,37 +49,19 @@ const SignUp = () => {
   });
 
   const dispatch = useDispatch();
-
-  const [phoneValid, setPhoneValid] = useState(true);
-  const [emergencyPhoneValid, setEmergencyPhoneValid] = useState(true);
-  const [emailValid, setEmailValid] = useState(true);
-  const [passwordValid, setPasswordValid] = useState(true);
-  const [dateValid, setDateValid] = useState(true);
   
-
-  const isEmailValid = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+/;
-    return emailRegex.test(email);
+  const [showPasswordConfirm, setShowPasswordConfrim] = useState(false);
+  const [passwordMatch, setPasswordMatch] = useState(true); // Passwords match state
+  const [formValid, setFormValid] = useState(false);
+  
+  const handlePasswordConfirmChange = (e) => {
+    const confirmPassword = e.target.value;
+    setPasswordMatch(
+      formData.password === confirmPassword ||
+        formData.passwordConfirm === confirmPassword
+    );
+    handleInputChange(e);
   };
-
-  const isPhoneValid = (phoneNumber) => {
-    const phoneRegex = /^0[0-9]{10}$/;
-    return phoneRegex.test(phoneNumber);
-  };
-
-  function isValidPassword(password) {
-    const pattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[A-Z]).{8,}$/;
-    return pattern.test(password);
-  }
-
-  function isDateValid(isoDate) {
-    const inputDate = new Date(isoDate);
-    const currentDate = new Date();
-    const normalizedInputDate = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate());
-    const normalizedCurrentDate = new Date(currentDate.getFullYear()-25, currentDate.getMonth(), currentDate.getDate());
-
-    return (normalizedInputDate <= normalizedCurrentDate)
-  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -73,15 +71,15 @@ const SignUp = () => {
     });
   };
 
-  const handleSignUp = () => {
-    
+  const handleSignUp = (e) => {
+    e.preventDefault();
     const NewFormData = new FormData();
     NewFormData.append('username', formData.username);
     NewFormData.append('name', formData.name);
     NewFormData.append('email', formData.email);
     NewFormData.append('password', formData.password);
     NewFormData.append('passwordConfirm', formData.password);
-    NewFormData.append('DateOfbirth', formData.dateOfbirth);
+    NewFormData.append('DateOfbirth', formData.DateOfbirth);
     NewFormData.append('gender', formData.gender);
     NewFormData.append('phoneNumber', formData.phoneNumber);
     NewFormData.append('HourlyRate', formData.hourlyRate);
@@ -96,11 +94,10 @@ const SignUp = () => {
     
     dispatch(
       registerAction(NewFormData)
-     
     );
   };
 
-  // const useEffect()
+  
   const { isAuthenticated, error, isLoading } = useSelector(
     (state) => state.registerReducer
   );
@@ -108,16 +105,36 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = (field) => {
-    if (field === 'password') {
+    if (field === "password") {
       setShowPassword(!showPassword);
+    } else {
+      setShowPasswordConfrim(!showPasswordConfirm);
     }
   };
 
   useEffect(() => {
+
+    console.log(isAuthenticated)
+
+    const isValid =
+    validateEmail(formData.email) &&
+    validatePhoneNumber(formData.mobileNumber) &&
+    validatePassword(formData.password) &&
+    validateDateDoc(formData.DateOfbirth) && 
+    passwordMatch;
+
+    setFormValid(isValid);
+
     if (isAuthenticated === true) {
-      // window.alert("Successfully applied");
-    } else if (error) window.alert("error");
-  }, [isLoading, error, isAuthenticated]);
+      window.history.pushState(
+        {},
+        "",
+        `/doctor/${JSON.parse(localStorage.getItem("userInfo")).data.user.doctor._id
+        }`
+      );
+      window.location.reload();
+    }
+  }, [isLoading, error, isAuthenticated, formData, passwordMatch]);
 
   const handleFileUpload = (e, documentKey) => {
     const file = e.target.files[0];
@@ -132,14 +149,12 @@ const SignUp = () => {
 
   return (
     <>
-
-      {
-        !isAuthenticated &&
+      {!isAuthenticated &&
         <>
           <Navbar/>
-          <div className="container mt-5">
-            <div className="row">
-              <div className="col-md-7 mx-auto rounded shadow p-5">
+          <Container className="mt-5">
+            <Row className="col-md-7 mx-auto rounded shadow my-5 p-2">
+              <Col>
                 <div className="text-center mt-3">
                   <h1 className="text-primary fw-bold text-size-50">Sign Up</h1>
                   <h6 className="text-global text-center mb-3">
@@ -147,261 +162,307 @@ const SignUp = () => {
                   </h6>
                   <div className="underline mx-auto mb-5"></div>
                 </div>
-                <div className="px-4 p-3">
-                  <div className="personal-section">
-                    <h4 className="text-global mb-1">
-                      Personal Details
-                    </h4>
-                    <h6 className="text-primary mb-3 text-muted">
+                <br />
+                {error && <Alert variant="danger" dismissible><strong>Error! {"  "}</strong>{error}</Alert>}
+                <div className="d-flex p-3">
+                  <Col>
+                    <h4 className="text-global mb-1">Personal Details</h4>
+                    <h6 className="text-primary mb-4 text-muted">
                       Let us know more about you.
                     </h6>
-                    <div className="p-2">
-                      <div className="row">
-                        <div className="col-md-6 mb-1">
-                          <label htmlFor="name" className="text-semibold form-label">
-                            Name
-                          </label>
-                          <input
-                            type="text"
-                            id="name"
-                            className="form-control"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                        <div className="col-md-6 mb-1">
-                          <label htmlFor="email" className="text-semibold form-label">
-                            Email
-                          </label>
-                          <input
-                            type="email"
-                            placeholder="example@mail.com"
-                            id="email"
-                            className="form-control"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-md-6 mb-1">
-                          <label htmlFor="username" className="text-semibold form-label">
-                            Username
-                          </label>
-                          <input
-                            type="text"
-                            id="username"
-                            className="form-control"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                        <div className="col-md-6 mb-1">
-                          <label htmlFor="password" className="text-semibold form-label">
-                            Password
-                          </label>
-                          <div className="row">
-                            <div className="col-md-10">
-                              <input
-                                type={showPassword ? 'text' : 'password'}
-                                id="password"
-                                placeholder="********"
-                                className="form-control m-0"
-                                name="password"
-                                value={formData.password}
+                    <Form onSubmit={handleSignUp}>
+                      <div className="personal-section px-2">
+                        <Row className="py-2">
+                          <Col md={6}>
+                            <Form.Group className="mb-1">
+                              <Form.Label>Name</Form.Label>
+                              <Form.Control
+                                type="text"
+                                name="name"
+                                placeholder="e.g. John Doe"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                required
+                              />
+                            </Form.Group>
+                          </Col>
+                          <Col>
+                            <Form.Group className="mb-1">
+                              <Form.Label>Email</Form.Label>
+                              <Form.Control
+                                type="email"
+                                placeholder="e.g. example@mail.com"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                required={true}
+                                isInvalid={
+                                  formData.email && !validateEmail(formData.email)
+                                }
+                              />
+                              <Form.Control.Feedback type="invalid">
+                                Please enter a valid email address.
+                              </Form.Control.Feedback>
+                            </Form.Group>
+                          </Col>
+                        </Row>
+                        <Row className="py-2">
+                          <Col>
+                            <Form.Group className="mb-1">
+                              <Form.Label>Username</Form.Label>
+                              <Form.Control
+                                type="text"
+                                name="username"
+                                value={formData.username}
+                                onChange={handleInputChange}
+                                required
+                              />
+                            </Form.Group>
+                          </Col>
+                          <Col>
+                            <Form.Group>
+                              <Form.Label>Phone Number</Form.Label>
+                              <div className="mb-1 position-relative d-flex align-items-center">
+                                <span className="px-2 position-absolute start-0 text-global fw-bold">
+                                  (+2)
+                                </span>
+                                <Form.Control
+                                  type="Number"
+                                  className="pl-5 form-control py-2"
+                                  style={{ paddingLeft: "60px" }}
+                                  placeholder="01234567890"
+                                  name="mobileNumber"
+                                  value={formData.mobileNumber}
+                                  onChange={handleInputChange}
+                                  required
+                                  isInvalid={
+                                    formData.mobileNumber &&
+                                    !validatePhoneNumber(formData.mobileNumber)
+                                  }
+                                />
+                              </div>
+                              <Form.Control.Feedback
+                                type="invalid"
+                                style={{ marginTop: "5px" }} // Adjust margin-top as needed
+                              >
+                                Please enter a valid phone number (10 digits).
+                              </Form.Control.Feedback>
+                            </Form.Group>
+                          </Col>
+                        </Row>
+                        <Row className="py-2">
+                          <Col>
+                            <Form.Group className="mb-1">
+                              <Form.Label>Password</Form.Label>
+                              <InputGroup>
+                                <Form.Control
+                                  type={showPassword ? "text" : "password"}
+                                  name="password"
+                                  value={formData.password}
+                                  onChange={handlePasswordConfirmChange}
+                                  required
+                                  isInvalid={
+                                    formData.password &&
+                                    !validatePassword(formData.password)
+                                  }
+                                />
+  
+                                <Button
+                                  variant="outline-secondary" className="border-light"
+                                  onClick={() =>
+                                    togglePasswordVisibility("password")
+                                  }
+                                >
+                                  <Image
+                                    src={showPassword ? "/hide.svg" : "/show.svg"}
+                                    width={25}
+                                    height={25}
+                                  />
+                                </Button>
+                                <Form.Control.Feedback type="invalid">
+                                  Password must be at least 8 characters,
+                                  including 1 uppercase letter and 1 digit.
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
+                          </Col>
+                          <Col>
+                            <Form.Group className="mb-1">
+                              <Form.Label>Confirm Password</Form.Label>
+                              <InputGroup>
+                                <Form.Control
+                                  type={showPasswordConfirm ? "text" : "password"}
+                                  name="passwordConfirm"
+                                  value={formData.passwordConfirm}
+                                  required
+                                  isInvalid={!passwordMatch}
+                                  onChange={handlePasswordConfirmChange}
+                                />
+  
+                                <Button
+                                  variant="outline-secondary" className="border-light"
+                                  onClick={() =>
+                                    togglePasswordVisibility("passwordConfirm")
+                                  }
+                                >
+                                  <Image
+                                    src={
+                                      showPasswordConfirm
+                                        ? "/hide.svg"
+                                        : "/show.svg"
+                                    }
+                                    width={25}
+                                    height={25}
+                                  />
+                                </Button>
+                                <Form.Control.Feedback type="invalid">
+                                  Passwords do not match.
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
+                          </Col>
+                        </Row>
+                        <Row className="py-2">
+                          <Col>
+                            <Form.Group className="mb-3">
+                              <Form.Label>Gender</Form.Label>
+                              <Form.Select
+                                className="py-2"
+                                name="gender"
+                                value={formData.gender}
+                                onChange={handleInputChange}
+                                required
+                              >
+                                <option value="" disabled>
+                                  Select...
+                                </option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                              </Form.Select>
+                            </Form.Group>
+                          </Col>
+                          <Col>
+                            <Form.Group className="mb-3">
+                              <Form.Label>Date of Birth</Form.Label>
+                              <Form.Control
+                                type="date"
+                                required
+                                name="DateOfbirth"
+                                value={formData.DateOfbirth}
+                                isInvalid={
+                                  formData.DateOfbirth && !validateDateDoc(formData.DateOfbirth)
+                                }
                                 onChange={handleInputChange}
                               />
-                            </div>
-                            <div className="col-md-2 d-flex align-items-center bg-white rounded mx-auto">
-                              <button
-                                type="button"
-                                onClick={() => togglePasswordVisibility('password')}
-                                className="border-0 bg-white rounded mx-auto "
-                              >
-                                <Image src={showPassword ? "/hide.svg" : "/show.svg"} width={25} height={25} />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
+                              <Form.Control.Feedback type="invalid">
+                                Applying doctors need to be atleast 25 years old.
+                              </Form.Control.Feedback>
+                            </Form.Group>
+                          </Col>
+                        </Row>
                       </div>
-                      <div className="mb-1">
-                        <label htmlFor="mobileNumber" className="text-semibold form-label">
-                          Mobile Number
-                        </label>
-                        <div className="mb-1 position-relative d-flex align-items-center">
-                          <span className="px-2 position-absolute start-0 text-global fw-bold">(+2)</span>
-                          <input
-                            type="tel"
-                            id="mobileNumber"
-                            placeholder="01234567890"
-                            className="px-5 form-control py-2"
-                            name="mobileNumber"
-                            value={formData.mobileNumber}
-                            onChange={handleInputChange}
-                          />
-                        </div>
+                      <hr className="w-50 mx-auto mb-5" />
+                      <div className="mx-2">
+                        <h4 className="text-global mb-1">
+                        Professional Details
+                        </h4>
+                        <h6 className="text-primary mb-3 text-muted">
+                          Let us know more about your work experience.
+                        </h6>
+                        <Form.Group className="mb-3" controlId="educationalBackground">
+                        <Form.Label className="text-semibold">Educational Background</Form.Label>
+                        <Form.Control type="text" name="educationalBackground" value={formData.educationalBackground} onChange={handleInputChange} required/>
+                        </Form.Group>
+
+                        {/* Row for Affiliation and Speciality */}
+                        <Row>
+                          <Col md={6} className="mb-3">
+                            <Form.Group controlId="affiliation">
+                              <Form.Label className="text-semibold">Affiliation</Form.Label>
+                              <Form.Control type="text" name="affiliation" value={formData.affiliation} onChange={handleInputChange} required/>
+                            </Form.Group>
+                          </Col>
+                          <Col md={6} className="mb-3">
+                            <Form.Group controlId="speciality">
+                              <Form.Label className="text-semibold">Speciality</Form.Label>
+                              <Form.Control type="text" name="speciality" value={formData.speciality} onChange={handleInputChange} required/>
+                            </Form.Group>
+                          </Col>
+                        </Row>
+
+                        {/* Row for Hourly Rate and Working Hours */}
+                        <Row>
+                          <Col md={6} className="mb-3">
+                            <Form.Group controlId="hourlyRate">
+                              <Form.Label className="text-semibold">Hourly Rate</Form.Label>
+                              <Form.Control type="number" name="hourlyRate" value={formData.hourlyRate} onChange={handleInputChange} required/>
+                            </Form.Group>
+                          </Col>
+                          <Col md={6} className="mb-3">
+                            <Form.Group controlId="workingHours">
+                              <Form.Label className="text-semibold">Working Hours</Form.Label>
+                              <Form.Control type="number" name="workingHours" value={formData.workingHours} onChange={handleInputChange} required/>
+                            </Form.Group>
+                          </Col>
+                        </Row>
                       </div>
-                      <div className="row">
-                        <div className="col-md-6 mb-1">
-                          <label htmlFor="gender" className="text-semibold form-label">
-                            Gender
-                          </label>
-                          <select
-                            className="form-select"
-                            id="gender"
-                            name="gender"
-                            value={formData.gender}
-                            onChange={handleInputChange}
+                      <hr className="w-50 mx-auto mb-5" />
+                      <div className="">
+                        <h4 className="text-global mb-1">
+                          Required Documents
+                        </h4>
+                        <h6 className="text-primary mb-3 text-muted">
+                        Note that all files should be in following formats: PDF, JPEG, JPG, PNG.
+                        </h6>
+                        <Form.Group controlId="document1" className="p-2 d-flex align-items-center justify-content-between">
+                          <Form.Label className="col-lg-3">National ID</Form.Label>
+                          <Form.Control type="file" onChange={(e) => handleFileUpload(e, 'document1')} />
+                        </Form.Group>
+
+                        <Form.Group controlId="document2" className="p-2 d-flex align-items-center justify-content-between">
+                          <Form.Label className="col-lg-3">Medical Degree</Form.Label>
+                          <Form.Control type="file" onChange={(e) => handleFileUpload(e, 'document2')} />
+                        </Form.Group>
+
+                        <Form.Group controlId="document3" className="p-2 d-flex align-items-center justify-content-between">
+                          <Form.Label className="col-lg-3">Medical License</Form.Label>
+                          <Form.Control type="file" onChange={(e) => handleFileUpload(e, 'document3')} />
+                        </Form.Group>
+                      </div>
+                      <br />
+                      <div className="text-center">
+                        {isLoading ? (
+                          <Button variant="primary" disabled>
+                            <span
+                              className="spinner-border spinner-border-sm"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            Loading...
+                          </Button>
+                        ) : (
+                          <Button
+                            type="submit"
+                            variant="primary"
+                            disabled={!formValid}
+                            // onClick={handleSignUp}
                           >
-                            <option value="" disabled>
-                              Select...
-                            </option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                          </select>
-                        </div>
-                        <div className="col-md-6 mb-1">
-                          <label htmlFor="dateOfBirth" className="text-semibold form-label">
-                            Date of Birth
-                          </label>
-                          <input
-                            type="date"
-                            id="dateOfbirth"
-                            className="form-control"
-                            name="dateOfbirth"
-                            value={formData.dateOfbirth}
-                            onChange={handleInputChange}
-                          />
-                        </div>
+                            Sign Up
+                          </Button>
+                        )}
                       </div>
-                    </div>
-                  </div>
-                  <hr className="w-50 mx-auto mb-5" />
-                  <div className="proffesional-section">
-                    <h4 className="text-global mb-1">
-                      Professional Details
-                    </h4>
-                    <h6 className="text-primary mb-3 text-muted">
-                      Let us know more about your work experience.
-                    </h6>
-                    <div className="p-2">
-                      <div className="mb-1">
-                        <label htmlFor="educationalBackground" className="text-semibold form-label">
-                          Educational Background
-                        </label>
-                        <input
-                          type="text"
-                          id="educationalBackground"
-                          className="form-control"
-                          name="educationalBackground"
-                          value={formData.educationalBackground}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                      <div className="row">
-                        <div className="col-md-6 mb-1">
-                          <label htmlFor="affiliation" className="text-semibold form-label">
-                            Affiliation
-                          </label>
-                          <input
-                            type="text"
-                            id="affiliation"
-                            className="form-control"
-                            name="affiliation"
-                            value={formData.affiliation}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                        <div className="col-md-6 mb-1">
-                          <label htmlFor="speciality" className="text-semibold form-label">
-                            Speciality
-                          </label>
-                          <input
-                            type="text"
-                            id="speciality"
-                            className="form-control"
-                            name="speciality"
-                            value={formData.speciality}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-md-6 mb-1">
-                          <label htmlFor="hourlyRate" className="text-semibold form-label">
-                            Hourly Rate
-                          </label>
-                          <input
-                            type="number"
-                            id="hourlyRate"
-                            className="form-control"
-                            name="hourlyRate"
-                            value={formData.hourlyRate}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                        <div className="col-md-6 mb-1">
-                          <label htmlFor="workingHours" className="text-semibold form-label">
-                            Working Hours
-                          </label>
-                          <input
-                            type="number"
-                            id="workingHours"
-                            className="form-control"
-                            name="workingHours"
-                            value={formData.workingHours}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    </Form>
+                    <br />
+                  </Col>
                 </div>
-                <hr className="w-50 mx-auto mb-5" />
-                <div className="mx-4">
-                    <h4 className="text-global mb-1">
-                      Required Documents
-                    </h4>
-                    <h6 className="text-primary mb-3 text-muted">
-                      Please upload the following documents.
-                    </h6>
-                    <div className="p-2">
-                        <label htmlFor="document1" className="d-flex align-items-center justify-content-between form-label">
-                        <div className="col-lg-3">National ID </div>   
-                          <input type="file" id="document1" className="form-control" onChange={(e) => handleFileUpload(e, 'document1')} />
-                      </label>
-                      
-                    </div>
-                    <div className="p-2">
-                        <label htmlFor="document2" className="d-flex align-items-center justify-content-between form-label">
-                        <div className="col-lg-3">Medical Degree </div>    
-                          <input type="file" id="document2" className="form-control" onChange={(e) => handleFileUpload(e, 'document2')} />
-                      </label>
-                      
-                    </div>
-                    <div className="p-2">
-                        <label htmlFor="document3" className="d-flex align-items-center justify-content-between form-label">
-                        <div className="col-lg-3">Medical License </div>
-                          <input type="file" id="document3" className="form-control" onChange={(e) => handleFileUpload(e, 'document3')} />
-                      </label>
-                      
-                    </div>
-                  </div>
-                  <br />
-                <div className="text-center">
-                  <Button text="Sign Up" onClick={handleSignUp} />
-                </div>
-              </div>
-            </div>
-          </div>
+              </Col>
+            </Row>
+          </Container>
+          <Footer/>
         </>
       }
 
-      {
-        isAuthenticated &&
+      {isAuthenticated &&
         <>
         <Navbar/>
           <div className="d-flex flex-grow-1 min-vh-100 w-100 flex-col align-items-center justify-content-center">
@@ -410,6 +471,10 @@ const SignUp = () => {
               <h1>Application Successful!</h1>
               <h5>Thank you, we'll get back to you as soon as possible.</h5>
             </div>
+            {setTimeout(() => {
+            window.history.pushState({}, "", "/patients/medicines");
+            window.location.reload();
+          }, 7000)}
           </div>
         </>
       }

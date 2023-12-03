@@ -61,6 +61,7 @@ export const registerReducer = (state = {}, action) => {
         ...state,
         loading: true,
         error: null,
+        isAuthenticated: false,
       };
     case USER_REGISTER_SUCCESS:{
       console.log("success")
@@ -76,6 +77,7 @@ export const registerReducer = (state = {}, action) => {
         ...state,
         loading: false,
         error: action.payload,
+        isAuthenticated: false,
       };
     default:
       return state;

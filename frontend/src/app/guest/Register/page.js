@@ -250,7 +250,7 @@ const Register = () => {
                                 />
   
                                 <Button
-                                  variant="outline-secondary" className="border-0"
+                                  variant="outline-secondary" className="border-light"
                                   onClick={() =>
                                     togglePasswordVisibility("password")
                                   }
@@ -282,7 +282,7 @@ const Register = () => {
                                 />
   
                                 <Button
-                                  variant="outline-secondary" className="border-0"
+                                  variant="outline-secondary" className="border-light"
                                   onClick={() =>
                                     togglePasswordVisibility("passwordConfirm")
                                   }
