@@ -22,6 +22,7 @@ const ServicesPage = () => {
     fetchData();
   }, [dispatch]);
   
+console.log(healthPackages)
 
   const packages = useMemo(() => {
     if (healthPackages && healthPackages.data) {

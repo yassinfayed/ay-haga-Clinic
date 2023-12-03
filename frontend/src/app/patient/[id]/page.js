@@ -47,7 +47,7 @@ const PatientProfile = ({ params }) => {
 
   if (patients) {
     patient = patients[0];
-    date = formatDateToDDMMYYYY(patient.dateOfBirth);
+    date = formatDateToDDMMYYYY(patient?.dateOfBirth);
   }
 
   const openModal = (filePath, isPdf, fileName) => {
