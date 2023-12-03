@@ -4,6 +4,7 @@ const handlerFactory = require("./handlerFactory");
 const patientController = require("./patientController");
 const Patient = require("../models/patientModel");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
 
 exports.addFamilyMembers = catchAsync(async (req, res, next) => {
   const { name, nationalId, age, gender, relationToPatient } = req.body;
@@ -46,6 +47,11 @@ exports.linkFamilyMember = catchAsync(async (req, res, next) => {
     console.log(familymemberaspatient);
   }
   console.log(familymemberaspatient);
+  if (!familymemberaspatient) {
+    return next(
+      new AppError(404, "No Patient found with that email or phone number")
+    );
+  }
   const patientId = patient._id;
   const familyMemberId = familymemberaspatient._id;
 
@@ -76,41 +82,37 @@ exports.viewRegisteredFamilyMembers = catchAsync(async (req, res, next) => {
   const patientId = patient._id;
 
   const familyMembers = await FamilyMember.find({
-    $or: [
-      { patientId: patientId },
-      { linkedPatientId: patientId }
-    ]
-  }).populate('patientId linkedPatientId');
+    $or: [{ patientId: patientId }, { linkedPatientId: patientId }],
+  }).populate("patientId linkedPatientId");
 
-  const gender=patient.gender;
+  const gender = patient.gender;
 
-  familyMembers.forEach(member => {
-
-
+  familyMembers.forEach((member) => {
     if (member.linkedPatientId?._id == patientId.toString()) {
       // Swap patientId and linkedPatientId
       const temp = member.patientId;
       member.patientId = member.linkedPatientId;
-      
-      member.linkedPatientId = temp;
-   
-      
-      switch(member.relationToPatient)
-      {
-      case 'wife': member.relationToPatient='husband'; break;
 
-      case 'husband': member.relationToPatient='wife'; break;
- 
-      case 'child' : {
-        if(gender==='male')
-        member.relationToPatient='father'
-      else
-      member.relationToPatient='mother'
-      }; break;
-      };
+      member.linkedPatientId = temp;
+
+      switch (member.relationToPatient) {
+        case "wife":
+          member.relationToPatient = "husband";
+          break;
+
+        case "husband":
+          member.relationToPatient = "wife";
+          break;
+
+        case "child":
+          {
+            if (gender === "male") member.relationToPatient = "father";
+            else member.relationToPatient = "mother";
+          }
+          break;
+      }
     }
     // member.relationToPatient='amir'
-    
   });
 
   res.status(200).json({
@@ -119,8 +121,6 @@ exports.viewRegisteredFamilyMembers = catchAsync(async (req, res, next) => {
       data: familyMembers,
     },
   });
-
-  
 });
 
 exports.viewAllFamilyMembersAndPatients = catchAsync(async (req, res, next) => {
