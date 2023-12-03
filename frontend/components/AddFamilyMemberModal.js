@@ -26,32 +26,33 @@ function AddFamily(props) {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [email, setEmail] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
-  const [showPasswordConfirm, setShowPasswordConfrim] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [passwordMatch, setPasswordMatch] = useState(true); // Passwords match state
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const [passwordMatch, setPasswordMatch] = useState(true);
+  const [submitted, setSubmitted] = useState(false);
+
+  const dispatch = useDispatch();
   const { error, loading, familyMember } = useSelector(
     (state) => state.addFamilyMembersReducer
   );
-  const [submitted, setSubmitted] = useState(false); // Add submitted state
-  const dispatch = useDispatch();
-
+  // Function to toggle password visibility
   const togglePasswordVisibility = (field) => {
     if (field === "password") {
       setShowPassword(!showPassword);
     } else {
-      setShowPasswordConfrim(!showPasswordConfirm);
+      setShowPasswordConfirm(!showPasswordConfirm);
     }
   };
+
+  // Function to handle changes in the confirm password input
   const handlePasswordConfirmChange = (e) => {
     const confirmPassword = e.target.value;
-    setPasswordMatch(
-      password === confirmPassword || passwordConfirm === confirmPassword
-    );
+    setPasswordMatch(password === confirmPassword);
     setPasswordConfirm(confirmPassword);
   };
+
   // Function to handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault();
     e.preventDefault();
     if (password !== passwordConfirm) {
       alert("Passwords do not match!");
@@ -59,11 +60,11 @@ function AddFamily(props) {
     }
     dispatch(
       addFamilyMembers({
-        name: name,
-        nationalId: nationalId,
-        age: age,
-        gender: gender,
-        relationToPatient: relationToPatient,
+        name,
+        nationalId,
+        age,
+        gender,
+        relationToPatient,
         username,
         password,
         passwordConfirm,
@@ -74,27 +75,23 @@ function AddFamily(props) {
         emergencyContact: {
           fullName: "hazem abdelghany",
           mobileNumber: "01000066624",
-          // relationToPatient: formData.erelationToPatient
         },
       })
     );
     setSubmitted(true);
-    console.log(relationToPatient, gender, passwordConfirm);
   };
 
+  // Effect to handle post-submission logic
   useEffect(() => {
     if (submitted & !loading) {
-      console.log(error);
-      if (error && !familyMember && !loading) {
+      if (error && !familyMember) {
         onError(error);
-      } else {
-        if (!error && familyMember && !loading) {
-          onSuccess();
-        }
+      } else if (!error && familyMember) {
+        onSuccess();
       }
       onHide();
     }
-  }, [error, submitted]);
+  }, [error, familyMember, loading, onError, onHide, onSuccess, submitted]);
 
   return (
     <Modal

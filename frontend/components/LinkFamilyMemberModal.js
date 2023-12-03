@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react"; // Import useEffect
-
-import { Modal, Form, Row, Col, InputGroup, Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Modal, Form, Button } from "react-bootstrap";
 import {
   validateEmail,
-  validatePassword,
   validatePhoneNumber,
-  validateDate,
 } from "../src/app/assets/validators";
 import { LinkFamilyMember } from "@/app/redux/actions/FamilyMembersAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +13,7 @@ function AddFamily(props) {
   // State variables for form input values
   const [cred, setCred] = useState("");
   const [relationToPatient, setRelationToPatient] = useState("");
-  const [submitted, setSubmitted] = useState(false); // Add submitted state
+  const [submitted, setSubmitted] = useState(false);
   const { error, loading, familyMember } = useSelector(
     (state) => state.linkFamilyMemberReducer
   );
