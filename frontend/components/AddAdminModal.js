@@ -29,7 +29,6 @@ function CenteredModalAdmin(props) {
 
   const handleUsernameChange = (e) => {
     setUsernameValue(e.target.value);
-    //console.log(e.target.value)
   };
 
   const handlePasswordChange = (e) => {
@@ -71,7 +70,7 @@ function CenteredModalAdmin(props) {
         <h4>{subheader}</h4>
           <form onSubmit={(e)=>handleSubmit(e)} className='text-semibold mx-3'>
             <div className="mt-3 row">
-              <label htmlFor="usernameInput ">Username</label>
+              <label htmlFor="usernameInput ">Email</label>
               <input
                 onChange={handleUsernameChange}
                 type="text"
