@@ -26,7 +26,7 @@ export default function DoctorsPage(doctors, admin) {
       const year = date.getFullYear();
       
       return `${day}-${month}-${year}`;
-    }
+  }
 
   const onRemoveHandler = async (id) => {
  

@@ -63,7 +63,9 @@ const Register = () => {
 
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.registerReducer.isLoading);
-  const isAuthenticated = useSelector((state) => state.registerReducer.isAuthenticated);
+  const isAuthenticated = useSelector(
+    (state) => state.registerReducer.isAuthenticated
+  );
   const error = useSelector((state) => state.registerReducer.error);
 
   const [showPassword, setShowPassword] = useState(false);

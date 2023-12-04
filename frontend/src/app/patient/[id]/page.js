@@ -10,8 +10,6 @@ import ChangePassword from "../../../../components/ChangePassword";
 import { Alert } from "react-bootstrap";
 import Spinner from "../../../../components/Spinner";
 
-
-
 const PatientProfile = ({ params }) => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
@@ -20,7 +18,6 @@ const PatientProfile = ({ params }) => {
   const [fileName, setFileName] = useState("");
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [fileDeleted, setFileDeleted] = useState(false);
-  const [deleting, setDeleting] = useState(false);
 
   function formatDateToDDMMYYYY(isoDate) {
     const date = new Date(isoDate);
@@ -107,7 +104,7 @@ const PatientProfile = ({ params }) => {
                     <div className="mt-2">{fileNameWithoutPathAndDate}</div>
                     <div className="mx-3">
                       <Button
-                        onClick={() => {openModal(filePath, isPdf, filename); setDeleting('Health');}}
+                        onClick={() => openModal(filePath, isPdf, filename)}
                         variant="xs"
                         color="light"
                         className="rounded-circle mb-2"
@@ -154,7 +151,7 @@ const PatientProfile = ({ params }) => {
                   <div className="mt-2">{fileNameWithoutPathAndDate}</div>
                   <div className="mx-3">
                     <Button
-                      onClick={() => {openModal(filePath, isPdf, filename); setDeleting('Medical')}}
+                      onClick={() => openModal(filePath, isPdf, filename)}
                       variant="xs"
                       color="light"
                       className="rounded-circle mb-2"
@@ -302,16 +299,6 @@ const PatientProfile = ({ params }) => {
                   Health Records
                 </div>
                 <hr className="w-50" />
-                {fileDeleted && deleting==='Health' && (
-                  <Alert
-                    variant="success"
-                    dismissible
-                    onDismiss={() => {}}
-                    className="px-2"
-                  >
-                    <strong>Success! </strong> File deleted successfully.
-                  </Alert>
-                )}
                 <HealthRecords />
               </div>
               <div>
@@ -334,7 +321,7 @@ const PatientProfile = ({ params }) => {
                           again later.
                         </Alert>
                       )}
-                      {fileDeleted && deleting==='Medical' && (
+                      {fileDeleted && (
                         <Alert
                           variant="success"
                           dismissible

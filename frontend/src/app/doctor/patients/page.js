@@ -9,27 +9,19 @@ import { uploadHealthRecords } from '@/app/redux/actions/patientActions';
 import Image from 'next/image';
 import NavbarDoc from "../../../../components/NavbarDoc";
 import FooterDoc from "../../../../components/FooterDoc";
-import { Alert } from 'react-bootstrap';
+
 
 
 function PatientsList() {
   const tableHeaders = ['name', 'email', 'birth date', 'gender', 'phone number', 'appointment date', 'view', 'upload health records'];
 
   const tabledata2 = useSelector(state => state.patientsReducer?.patients?.data)
-  const error = useSelector(state => state.uploadHealthRecordsReducer.error)
-  const success = useSelector(state => state.uploadHealthRecordsReducer.success)
-  const loading = useSelector(state => state.uploadHealthRecordsReducer.loading)
+  const tabledataU1 = useSelector(state => state.filterPatientsBasedOnUpcomingAppointmentsReducer?.patients?.data)
   const [name, setName] = useState({});
   const [upcoming, setUpcoming] = useState({});
 
-  function formatDateToDDMMYYYY(isoDate) {
-    const date = new Date(isoDate);      
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    
-    return `${day}-${month}-${year}`;
-  }
+
+
 
 
   const generateButton = (id) => {
@@ -44,10 +36,10 @@ function PatientsList() {
     return {
       name: item.name,
       email: item.email,
-      birthDate: formatDateToDDMMYYYY(item.dateOfBirth), // Adjust the dateOfBirth key
+      birthDate: item.dateOfBirth, // Adjust the dateOfBirth key
       gender: item.gender,
       phoneNumber: item.mobileNumber,
-      appointmentDate: formatDateToDDMMYYYY(item.appointmentDate),
+      appointmentDate: item.appointmentDate,
       view: generateButton(item._id), // Adjust the ID key
       upload: <>
         <div className="d-flex">
@@ -62,9 +54,7 @@ function PatientsList() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(viewPatients({ ...name, ...upcoming }))
-    console.log(error);
-    console.log(success);
-  }, [name, upcoming, loading, error, success])
+  }, [name, upcoming])
 
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -80,6 +70,8 @@ function PatientsList() {
       const { file } = selectedFile;
       const formData = new FormData();
       formData.append('image', file);
+
+      dispatch(uploadHealthRecords(formData, patientId));
     }
   };
 
@@ -95,14 +87,6 @@ function PatientsList() {
         <h3 className='my-1 mt-0 text-center text-title'>Patients</h3>
         <div className='underline-Bold mx-auto mb-5'></div>
         <>
-            {error && 
-            <Alert variant='danger' className='text-center' dismissible>
-              <strong>Error!</strong> {error}
-            </Alert> }
-            {success && 
-            <Alert variant='success' className='text-center' dismissible>
-              <strong>Success!</strong> Health records uploaded successfully
-            </Alert> }
           <div className='row flex align-items-center justify-content-start bg-light p-2 pe-0 rounded border'>
             <div className="col-md-1">
               <Image src='/filter.svg' height={30} width={30} className="" />
