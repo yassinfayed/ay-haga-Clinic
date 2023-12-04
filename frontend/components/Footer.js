@@ -8,7 +8,7 @@ const Footer = () => {
       className="bg-primary text-white pt-4 pb-1 "
       style={{
         marginTop: " rem",
-        position: "absolute",
+        position: "relative",
         bottom: "0",
         width: "100%",
         height: "14rem",
