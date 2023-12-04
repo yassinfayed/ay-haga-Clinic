@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
   return (
       <div className={`global-text ${inter.className}`}>
         <AdminNavbar />
-        <div className="p-2 m-5">
+        <div className="p-5 m-5">
           {children}
         </div>
       </div>

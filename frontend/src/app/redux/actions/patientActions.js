@@ -146,9 +146,7 @@ export const uploadHealthRecords =
         withCredentials: true,
       };
 
-      console.log(patientid);
       let url = `${baseURL}/api/v1/patient/upload/healthRecords/${patientid}`; // Include the patient ID in the URL
-      console.log(url);
 
       const { data } = await axios.post(url, formData, config);
 
