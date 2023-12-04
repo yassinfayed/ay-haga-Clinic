@@ -7,6 +7,7 @@ import { removeUser } from '@/app/redux/actions/userActions';
 import { Alert } from 'react-bootstrap';
 
 export default function DoctorsPage(doctors, admin) {
+
     const dispatch=useDispatch();
     const removeIsFail=useSelector(state=>state.removeUserReducer.error);
     const [removeDoctorAlertSuccess, setRemoveDoctorAlertSuccess] = useState(false);
@@ -104,10 +105,10 @@ export default function DoctorsPage(doctors, admin) {
                     </div>
                   } 
                   image={<Image src='/person.svg' height={30} width={30} className="m-3 mb-0 rounded-circle"/>}
-                  buttonText={isRemoving ? "Removing..." : (doctors.admin ? "Remove" : "View")}
+                  buttonText={(doctors.admin && isRemoving) ? "Removing..." : (doctors.admin ? "Remove" : "View")}
                   buttonTrue={true}
                   buttonClass={"col-md-12 m-3 ms-auto"}
-                  onClickButton={() => onRemoveHandler(person.user?._id)}
+                  onClickButton={() => {doctors.admin ? onRemoveHandler(person.user?._id) : handleCardClick(person.user)}}
                 />
               </div>
             );
