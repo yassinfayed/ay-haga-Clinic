@@ -107,7 +107,14 @@ export default function DoctorsPage(doctors, admin) {
                   buttonText={isRemoving ? "Removing..." : (doctors.admin ? "Remove" : "View")}
                   buttonTrue={true}
                   buttonClass={"col-md-12 m-3 ms-auto"}
-                  onClickButton={() => onRemoveHandler(person.user?._id)}
+                  onClickButton={() => {
+                    if (doctors.admin) {
+                      onRemoveHandler(person.user?._id);
+                    } else {
+                      handleCardClick(person);
+                    }
+                  }
+                  }
                 />
               </div>
             );
