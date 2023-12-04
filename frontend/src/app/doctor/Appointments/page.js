@@ -99,7 +99,7 @@ function docappointments() {
                 className="form-control py-2"
                 name="appointmentdate"
                 value={newDate}
-                onChange={(e) => {handleFollowupDate(e)}}
+                onChange={(e) => { handleFollowupDate(e) }}
               />
             </div>
 
@@ -123,7 +123,7 @@ function docappointments() {
 
   const generateButton = (id, status) => {
     return (
-      status !== 'Upcoming' && status!== 'Cancelled' && status !== 'Rescheduled' &&
+      status !== 'Upcoming' && status !== 'Cancelled' && status !== 'Rescheduled' &&
       <Button
         text="Schedule Followup"
         id={`btn`}
@@ -149,7 +149,7 @@ function docappointments() {
         date: new Date(value.date).toLocaleString(),
         patientname: value.patientId?.name,
         status: value.status,
-        action: generateButton(value._id,value.status),
+        action: generateButton(value._id, value.status),
       }));
     }
     return [];
@@ -158,39 +158,41 @@ function docappointments() {
   return (
     <div className="global-text">
       <NavbarDoc />
-      <div className="container-fluid m-5">
+      <div className="container-fluid">
         <div className="rows">
           <h3 className="my-1 mt-0 text-center text-title">My Appointments</h3>
           <div className="underline-Bold mx-auto mb-5"></div>
-          <div className="row flex align-items-center justify-content-start bg-light p-2 pe-0 m-3 rounded border">
-            <div className="col-md-1">
-              <Image src="/filter.svg" height={30} width={30} className="" />
+          {apps && apps.length > 0 &&
+            <div className="row flex align-items-center justify-content-start bg-light p-2 pe-0 m-3 rounded border">
+              <div className="col-md-1">
+                <Image src="/filter.svg" height={30} width={30} className="" />
+              </div>
+              <div className="status-filter col-md-3">
+                <select
+                  onChange={handleStatusChange}
+                  className="w-100 form-control text-muted px-2"
+                >
+                  <option value="">Filter by status</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Upcoming">Upcoming</option>
+                  <option value="Missed">Missed</option>
+                  <option value="Cancelled">Cancelled</option>
+                  <option value="Rescheduled">Rescheduled</option>
+                </select>
+              </div>
+              <div className="col-md-4 text-muted p-2">
+                <input type="datetime-local" value={selectedDate} onChange={handleDateChange} placeholder="Filter by date/time" />
+              </div>
+              <div className="col-md-3 ms-auto">
+                <Button
+                  text="Clear Filters"
+                  className="w-60 ms-5"
+                  onClick={handleClearFilters}
+                  variant={"md"}
+                ></Button>
+              </div>
             </div>
-            <div className="status-filter col-md-3">
-              <select
-                onChange={handleStatusChange}
-                className="w-100 form-control text-muted px-2"
-              >
-                <option value="">Filter by status</option>
-                <option value="Completed">Completed</option>
-                <option value="Upcoming">Upcoming</option>
-                <option value="Missed">Missed</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="Rescheduled">Rescheduled</option>
-              </select>
-            </div>
-            <div className="col-md-4 text-muted p-2">
-              <input type="datetime-local" value={selectedDate} onChange={handleDateChange} placeholder="Filter by date/time" />
-            </div>
-            <div className="col-md-3 ms-auto">
-              <Button
-                text="Clear Filters"
-                className="w-60 ms-5"
-                onClick={handleClearFilters}
-                variant={"md"}
-              ></Button>
-            </div>
-          </div>
+          }
         </div>
         <FollowupModal
           show={modal}
@@ -199,7 +201,15 @@ function docappointments() {
             setAppt(null);
           }}
         />
-        <Table headers={headers} data={apps ? apps : []} className="col-md-10"/>
+        {apps && apps.length > 0 &&
+          <Table headers={headers} data={apps ? apps : []} className="col-md-10" />
+        }
+
+        {(apps && apps.length === 0) &&
+          <div className="w-100 text-center">
+            <h1>No scheduled appointments at this time!</h1>
+          </div>
+        }
       </div>
       <FooterDoc />
     </div>
