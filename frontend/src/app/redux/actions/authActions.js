@@ -17,7 +17,9 @@ import {
   USER_LOGOUT_SUCCESS,
   RESET_PASS_FAIL,
   RESET_PASS_REQUEST,
-  RESET_PASS_SUCCESS
+  RESET_PASS_SUCCESS,
+  USER_AUTHED_FAIL,
+  USER_AUTHED_REQUEST
 } from '../constants/authConstants';
 import baseURL from '../baseURL';
 
@@ -45,7 +47,7 @@ export const login = (username, password) => async (dispatch) => {
       payload: data.data,
     });
 
-    localStorage.setItem('userInfo', JSON.stringify(data)); 
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -55,6 +57,39 @@ export const login = (username, password) => async (dispatch) => {
     });
   }
 };
+
+export const authedAction = (type) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_AUTHED_REQUEST
+    });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true
+    };
+
+    const { data } = await axios.get(
+      `${baseURL}/api/v1/${type}/auth`,
+      config
+    );
+
+    console.log('hogridger')
+
+    dispatch({
+      type: USER_LOGOUT_SUCCESS,
+      payload: data.data,
+    });
+  } catch (e) {
+    console.log(e);
+    dispatch({
+      type: USER_AUTHED_FAIL
+    })
+
+    window.location.href = '/guest/Login';
+  }
+}
 
 export const registerAction = (reqBody) => async (dispatch) => {
   try {
@@ -81,7 +116,7 @@ export const registerAction = (reqBody) => async (dispatch) => {
       payload: data.data,
     });
 
-    localStorage.setItem('userInfo', JSON.stringify(data)); 
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     console.log(error);
     dispatch({
@@ -117,7 +152,7 @@ export const logout = () => async (dispatch) => {
     });
 
     localStorage.clear();
-    window.location.href='/guest/Login'
+    window.location.href = '/guest/Login'
   } catch (error) {
     dispatch({
       type: USER_LOGOUT_FAIL,

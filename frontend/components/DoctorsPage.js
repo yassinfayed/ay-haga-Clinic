@@ -59,7 +59,7 @@ export default function DoctorsPage(doctors, admin) {
 
   return (
     <>
-      <div className="justify-content-center align-items-center min-vh-100">
+      <div className="justify-content-center align-items-center">
         {
           removeDoctorAlertSuccess && (
             <Alert variant='success' className='text-center'>

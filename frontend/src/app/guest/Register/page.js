@@ -430,8 +430,8 @@ const Register = () => {
         <div className="d-flex flex-grow-1 min-vh-100 w-100 flex-col align-items-center justify-content-center">
           <div className="card p-5 text-center">
             <Lottie animationData={TickAnimation} loop={false} className="w-50 mx-auto" />
-            <h1>Application Successful!</h1>
-            <h5>Thank you, we'll get back to you as soon as possible.</h5>
+            <h1>Registration Successful!</h1>
+            <h5>Thank you for signing up with us! You will now be redirected.</h5>
           </div>
           {setTimeout(() => {
             window.history.pushState({}, "", "/patients/medicines");

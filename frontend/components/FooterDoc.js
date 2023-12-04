@@ -13,30 +13,30 @@ const FooterDoc = () => {
             <ul className="list-unstyled ">
               <li>
                 <a href="/" className="text-white text-decoration-none">
-                <div className="link-hover">
+                  <div className="link-hover">
                     Home
-                </div>
+                  </div>
                 </a>
               </li>
               <li>
                 <a href="/" className="text-white text-decoration-none">
-                <div className="link-hover">
+                  <div className="link-hover">
                     My Profile
-                </div>
+                  </div>
                 </a>
               </li>
               <li>
                 <a href="/" className="text-white text-decoration-none">
-                <div className="link-hover">
+                  <div className="link-hover">
                     Appointments
-                </div>
+                  </div>
                 </a>
               </li>
               <li>
                 <a href="/" className="text-white text-decoration-none">
-                <div className="link-hover">
+                  <div className="link-hover">
                     Patients
-                </div>
+                  </div>
                 </a>
               </li>
             </ul>
@@ -54,12 +54,12 @@ const FooterDoc = () => {
             <p>Subscribe to our newsletter for updates!</p>
             <form>
               <div className="input-group">
-              <input
-                type="email"
-                className="form-control bg-light border-0 rounded me-2"
-                placeholder="Email address"
-                aria-label="Email address"
-                aria-describedby="subscribe-button"
+                <input
+                  type="email"
+                  className="form-control bg-light border-0 rounded me-2"
+                  placeholder="Email address"
+                  aria-label="Email address"
+                  aria-describedby="subscribe-button"
                 />
                 <div className="input-group-append">
                   <button
