@@ -8,7 +8,7 @@ import { getDoctorsForPatientAction,adminAcceptDoctor, rejectDoctor} from '@/app
 import { downloadDoctorDocs } from '@/app/redux/actions/doctorActions';
 import Image from 'next/image';
 import { Alert } from 'react-bootstrap';
-
+import Spinner from "../../../../components/Spinner";
 export default function DoctorApps() {
   const dispatch=useDispatch();
   const doctors=useSelector(state=>state.getDrsForPatientsReducer.doctors);
@@ -111,6 +111,8 @@ export default function DoctorApps() {
       { showAlertRejectionSuccess && <Alert variant='success' className='text-center'>Doctor rejected successfully</Alert>}
       { showAlertRejectionFail && <Alert variant='danger' className='text-center'>{rejerctionisFail}</Alert>}
 
+
+      
       {doctors?.data?.map((person)=>{
         if(person.employmentContract.status==='accepted')
         return

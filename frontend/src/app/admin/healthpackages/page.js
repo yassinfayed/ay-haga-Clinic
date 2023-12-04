@@ -2,19 +2,17 @@
 import React,{useEffect, useMemo, useState} from 'react';
 import {Table} from '../../../../components/Table'
 import { Button } from '../../../../components/Button';
-import AdminNavbar from '../../../../components/AdminNavbar';
-import { Card } from '../../../../components/Card';
 import CenteredModalAddPack from '../../../../components/AddHealthPackageModal'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteHealthPackage, listHealthPackages } from '@/app/redux/actions/healthPackagesActions';
-import { login } from '@/app/redux/actions/authActions';
 import Image from 'next/image';
-
+import Spinner from "../../../../components/Spinner";
 
 export default function Admins() {
   const dispatch=useDispatch();
   const [id,setId]=useState(0);
   const healthpackages = useSelector(state=>state.getHealthPackagesReducer.healthPackages)
+  const healthPackagesLoading = useSelector(state=>state.getHealthPackagesReducer.loading)
   const isLoading = useSelector(state=>state.deleteHealthPackageReducer.loading)
   const CreateisLoading = useSelector(state=>state.createHealthPackageReducer.loading)
   const UpdateisLoading = useSelector(state=>state.updateHealthPackageReducer.loading)
@@ -59,6 +57,7 @@ export default function Admins() {
     <> 
     <h3 className='my-1 mt-0 text-center text-title'>Health Packages</h3>
     <div className='underline-Bold mx-auto mb-3'></div>
+    {healthPackagesLoading ? <Spinner/> :
     <div className=" justify-content-center align-items-center min-vh-100 container">
       <div className="row justify-content-end align-items-center">
       <Button text='Add Package' className="ms-auto col-md-2" onClick={()=>{setModalShow(true)}} variant={'md'}></Button>
@@ -80,7 +79,7 @@ export default function Admins() {
         data={healthpackages.data?.find((value) => value._id === id)}
       />
     
-    </div>
+    </div>}
     </>
   );
 }

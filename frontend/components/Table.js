@@ -20,21 +20,28 @@ function Table(props) {
                 <tbody>
                     {currentItems?.map((row, index) => {
                         return (
-                            <tr key={`tr${index}`}>
-                                {
-                                    Object.values(row).map(
-                                        (node, index2) => {
-                                            // console.log(typeof node);
-                                            // console.log(node);
-                                            if(isValidDate(node)) {
-                                                node = translateDate(new Date(node)).join(' ');
-                                            }
-                                            return (
-                                                <td key={`td${index}-${index2}`} className='text-center'>{node}</td>
-                                            )
-                                        }
-                                    )
-                                }
+                            <tr key={`row${index}`}>
+                                {Object.keys(row).map((key, index) => {
+                                    if (key === 'button') {
+                                        return (
+                                            <td key={`col${index}`} className='text-center'>
+                                                {row[key]}
+                                            </td>
+                                        );
+                                    }
+                                    if (key === 'DateOfbirth') {
+                                        return (
+                                            <td key={`col${index}`} className='text-center'>
+                                                {isValidDate(row[key]) ? translateDate(row[key]) : row[key]}
+                                            </td>
+                                        );
+                                    }
+                                    return (
+                                        <td key={`col${index}`} className='text-center'>
+                                            {row[key]}
+                                        </td>
+                                    );
+                                })}
                             </tr>
                         )
                     })}
