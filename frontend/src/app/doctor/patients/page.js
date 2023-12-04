@@ -80,6 +80,8 @@ function PatientsList() {
       const { file } = selectedFile;
       const formData = new FormData();
       formData.append('image', file);
+
+      dispatch(uploadHealthRecords(formData, patientId));
     }
   };
 
