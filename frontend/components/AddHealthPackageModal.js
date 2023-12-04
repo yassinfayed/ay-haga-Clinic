@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Modal, Button, Form, Row, Col, Alert } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 function CenteredModalAddPack(props) {
   const dispatch=useDispatch();
@@ -25,19 +26,19 @@ function CenteredModalAddPack(props) {
   const [showAlertUpdateSuccess, setShowAlertUpdateSuccess] = useState(false);
   const [showAlertUpdateFail, setShowAlertUpdateFail] = useState(false);
   const [showAlertUpdateLoading, setShowAlertUpdateLoading] = useState(false);
-
-  if(edit === true){
-    const {data} = props;
-    if(data){
-      if(nameValue === '') setNameValue(data.name);
-      if(priceValue === '') setPriceValue(data.price);
-      if(sessionDiscountValue === '') setSessionDiscountValue(data.doctorDiscount);
-      if(medicineDiscountValue === '') setMedicineDiscountValue(data.medicineDiscount);
-      if(subscriptionsDiscountValue === '') setSubscriptionsDiscountValue(data.familyMemberSubDiscount);
+  if(edit){
+    const {data}=props;
+  useEffect(() => {
+    if (edit && data) {
+      setNameValue(data.name || '');
+      setSessionDiscountValue(data.doctorDiscount || '');
+      setMedicineDiscountValue(data.medicineDiscount || '');
+      setSubscriptionsDiscountValue(data.familyMemberSubDiscount || '');
+      setPriceValue(data.price || '');
     }
-  
-  }
+  }, [edit, data]);
 
+  }
 
   const handleNameChange = (e) => {
     setNameValue(e.target.value);
@@ -61,7 +62,10 @@ function CenteredModalAddPack(props) {
 
   const handleSubmit=(e)=>{
     e.preventDefault();
-    if(edit === false){
+  if(priceValue < 0 || sessionDiscountValue > 100 || medicineDiscountValue > 100 || subscriptionsDiscountValue > 100){
+  return;
+  } 
+    else if(edit === false){
     setShowAlertCreateLoading(true);
     setShowAlertCreateFail(false);
     setShowAlertCreateSuccess(false);
@@ -73,7 +77,7 @@ function CenteredModalAddPack(props) {
       "familyMemberSubDiscount": subscriptionsDiscountValue
     })).then(()=>{
       setShowAlertCreateLoading(false);
-      if (CreateisFail) {
+      if (CreateisFail){
         setShowAlertCreateFail(true);
         const timer = setTimeout(() => {
           setShowAlertCreateFail(false);
@@ -85,6 +89,15 @@ function CenteredModalAddPack(props) {
         const timer = setTimeout(() => {
           setShowAlertCreateSuccess(false);
         }, 3000);
+        setTimeout(() => {
+          props.onHide();
+          setNameValue('');
+          setSessionDiscountValue('');
+          setMedicineDiscountValue('');
+          setSubscriptionsDiscountValue('');
+          setPriceValue('');
+    
+        }, 900);
         return () => clearTimeout(timer);
       }
     }
@@ -101,7 +114,7 @@ function CenteredModalAddPack(props) {
       setShowAlertUpdateSuccess(false);
       dispatch(updateHealthPackage(id,data)).then(()=>{
         setShowAlertUpdateLoading(false);
-        if (UpdateisFail) {
+        if (UpdateisFail){
           setShowAlertUpdateFail(true);
           const timer = setTimeout(() => {
             setShowAlertUpdateFail(false);
@@ -111,24 +124,27 @@ function CenteredModalAddPack(props) {
         }
         else{
           setShowAlertUpdateSuccess(true);
+        
           const timer = setTimeout(() => {
             setShowAlertUpdateSuccess(false);
+            
           }, 3000);
+          setTimeout(() => {
+            props.onHide();
+            setNameValue('');
+            setSessionDiscountValue('');
+            setMedicineDiscountValue('');
+            setSubscriptionsDiscountValue('');
+            setPriceValue('');
+      
+          }, 900);
 
           return () => clearTimeout(timer);
         }
       }
       )
     }
-    setTimeout(() => {
-      props.onHide();
-      setNameValue('');
-      setSessionDiscountValue('');
-      setMedicineDiscountValue('');
-      setSubscriptionsDiscountValue('');
-      setPriceValue('');
-
-    }, 900);
+  
  
 
   }
