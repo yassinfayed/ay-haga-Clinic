@@ -6,10 +6,12 @@ import ReserveModal from '../../../../../components/ReserveModal';
 import { Card } from "../../../../../components/Card";
 import { makeOrder } from "@/app/redux/actions/paymentActions";
 import { Button, Image } from "react-bootstrap";
+import Spinner from '../../../../../components/Spinner';
 
 export default function AvailableDates({ params }) {
     const dispatch = useDispatch();
     const doctor = useSelector(state => state.doctorReducer.doctor);
+    const isLoading = useSelector(state => state.doctorReducer.loading);
     const [modalShow, setModalShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [resSuccess, setResSuccess] = useState(false);
@@ -49,9 +51,9 @@ export default function AvailableDates({ params }) {
     return (
         <div className="m-5 p-5 bg-white shadow-md rounded-lg">
 
-            {doctor && doctor.availableDates.length > 0 &&
+            {!isLoading && doctor && doctor.availableDates.length > 0 &&
                 <>
-                    <h1>Available Dates and Times</h1>
+                    <h1 className='my-3'>Available Dates and Times</h1>
                     <div className='container-fluid'>
                         <div className="row g-2">
                             {doctor && doctor.availableDates.map((date, index) => (
@@ -85,10 +87,15 @@ export default function AvailableDates({ params }) {
             }
 
             {
-                doctor && doctor.availableDates.length === 0 &&
+                !isLoading && doctor && doctor.availableDates.length === 0 &&
                 <div className='w-100 text-center'>
                     <h1>No appointments available at this time!</h1>
                 </div>
+            }
+
+            {
+                isLoading &&
+                <Spinner />
             }
 
             {modalShow && (

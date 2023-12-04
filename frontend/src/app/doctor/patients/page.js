@@ -9,6 +9,7 @@ import { uploadHealthRecords } from '@/app/redux/actions/patientActions';
 import Image from 'next/image';
 import NavbarDoc from "../../../../components/NavbarDoc";
 import FooterDoc from "../../../../components/FooterDoc";
+import Spinner from '../../../../components/Spinner';
 
 
 
@@ -16,6 +17,7 @@ function PatientsList() {
   const tableHeaders = ['name', 'email', 'birth date', 'gender', 'phone number', 'appointment date', 'view', 'upload health records'];
 
   const tabledata2 = useSelector(state => state.patientsReducer?.patients?.data)
+  const isLoading = useSelector(state => state.patientsReducer.loading)
   const tabledataU1 = useSelector(state => state.filterPatientsBasedOnUpcomingAppointmentsReducer?.patients?.data)
   const [name, setName] = useState({});
   const [upcoming, setUpcoming] = useState({});
@@ -82,39 +84,48 @@ function PatientsList() {
 
   return (
     <>
-      <NavbarDoc />
-      <div className='m-5 global-text'>
+      <div className='global-text min-vh-100 d-flex flex-column'>
+        <NavbarDoc />
         <h3 className='my-1 mt-0 text-center text-title'>Patients</h3>
         <div className='underline-Bold mx-auto mb-5'></div>
-        <>
-          <div className='row flex align-items-center justify-content-start bg-light p-2 pe-0 rounded border'>
-            <div className="col-md-1">
-              <Image src='/filter.svg' height={30} width={30} className="" />
+
+        {!isLoading &&
+          <div className='container-fluid px-5'>
+            <div className='row flex align-items-center justify-content-start bg-light p-2 pe-0 rounded border'>
+              <div className="col-md-1">
+                <Image src='/filter.svg' height={30} width={30} className="" />
+              </div>
+              <div className="col-md-3">
+                <input
+                  type="text"
+                  placeholder="Patient Name"
+                  className="form-control my-auto"
+                  onChange={(e) => { setName({ "name": e.target.value }); }} />
+              </div>
+              <div className="col-md-3 container-fluid" style={{ display: 'flex', alignItems: 'center' }}>
+                <label htmlFor="upcomingAppointments">Upcoming Appointments</label>
+                <input
+                  onChange={(e) => { setUpcoming(e.target.checked ? { status: 'Upcoming' } : {}) }}
+                  type="checkbox" id="upcomingAppointments" name="upAp" value="upAp"
+                  style={{ width: '20px', height: '20px', marginLeft: '10px' }} />
+              </div>
+              <div className="col-md-3 ms-auto">
+                <Button text="Clear Filters" className="w-60 ms-5" onClick={handleClearFilters} variant={'md'}></Button>
+              </div>
             </div>
-            <div className="col-md-3">
-              <input
-                type="text"
-                placeholder="Patient Name"
-                className="form-control my-auto"
-                onChange={(e) => { setName({ "name": e.target.value }); }} />
-            </div>
-            <div className="col-md-3 container-fluid" style={{ display: 'flex', alignItems: 'center' }}>
-              <label htmlFor="upcomingAppointments">Upcoming Appointments</label>
-              <input
-                onChange={(e) => { setUpcoming(e.target.checked ? { status: 'Upcoming' } : {}) }}
-                type="checkbox" id="upcomingAppointments" name="upAp" value="upAp"
-                style={{ width: '20px', height: '20px', marginLeft: '10px' }} />
-            </div>
-            <div className="col-md-3 ms-auto">
-              <Button text="Clear Filters" className="w-60 ms-5" onClick={handleClearFilters} variant={'md'}></Button>
+            <div>
+              <Table headers={tableHeaders} data={tabledata} itemsPerPageOptions={[5, 10, 15]} />
             </div>
           </div>
-          <div>
-            <Table headers={tableHeaders} data={tabledata} itemsPerPageOptions={[5, 10, 15]} />
-          </div>
-        </>
+
+        }
+
+        {
+          isLoading &&
+          <Spinner />
+        }
+        <FooterDoc />
       </div>
-      <FooterDoc />
     </>
   );
 

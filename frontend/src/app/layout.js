@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`global-text ${inter.className}`}> 
+      <body className={`global-text ${inter.className} min-vh-100`}> 
         <ReduxProvider> {children} </ReduxProvider>
       </body>
     </html>

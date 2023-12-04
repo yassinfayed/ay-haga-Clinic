@@ -5,7 +5,7 @@ import Image from "next/image";
 const Footer = () => {
   return (
     <footer
-      className="bg-primary text-white pt-4 pb-1 "
+      className="bg-primary text-white pt-4 pb-1 mt-auto"
       style={{
         marginTop: " rem",
         position: "relative",
