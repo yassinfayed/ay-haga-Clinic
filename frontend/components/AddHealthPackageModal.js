@@ -15,12 +15,8 @@ function CenteredModalAddPack(props) {
   const [subscriptionsDiscountValue, setSubscriptionsDiscountValue] = useState('');
   const [priceValue, setPriceValue] = useState('');
 
-  const CreateisLoading = useSelector(state=>state.createHealthPackageReducer.loading)
-  const UpdateisLoading = useSelector(state=>state.updateHealthPackageReducer.loading)
   const CreateisFail = useSelector(state=>state.createHealthPackageReducer.error)
   const UpdateisFail = useSelector(state=>state.updateHealthPackageReducer.error)
-  const CreateisSuccess = useSelector(state=>state.createHealthPackageReducer.success)
-  const UpdateisSuccess = useSelector(state=>state.updateHealthPackageReducer.success)
 
   const [showAlertCreateSuccess, setShowAlertCreateSuccess] = useState(false);
   const [showAlertCreateFail, setShowAlertCreateFail] = useState(false);
@@ -113,7 +109,6 @@ function CenteredModalAddPack(props) {
       }
       )
     }
-    //3 seconds and pop up
     setTimeout(() => {
       props.onHide();
     }, 1000);
@@ -151,6 +146,11 @@ function CenteredModalAddPack(props) {
         {showAlertUpdateLoading && (
           <Alert variant="primary" className="text-center">
             Updating health package...
+          </Alert>
+        )}
+        {showAlertUpdateFail && (
+          <Alert variant="danger" className="text-center">
+            Failed to update health package!
           </Alert>
         )}
         {showAlertUpdateSuccess && (
