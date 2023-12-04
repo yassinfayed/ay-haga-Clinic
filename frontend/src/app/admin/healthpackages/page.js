@@ -42,8 +42,9 @@ export default function Admins() {
         doctorDiscount: value.doctorDiscount,
         medicineDiscount: value.medicineDiscount,
         familyMemberSubDiscount: value.familyMemberSubDiscount,
-        price: value.price,
-        button: generateButton(value._id)
+        price: value.price,    
+        button: generateButton(value._id),
+    
       }));
     }
     return [];
@@ -76,6 +77,7 @@ export default function Admins() {
         title={"Please Update Package Details"}
         edit={true}
         id={id}
+        data={healthpackages.data?.find((value) => value._id === id)}
       />
     
     </div>

@@ -4,11 +4,12 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Modal, Button, Form, Row, Col, Alert } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+
 function CenteredModalAddPack(props) {
   const dispatch=useDispatch();
 
   const { title, subheader, onHide, edit, id  } = props;
-  
+
   const [nameValue, setNameValue] = useState('');
   const [sessionDiscountValue, setSessionDiscountValue] = useState('');
   const [medicineDiscountValue, setMedicineDiscountValue] = useState('');
@@ -25,10 +26,21 @@ function CenteredModalAddPack(props) {
   const [showAlertUpdateFail, setShowAlertUpdateFail] = useState(false);
   const [showAlertUpdateLoading, setShowAlertUpdateLoading] = useState(false);
 
+  if(edit === true){
+    const {data} = props;
+    if(data){
+      if(nameValue === '') setNameValue(data.name);
+      if(priceValue === '') setPriceValue(data.price);
+      if(sessionDiscountValue === '') setSessionDiscountValue(data.doctorDiscount);
+      if(medicineDiscountValue === '') setMedicineDiscountValue(data.medicineDiscount);
+      if(subscriptionsDiscountValue === '') setSubscriptionsDiscountValue(data.familyMemberSubDiscount);
+    }
+  
+  }
+
 
   const handleNameChange = (e) => {
     setNameValue(e.target.value);
-    console.log(e.target.value)
   };
 
   const handleSessionDiscountChange = (e) => {
@@ -49,7 +61,6 @@ function CenteredModalAddPack(props) {
 
   const handleSubmit=(e)=>{
     e.preventDefault();
-    console.log(id)
     if(edit === false){
     setShowAlertCreateLoading(true);
     setShowAlertCreateFail(false);
@@ -111,7 +122,13 @@ function CenteredModalAddPack(props) {
     }
     setTimeout(() => {
       props.onHide();
-    }, 1000);
+      setNameValue('');
+      setSessionDiscountValue('');
+      setMedicineDiscountValue('');
+      setSubscriptionsDiscountValue('');
+      setPriceValue('');
+
+    }, 900);
  
 
   }
