@@ -6,7 +6,7 @@ function Card ({ title, subtitle, text, className, image = "", buttonText = "", 
         <>
             <div className={`card global-text shadow border-0 ${onClick ? 'hover-button' : ''} ${className}`} role={onClick ? "button" : ""}>
                 <div className="bg-primary px-2 rounded"></div>
-                {headerText && <div className="card-header">{headerText}</div>}
+                {headerText && <div className="card-header mx-auto text-dark text-bold">{headerText}</div>}
                 <div className="card-body">
                     {image && title && <div className="row align-items-center">
                         {image && <div className="col-md-2">{image}</div>}

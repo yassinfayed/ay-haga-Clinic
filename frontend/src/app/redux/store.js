@@ -16,7 +16,12 @@ import {
 import { patientsReducer } from "./reducers/patientsReducers";
 import { doctorReducer } from "./reducers/doctorReducers";
 import { prescriptionReducer } from "./reducers/prescriptionsReducers";
-import { viewAllPrescriptionsReducer } from "./reducers/prescriptionsReducers";
+import {
+  viewAllPrescriptionsReducer,
+  downloadPrescriptionReducer,
+  createPrescriptionReducer,
+  updatePrescriptionReducer,
+} from "./reducers/prescriptionsReducers";
 import { filterPatientsBasedOnUpcomingAppointmentsReducer } from "./reducers/patientsReducers";
 import { getDrsForPatientsReducer } from "./reducers/doctorReducer";
 import {
@@ -31,6 +36,7 @@ import {
   doctorViewContractReducer,
   doctorEvaluateFollowUpReducer
 } from "./reducers/doctorReducer";
+import { orderReducer } from "./reducers/paymentReducers";
 import {
   updateDoctorsReducer,
   adminAcceptDoctorReducer,
@@ -99,7 +105,11 @@ const store = configureStore({
     followUpReducer,
     doctorEvaluateFollowUpReducer,
     rescheduleReducer,
-    cancelReducer
+    cancelReducer,
+    downloadPrescriptionReducer,
+    createPrescriptionReducer,
+    updatePrescriptionReducer,
+    orderReducer,
   },
 });
 

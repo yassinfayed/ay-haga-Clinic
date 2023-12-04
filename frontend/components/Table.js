@@ -7,8 +7,8 @@ function Table(props) {
     const currentItems = data;
 
     return (
-        <>
-            <table className={`table table-striped table-bordered table-hover m-3 ${className}`}>
+        <div style={{overflowX: 'auto'}}>
+            <table className={`table table-striped table-bordered table-hover my-3 ${className}`}>
                 <thead>
                     <tr>
                         {headers.map((header, index) => (
@@ -26,7 +26,7 @@ function Table(props) {
                     ))}
                 </tbody>
             </table>
-        </>
+        </div>
     );
 }
 

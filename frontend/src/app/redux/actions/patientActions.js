@@ -106,6 +106,8 @@ export const getPatientAppointments = (queryObj,fm) => async (dispatch) => {
       });
     }
  };
+
+
 export const uploadDocsAction = (formdata) => async (dispatch) => {
   try {
     dispatch({
@@ -118,10 +120,9 @@ export const uploadDocsAction = (formdata) => async (dispatch) => {
       },
       withCredentials: true,
     };
+
     let url = "";
-
     url = `${baseURL}/api/v1/patient/upload/medicalRecords`;
-
     const { data } = await axios.post(url, formdata, config);
 
     dispatch({
@@ -134,7 +135,7 @@ export const uploadDocsAction = (formdata) => async (dispatch) => {
       type: PATIENT_UPLOAD_DOCS_FAIL,
       payload: error.response
         ? error.response.data.message
-        : "Fetching patient details failed. Please try again.",
+        : "File upload failed, Try again.",
     });
   }
 };

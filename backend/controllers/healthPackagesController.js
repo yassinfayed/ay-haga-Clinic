@@ -13,11 +13,10 @@ exports.updateHealthPackage = handlerFactory.updateOne(HealthPackage);
 exports.deleteHealthPackage = handlerFactory.deleteOne(HealthPackage);
 
 exports.getAllHealthPackage = catchAsync(async(req,res,next)=> {
-    if(req.user.role === 'administrator') {
+    if (req.user?.role === "administrator" || !req.user) {
         handlerFactory.getAll(HealthPackage)(req, res, next);
-
         return;
-    }
+      }
     const healthPackages = await HealthPackage.find({});
     const patient =  await Patient.findOne({user: req.user._id}).populate('package').exec()
 
