@@ -12,6 +12,7 @@ function AddFamily(props) {
 
   // State variables for form input values
   const [cred, setCred] = useState("");
+  const [alert, setAlert] = useState(false);
   const [relationToPatient, setRelationToPatient] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const { error, loading, familyMember } = useSelector(
@@ -27,6 +28,7 @@ function AddFamily(props) {
     e.preventDefault();
     let phone;
     let email;
+
     const emailRegex = /^[A-Za-z0-9+_.-]+@(.+)$/;
     const phoneRegex = /^.*$/;
     if (!relationToPatient || relationToPatient == 0) {
@@ -55,8 +57,7 @@ function AddFamily(props) {
     if (submitted & !loading) {
       console.log(error, loading, familyMember);
       if (error && !loading) {
-        onError();
-        onHide();
+        setAlert(true);
       } else {
         if (!error && familyMember && !loading) {
           onSuccess();
@@ -71,12 +72,22 @@ function AddFamily(props) {
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+      centered>
       <Modal.Header closeButton className="bg-primary">
         <Modal.Title id="contained-modal-title-vcenter">{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {alert && (
+          <div
+            className="alert alert-danger alert-dismissible fade show"
+            role="alert">
+            error, family member was not linked
+            <button
+              type="button"
+              className="btn-close"
+              onClick={() => setSuccessAlert(false)}></button>
+          </div>
+        )}
         <h4>{subheader}</h4>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="my-3">
@@ -105,8 +116,7 @@ function AddFamily(props) {
               onChange={(e) => setRelationToPatient(e.target.value)}
               required
               id="relationToPatient"
-              value={relationToPatient}
-            >
+              value={relationToPatient}>
               <option value="">Choose...</option>
               <option value="wife">Wife</option>
               <option value="husband">Husband</option>

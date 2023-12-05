@@ -98,15 +98,13 @@ export const LinkFamilyMember = (body) => async (dispatch) => {
     console.log(data);
     dispatch({
       type: LINK_FAMILY_MEMBER_SUCCESS,
-      payload: data.data,
+      payload: true,
     });
   } catch (error) {
     console.log(error);
     dispatch({
       type: LINK_FAMILY_MEMBER_FAIL,
-      payload: error.response
-        ? error.response.data.message
-        : "Linking family members failed. Please try again.",
+      payload: true,
     });
   }
 };
