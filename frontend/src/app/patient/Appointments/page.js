@@ -74,7 +74,7 @@ function appointments() {
         <h3 className='my-1 mt-0 text-center text-title'>My Appointments</h3>
         <div className='underline-Bold mx-auto mb-5'></div>
 
-        {!isLoading &&
+        {!isLoading && apps && apps.length > 0 &&
           <>
             <div className="row my-3">
               <div className='row flex align-items-center justify-content-start bg-light p-2 pe-0 m-3 rounded border'>
@@ -102,6 +102,11 @@ function appointments() {
 
             <Table headers={headers} data={apps ? apps : []} />
           </>
+        }
+        {!isLoading && apps && apps.length === 0 &&
+          <div className="w-100 text-center"> 
+            <h1>No appointments available at this time!</h1>
+          </div>
         }
 
         {isLoading &&

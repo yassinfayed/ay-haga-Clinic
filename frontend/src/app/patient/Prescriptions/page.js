@@ -103,7 +103,7 @@ function prescriptions() {
     <div>
       <h3 className='my-1 mt-0 text-center text-title'>Prescriptions</h3>
       <div className='underline-Bold mx-auto mb-5'></div>
-      {!isLoading &&
+      {!isLoading && presc && presc.length > 0 &&
         <div className="container-fluid my-3">
           <div className='row flex align-items-center justify-content-start bg-light p-2 px-3 pe-0 m-3 rounded border'>
             <div className="col-md-1">
@@ -165,6 +165,14 @@ function prescriptions() {
           ))}
         </div>
       }
+      {
+          !isLoading && presc.length === 0 && (
+              <div className='w-100 text-center'>
+                  <h1>No prescriptions available at this time!</h1>
+              </div>
+          )
+      }
+
       {isLoading &&
         <Spinner />
       }

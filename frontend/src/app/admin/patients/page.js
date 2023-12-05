@@ -3,14 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { Table} from '../../../../components/Table'; 
 
 import { Button } from '../../../../components/Button';
-import { Card } from '../../../../components/Card';
 import { useDispatch, useSelector } from 'react-redux';
 import { viewPatients } from '@/app/redux/actions/patientsActions';
-import { login } from '@/app/redux/actions/authActions';
 import { removeUser } from '@/app/redux/actions/userActions';
 import Image from 'next/image';
 import { Alert } from 'react-bootstrap';
 
+import Spinner from '../../../../components/Spinner';
 
 export default function Patients() {
 
@@ -18,6 +17,7 @@ export default function Patients() {
 
   const dispatch=useDispatch();
   const patients=useSelector(state=>state.patientsReducer.patients);
+  const patientLoading=useSelector(state=>state.patientsReducer.loading);
   const isLoading=useSelector(state=>state.removeUserReducer.loading);
   const removeIsFail=useSelector(state=>state.removeUserReducer.error);
   const [showremoveAlertSuccess, setRemoveAlertSuccess] = useState(false);
@@ -39,7 +39,7 @@ export default function Patients() {
         setRemoveAlertFail(true);
         const timer = setTimeout(() => {
           setRemoveAlertFail(false);
-        }, 3000);
+        }, 2000);
         return () => clearTimeout(timer);
       }
     else{
@@ -47,7 +47,7 @@ export default function Patients() {
         const timer = setTimeout(() => {
           setRemoveAlertSuccess(false);
         }
-        , 3000);
+        , 2000);
         return () => clearTimeout(timer);
       }
      
@@ -121,10 +121,17 @@ export default function Patients() {
         </Alert>
       )
     }
-  
     <h3 className='my-1 mt-0 text-center text-title'>Patients</h3>
     <div className='underline-Bold mx-auto mb-5'></div>
-    <Table headers={tableHeaders} data={tabledata}  itemsPerPageOptions={[5, 10, 15]} className="" />
+    {patientLoading && <Spinner />}
+    {!patientLoading && patients && patients.data && patients.data.length > 0 && (
+      <div className="container-fluid my-3">
+        <Table headers={tableHeaders} data={tabledata}  itemsPerPageOptions={[5, 10, 15]} className="" />
+      </div>
+    )}
+    {!patientLoading && (!patients || (patients && patients.data && patients.data.length === 0)) && (
+      <div className="text-center">No Patients</div>
+    )}
     </div>
   );
 }
