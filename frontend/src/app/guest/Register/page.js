@@ -431,7 +431,7 @@ const Register = () => {
           <div className="card p-5 text-center">
             <Lottie animationData={TickAnimation} loop={false} className="w-50 mx-auto" />
             <h1>Registration Successful!</h1>
-            <h5>Thank you for signing up with us! You will now be redirected.</h5>
+            <h5>Thank you for choosing XClinics. Redirecting...</h5>
           </div>
           {setTimeout(() => {
             window.history.pushState({}, "", "/patients/medicines");

@@ -93,7 +93,7 @@ const AdminDashboard = () => {
             <Modal.Header closeButton className='bg-primary'>
             </Modal.Header>
             <Modal.Body>
-              <ChangePassword/>  
+              <ChangePassword />  
             </Modal.Body>          
         </Modal>
 

@@ -69,7 +69,7 @@ export default function Admins() {
 
   const adminlist = useMemo(() => {
     if (admins && admins.data) {
-      // const excludedAdminId =JSON.parse(localStorage.getItem('userInfo')).data.user._id ;
+    //   const excludedAdminId =JSON.parse(localStorage.getItem('userInfo')).data.user._id ;
       return admins.data
         // .filter((value) => {
         //   return value._id !== excludedAdminId;
@@ -99,9 +99,9 @@ export default function Admins() {
     <h3 className='my-1 mt-0 text-center text-title'>Admins</h3>
     <div className='underline-Bold mx-auto mb-5'></div>
     <div className=" justify-content-center align-items-center min-vh-100 container">
-   {  showAlertRemoveSuccess && (
-        <Alert variant='success' className='text-center'>
-          Admin removed successfully
+   `{showAlertRemoveSuccess && (
+        <Alert variant='success' className='text-center' dismissible>
+          <strong>Success!</strong> Admin removed successfully
         </Alert>
       )
     }

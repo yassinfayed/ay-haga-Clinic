@@ -107,9 +107,9 @@ function CenteredModalAdmin(props) {
       centered
       className='rounded'
     >
-      <Modal.Header closeButton className='bg-primary'>
-      </Modal.Header>
-      <Modal.Body className='bg-light'>
+    <Modal.Header closeButton className='bg-primary'>
+    </Modal.Header>
+    <Modal.Body className='bg-light p-5'>
         <Modal.Title id="contained-modal-title-vcenter" className='px-2 text-global text-bold text-center'>
           {title}
         </Modal.Title>
