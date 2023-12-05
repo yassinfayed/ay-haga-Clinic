@@ -49,9 +49,8 @@ function DoctorList() {
 
   useEffect(() => {
     dispatch(getDoctorsForPatientAction({ ...name, ...speciality, ...date }))
-
+    
   }, [dispatch, name, speciality, date])
-
 
   return (
 

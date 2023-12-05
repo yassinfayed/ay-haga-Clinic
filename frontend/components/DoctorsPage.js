@@ -77,7 +77,6 @@ export default function DoctorsPage(doctors, admin) {
         }
         <div className='row'>
           {doctors?.doctors?.data?.map((person) => {
-            
             if (person.employmentContract.status !== 'accepted') return null;
   
             const isRemoving = removeDoctortAlertLoading[person.user?._id];
@@ -109,7 +108,7 @@ export default function DoctorsPage(doctors, admin) {
                   buttonText={(doctors.admin && isRemoving) ? "Removing..." : (doctors.admin ? "Remove" : "View")}
                   buttonTrue={true}
                   buttonClass={"col-md-12 m-3 ms-auto"}
-                  onClickButton={() => {doctors.admin ? onRemoveHandler(person.user?._id) : handleCardClick(doctors.doctors.data[0])}}
+                  onClickButton={() => {doctors.admin ? onRemoveHandler(person.user?._id) : handleCardClick(person)}}
                 />
               </div>
             );
