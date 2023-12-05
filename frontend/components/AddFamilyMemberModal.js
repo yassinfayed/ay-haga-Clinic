@@ -30,7 +30,7 @@ function AddFamily(props) {
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [submitted, setSubmitted] = useState(false);
-
+  const [alert, setAlert] = useState(false);
   const dispatch = useDispatch();
   const { error, loading, familyMember } = useSelector(
     (state) => state.addFamilyMembersReducer
@@ -46,9 +46,14 @@ function AddFamily(props) {
 
   // Function to handle changes in the confirm password input
   const handlePasswordConfirmChange = (e) => {
-    const confirmPassword = e.target.value;
-    setPasswordMatch(password === confirmPassword);
-    setPasswordConfirm(confirmPassword);
+    const confirmPasswordCurr = e.target.value;
+    setPasswordMatch(
+      password === confirmPasswordCurr ||
+        passwordConfirm === confirmPasswordCurr
+    );
+    e.target.name == "password"
+      ? setPassword(confirmPasswordCurr)
+      : setPasswordConfirm(confirmPasswordCurr);
   };
 
   // Function to handle form submission
@@ -58,6 +63,7 @@ function AddFamily(props) {
       alert("Passwords do not match!");
       return;
     }
+    console.log("will dispatch");
     dispatch(
       addFamilyMembers({
         name,
@@ -82,14 +88,16 @@ function AddFamily(props) {
   };
 
   // Effect to handle post-submission logic
+  console.log(error, loading, familyMember);
   useEffect(() => {
+    console.log(error);
     if (submitted & !loading) {
       if (error && !familyMember) {
-        onError(error);
+        setAlert(true);
       } else if (!error && familyMember) {
         onSuccess();
+        onHide();
       }
-      onHide();
     }
   }, [error, familyMember, loading, onError, onHide, onSuccess, submitted]);
 
@@ -98,19 +106,28 @@ function AddFamily(props) {
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+      centered>
       <Modal.Header closeButton className="bg-primary"></Modal.Header>
       <Modal.Body>
+        {" "}
+        {alert && (
+          <div
+            className="alert alert-danger alert-dismissible fade show"
+            role="alert">
+            error, family member was not added
+            <button
+              type="button"
+              className="btn-close"
+              onClick={() => setSuccessAlert(false)}></button>
+          </div>
+        )}
         <Modal.Title
           id="contained-modal-title-vcenter"
-          className="px-2 text-global text-bold text-center"
-        >
+          className="px-2 text-global text-bold text-center">
           Enter Family Member Details
         </Modal.Title>
         <div className="underline-Bold mx-auto mt-2 mb-5"></div>
         <h4>{subheader}</h4>
-
         <Form onSubmit={handleSubmit}>
           <Row>
             <Col md={6}>
@@ -206,8 +223,7 @@ function AddFamily(props) {
                   required
                   onChange={(e) => setGender(e.target.value)}
                   id="gender"
-                  value={gender}
-                >
+                  value={gender}>
                   <option value="">Gender</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -224,8 +240,7 @@ function AddFamily(props) {
               required
               onChange={(e) => setRelationToPatient(e.target.value)}
               id="relationToPatient"
-              value={relationToPatient}
-            >
+              value={relationToPatient}>
               <option value="">Relation to Patient</option>
               <option value="wife">Wife</option>
               <option value="husband">Husband</option>
@@ -263,7 +278,9 @@ function AddFamily(props) {
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  handlePasswordConfirmChange(e);
+                }}
                 required
                 isInvalid={password && !validatePassword(password)}
               />
@@ -271,8 +288,7 @@ function AddFamily(props) {
               <Button
                 variant="outline-secondary"
                 className="border-light"
-                onClick={() => togglePasswordVisibility("password")}
-              >
+                onClick={() => togglePasswordVisibility("password")}>
                 <Image
                   src={showPassword ? "/hide.svg" : "/show.svg"}
                   width={25}
@@ -301,8 +317,7 @@ function AddFamily(props) {
               <Button
                 variant="outline-secondary"
                 className="border-light"
-                onClick={() => togglePasswordVisibility("passwordConfirm")}
-              >
+                onClick={() => togglePasswordVisibility("passwordConfirm")}>
                 <Image
                   src={showPasswordConfirm ? "/hide.svg" : "/show.svg"}
                   width={25}

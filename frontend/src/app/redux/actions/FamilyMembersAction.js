@@ -44,9 +44,7 @@ export const addFamilyMembers = (reqBody) => async (dispatch) => {
     console.log(error);
     dispatch({
       type: FAMILY_MEMBERS_FAIL,
-      payload: error.response
-        ? error.response.data.message
-        : "adding a family member failed. Please try again.",
+      payload: "adding a family member failed. Please try again.",
     });
   }
 };
