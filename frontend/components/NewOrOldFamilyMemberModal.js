@@ -19,8 +19,7 @@ function NewOrOldFamilyMember(props) {
         {...props}
         size="m"
         aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
+        centered>
         <Modal.Header closeButton className="bg-primary">
           <Modal.Title id="contained-modal-title-vcenter">{title}</Modal.Title>
         </Modal.Header>
@@ -31,16 +30,14 @@ function NewOrOldFamilyMember(props) {
               className="btn btn-primary m-3"
               onClick={() => {
                 setOldShow(true);
-              }}
-            >
+              }}>
               Existing Family Member
             </button>
             <button
               className="btn btn-primary m-3"
               onClick={() => {
                 setNewShow(true);
-              }}
-            >
+              }}>
               New Family Member
             </button>
           </div>
@@ -51,7 +48,7 @@ function NewOrOldFamilyMember(props) {
               setNewShow(false);
             }}
             onSuccess={() => onSuccess()}
-            onError={() => onError()}
+            onError={(error) => onError(error)}
           />
           <LinkFamily
             show={OldShow}

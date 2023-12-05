@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react"; // Import useEffect
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import React, { useState, useEffect } from "react";
+import { Modal, Form, Button } from "react-bootstrap";
+import {
+  validateEmail,
+  validatePhoneNumber,
+} from "../src/app/assets/validators";
 import { LinkFamilyMember } from "@/app/redux/actions/FamilyMembersAction";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,18 +12,23 @@ function AddFamily(props) {
 
   // State variables for form input values
   const [cred, setCred] = useState("");
+  const [alert, setAlert] = useState(false);
   const [relationToPatient, setRelationToPatient] = useState("");
-  const [submitted, setSubmitted] = useState(false); // Add submitted state
+  const [submitted, setSubmitted] = useState(false);
   const { error, loading, familyMember } = useSelector(
     (state) => state.linkFamilyMemberReducer
   );
   const dispatch = useDispatch();
+  const isValidCred = (cred) => {
+    return validateEmail(cred) || validatePhoneNumber(cred);
+  };
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     let phone;
     let email;
+
     const emailRegex = /^[A-Za-z0-9+_.-]+@(.+)$/;
     const phoneRegex = /^.*$/;
     if (!relationToPatient || relationToPatient == 0) {
@@ -49,8 +57,7 @@ function AddFamily(props) {
     if (submitted & !loading) {
       console.log(error, loading, familyMember);
       if (error && !loading) {
-        onError();
-        onHide();
+        setAlert(true);
       } else {
         if (!error && familyMember && !loading) {
           onSuccess();
@@ -65,54 +72,64 @@ function AddFamily(props) {
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+      centered>
       <Modal.Header closeButton className="bg-primary">
         <Modal.Title id="contained-modal-title-vcenter">{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {alert && (
+          <div
+            className="alert alert-danger alert-dismissible fade show"
+            role="alert">
+            error, family member was not linked
+            <button
+              type="button"
+              className="btn-close"
+              onClick={() => setSuccessAlert(false)}></button>
+          </div>
+        )}
         <h4>{subheader}</h4>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group my-3">
-            <label htmlFor="emailOrPhone">Enter email or phone number</label>
-            <input
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="my-3">
+            <Form.Label htmlFor="emailOrPhone">
+              Enter email or phone number
+            </Form.Label>
+            <Form.Control
               type="text"
-              className="form-control my-1 is-invalid"
               id="emailOrPhone"
-              aria-describedby="emailOrPhoneFeedback"
               placeholder=""
               value={cred}
               onChange={(e) => setCred(e.target.value)}
               required
+              isInvalid={cred && !isValidCred(cred)}
             />
-          </div>
-          <div id="emailOrPhoneFeedback" className="invalid-feedback">
-            Please enter an email or phone
-          </div>
+            <Form.Control.Feedback type="invalid">
+              Please enter a valid email or phone number.
+            </Form.Control.Feedback>
+          </Form.Group>
 
-          <div className="form-group my-3">
-            <label htmlFor="relationToPatient">Relation to patient</label>
-            <select
+          <Form.Group className="my-3">
+            <Form.Label htmlFor="relationToPatient">
+              Relation to patient
+            </Form.Label>
+            <Form.Select
               onChange={(e) => setRelationToPatient(e.target.value)}
-              className="my-1 w-100 form-control text-muted p-2"
               required
-              id="select"
-            >
-              <div id="select" class="invalid-feedback">
-                Please choose a relation to patient.
-              </div>
-              <option value="0">choose</option>
+              id="relationToPatient"
+              value={relationToPatient}>
+              <option value="">Choose...</option>
               <option value="wife">Wife</option>
               <option value="husband">Husband</option>
               <option value="child">Child</option>
-            </select>
-          </div>
-          <div className="row justify-content-end align-items-center mt-5 mb-2">
-            <button type="submit" className="btn btn-primary mx-auto col-md-4">
+            </Form.Select>
+          </Form.Group>
+
+          <div className="text-center mt-5 mb-2">
+            <Button type="submit" className="btn btn-primary">
               Submit
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </Modal.Body>
     </Modal>
   );

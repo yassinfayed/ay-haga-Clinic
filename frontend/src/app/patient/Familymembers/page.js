@@ -52,27 +52,23 @@ function Familymembers() {
       {successAlert && (
         <div
           className="alert alert-primary alert-dismissible fade show"
-          role="alert"
-        >
+          role="alert">
           Family member added successfuly
           <button
             type="button"
             className="btn-close"
-            onClick={() => setSuccessAlert(false)}
-          ></button>
+            onClick={() => setSuccessAlert(false)}></button>
         </div>
       )}
       {errorAlert && (
         <div
           className="alert alert-danger alert-dismissible fade show"
-          role="alert"
-        >
+          role="alert">
           Family member was not added
           <button
             type="button"
             className="btn-close"
-            onClick={() => setErrorAlert(false)}
-          ></button>
+            onClick={() => setErrorAlert(false)}></button>
         </div>
       )}
       {familyMembers ? (
@@ -91,8 +87,9 @@ function Familymembers() {
             onSuccess={() => {
               setSuccessAlert(true);
             }}
-            onError={() => {
+            onError={(error) => {
               setErrorAlert(true);
+              alert(error);
             }}
           />
           <div className="container-fluid my-5 mx-2 d-flex justify-content-center col-12 flex-wrap">

@@ -28,10 +28,10 @@ export const addFamilyMembersReducer = (state = initialState, action) => {
         error: null,
       };
     case FAMILY_MEMBERS_SUCCESS: {
-      console.log("success");
+      console.log(state);
       return {
         ...state,
-        familyMember: action.payload.data,
+        familyMember: true,
         loading: false,
         error: null,
       };
@@ -39,8 +39,9 @@ export const addFamilyMembersReducer = (state = initialState, action) => {
     case FAMILY_MEMBERS_FAIL:
       return {
         ...state,
+        familyMember: null,
         loading: false,
-        error: action.payload,
+        error: true,
       };
     default:
       return state;
