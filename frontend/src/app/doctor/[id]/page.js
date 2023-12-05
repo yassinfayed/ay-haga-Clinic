@@ -318,7 +318,7 @@ export default function DoctorProfile({ params }) {
                   {addDateSuccess && <Alert variant="success" dismissible className="px-2">
                   <strong>Success! </strong> Available date added successfully.
                   </Alert>}
-                  {(error || dateError) && <Alert variant="danger" dismissible className="px-2">
+                  {(dateError) && <Alert variant="danger" dismissible className="px-2">
                   <strong>Error! </strong> Something went wrong, try again.
                   </Alert>}
                   <Row className="mx-auto">
