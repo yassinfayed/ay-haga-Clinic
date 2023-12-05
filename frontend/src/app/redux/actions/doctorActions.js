@@ -35,7 +35,10 @@ import {
   DOCTOR_REJECTED_FAIL,
   DOCTOR_DOWNLOAD_DOCS_FAIL,
   DOCTOR_DOWNLOAD_DOCS_REQUEST,
-  DOCTOR_DOWNLOAD_DOCS_SUCCESS
+  DOCTOR_DOWNLOAD_DOCS_SUCCESS,
+  DOCTOR_EVALUATE_FOLLOWUP_REQUEST,
+  DOCTOR_EVALUATE_FOLLOWUP_SUCCESS,
+  DOCTOR_EVALUATE_FOLLOWUP_FAIL
 } from '../constants/doctorConstants'; // Import the correct constants file
 import baseURL from '../baseURL';
 import { formulateQueryString } from '../queryStringBuilder';
@@ -476,6 +479,44 @@ export const downloadDoctorDocs = (DoctorId) => async (dispatch) => {
       payload: error.response
         ? error.response.data.message
         : 'Downloading pharmacist documents failed. Please try again.',
+    });
+  }
+};
+
+
+export const doctorEvaluateFollowUp = (evaluation,date,appointmentId) => async (dispatch) => {
+  
+  try {
+    dispatch({
+      type: DOCTOR_EVALUATE_FOLLOWUP_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    };
+    let url ="";
+    const reqbody={
+      date,
+      evaluation
+    }
+    url=`${baseURL}/api/v1/appointment/evaluateFollowUp/${appointmentId}`
+    
+    const { data } = await axios.post(url, reqbody,config);
+
+    dispatch({
+      type: DOCTOR_EVALUATE_FOLLOWUP_SUCCESS,
+      payload: data.data
+    });
+  } catch (error) {
+   
+    dispatch({
+      type: DOCTOR_EVALUATE_FOLLOWUP_FAIL,
+      payload: error.response
+        ? error.response.data.message
+        : 'Follow Up Evaluation failed. Please try again.',
     });
   }
 };

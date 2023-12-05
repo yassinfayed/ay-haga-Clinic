@@ -5,10 +5,10 @@ import Image from "next/image";
 const Footer = () => {
   return (
     <footer
-      className="bg-primary text-white pt-4 pb-1 "
+      className="bg-primary text-white pt-4 pb-1 mt-auto"
       style={{
         marginTop: " rem",
-        position: "absolute",
+        position: "relative",
         bottom: "0",
         width: "100%",
         height: "14rem",

@@ -7,7 +7,6 @@ import { Card } from '../../../../components/Card';
 import CenteredModalAddPack from '../../../../components/AddHealthPackageModal'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteHealthPackage, listHealthPackages } from '@/app/redux/actions/healthPackagesActions';
-import { login } from '@/app/redux/actions/authActions';
 import Image from 'next/image';
 
 
@@ -42,8 +41,9 @@ export default function Admins() {
         doctorDiscount: value.doctorDiscount,
         medicineDiscount: value.medicineDiscount,
         familyMemberSubDiscount: value.familyMemberSubDiscount,
-        price: value.price,
-        button: generateButton(value._id)
+        price: value.price,    
+        button: generateButton(value._id),
+    
       }));
     }
     return [];
@@ -76,8 +76,8 @@ export default function Admins() {
         title={"Please Update Package Details"}
         edit={true}
         id={id}
-      />
-    
+        data={healthpackages.data?.find((value) => value._id === id)}
+      />     
     </div>
     </>
   );

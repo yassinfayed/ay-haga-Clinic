@@ -254,8 +254,7 @@ const Register = () => {
                                   className="border-light"
                                   onClick={() =>
                                     togglePasswordVisibility("password")
-                                  }
-                                >
+                                  }>
                                   <Image
                                     src={
                                       showPassword ? "/hide.svg" : "/show.svg"
@@ -291,8 +290,7 @@ const Register = () => {
                                   className="border-light"
                                   onClick={() =>
                                     togglePasswordVisibility("passwordConfirm")
-                                  }
-                                >
+                                  }>
                                   <Image
                                     src={
                                       showPasswordConfirm
@@ -319,8 +317,7 @@ const Register = () => {
                                 name="gender"
                                 value={formData.gender}
                                 onChange={handleInputChange}
-                                required
-                              >
+                                required>
                                 <option value="" disabled>
                                   Select...
                                 </option>
@@ -410,8 +407,7 @@ const Register = () => {
                             <span
                               className="spinner-border spinner-border-sm"
                               role="status"
-                              aria-hidden="true"
-                            ></span>
+                              aria-hidden="true"></span>
                             Loading...
                           </Button>
                         ) : (
@@ -442,8 +438,8 @@ const Register = () => {
               loop={false}
               className="w-50 mx-auto"
             />
-            <h1>Application Successful!</h1>
-            <h5>Thank you, we'll get back to you as soon as possible.</h5>
+            <h1>Registration Successful!</h1>
+            <h5>Thank you for choosing XClinics. Redirecting...</h5>
           </div>
           {setTimeout(() => {
             window.history.pushState({}, "", "/patients/medicines");
