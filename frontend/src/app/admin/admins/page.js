@@ -15,6 +15,7 @@ export default function Admins() {
   const dispatch=useDispatch();
   const [id,setId]=useState(0);
   const admins = useSelector(state=>state.getUsersReducer.user)
+  const adminsisLoading = useSelector(state=>state.getUsersReducer.loading)
   const CreateisLoading = useSelector(state=>state.registerReducer.loading)
   const RemoveisLoading = useSelector(state=>state.removeUserReducer.loading)
   const RemoveisFail =useSelector(state=>state.removeUserReducer.error)
@@ -119,11 +120,11 @@ export default function Admins() {
         onHide={() => setModalShow(false)} 
         title={"Create new admin account"}
         />
-      {RemoveisLoading ? (
+      {/* {adminsisLoading ? (
         <Spinner />
-      ) : (
+      ) : ( */}
         <Table headers={tableHeaders} data={adminlist ? adminlist : []}></Table>
-      )}
+      {/* )} */}
      
     </div>
     </>

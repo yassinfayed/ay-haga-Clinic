@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 function CenteredModalAdmin(props) {
   const dispatch = useDispatch();
-  const { title, subheader, onHide } = props;
+  const { title, subheader } = props;
 
   const [usernameValue, setUsernameValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
@@ -69,8 +69,13 @@ function CenteredModalAdmin(props) {
       "passwordConfirm": passwordconfirmValue,
       "role": "administrator"
     }))
-    console.log('added admin')
+
+    setUsernameValue('');
+    setPasswordValue('');
+    setPasswordConfrimValue('');
+    
     props.onHide()
+  
   }
 
 
@@ -98,7 +103,7 @@ function CenteredModalAdmin(props) {
               type="email"
               className="form-control ms-2 my-1"
               id="usernameInput"
-              placeholder="Enter Username"
+              placeholder="Enter Email"
               value={usernameValue}
               required
             />
@@ -129,10 +134,10 @@ function CenteredModalAdmin(props) {
                   <div className="col-md-2 d-flex align-items-center bg-light rounded">
                     <button
                       type="button"
-                      onClick={() => togglePasswordVisibility('confirmpassword')}
-                      className="border-0  bg-light rounded mx-auto"
+                      onClick={() => togglePasswordVisibility('password')}
+                      className="border-0  bg-light rounded mx-auto     "
                     >
-                      <Image src={showConfirmPassword ? "/hide.svg" : "/show.svg"} width={35} height={35} />
+                      <Image src={showPassword ?  "/show.svg":"/hide.svg" } width={35} height={35} />
                     </button>
                   </div>
                 </div>
@@ -161,7 +166,7 @@ function CenteredModalAdmin(props) {
                       onClick={() => togglePasswordVisibility('confirmpassword')}
                       className="border-0  bg-light rounded mx-auto"
                     >
-                      <Image src={showConfirmPassword ? "/hide.svg" : "/show.svg"} width={35} height={35} />
+                      <Image src={showConfirmPassword ? "/show.svg":"/hide.svg" } width={35} height={35} />
                     </button>
                   </div>
                 </div>

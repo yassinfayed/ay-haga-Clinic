@@ -62,7 +62,7 @@ function CenteredModalAddPack(props) {
 
   const handleSubmit=(e)=>{
     e.preventDefault();
-  if(priceValue < 0 || sessionDiscountValue > 100 || medicineDiscountValue > 100 || subscriptionsDiscountValue > 100){
+  if(priceValue <= 0 || sessionDiscountValue > 100 || medicineDiscountValue > 100 || subscriptionsDiscountValue > 100|| nameValue === '' || priceValue === '' || sessionDiscountValue === '' || medicineDiscountValue === '' || subscriptionsDiscountValue === ''){
   return;
   } 
     else if(edit === false){

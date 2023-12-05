@@ -130,8 +130,7 @@ export default function DoctorApps() {
           <div className="col-lg-6">
               <Button variant="xs" text="View Documents" onClick={()=>handleDownload(person._id)}></Button>
           </div>
-        </div>
-      }
+        </div> }
           <div className="row">
             <div>
             <Image src='/mail-dark.svg' height={20} width={20} className="me-2"/>{person.email}
