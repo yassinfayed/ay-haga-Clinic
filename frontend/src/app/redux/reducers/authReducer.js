@@ -16,7 +16,10 @@ import {
   USER_LOGOUT_REQUEST,
   RESET_PASS_FAIL,
   RESET_PASS_SUCCESS,
-  RESET_PASS_REQUEST
+  RESET_PASS_REQUEST,
+  USER_AUTHED_REQUEST,
+  USER_AUTHED_FAIL,
+  USER_AUTHED_SUCCESS
 } from '../constants/authConstants';
 
 const initialState = {
@@ -34,7 +37,7 @@ export const loginReducer = (state = initialState, action) => {
         loading: true,
         error: null,
       };
-    case USER_LOGIN_SUCCESS:{
+    case USER_LOGIN_SUCCESS: {
       console.log("success")
       return {
         ...state,
@@ -42,13 +45,45 @@ export const loginReducer = (state = initialState, action) => {
         isAuthenticated: true,
         loading: false,
         error: null,
-      }};
+      }
+    };
     case USER_LOGIN_FAIL:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
+    default:
+      return state;
+  }
+};
+
+export const authedReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case USER_AUTHED_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+        isAuthenticated: false,
+      };
+      break;
+    case USER_AUTHED_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: true,
+        isAuthenticated: false,
+      };
+      break;
+    case USER_AUTHED_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        isAuthenticated: true,
+      };
+      break;
     default:
       return state;
   }
@@ -63,7 +98,7 @@ export const registerReducer = (state = {}, action) => {
         error: null,
         isAuthenticated: false,
       };
-    case USER_REGISTER_SUCCESS:{
+    case USER_REGISTER_SUCCESS: {
       console.log("success")
       return {
         ...state,
@@ -71,7 +106,8 @@ export const registerReducer = (state = {}, action) => {
         isAuthenticated: true,
         loading: false,
         error: null,
-      }};
+      }
+    };
     case USER_REGISTER_FAIL:
       return {
         ...state,
@@ -91,13 +127,14 @@ export const logoutReducer = (state = initialState, action) => {
         loading: true,
         error: null,
       };
-    case USER_LOGOUT_SUCCESS:{
+    case USER_LOGOUT_SUCCESS: {
       return {
         ...state,
         isAuthenticated: false,
         loading: false,
         error: null,
-      }};
+      }
+    };
     case USER_LOGOUT_FAIL:
       return {
         ...state,
@@ -109,7 +146,7 @@ export const logoutReducer = (state = initialState, action) => {
   }
 };
 
-export const forgetPasswordReducer = (state = {success: false}, action) => {
+export const forgetPasswordReducer = (state = { success: false }, action) => {
   switch (action.type) {
     case FORGET_PASS_REQUEST:
       return {
@@ -118,14 +155,15 @@ export const forgetPasswordReducer = (state = {success: false}, action) => {
         error: null,
         success: false
       };
-    case FORGET_PASS_SUCCESS:{
+    case FORGET_PASS_SUCCESS: {
       return {
         ...state,
         isAuthenticated: false,
         loading: false,
         error: null,
         success: true
-      }};
+      }
+    };
     case FORGET_PASS_FAIL:
       return {
         ...state,
@@ -147,14 +185,15 @@ export const resetPasswordReducer = (state = {}, action) => {
         error: null,
         success: false
       };
-    case RESET_PASS_SUCCESS:{
+    case RESET_PASS_SUCCESS: {
       return {
         ...state,
         isAuthenticated: false,
         loading: false,
         error: null,
         success: true,
-      }};
+      }
+    };
     case RESET_PASS_FAIL:
       return {
         ...state,
@@ -176,14 +215,15 @@ export const changePasswordReducer = (state = initialState, action) => {
         error: null,
         success: false
       };
-    case CHANGE_PASS_SUCCESS:{
+    case CHANGE_PASS_SUCCESS: {
       return {
         ...state,
         isAuthenticated: false,
         loading: false,
         error: null,
         success: true
-      }};
+      }
+    };
     case CHANGE_PASS_FAIL:
       return {
         ...state,

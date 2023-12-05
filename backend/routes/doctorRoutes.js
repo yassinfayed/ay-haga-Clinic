@@ -6,7 +6,7 @@ const enums = require('../constants/enums');
 router.use(authController.protect); 
 
 
-
+router.route("/auth").get((req,res,next) => res.status(200).send());
 router.route("/").get(doctorController.getAllDoctors);
 router.route("/updatedoctor").patch( authController.restrictTo(enums.ROLE.DOCTOR),doctorController.updateDoctor);
 router.route('/acceptdoctor/:id').patch(authController.restrictTo(enums.ROLE.ADMIN),doctorController.acceptDoctor);

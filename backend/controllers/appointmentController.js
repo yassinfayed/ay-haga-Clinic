@@ -6,6 +6,7 @@ const Patient = require('../models/patientModel');
 const Appointment = require('../models/appointmentModel');
 const Doctor = require('../models/doctorModel');
 const APIFeatures = require('../utils/apiFeatures');
+const FamilyMembers = require('../models/familyMembersModel');
 
 
 exports.viewAllAppointments = handlerFactory.getAll(Appointment);
@@ -15,8 +16,13 @@ exports.getAllPatientAppointments = catchAsync(async (req, res, next) => {
     console.log(req.user._id);
     const patient = await Patient.findOne({ user: req.user._id });
     const patientId = patient._id;
+    let id = patient._id.toString();
+    if(req.query.fm) {
+        const familyMember = await FamilyMembers.findOne({_id: req.query.fm});
+        id = familyMember.patientId.toString() == patient._id.toString() ? familyMember.linkedPatientId: familyMember.patientId;
+    }
 
-    const features = new APIFeatures(Appointment.find({ patientId: patientId }).populate("doctorId"), req.query).filter();
+    const features = new APIFeatures(Appointment.find({ patientId: id }).populate("doctorId"), req.query).filter();
     const appts = await features.query;
 
     res.status(200).json({
@@ -46,6 +52,8 @@ exports.getAllDoctorAppointments = catchAsync(async (req, res, next) => {
 });
 
 exports.followUpAppointment = catchAsync(async (req, res, next) => {
+    let appt;
+    if(req.user.role==='doctor'){
     const doctor = await Doctor.findOne({user: req.user._id});
     if(!doctor) {
         throw new Error("Doctor not found");
@@ -54,7 +62,7 @@ exports.followUpAppointment = catchAsync(async (req, res, next) => {
 
     const appointment = await Appointment.findById(req.body.appointmentId);
 
-    const appt = new Appointment({
+     appt = new Appointment({
         date: req.body.date,
         patientId: appointment.patientId,
         doctorId: doctorId,
@@ -62,6 +70,13 @@ exports.followUpAppointment = catchAsync(async (req, res, next) => {
     });
 
     await appt.save();
+    }
+    else{
+         appt = await Appointment.findByIdAndUpdate(req.body.appointmentId, { followUp : "FollowUpRequest"}, {
+            new: true
+           // runValidators: true
+        });
+    }
 
     res.status(200).json({
         status: 'success',
@@ -72,6 +87,86 @@ exports.followUpAppointment = catchAsync(async (req, res, next) => {
     })
 });
 
+
+exports.rescheduleAppointment = catchAsync(async (req, res, next) => {
+  
+        const appointment = await Appointment.findByIdAndUpdate(req.params.id, {date : req.body.date , status : "Rescheduled"}, {
+            new: true,
+            runValidators: true
+        });
+    //EMAIL LOGIC
+
+
+    
+
+    
+
+    res.status(200).json({
+        status: 'success',
+        results: 1,
+        data: {
+            data: appointment
+        }
+    })
+});
+
+
+
+exports.cancelAppointment = catchAsync(async (req, res, next) => {
+  
+    const appointment = await Appointment.findByIdAndUpdate(req.params.id, { status : "Cancelled"}, {
+        new: true
+       // runValidators: true
+    });
+
+//REFUND LOGIC
+
+
+
+
+
+res.status(200).json({
+    status: 'success',
+    results: 1,
+    data: {
+        data: appointment
+    }
+})
+});
+
+
+exports.evaluateFollowUp = catchAsync(async (req, res, next) => {
+    let appt;
+  if(req.body.evaluation==="Accepted"){
+    const appointment = await Appointment.findByIdAndUpdate(req.params.id, { followUp : "Accepted"}, {
+        new: true
+       // runValidators: true
+    });
+
+     appt = new Appointment({
+        date: req.body.date,
+        patientId: appointment.patientId,
+        doctorId: appointment.doctorId,
+        status: "Upcoming"
+    });
+
+    await appt.save();
+  }else{
+appt=await Appointment.findByIdAndUpdate(req.params.id, { followUp : "Revoked"}, {
+    new: true
+   // runValidators: true
+});
+  }
+
+
+res.status(200).json({
+    status: 'success',
+    results: 1,
+    data: {
+        data: appt
+    }
+})
+});
 exports.createAppointment = handlerFactory.createOne(Appointment);
 exports.updateAppointment = handlerFactory.updateOne(Appointment);
 exports.deleteAppointment = handlerFactory.deleteOne(Appointment);

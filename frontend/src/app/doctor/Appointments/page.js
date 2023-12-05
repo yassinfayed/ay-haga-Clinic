@@ -1,25 +1,18 @@
 "use client";
-import React from "react";
-import { Table } from "../../../../components/Table";
-import Navbar from "../../../../components/Navbar";
-import Footer from "../../../../components/Footer";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { login } from "@/app/redux/actions/authActions";
-import { useEffect } from "react";
-import { useMemo } from "react";
-import { Button } from "../../../../components/Button";
 import {
   doctorFollowUpAction,
   getDoctorAppointments,
 } from "@/app/redux/actions/doctorActions";
-import NavbarDoc from "../../../../components/NavbarDoc";
-import FooterDoc from "../../../../components/FooterDoc";
 import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
 import { Modal, ModalBody, ModalHeader } from "react-bootstrap";
-import DateTimePicker from "react-datetime-picker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useDispatch, useSelector } from "react-redux";
+import { Button } from "../../../../components/Button";
+import FooterDoc from "../../../../components/FooterDoc";
+import NavbarDoc from "../../../../components/NavbarDoc";
+import Spinner from "../../../../components/Spinner";
+import { Table } from "../../../../components/Table";
 
 function docappointments() {
   const dispatch = useDispatch();
@@ -42,6 +35,11 @@ function docappointments() {
   const appointmentsData = useSelector(
     (state) => state.viewDoctorsAppointmentsReducer.appointments
   );
+
+  const appointmentsLoading = useSelector(
+    (state) => state.viewDoctorsAppointmentsReducer.loading
+  )
+
   const isLoading = useSelector(
     (state) => state.doctorFollowUpReducer.loading
   );
@@ -156,42 +154,55 @@ function docappointments() {
   }, [appointmentsData]);
 
   return (
-    <div className="global-text">
+    <div className="global-text min-vh-100 d-flex flex-column">
       <NavbarDoc />
-      <div className="container-fluid">
+      <div className="container">
         <div className="rows">
-          <h3 className="my-1 mt-0 text-center text-title">My Appointments</h3>
+          <h3 className="my-3 text-center text-title">My Appointments</h3>
           <div className="underline-Bold mx-auto mb-5"></div>
-          {apps && apps.length > 0 &&
-            <div className="row flex align-items-center justify-content-start bg-light p-2 pe-0 m-3 rounded border">
-              <div className="col-md-1">
-                <Image src="/filter.svg" height={30} width={30} className="" />
-              </div>
-              <div className="status-filter col-md-3">
-                <select
-                  onChange={handleStatusChange}
-                  className="w-100 form-control text-muted px-2"
-                >
-                  <option value="">Filter by status</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Upcoming">Upcoming</option>
-                  <option value="Missed">Missed</option>
-                  <option value="Cancelled">Cancelled</option>
-                  <option value="Rescheduled">Rescheduled</option>
-                </select>
-              </div>
-              <div className="col-md-4 text-muted p-2">
-                <input type="datetime-local" value={selectedDate} onChange={handleDateChange} placeholder="Filter by date/time" />
-              </div>
-              <div className="col-md-3 ms-auto">
-                <Button
-                  text="Clear Filters"
-                  className="w-60 ms-5"
-                  onClick={handleClearFilters}
-                  variant={"md"}
-                ></Button>
-              </div>
-            </div>
+
+          {!appointmentsLoading &&
+            (
+              <>
+                {apps && apps.length > 0 &&
+                  <div className="row flex align-items-center justify-content-start bg-light p-2 pe-0 m-3 rounded border">
+                    <div className="col-md-1">
+                      <Image src="/filter.svg" height={30} width={30} className="" />
+                    </div>
+                    <div className="status-filter col-md-3">
+                      <select
+                        onChange={handleStatusChange}
+                        className="w-100 form-control text-muted px-2"
+                      >
+                        <option value="">Filter by status</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Upcoming">Upcoming</option>
+                        <option value="Missed">Missed</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Rescheduled">Rescheduled</option>
+                      </select>
+                    </div>
+                    <div className="col-md-4 text-muted p-2">
+                      <input type="datetime-local" value={selectedDate} onChange={handleDateChange} placeholder="Filter by date/time" />
+                    </div>
+                    <div className="col-md-3 ms-auto">
+                      <Button
+                        text="Clear Filters"
+                        className="w-60 ms-5"
+                        onClick={handleClearFilters}
+                        variant={"md"}
+                      ></Button>
+                    </div>
+                  </div>
+                }
+              </>
+            )
+          }
+
+          {appointmentsLoading &&
+            <>
+              <Spinner />
+            </>
           }
         </div>
         <FollowupModal
@@ -205,7 +216,7 @@ function docappointments() {
           <Table headers={headers} data={apps ? apps : []} className="col-md-10" />
         }
 
-        {(apps && apps.length === 0) &&
+        {(!appointmentsLoading && apps && apps.length === 0) &&
           <div className="w-100 text-center">
             <h1>No scheduled appointments at this time!</h1>
           </div>

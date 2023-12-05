@@ -37,14 +37,7 @@ export default function DoctorProfile({ params }) {
   const [newDate, setNewDate] = useState("");
   const [editSuccess,setEditSuccess] = useState(false);
   const [addDateSuccess, setAddDateSuccess] = useState(false);
-  const [dateError, setDateError] = useState(false);
-  
-  const error = useSelector(
-    (state) => state.doctorAddAvailableDateReducer.error
-  );
-  const success = useSelector(
-    (state) => state.doctorAddAvailableDateReducer.error
-  );
+  const [dateError, setDateError] = useState(false)
   const loading = useSelector(
     (state) => state.doctorAddAvailableDateReducer
   );
@@ -96,7 +89,6 @@ export default function DoctorProfile({ params }) {
 
   const handleAddDate = () => {
     setAddDateSuccess(false);
-    setDateError(false);
     if (newDate==""){
       setDateError(true);
       return;
@@ -323,7 +315,7 @@ export default function DoctorProfile({ params }) {
                   <div className="w-50 mb-4">
                     <hr className="w-50" />
                   </div>
-                  {(addDateSuccess || success)&& <Alert variant="success" dismissible className="px-2">
+                  {addDateSuccess && <Alert variant="success" dismissible className="px-2">
                   <strong>Success! </strong> Available date added successfully.
                   </Alert>}
                   {(error || dateError) && <Alert variant="danger" dismissible className="px-2">

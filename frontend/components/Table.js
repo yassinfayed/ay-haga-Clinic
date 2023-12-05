@@ -1,3 +1,4 @@
+import { isValidDate, translateDate } from '@/util';
 import React, { useState } from 'react';
 
 function Table(props) {
@@ -7,7 +8,7 @@ function Table(props) {
     const currentItems = data;
 
     return (
-        <div style={{overflowX: 'auto'}}>
+        <div style={{ overflowX: 'auto' }}>
             <table className={`table table-striped table-bordered table-hover my-3 ${className}`}>
                 <thead>
                     <tr>
@@ -17,13 +18,33 @@ function Table(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentItems?.map((row, index) => (
-                        <tr key={`tr${index}`}>
-                            {Object.values(row).map((node, index2) => (
-                                <td key={`td${index}-${index2}`} className='text-center'>{node}</td>
-                            ))}
-                        </tr>
-                    ))}
+                    {currentItems?.map((row, index) => {
+                        return (
+                            <tr key={`row${index}`}>
+                                {Object.keys(row).map((key, index) => {
+                                    if (key === 'button') {
+                                        return (
+                                            <td key={`col${index}`} className='text-center'>
+                                                {row[key]}
+                                            </td>
+                                        );
+                                    }
+                                    if (key === 'DateOfbirth') {
+                                        return (
+                                            <td key={`col${index}`} className='text-center'>
+                                                {isValidDate(row[key]) ? translateDate(row[key]) : row[key]}
+                                            </td>
+                                        );
+                                    }
+                                    return (
+                                        <td key={`col${index}`} className='text-center'>
+                                            {row[key]}
+                                        </td>
+                                    );
+                                })}
+                            </tr>
+                        )
+                    })}
                 </tbody>
             </table>
         </div>

@@ -9,27 +9,21 @@ import { uploadHealthRecords } from '@/app/redux/actions/patientActions';
 import Image from 'next/image';
 import NavbarDoc from "../../../../components/NavbarDoc";
 import FooterDoc from "../../../../components/FooterDoc";
-import { Alert } from 'react-bootstrap';
+import Spinner from '../../../../components/Spinner';
+
 
 
 function PatientsList() {
   const tableHeaders = ['name', 'email', 'birth date', 'gender', 'phone number', 'appointment date', 'view', 'upload health records'];
 
   const tabledata2 = useSelector(state => state.patientsReducer?.patients?.data)
-  const error = useSelector(state => state.uploadHealthRecordsReducer.error)
-  const success = useSelector(state => state.uploadHealthRecordsReducer.success)
-  const loading = useSelector(state => state.uploadHealthRecordsReducer.loading)
+  const isLoading = useSelector(state => state.patientsReducer.loading)
+  const tabledataU1 = useSelector(state => state.filterPatientsBasedOnUpcomingAppointmentsReducer?.patients?.data)
   const [name, setName] = useState({});
   const [upcoming, setUpcoming] = useState({});
 
-  function formatDateToDDMMYYYY(isoDate) {
-    const date = new Date(isoDate);      
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    
-    return `${day}-${month}-${year}`;
-  }
+
+
 
 
   const generateButton = (id) => {
@@ -44,10 +38,10 @@ function PatientsList() {
     return {
       name: item.name,
       email: item.email,
-      birthDate: formatDateToDDMMYYYY(item.dateOfBirth), // Adjust the dateOfBirth key
+      birthDate: item.dateOfBirth, // Adjust the dateOfBirth key
       gender: item.gender,
       phoneNumber: item.mobileNumber,
-      appointmentDate: formatDateToDDMMYYYY(item.appointmentDate),
+      appointmentDate: item.appointmentDate,
       view: generateButton(item._id), // Adjust the ID key
       upload: <>
         <div className="d-flex">
@@ -62,9 +56,7 @@ function PatientsList() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(viewPatients({ ...name, ...upcoming }))
-    console.log(error);
-    console.log(success);
-  }, [name, upcoming, loading, error, success])
+  }, [name, upcoming])
 
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -92,47 +84,48 @@ function PatientsList() {
 
   return (
     <>
-      <NavbarDoc />
-      <div className='m-5 global-text'>
+      <div className='global-text min-vh-100 d-flex flex-column'>
+        <NavbarDoc />
         <h3 className='my-1 mt-0 text-center text-title'>Patients</h3>
         <div className='underline-Bold mx-auto mb-5'></div>
-        <>
-            {error && 
-            <Alert variant='danger' className='text-center' dismissible>
-              <strong>Error!</strong> {error}
-            </Alert> }
-            {success && 
-            <Alert variant='success' className='text-center' dismissible>
-              <strong>Success!</strong> Health records uploaded successfully
-            </Alert> }
-          <div className='row flex align-items-center justify-content-start bg-light p-2 pe-0 rounded border'>
-            <div className="col-md-1">
-              <Image src='/filter.svg' height={30} width={30} className="" />
+
+        {!isLoading &&
+          <div className='container-fluid px-5'>
+            <div className='row flex align-items-center justify-content-start bg-light p-2 pe-0 rounded border'>
+              <div className="col-md-1">
+                <Image src='/filter.svg' height={30} width={30} className="" />
+              </div>
+              <div className="col-md-3">
+                <input
+                  type="text"
+                  placeholder="Patient Name"
+                  className="form-control my-auto"
+                  onChange={(e) => { setName({ "name": e.target.value }); }} />
+              </div>
+              <div className="col-md-3 container-fluid" style={{ display: 'flex', alignItems: 'center' }}>
+                <label htmlFor="upcomingAppointments">Upcoming Appointments</label>
+                <input
+                  onChange={(e) => { setUpcoming(e.target.checked ? { status: 'Upcoming' } : {}) }}
+                  type="checkbox" id="upcomingAppointments" name="upAp" value="upAp"
+                  style={{ width: '20px', height: '20px', marginLeft: '10px' }} />
+              </div>
+              <div className="col-md-3 ms-auto">
+                <Button text="Clear Filters" className="w-60 ms-5" onClick={handleClearFilters} variant={'md'}></Button>
+              </div>
             </div>
-            <div className="col-md-3">
-              <input
-                type="text"
-                placeholder="Patient Name"
-                className="form-control my-auto"
-                onChange={(e) => { setName({ "name": e.target.value }); }} />
-            </div>
-            <div className="col-md-3 container-fluid" style={{ display: 'flex', alignItems: 'center' }}>
-              <label htmlFor="upcomingAppointments">Upcoming Appointments</label>
-              <input
-                onChange={(e) => { setUpcoming(e.target.checked ? { status: 'Upcoming' } : {}) }}
-                type="checkbox" id="upcomingAppointments" name="upAp" value="upAp"
-                style={{ width: '20px', height: '20px', marginLeft: '10px' }} />
-            </div>
-            <div className="col-md-3 ms-auto">
-              <Button text="Clear Filters" className="w-60 ms-5" onClick={handleClearFilters} variant={'md'}></Button>
+            <div>
+              <Table headers={tableHeaders} data={tabledata} itemsPerPageOptions={[5, 10, 15]} />
             </div>
           </div>
-          <div>
-            <Table headers={tableHeaders} data={tabledata} itemsPerPageOptions={[5, 10, 15]} />
-          </div>
-        </>
+
+        }
+
+        {
+          isLoading &&
+          <Spinner />
+        }
+        <FooterDoc />
       </div>
-      <FooterDoc />
     </>
   );
 

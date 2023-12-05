@@ -6,6 +6,7 @@ const enums =  require('../constants/enums');
 
 router.use(protect);
 
+router.route("/auth").get((req,res,next) => res.status(200).send());
 router.route("/view-Patients").get(patientController.viewMyPatients); 
 router.get("/",restrictTo(enums.ROLE.ADMIN),patientController.getAllPatients)
 // router.route("/filter-Patients-Based-On-Upcoming-Appointments").get(patientController.FilterPatientsBasedOnUpcomimgAppointments);

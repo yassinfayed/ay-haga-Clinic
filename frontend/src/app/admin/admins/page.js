@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers, removeUser } from '@/app/redux/actions/userActions';
 import Image from 'next/image';
 import { Alert } from 'react-bootstrap';
+import Spinner from "../../../../components/Spinner";
 
 export default function Admins() {
   const tableHeaders = ['Username', 'Actions'];
@@ -14,6 +15,7 @@ export default function Admins() {
   const dispatch=useDispatch();
   const [id,setId]=useState(0);
   const admins = useSelector(state=>state.getUsersReducer.user)
+  const adminsisLoading = useSelector(state=>state.getUsersReducer.loading)
   const CreateisLoading = useSelector(state=>state.registerReducer.loading)
   const RemoveisLoading = useSelector(state=>state.removeUserReducer.loading)
   const RemoveisFail =useSelector(state=>state.removeUserReducer.error)
@@ -76,7 +78,6 @@ export default function Admins() {
           if (value.role === 'administrator') {
             return {
               username: value.username,
-              // password: value.password,
               button: generateButton(value._id),
             };
           }
@@ -119,7 +120,12 @@ export default function Admins() {
         onHide={() => setModalShow(false)} 
         title={"Create new admin account"}
         />
-      <Table headers={tableHeaders} data={adminlist}></Table>
+      {/* {adminsisLoading ? (
+        <Spinner />
+      ) : ( */}
+        <Table headers={tableHeaders} data={adminlist ? adminlist : []}></Table>
+      {/* )} */}
+     
     </div>
     </>
   );

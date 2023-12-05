@@ -14,9 +14,9 @@ function ReserveModal(props) {
 
     const dispatch = useDispatch();
 
-    const [packageReciever, setPackageReciever] = useState(null);
+    const [packageReciever, setPackageReciever] = useState("me");
     const [familyMember, setFamilyMember] = useState(null);
-    const [paymentMethod, setPaymentMethod] = useState(null);
+    const [paymentMethod, setPaymentMethod] = useState("wallet");
 
     const familyMembers = useSelector((state) => state.viewFamilyMembersReducer.familyMember);
     const isLoading = useSelector((state) => state.addFamilyMembersReducer.loading);

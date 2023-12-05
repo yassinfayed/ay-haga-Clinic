@@ -8,7 +8,7 @@ import { getDoctorsForPatientAction,adminAcceptDoctor, rejectDoctor} from '@/app
 import { downloadDoctorDocs } from '@/app/redux/actions/doctorActions';
 import Image from 'next/image';
 import { Alert } from 'react-bootstrap';
-
+import Spinner from "../../../../components/Spinner";
 export default function DoctorApps() {
   const dispatch=useDispatch();
   const doctors=useSelector(state=>state.getDrsForPatientsReducer.doctors);
@@ -111,6 +111,8 @@ export default function DoctorApps() {
       { showAlertRejectionSuccess && <Alert variant='success' className='text-center'>Doctor rejected successfully</Alert>}
       { showAlertRejectionFail && <Alert variant='danger' className='text-center'>{rejerctionisFail}</Alert>}
 
+
+      
       {doctors?.data?.map((person)=>{
         if(person.employmentContract.status==='accepted')
         return
@@ -128,8 +130,7 @@ export default function DoctorApps() {
           <div className="col-lg-6">
               <Button variant="xs" text="View Documents" onClick={()=>handleDownload(person._id)}></Button>
           </div>
-        </div>
-      }
+        </div> }
           <div className="row">
             <div>
             <Image src='/mail-dark.svg' height={20} width={20} className="me-2"/>{person.email}
