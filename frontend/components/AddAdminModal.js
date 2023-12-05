@@ -119,7 +119,7 @@ function CenteredModalAdmin(props) {
                   <div className="col-md-10">
                     <input
                       type={showPassword ? 'text' : 'password'}
-                      className={`form-control py-3 ${passwordsMatch ? '' : 'is-invalid'}`}
+                      className={`form-control ${passwordsMatch ? '' : 'is-invalid'}`}
                       placeholder="Password"
                       name="password"
                       id='passwordInput'
@@ -148,7 +148,7 @@ function CenteredModalAdmin(props) {
                   <div className="col-md-10">
                     <input
                       type={showConfirmPassword ? 'text' : 'password'}
-                      className={`form-control py-3 ${passwordsMatch ? '' : 'is-invalid'}`}
+                      className={`form-control ${passwordsMatch ? '' : 'is-invalid'}`}
                       placeholder="Confirm Password"
                       name="passwordConfirm"
                       id='passwordConfirmInput'
