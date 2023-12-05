@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../../../components/Card";
-import { Button } from "../../../../components/Button";
 import NavbarDoc from "../../../../components/NavbarDoc";
 import FooterDoc from "../../../../components/FooterDoc";
 import ChangePassword from "../../../../components/ChangePassword";
@@ -17,6 +16,8 @@ import {
   updateDoctor,
   doctorViewContract,
 } from "../../redux/actions/doctorActions";
+import { Row, Col, Form, Button } from 'react-bootstrap';
+import { validateDateNew } from "@/app/assets/validators";
 
 
 export default function DoctorProfile({ params }) {
@@ -83,13 +84,6 @@ export default function DoctorProfile({ params }) {
   }
 
   const handleDateChange = (e) => {
-    date = new Date(e.target.value);
-    const now = new Date();
-    if(date<now){
-      setDateError(true)
-      setNewDate("");
-      return;
-    }
     setNewDate(e.target.value)
   };
 
@@ -324,28 +318,34 @@ export default function DoctorProfile({ params }) {
                   {addDateSuccess && <Alert variant="success" dismissible className="px-2">
                   <strong>Success! </strong> Available date added successfully.
                   </Alert>}
-                  {dateError && <Alert variant="danger" dismissible className="px-2">
-                  <strong>Error! </strong> Something went wrong.
+                  {(error || dateError) && <Alert variant="danger" dismissible className="px-2">
+                  <strong>Error! </strong> Something went wrong, try again.
                   </Alert>}
-                  <div className=" row mx-auto">
-                    <div className="col-md-6">
-                    <input
-                      type="datetime-local"
-                      id="appointmentdate"
-                      name="appointmentdate"
-                      className="form-control"
-                      onChange={(e) => {
-                        handleDateChange(e);
-                      }}
-                    />
-                    </div>
-                    <Button
-                      text="Add Available Date"
-                      variant="xs"
-                      onClick={() => handleAddDate()}
-                      className='col-md-4'
-                    ></Button>
-                  </div>
+                  <Row className="mx-auto">
+                    <Col md={6}>
+                      <Form.Control
+                        type="datetime-local"
+                        id="appointmentdate"
+                        name="appointmentdate"
+                        value={newDate}
+                        isInvalid={newDate && !validateDateNew(newDate)}
+                        onChange={(e) => handleDateChange(e)}
+                      />
+                    <Form.Control.Feedback type="invalid">
+                      Please choose a valid date.
+                    </Form.Control.Feedback>                    
+                    </Col>
+                    <Col md={4}>
+                      <Button
+                        variant="xs"
+                        onClick={() => handleAddDate()}
+                        disabled={newDate && !validateDateNew(newDate)}
+                        className="w-100 bg-primary text-white " // Assuming you want the button to take the full width of the column
+                      >
+                        Add Available Date
+                      </Button>
+                    </Col>
+                  </Row>
                   <br></br>
                   <DateCardList />
                 </div>
