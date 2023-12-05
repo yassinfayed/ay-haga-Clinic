@@ -69,11 +69,11 @@ export default function Admins() {
 
   const adminlist = useMemo(() => {
     if (admins && admins.data) {
-      const excludedAdminId =JSON.parse(localStorage.getItem('userInfo'))?.data.user._id ;
+    //   const excludedAdminId =JSON.parse(localStorage.getItem('userInfo')).data.user._id ;
       return admins.data
-        .filter((value) => {
-          return value._id !== excludedAdminId;
-        })
+        // .filter((value) => {
+        //   return value._id !== excludedAdminId;
+        // })
         .map((value) => {
           if (value.role === 'administrator') {
             return {

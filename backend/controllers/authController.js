@@ -126,7 +126,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   let patient;
   let doctor;
   if (req.body.role === enums.ROLE.ADMIN) {
-    res.status(400).json({
+    res.status(200).json({
       status: "success",
       data: {
         data: newUser,
