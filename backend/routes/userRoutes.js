@@ -4,7 +4,7 @@ const authController = require('../controllers/authController');
 const router = express.Router();
 const enums = require('../constants/enums');
 
-router.route("/auth").get((req, res, next) => res.status(200).send());
+router.route("/auth").get(authController.protect, authController.restrictTo(enums.ROLE.ADMIN), (req, res, next) => res.status(200).send());
 router.route("/:id").delete(authController.protect, authController.restrictTo(enums.ROLE.ADMIN), userController.deleteUser);
 router.post('/signup', authController.upload.array('documents', 5), authController.signup);
 router.post('/login', authController.login);
