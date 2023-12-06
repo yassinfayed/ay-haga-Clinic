@@ -12,7 +12,7 @@ import Spinner from "../../../../components/Spinner";
 export default function DoctorApps() {
   const dispatch=useDispatch();
   const doctors=useSelector(state=>state.getDrsForPatientsReducer.doctors);
-  
+  const doctorsisLoading=useSelector(state=>state.getDrsForPatientsReducer.loading);
   const isLoading=useSelector(state=>state.removeUserReducer.loading);
   const approvalIsLoading=useSelector(state=>state.adminAcceptDoctorReducer.loading);
   const approvalisFail=useSelector(state=>state.adminAcceptDoctorReducer.error);
@@ -113,7 +113,8 @@ export default function DoctorApps() {
 
 
       
-      {doctors?.data?.map((person)=>{
+    {doctorsisLoading&&<Spinner/>}
+    {!doctorsisLoading&&   doctors?.data?.map((person)=>{
         if(person.employmentContract.status==='accepted')
         return
 
@@ -185,6 +186,7 @@ export default function DoctorApps() {
         </Card></div>
       })
        }
+
        </div>
     </div>
     </div>

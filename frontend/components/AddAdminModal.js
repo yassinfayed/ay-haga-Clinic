@@ -65,7 +65,6 @@ function CenteredModalAdmin(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-
     if (passwordValue !== passwordconfirmValue) {
       return;
     }
@@ -90,6 +89,7 @@ function CenteredModalAdmin(props) {
         const timer = setTimeout(() => {
           setShowAlertRegisterSuccess(false);
           props.onHide()
+          window.location.reload()
         }, 200);
         setUsernameValue('');
         setPasswordValue('');

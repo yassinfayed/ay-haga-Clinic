@@ -16,12 +16,13 @@ export default function Admins() {
   const [id,setId]=useState(0);
   const admins = useSelector(state=>state.getUsersReducer.user)
   const adminsisLoading = useSelector(state=>state.getUsersReducer.loading)
-  const CreateisLoading = useSelector(state=>state.registerReducer.loading)
-  const RemoveisLoading = useSelector(state=>state.removeUserReducer.loading)
+  const CreateisSuccess = useSelector(state=>state.registerReducer.success)
   const RemoveisFail =useSelector(state=>state.removeUserReducer.error)
   const [showAlertRemoveSuccess, setShowAlertRemoveSuccess] = useState(false);
   const [showAlertRemoveFail, setShowAlertRemoveFail] = useState(false);
   const [showAlertRemoveLoading, setShowAlertRemoveLoading] = useState(false);
+  const [isDataChanged, setIsDataChanged] = useState(false);
+
 
   const generateButton = (id) => {
     const isRemoving = showAlertRemoveLoading[id];
@@ -56,6 +57,7 @@ export default function Admins() {
       }
     else{
         setShowAlertRemoveSuccess(true);
+        setIsDataChanged(true);
         const timer = setTimeout(() => {
           setShowAlertRemoveSuccess(false);
         }
@@ -86,20 +88,21 @@ export default function Admins() {
         .filter((value) => value !== null && typeof value !== 'undefined');
     }
     return [];
-  }, [admins, modalShow, RemoveisLoading]);
+  }, [admins]);
   
   
-  useEffect(()=>{    
+  useEffect(() => {
     dispatch(getAllUsers());
-    }
-  ,[dispatch,modalShow,CreateisLoading,RemoveisLoading])
+    setIsDataChanged(false);
+  }, [dispatch, isDataChanged]);
+
 
   return (
     <>
     <h3 className='my-1 mt-0 text-center text-title'>Admins</h3>
     <div className='underline-Bold mx-auto mb-5'></div>
     <div className=" justify-content-center align-items-center min-vh-100 container">
-   `{showAlertRemoveSuccess && (
+   {showAlertRemoveSuccess && (
         <Alert variant='success' className='text-center' dismissible>
           <strong>Success!</strong> Admin removed successfully
         </Alert>
@@ -120,11 +123,26 @@ export default function Admins() {
         onHide={() => setModalShow(false)} 
         title={"Create new admin account"}
         />
-      {/* {adminsisLoading ? (
-        <Spinner />
-      ) : ( */}
-        <Table headers={tableHeaders} data={adminlist ? adminlist : []}></Table>
-      {/* )} */}
+
+      {adminsisLoading  && <Spinner />}
+      
+   
+      {!adminsisLoading && adminlist.length > 0   ?
+      
+      (
+        <div className="container-fluid my-3">
+          <Table headers={tableHeaders} data={adminlist} itemsPerPageOptions={[5, 10, 15]} className="" />
+        </div>
+      )
+      : admins?.data?.length === 0 ?
+
+      (
+        <div className="text-center">
+          <h5 className="text-muted">No admins found</h5>
+        </div>
+      ):null
+
+    }
      
     </div>
     </>

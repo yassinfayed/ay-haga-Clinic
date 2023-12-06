@@ -140,6 +140,7 @@ exports.signup = catchAsync(async (req, res, next) => {
         data: newUser,
       },
     });
+    console.log("admin111111111");
     return;
   }
   try {
