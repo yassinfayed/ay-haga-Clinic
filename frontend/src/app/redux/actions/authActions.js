@@ -116,7 +116,9 @@ export const registerAction = (reqBody) => async (dispatch) => {
       payload: data.data,
     });
 
-    localStorage.setItem('userInfo', JSON.stringify(data));
+    if (reqBody.role!=='administrator') {
+      localStorage.setItem('userInfo', JSON.stringify(data));
+    }
   } catch (error) {
     console.log(error);
     dispatch({

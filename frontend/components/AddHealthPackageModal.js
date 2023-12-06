@@ -26,6 +26,7 @@ function CenteredModalAddPack(props) {
   const [showAlertUpdateSuccess, setShowAlertUpdateSuccess] = useState(false);
   const [showAlertUpdateFail, setShowAlertUpdateFail] = useState(false);
   const [showAlertUpdateLoading, setShowAlertUpdateLoading] = useState(false);
+
   if(edit){
     const {data}=props;
   useEffect(() => {
@@ -62,6 +63,7 @@ function CenteredModalAddPack(props) {
 
   const handleSubmit=(e)=>{
     e.preventDefault();
+ 
   if(priceValue <= 0 || sessionDiscountValue > 100 || medicineDiscountValue > 100 || subscriptionsDiscountValue > 100|| nameValue === '' || priceValue === '' || sessionDiscountValue === '' || medicineDiscountValue === '' || subscriptionsDiscountValue === ''){
   return;
   } 
@@ -96,6 +98,7 @@ function CenteredModalAddPack(props) {
           setMedicineDiscountValue('');
           setSubscriptionsDiscountValue('');
           setPriceValue('');
+          window.location.reload();
     
         }, 900);
         return () => clearTimeout(timer);
@@ -136,7 +139,7 @@ function CenteredModalAddPack(props) {
             setMedicineDiscountValue('');
             setSubscriptionsDiscountValue('');
             setPriceValue('');
-      
+            window.location.reload();
           }, 900);
 
           return () => clearTimeout(timer);
@@ -144,8 +147,6 @@ function CenteredModalAddPack(props) {
       }
       )
     }
-  
- 
 
   }
 
@@ -203,6 +204,7 @@ function CenteredModalAddPack(props) {
                 id="nameInput"
                 placeholder=""
                 value={nameValue}
+                required
               />
             </Form.Group>
             <Form.Group as={Col} md="6" className="my-1">
@@ -214,6 +216,7 @@ function CenteredModalAddPack(props) {
                 placeholder=""
                 value={priceValue}
                 isInvalid={priceValue < 0}
+                required
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid price.
@@ -230,6 +233,7 @@ function CenteredModalAddPack(props) {
                 placeholder="xxxx %"
                 value={sessionDiscountValue}
                 isInvalid={sessionDiscountValue > 100}
+                required
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid discount.
@@ -244,6 +248,7 @@ function CenteredModalAddPack(props) {
                 placeholder="xxxx %"
                 value={medicineDiscountValue}
                 isInvalid={medicineDiscountValue > 100}
+                required
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid discount.
@@ -260,6 +265,7 @@ function CenteredModalAddPack(props) {
                 placeholder="xxxx %"
                 value={subscriptionsDiscountValue}
                 isInvalid={subscriptionsDiscountValue > 100}
+                required 
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid discount.
@@ -269,7 +275,7 @@ function CenteredModalAddPack(props) {
           </Row>
           <Row className="justify-content-end align-items-center mt-5 mb-2">
             <Col md="auto">
-              <Button type="submit" className="btn-primary">Submit</Button>
+           <Button type="submit" className="btn-primary" >Submit</Button>
             </Col>
           </Row>
         </Form>

@@ -37,7 +37,6 @@ export default function DoctorsPage(doctors, admin) {
     dispatch(removeUser(id)).then(()=>{
     setRemoveDoctorAlertLoading(false);
     setRemoveDoctorAlertLoading({ ...removeDoctortAlertLoading, [id]: false });
-      
        if (removeIsFail) {
         setRemoveDoctorAlertFail(true);
         const timer = setTimeout(() => {
@@ -53,7 +52,6 @@ export default function DoctorsPage(doctors, admin) {
         , 3000);
         return () => clearTimeout(timer);
       }
-     
     }
     );
   };

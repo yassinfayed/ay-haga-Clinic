@@ -117,7 +117,7 @@ export default function Patients() {
     {
       showremoveAlertFail && (
         <Alert variant='danger' className='text-center'>
-          {removeIsFail}
+          Patient removal failed
         </Alert>
       )
     }
