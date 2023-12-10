@@ -180,8 +180,11 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
     }
     appointments = await Appointment.find(query).populate("patient");
     data = appointments.map((appointment) => {
-      appointment.patient.appointmentDate = appointment.date;
-      return appointment.patient;
+      //TODO: handle this properly
+      if (appointment.patient) {
+        appointment.patient.appointmentDate = appointment.date;
+        return appointment.patient;
+      }
     });
     //  data = Array.from(new Set(data));
   }
