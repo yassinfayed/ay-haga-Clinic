@@ -21,7 +21,11 @@ export default function Sidebar() {
   const menuItems = {
     patient: [
       { icon: "profile", label: "Profile", href: "/patient/profile" },
-      { icon: "medicines", label: "Medicines", href: "/patient/products" },
+      {
+        icon: "medicines",
+        label: "Family Members",
+        href: "/patient/familymember",
+      },
       { icon: "cart", label: "Cart", href: "/patient/cart" },
       {
         icon: "logout",
