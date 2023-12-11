@@ -46,7 +46,7 @@ const PersonalCard = ({
             />
           </svg>
         );
-      case "dateOfBirth":
+      case "DateOfBirth":
         return (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +134,7 @@ const PersonalCard = ({
             />
           </svg>
         );
-      case "educationalBackground":
+      case "educationalbackground":
         return (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -151,7 +151,7 @@ const PersonalCard = ({
             />
           </svg>
         );
-      case "hourlyRate":
+      case "HourlyRate":
         return (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -189,7 +189,7 @@ const PersonalCard = ({
         </h1>
         {data?.affiliation && (
           <h3 className="font-lg text-semibold text-center leading-6 text-gray-600">
-            {`Pharmacist at ${data?.affiliation}`}
+            {`Doctor at ${data?.affiliation}`}
           </h3>
         )}
         <p className="text-center text-sm leading-6 text-gray-500 hover:text-gray-600">
