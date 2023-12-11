@@ -105,6 +105,7 @@ export const registerReducer = (state = {}, action) => {
         user: action.payload,
         isAuthenticated: true,
         loading: false,
+        success:true,
         error: null,
       }
     };

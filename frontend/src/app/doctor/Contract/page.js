@@ -84,7 +84,7 @@ const {doctor}=props;
           </div>
         </nav>
         <div>
-        {docStatus === 'pending' ? (
+        {docStatus === 'Pending' ? (
               <div className="page-div container justify-content-center align-items-center m-5 mx-auto">
               <h1 className="text-primary text-center"><strong>Employment Contract</strong></h1>
               <h3 className='text-center'>XClinics Clinic</h3>
@@ -154,7 +154,7 @@ const {doctor}=props;
                 <Button onClick={(e)=>handleAccept(e)} variant='md' className='col-md-3 px-3 btn btn-primary mx-auto' color='primary'>Accept</Button>
               </div>
               </div>
-            </div>) : (docStatus === 'waitingadmin' ? (
+            </div>) : (docStatus === 'Waiting Admin' ? (
             <div>
               <br />
               <br />

@@ -126,7 +126,7 @@ export default function DoctorApps() {
         className="m-3 mb-0 rounded-circle"/>} subtitle={<div className='mt-2 ms-3 text-semibold text-capitalize'>Status: {person.employmentContract.status}</div>}>
        <hr />
        <div className="p-3 pe-0">
-       {person.employmentContract.status==='waitingadmin' &&
+       {person.employmentContract.status==='Waiting Admin' &&
         <div className="row mb-3">
           <div className="col-lg-6">
               <Button variant="xs" text="View Documents" onClick={()=>handleDownload(person._id)}></Button>
@@ -162,7 +162,7 @@ export default function DoctorApps() {
           <br />
           </div>
          <div className='row'>
-              {person.employmentContract.status === 'waitingadmin' && (
+              {person.employmentContract.status === 'Waiting Admin' && (
                 isRejecting ? (
                   <Button variant="dark" disabled className='col-md-4 mx-auto'>
                     <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -172,7 +172,7 @@ export default function DoctorApps() {
                   <Button text='Reject' color='dark' variant='xs' onClick={() => onRemoveHandler(person._id)} className='col-md-4 mx-auto'></Button>
                 )
               )}
-              {person.employmentContract.status === 'waitingadmin' && (
+              {person.employmentContract.status === 'Waiting Admin' && (
                 isApproving ? (
                   <Button variant="primary" disabled className='col-md-4 mx-auto'>
                     <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

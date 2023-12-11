@@ -24,6 +24,7 @@ export const removeUserReducer = (state = {}, action) => {
           ...state,
           user: action.payload,
           loading: false,
+          success:true,
           error: null,
         }};
       case USER_REMOVE_FAIL:

@@ -31,7 +31,8 @@ const SignupPharmacist = () => {
     dateOfBirth: "",
     gender: "male",
     mobileNumber: "",
-    passwordConfirm: ""
+    passwordConfirm: "",
+    speciality:""
   });
   
   const {
@@ -78,7 +79,7 @@ const SignupPharmacist = () => {
   
    if(isAuthenticated)
    { 
-    url="/pharmacist/profile";
+    url="/guest/login";
     setTimeout(() => {
       window.history.pushState({},"",url)
       window.location.reload()
@@ -118,15 +119,15 @@ const SignupPharmacist = () => {
     combinedFormData.append("email", formData.email);
     combinedFormData.append("password", formData.password);
     combinedFormData.append("passwordConfirm", formData.passwordConfirm);
-    combinedFormData.append("dateOfBirth", formData.dateOfBirth);
+    combinedFormData.append("DateOfbirth", formData.dateOfBirth);
     combinedFormData.append("gender", formData.gender);
-    combinedFormData.append("phoneNumber", formData.phoneNumber);
-    combinedFormData.append("hourlyRate", formData.hourlyRate);
+    combinedFormData.append("speciality", formData.speciality);
+    combinedFormData.append("HourlyRate", formData.hourlyRate);
     combinedFormData.append(
-      "educationalBackground",
+      "educationalbackground",
       formData.educationalBackground
     );
-    combinedFormData.append("role", "pharmacist");
+    combinedFormData.append("role", "doctor");
     combinedFormData.append("affiliation", formData.affiliation);
     combinedFormData.append("documents", files.document1);
     combinedFormData.append("documents", files.document2);
@@ -269,24 +270,19 @@ const SignupPharmacist = () => {
                   <Col>
                     <TextInput
                       className="w-full px-8 py-4 rounded-lg font-medium   placeholder-gray-500 text-lg  "
-                      type="Number"
-                      placeholder="Phone Number*"
+                      type="text"
+                      placeholder="Speciality*"
                       onChange={handleInputChange}
                       required
-                      name="mobileNumber"
-                      value={formData.mobileNumber}
-                      error={(
-                        formData.mobileNumber &&
-                        !validatePhoneNumber(formData.mobileNumber))
-                        || (registerError && formData.mobileNumber==="")
+                      name="speciality"
+                      value={formData.speciality}
+                      error={
+                        (registerError && formData.speciality==="")
                       }
                       errorMessage={
-                        formData.mobileNumber!=="" ? (
-                        formData.mobileNumber &&
-                        !validatePhoneNumber(formData.mobileNumber)&&
-                      "Please enter 11 digits sarting by a zero") :(
+                       
                         registerError && "Please fill in this field"
-                      )}
+                      }
                     />
                   </Col>
 
