@@ -213,7 +213,8 @@ const Application = () => {
                       />
                     </svg>
                   ),
-                  function: (id) => onViewFiles(id),
+                  function: (id) => {onViewFiles(id)
+                console.log(id)},
                 },
               ]}
               badgeColumns={[]}

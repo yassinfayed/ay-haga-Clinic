@@ -80,7 +80,7 @@ const TableComponent = ({
                       onClick={
                         button.label !== "Documents"
                           ? (e) => button.function(item._id)
-                          : (e) => button.function(item.pharmacistID)
+                          : (e) => button.function(item.doctorID)
                       }
                       key={buttonIndex}
                       {...button}
