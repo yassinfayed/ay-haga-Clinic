@@ -140,7 +140,7 @@ const Admins = () => {
       )}
 
       <>
-      <PromptMessage visible={showPrompt} setVisible={setShowPrompt} message="Are you sure you want to remove this admin" onConfirm={confirmDelete} confirmLoading={removeLoading}
+      <PromptMessage visible={showPrompt} setVisible={setShowPrompt} message="Are you sure you want to remove this admin?" onConfirm={confirmDelete} confirmLoading={removeLoading}
       onCancel={cancelDelete}/>
 
     

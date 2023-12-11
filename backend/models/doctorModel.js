@@ -66,8 +66,8 @@ const DoctorSchema = new mongoose.Schema({
     },
     status:{
     type:String,
-        enum: ['pending', 'accepted','waitingadmin','Doctor rejected','Admin rejected'],
-        default: 'waitingadmin'
+        enum: ['Pending', 'accepted','Waiting Admin','Doctor rejected','Admin rejected'],
+        default: 'Waiting Admin'
     },
     clinicMarkUp:{
         type : Number,

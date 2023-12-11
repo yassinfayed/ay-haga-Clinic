@@ -4,7 +4,7 @@ import {
   getDoctorsForPatientAction,
   rejectDoctor,
 } from "@/app/redux/actions/doctorActions";
-import { removeUser } from "@/app/redux/actions/userActions";
+import { rejectUser } from "@/app/redux/actions/userActions";
 import { BottomCallout } from "@/components/BottomCallout";
 import PersonalCard from "@/components/PersonCard";
 import TableComponent from "@/components/Table";
@@ -30,14 +30,14 @@ const Application = () => {
     (state) => state.getDrsForPatientsReducer
   );
   const {
-    loading: removeLoading,
-    success: removeSuccess,
-    error: removeError,
-  } = useSelector((state) => state.removeUserReducer);
+    loading: rejectLoading,
+    success: rejectSuccess,
+    error: rejectError,
+  } = useSelector((state) => state.rejectDoctorReducer);
   useEffect(() => {
     // dispatch(login("sysadmin","pass1234"));
     dispatch(getDoctorsForPatientAction());
-  }, [dispatch, removeLoading, approvalLoading]);
+  }, [dispatch, rejectLoading, approvalLoading]);
 
   const [freeze, setFreeze] = useState(false);
 
@@ -74,7 +74,7 @@ const Application = () => {
           />
         </svg>
       ),
-      onClick: (e) => handleDelete(selected._id),
+      onClick: (e) => handleDelete(selected.doctorID),
     },
     left: {
       label: "Accept",
@@ -103,14 +103,15 @@ const Application = () => {
   };
   const doctorList = useMemo(() => {
     return doctors?.data
-      ?.map(({ _id, user, DateOfbirth, ...rest }) => ({
+      ?.map(({ _id, user, DateOfbirth,employmentContract, ...rest }) => ({
         ...rest,
         ...user,
         doctorID: _id,
+        employmentStatus:employmentContract.status,
         DateOfbirth: formatDateToDDMMYYYY(DateOfbirth),
       }))
-      .filter((value) => value.isApproved === false);
-  }, [removeError, doctors, approvalLoading, approvalSuccess]);
+      .filter((value) => (value.isApproved === false || (value.employmentStatus !=="accepted")));
+  }, [rejectLoading, doctors, approvalLoading, approvalSuccess]);
 
   const [showPrompt,setShowPrompt]=useState(false)
   const [deleteID,setDeleteID] = useState("")
@@ -120,8 +121,10 @@ const Application = () => {
 
   }
   const confirmDelete  =()=>{
-    dispatch(removeUser(deleteID))
+    dispatch(rejectDoctor(deleteID))
     setShowPrompt(!showPrompt)
+    setSelected(null)
+    setFreeze(false)
   }
   const cancelDelete = ()=>{
     setShowPrompt(!showPrompt)
@@ -129,7 +132,7 @@ const Application = () => {
 
   return (
     <>
-      {removeSuccess && (
+      {rejectSuccess && (
         // Show success message for user removal
         <BottomCallout
           message="Doctor rejected successfully"
@@ -138,7 +141,7 @@ const Application = () => {
           setVisible={setVisibleFeedback}
         />
       )}
-      {removeError && (
+      {rejectError && (
         // Show error message for user removal failure
         <BottomCallout
           message="Error removing user"
@@ -157,15 +160,15 @@ const Application = () => {
       )}
 
       <>
-      <PromptMessage visible={showPrompt} setVisible={setShowPrompt} message="Are you sure you want to remove this admin" onConfirm={confirmDelete} confirmLoading={removeLoading}
+      <PromptMessage visible={showPrompt} setVisible={setShowPrompt} message="Are you sure you want to reject this doctor?" onConfirm={confirmDelete} confirmLoading={rejectLoading}
       onCancel={cancelDelete}/>
         <div className="flex overflow-hidden gap-x-4 gap-y-8">
           <div className="prof h-400 overflow-hidden w-4/6 rounded-xl p-10">
             <TableComponent
               setSelected={setSelected}
               rows={doctorList}
-              columns={["Username", "Name", "Email"]}
-              fields={["username", "name", "email"]}
+              columns={["Username", "Name", "Email","Status"]}
+              fields={["username", "name", "email", "employmentStatus"]}
               freeze={freeze}
               filters={<DateRangePicker className="z-10" />}
               buttons={[
@@ -231,7 +234,7 @@ const Application = () => {
               data={selected}
               displayColumns={["Status", "Joined On"]}
               actualColumns={["status", "joinedOn"]}
-              buttons={buttons}
+              buttons={selected?.employmentStatus==='Waiting Admin' && buttons}
               worker={true}
               fields={[
                 "email",

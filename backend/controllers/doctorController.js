@@ -144,7 +144,7 @@ exports.addAvailableDate = catchAsync(async (req, res, next) => {
 
 exports.acceptDoctor = catchAsync(async (req, res, next) => {
   const doctorfound=await Doctor.findById(req.params.id)
-  const doctor = await Doctor.findByIdAndUpdate(req.params.id, {isApproved:true,employmentContract:{hourlyRate:doctorfound.HourlyRate,status:'pending'}}, {
+  const doctor = await Doctor.findByIdAndUpdate(req.params.id, {isApproved:true,employmentContract:{hourlyRate:doctorfound.HourlyRate,status:'Pending'}}, {
     new: true,
     runValidators: true
 });
@@ -168,7 +168,7 @@ exports.rejectDoctor = catchAsync(async(req,res,next)=>{
     new: true,
     runValidators: true
 });
-}else if(doctorfound.employmentContract.status==='pending') {
+}else if(doctorfound.employmentContract.status==='Pending') {
    doctor = await Doctor.findByIdAndUpdate(req.params.id, {isApproved:true,employmentContract:{hourlyRate:doctorfound.HourlyRate,status:'Doctor rejected'}}, {
     new: true,
     runValidators: true
