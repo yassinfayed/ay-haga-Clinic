@@ -51,10 +51,10 @@ const Doctors = () => {
 
   const doctorsList = useMemo(() => {
     return doctors?.data
-      ?.map(({ _id, user, DateOfBirth, ...rest }) => ({
+      ?.map(({ _id, user, DateOfbirth, ...rest }) => ({
         ...rest,
         ...user,
-        DateOfBirth: formatDateToDDMMYYYY(DateOfBirth),
+        DateOfbirth: formatDateToDDMMYYYY(DateOfbirth),
       }))
       .filter((value) => value.isApproved);
   }, [removeError, doctors]);

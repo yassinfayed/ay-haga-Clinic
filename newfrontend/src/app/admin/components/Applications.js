@@ -103,11 +103,11 @@ const Application = () => {
   };
   const doctorList = useMemo(() => {
     return doctors?.data
-      ?.map(({ _id, user, DateOfBirth, ...rest }) => ({
+      ?.map(({ _id, user, DateOfbirth, ...rest }) => ({
         ...rest,
         ...user,
         doctorID: _id,
-        DateOfBirth: formatDateToDDMMYYYY(DateOfBirth),
+        DateOfbirth: formatDateToDDMMYYYY(DateOfbirth),
       }))
       .filter((value) => value.isApproved === false);
   }, [removeError, doctors, approvalLoading, approvalSuccess]);
