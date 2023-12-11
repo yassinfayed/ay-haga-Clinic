@@ -235,7 +235,7 @@ const Application = () => {
               worker={true}
               fields={[
                 "email",
-                "DateOfBirth",
+                "DateOfbirth",
                 "username",
                 "HourlyRate",
                 "affiliation",
