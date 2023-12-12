@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkFamilyMember } from "@/app/redux/actions/FamilyMembersAction";
 import { Button, TextInput, Select, SelectItem } from "@tremor/react";
-import { BottomCallout } from "@/components/BottomCallout";
+
 import { validateEmail, validatePhoneNumber } from "../../redux/validators";
 import { Modal } from "../../../components/Modal"; // Your custom Modal component
+import Lottie from "lottie-react";
+import LoadingAnimation from "../../../../public/loading.json";
 
-function LinkFamily({ show, onHide, onSuccess, onError, setVisible }) {
+function LinkFamily({ show, setSuccess, setError, visible, setVisible }) {
   const [cred, setCred] = useState("");
   const [relationToPatient, setRelationToPatient] = useState("");
+  const [calloutVisible, setCalloutVisible] = useState(false);
+  const [calloutMessage, setCalloutMessage] = useState("");
   const { error, loading, familyMember } = useSelector(
     (state) => state.linkFamilyMemberReducer
   );
@@ -17,7 +21,7 @@ function LinkFamily({ show, onHide, onSuccess, onError, setVisible }) {
   const isValidCred = (cred) => {
     return validateEmail(cred) || validatePhoneNumber(cred);
   };
-
+  console.log(visible);
   const handleSubmit = (e) => {
     e.preventDefault();
     let phone, email;
@@ -30,57 +34,59 @@ function LinkFamily({ show, onHide, onSuccess, onError, setVisible }) {
       console.log("Invalid email or phone number");
       return;
     }
+    console.log(email, phone, relationToPatient);
 
     dispatch(LinkFamilyMember({ email, phone, relationToPatient }));
   };
 
   useEffect(() => {
     if (!loading && familyMember) {
-      onSuccess();
+      setSuccess("Family member added successfully");
+      setVisible(false);
+      setRelationToPatient("");
+      setCred("");
+      // Trigger onSuccess if provided
     } else if (!loading && error) {
-      console.log(error);
+      setError("Error adding family member");
     }
-  }, [loading, familyMember, error, onHide, onSuccess]);
+  }, [loading, familyMember, setSuccess, setError]);
 
   return (
-    <Modal visible={show} setVisible={setVisible}>
-      <div className="p-4">
-        <h2 className="text-2xl font-bold mb-4">Link Family Member</h2>
-        {error && (
-          <BottomCallout
-            message="Error linking family member"
-            variant="error"
-            visible={!!error}
-          />
-        )}
-        <form onSubmit={handleSubmit}>
-          <TextInput
-            placeholder="Enter email or phone number"
-            value={cred}
-            onChange={(e) => setCred(e.target.value)}
-            error={cred && !isValidCred(cred)}
-            errorMessage="Please enter a valid email or phone number"
-            required
-          />
+    <div className="p-4 mt-4">
+      {/* <h2 className="text-2xl font-bold mb-4">Link Family Member</h2> */}
 
-          <Select
-            placeholder="Relation to patient"
-            onChange={(e) => setRelationToPatient(e.target.value)}
-            required
-            value={relationToPatient}
-          >
-            <SelectItem value="">Choose...</SelectItem>
-            <SelectItem value="wife">Wife</SelectItem>
-            <SelectItem value="husband">Husband</SelectItem>
-            <SelectItem value="child">Child</SelectItem>
-          </Select>
+      <form onSubmit={handleSubmit}>
+        <TextInput
+          className="mb-4"
+          placeholder="Enter email or phone number"
+          value={cred}
+          onChange={(e) => setCred(e.target.value)}
+          error={cred && !isValidCred(cred)}
+          errorMessage="Please enter a valid email or phone number"
+          required
+        />
 
-          <Button type="submit" className="mt-4">
-            Link Member
-          </Button>
-        </form>
-      </div>
-    </Modal>
+        <Select
+          placeholder="Relation to patient"
+          onChange={(e) => {
+            console.log(e);
+            setRelationToPatient(e);
+          }}
+          required
+          name=""
+          value={relationToPatient}
+        >
+          <SelectItem value="">Choose...</SelectItem>
+          <SelectItem value="wife">Wife</SelectItem>
+          <SelectItem value="husband">Husband</SelectItem>
+          <SelectItem value="child">Child</SelectItem>
+        </Select>
+
+        <Button type="submit" className="mt-4" loading={loading}>
+          Link Member
+        </Button>
+      </form>
+    </div>
   );
 }
 

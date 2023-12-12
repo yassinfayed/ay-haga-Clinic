@@ -1,0 +1,29 @@
+.animate-expand-right {
+  transition: all 0.3s ease;
+  transform: scale(1.4) translate(20px);
+  background-color: rgba(59, 131, 246, 0.151) !important;
+  color: White;
+}
+.animate-expand-left {
+  transition: all 0.3s ease;
+  transform: scale(1.4) translate(-20px);
+  background-color: rgba(59, 131, 246, 0.151) !important;
+  color: White;
+}
+.animate-shrink-left {
+  transition: all 0.3s ease;
+  transform: translate(50px) scale(0.7);
+
+  color: white;
+  /* background-color: rgba(59, 131, 246, 0.151) !important; */
+}
+.animate-shrink-right {
+  transition: all 0.3s ease;
+  transform: translate(-50px) scale(0.7);
+
+  color: white;
+  /* background-color: rgba(59, 131, 246, 0.151) !important; */
+}
+.animate {
+  transition: all 0.3s ease;
+}
