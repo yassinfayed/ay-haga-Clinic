@@ -21,25 +21,16 @@
     const onViewFiles = (pharmId) => {
     //   dispatch(downloadPharmacistDocs(pharmId));
     };
-    const [visibleFeedback, setVisibleFeedback] = useState(false);
     const initialDate = null;
     const initialName = '';
     const initialStatus = null;
-    const [selectedDate, setSelectedDate] = useState(initialDate);
+    const [selectedDate, setSelectedDate] = useState(null);
     const [name, setName] = useState(initialName);
     const [selectedStatus, setSelectedStatus] = useState(initialStatus);  
     const { prescription, loading } = useSelector(
       (state) => state.viewAllPrescriptionsReducer
     );
-
-
-    const resetFilters = () => {
-      setSelectedDate(initialDate);
-      setName(initialName);
-      setSelectedStatus(initialStatus);
-      fetchData();
-    };
-  
+    
     const formatDateToISOString = (date) => {
         if (!date) return ''; // Return an empty string if date is falsy
         const utcDate = new Date(Date.UTC(
@@ -47,13 +38,14 @@
           date.getMonth(),
           date.getDate()
         ));
-        const selected = utcDate.toUTCString();
-        return selected;
+        const selectedDateState = utcDate.toUTCString();
+        return selectedDateState;
       };
     
      async function fetchData() {
     
         const queryObj = {
+       
           prescriptionDate: formatDateToISOString(selectedDate),
           name,
           filled_unfilled: selectedStatus,
@@ -66,6 +58,7 @@
             return acc;
           }, {});
 
+          console.log(filteredQueryObj);
       dispatch(viewALLPrescriptions(filteredQueryObj));
     }
 
@@ -78,19 +71,19 @@
 
     const prescriptionList = useMemo(() => {
         return prescription?.data
-            ?.map(({ _id, prescriptionDate, doctorId, medicines, instructions,filled_unfilled }) => ({
+            ?.map(({ _id, prescriptionDate, doctorId, medicines, instructions, filled_unfilled }) => ({
               _id,
               prescriptionDate: formatDateToDDMMYYYY(prescriptionDate),
               doctorName: doctorId.name,
               medicines,
               instructions,
-              filled_unfilled,
+              filled_unfilled: filled_unfilled ? 'Filled' : 'Unfilled',
             }))
         }, [prescription]);
 
       useEffect(() => {
         fetchData();
-    }, [dispatch, selectedDate, name, selectedStatus]);
+    }, [selectedDate, name, selectedStatus]);
 
 
     const buttons = {
@@ -193,40 +186,33 @@
               )}
               className="flex-[2]"
               onChange={(e) => {
-                setSelectedStatus(e ? { filled_unfilled: { in: e } } : {});
+                setSelectedStatus(e)  
                 fetchData();
               }}
-              // value={selectedStatus}
             >
+              <SelectItem value="">All</SelectItem>
               <SelectItem value="true">Filled</SelectItem>
               <SelectItem value="false">Unfilled</SelectItem>
             </Select>
             <div className="flex-[1]">
-              <DatePicker
-                // value={selectedDate}
-                onChange={(date) => {
-                  setSelectedDate(date);
-                  fetchData();
-                  
+            <DatePicker
+                selected={selectedDate}
+                onValueChange={(date) => {
+                  setSelectedDate(date); // This should be a Date object or null
                 }}
                 dateFormat="yyyy-MM-dd"
                 placeholderText="Prescription Date"
                 className="w-full"
               />
-            </div>
-            <Button
-              className="border border-purple-500 text-purple-500 px-4 py-2 rounded"
-              onClick={resetFilters}
-            >
-              Reset
-            </Button>
-
+   
+              </div>
         </div>
         <div className="w-full flex flex-row gap-4">
           </div>
           <div className="flex overflow-hidden gap-x-4 gap-y-8">
             <div className="prof h-400 overflow-hidden w-4/6 rounded-xl p-10">
               <TableComponent
+              setSelected={setSelected}
                 rows={prescriptionList}
                 columns={["Doctor Name","Prescription Date" ,"Filled/Unfilled"]}
                 fields={["doctorName","prescriptionDate","filled_unfilled"]}
