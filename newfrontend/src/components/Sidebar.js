@@ -26,7 +26,10 @@ export default function Sidebar() {
         label: "Family Members",
         href: "/patient/familymember",
       },
+
       { icon:"prescription", label:"Prescriptions", href:"/patient/prescriptions"},
+
+
       { icon: "cart", label: "Cart", href: "/patient/cart" },
       {
         icon: "logout",
