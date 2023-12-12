@@ -79,8 +79,10 @@ const TableComponent = ({
                     <Button
                       onClick={
                         button.label !== "Documents"
-                          ? (e) => button.function(item._id)
-                          : (e) => button.function(item.doctorID)
+                          ? (e) => {
+                              button.function(item._id, e);
+                            }
+                          : (e) => button.function(item.doctorID, e)
                       }
                       key={buttonIndex}
                       {...button}
