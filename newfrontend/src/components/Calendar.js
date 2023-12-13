@@ -20,11 +20,13 @@ function Calendar({ availableSlots }) {
   const {
     loading: addLoading,
     error: addError,
-    availableDates: addSuccess
+    success: addSuccess
   } = useSelector((state) => state.doctorAddAvailableDateReducer);
 
+  const doctor = useSelector((state) => state.doctorReducer.doctor);
+
   useEffect(() => {
-    const formattedEvents = availableSlots.reduce((acc, slot) => {
+    const formattedEvents = doctor?.availableDates.reduce((acc, slot) => {
       const date = new Date(slot);
       const day = date.getDate();
       const time = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -35,7 +37,7 @@ function Calendar({ availableSlots }) {
       return acc;
     }, {});
     setEvents(formattedEvents);
-  }, [availableSlots, currentDate,addLoading]);
+  }, []);
 
 
   const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
@@ -68,35 +70,16 @@ function Calendar({ availableSlots }) {
       const year = currentDate.getFullYear();
       const selectedDate = new Date(Date.UTC(year, month, day));
       const selectedTime = new Date(selectedDate.setUTCHours(parseInt(time.split(":")[0]), parseInt(time.split(":")[1])));
+      setShow(true);
       dispatch(doctorAddAvailableDate({ availableDate: selectedTime }))
-        .then(() => {
-          // Dispatch viewDoctorDetails after successfully adding available dates
-          dispatch(viewDoctorDetails(id))
-            .then(() => {
-              // Fetch the updated doctor details and set the events
-              const updatedDoctor = useSelector((state) => state.doctorReducer.doctor);
-              const formattedEvents = updatedDoctor?.availableDates?.reduce((acc, slot) => {
-                const date = new Date(slot);
-                const slotDay = date.getDate();
-                const slotTime = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-                const slotMonth = date.getMonth();
-                const slotYear = date.getFullYear();
-                const slotEventKey = `${slotDay}-${slotMonth}-${slotYear}`;
-                acc[slotEventKey] = [...(acc[slotEventKey] || []), { time: slotTime, formattedDate: date.toISOString() }];
-                return acc;
-              }, {});
-              setEvents(formattedEvents);
-              setShow(true);
-            })
-            .catch((error) => {
-              console.error("Error fetching updated doctor details:", error);
-              // Handle error fetching updated details
-            });
-        })
-        .catch((error) => {
-          console.error("Error adding available date:", error);
-          // Handle error adding available date
-        });
+      dispatch(viewDoctorDetails(id));
+      setEvents((prevEvents) => {
+        // Update the events based on the previous state
+        const updatedEvents = { ...prevEvents };
+        updatedEvents[eventKey] = [...(updatedEvents[eventKey] || []), { time, formattedDate: selectedTime.toISOString() }];
+        return updatedEvents;
+      });
+      console.log(addSuccess);
     }
   };
 
@@ -195,7 +178,7 @@ function Calendar({ availableSlots }) {
             <span className="text-lg font-bold">
             {currentDate.toLocaleString("default", { month: "long", year: "numeric" })}
             </span>
-            {isTimePickerOpen &&  <TimePicker onChange={(e) => handleTimeSelected(e.target.value)} /> }
+            {isTimePickerOpen && <input type="time" onChange={(e) => handleTimeSelected(e.target.value)} />}
             <div className="buttons">
             <button className="p-1" onClick={prevMonth}>
             <svg
