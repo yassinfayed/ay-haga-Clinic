@@ -122,6 +122,7 @@ export const uploadDocsAction = (formdata) => async (dispatch) => {
     };
 
     let url = "";
+    console.log(formdata);
     url = `${baseURL}/api/v1/patient/upload/medicalRecords`;
     const { data } = await axios.post(url, formdata, config);
 
@@ -247,7 +248,6 @@ export const removeDocsAction = (name) => async (dispatch) => {
 
     dispatch({
       type: PATIENT_REMOVE_RECORD_SUCCESS,
-      payload: data.data.data[0],
     });
   } catch (error) {
     console.error(error);
