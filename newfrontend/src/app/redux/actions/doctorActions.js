@@ -355,6 +355,7 @@ export const doctorAddAvailableDate = (body) => async (dispatch) => {
 
     const url = `${baseURL}/api/v1/doctor/addavailabledate`;
     const { data } = await axios.patch(url, body, config);
+    console.log(body);
 
     dispatch({
       type: DOCTOR_ADDAVAILABLEDATE_SUCCESS,
