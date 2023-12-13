@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@tremor/react";
 import AddFamily from "./AddFamilyMemberModal";
 import LinkFamily from "./LinkFamilyMemberModal";
@@ -17,6 +17,9 @@ function NewOrOldFamilyMember({
   const handleSelectOption = (option) => {
     setSelectedOption(option);
   };
+  useEffect(() => {
+    setSelectedOption("");
+  }, [visible]);
 
   const renderModalContent = () => {
     switch (selectedOption) {
@@ -42,6 +45,7 @@ function NewOrOldFamilyMember({
             setVisible={setVisible}
           />
         );
+
       default:
         return null;
     }

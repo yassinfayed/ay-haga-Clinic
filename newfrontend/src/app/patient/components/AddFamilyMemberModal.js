@@ -17,7 +17,7 @@ import {
 } from "../../redux/validators";
 
 function AddFamily({ setVisible, setSuccess, setError }) {
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     name: "",
     nationalId: "",
     age: "",
@@ -34,7 +34,8 @@ function AddFamily({ setVisible, setSuccess, setError }) {
       fullName: "hazem abdelghany",
       mobileNumber: "01000066624",
     },
-  });
+  };
+  const [formData, setFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true);
@@ -102,6 +103,8 @@ function AddFamily({ setVisible, setSuccess, setError }) {
       } else if (familyMember) {
         setSuccess("Family member added successfully");
         setVisible(false);
+        setFormData(initialFormData);
+        console.log(formData);
         setSubmitted(false);
       }
     }
