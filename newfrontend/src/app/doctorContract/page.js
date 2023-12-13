@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { doctorViewContract, doctorAcceptContract, rejectDoctor } from "../../redux/actions/doctorActions";
+import { doctorViewContract, doctorAcceptContract, rejectDoctor } from "../redux/actions/doctorActions";
 import { logout } from '@/app/redux/actions/authActions';
 import { Button } from '@tremor/react';
 
@@ -38,6 +38,10 @@ const ContractPage = (props) => {
   const handleAccept = (e) => {
     e.preventDefault();
     dispatch(doctorAcceptContract(userId));
+    setTimeout(() => {
+        window.history.pushState({},"",'doctor/profile')
+        window.location.reload()
+      }, 1000);
   };
 
   const handleReject = (e) => {
@@ -173,19 +177,7 @@ const ContractPage = (props) => {
         <div className='flex justify-center items-center my-4'><hr className='w-1/2'/></div>
         <h5 className='font-semibold my-3'>Your application has been terminated as you have rejected our employment contract. <br /> We wish you the best of luck in your future endeavors.</h5>
         </div>
-    ) : (
-        <div className="text-center my-10">
-        <h1 style={{
-                textAlign: "center",
-                fontSize: "2rem",
-                marginBottom: "2px",
-                fontWeight: "bold",
-            }} className="text-blue-500 text-center font-bold mt-5">Application Accepted </h1>
-        <h1>You have been accepted as one of our Doctors.</h1>
-        <div className='flex justify-center items-center my-4'><hr className='w-1/2'/></div>
-        <h5 className='font-semibold my-3'>Redirecting you to your profile page...</h5>
-        </div>
-    )}
+    ) : (null)}
     </div>
 
   );
