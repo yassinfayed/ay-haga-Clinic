@@ -29,12 +29,6 @@ const ContractPage = (props) => {
     doctorId = userInfo?.data.user.doctor?._id;
   }
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const goBack = () => {
-    history.back();
-  };
-
   const handleAccept = (e) => {
     e.preventDefault();
     dispatch(doctorAcceptContract(userId));
@@ -59,7 +53,7 @@ const ContractPage = (props) => {
 
   return (
     <div>
-        {/* add navbar here  with logo & logout*/}
+        {/* add header here  with logo & logout*/}
     {docStatus === 'Pending' ? (
         <div className="container mx-auto my-5 p-16">
         <h1 style={{
