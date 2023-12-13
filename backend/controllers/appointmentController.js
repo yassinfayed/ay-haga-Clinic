@@ -6,10 +6,7 @@ const Appointment = require("../models/appointmentModel");
 const Doctor = require("../models/doctorModel");
 const APIFeatures = require("../utils/apiFeatures");
 const FamilyMembers = require("../models/familyMembersModel");
-<<<<<<< HEAD
 const User = require("../models/userModel");
-=======
->>>>>>> main
 
 exports.viewAllAppointments = handlerFactory.getAll(Appointment);
 exports.getAppointment = handlerFactory.getOne(Appointment, {
@@ -118,7 +115,6 @@ exports.rescheduleAppointment = catchAsync(async (req, res, next) => {
     }
   );
   //EMAIL LOGIC
-<<<<<<< HEAD
   const patient = await Patient.findById(appointment.patientId);
   const userP = await User.findById(patient.user);
   await new Email(patient).sendR(appointment.date);
@@ -133,8 +129,6 @@ exports.rescheduleAppointment = catchAsync(async (req, res, next) => {
   });
 
   await newNotification.save();
-=======
->>>>>>> main
 
   res.status(200).json({
     status: "success",
@@ -154,7 +148,6 @@ exports.cancelAppointment = catchAsync(async (req, res, next) => {
       // runValidators: true
     }
   );
-<<<<<<< HEAD
   const currentDate = new Date();
   const timeDifference = appointment.date.getTime() - currentDate.getTime();
   const hoursDifference = timeDifference / (1000 * 60 * 60);
@@ -185,18 +178,6 @@ exports.cancelAppointment = catchAsync(async (req, res, next) => {
   });
 
   await newNotification.save();
-=======
-
-  //REFUND LOGIC
-
-  res.status(200).json({
-    status: "success",
-    results: 1,
-    data: {
-      data: appointment,
-    },
-  });
->>>>>>> main
 });
 
 exports.evaluateFollowUp = catchAsync(async (req, res, next) => {
