@@ -305,7 +305,7 @@ function DoctorProfile () {
             <h1 className="text-3xl font-bold text-white-200">My Available Slots</h1>
             </div>
           <div className="flex flex-row gap-2">
-            <Calendar availableSlots={doctor?.availableDates}></Calendar>
+            <Calendar id={doctor._id}></Calendar>
           </div>
         </Grid>
           </>

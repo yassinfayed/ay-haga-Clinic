@@ -7,8 +7,7 @@ import { useSelector } from "react-redux";
 import { TimePicker } from 'react-ios-time-picker';
 import { viewDoctorDetails } from "@/app/redux/actions/doctorActions";
 
-function Calendar({ availableSlots }) {
-  const id = JSON.parse(localStorage.getItem("userInfo"))?.data.user.doctor?._id
+function Calendar({ id }) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
   const [clickedDay, setClickedDay] = useState(null);
