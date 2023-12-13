@@ -100,6 +100,7 @@ const appointmentList  = useMemo(() => {
                 <SelectItem value="Upcoming">Upcoming</SelectItem>
                 <SelectItem value="Missed">Missed</SelectItem>
                 <SelectItem value="Cancelled">Cancelled</SelectItem>
+                <SelectItem value="Rescheduled">Rescheduled</SelectItem>
 
             </Select>
             <div className="flex-[1]">
