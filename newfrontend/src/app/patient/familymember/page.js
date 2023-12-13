@@ -24,18 +24,16 @@ function Familymembers() {
     (state) => state.viewFamilyMembersReducer.familyMember
   );
   const isLoading = useSelector(
-    (state) => state.addFamilyMembersReducer.loading
+    (state) => state.viewFamilyMembersReducer.loading
   );
 
   const handleCardClick = (member) => {
     setSelectedMemberName(member.name);
     setSelectedMemberId(member.id);
-    console.log(selectedMemberId, member.name);
-    // dispatch(fetchAppointmentsForFamilyMember(id));
   };
   useEffect(() => {
     dispatch(viewFamilyMembers());
-  }, [dispatch, isLoading, modalShow]);
+  }, [dispatch, modalShow]);
 
   const fam = useMemo(() => {
     return (
@@ -58,6 +56,9 @@ function Familymembers() {
         <h1 className="font-bold text-2xl mb-4">
           Family Members <Badge>{fam?.length}</Badge>
         </h1>
+        <p className="text-base py-1 pb-4">
+          Choose a family member to check his/her appointments
+        </p>
 
         <Button
           variant="secondary"
@@ -96,7 +97,7 @@ function Familymembers() {
 
         {/* Family Members Listing */}
         {isLoading ? (
-          <div className="flex-1 grow flex items-center justify-center">
+          <div className="flex-1 grow flex items-center justify-center ">
             <Lottie
               animationData={LoadingAnimation}
               className="w-[15rem] h-[15rem]"
@@ -121,9 +122,13 @@ function Familymembers() {
           </div>
         )}
       </div>
-
-      {/* Appointments Section (2/3 of the screen) */}
-      <div className="flex-2 w-3/5 pl-4">
+      <div
+        className="flex-2 w-3/5 pl-4"
+        style={{
+          overflow: "hidden",
+          width: `${selectedMemberId ? "1300px" : "0px"}`,
+        }}
+      >
         <FamilyAppointments
           memberId={selectedMemberId}
           memberName={selectedMemberName}

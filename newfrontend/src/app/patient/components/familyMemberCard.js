@@ -86,7 +86,6 @@ const FamilyMemberCard = ({
         return null;
     }
   };
-  console.log("leh", selectedMemberName, name, selectedMemberName == name);
 
   return (
     <div
