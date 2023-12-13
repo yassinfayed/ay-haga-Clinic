@@ -9,17 +9,15 @@ import {
   Select,
   SelectItem,
 } from "@tremor/react";
-import { BottomCallout } from "@/components/BottomCallout";
 import {
   validateEmail,
   validatePassword,
   validatePhoneNumber,
   validateDate,
 } from "../../redux/validators";
-import { Modal } from "../../../components/Modal"; // Custom Modal component
 
-function AddFamily({ show, onHide, onSuccess, onError, setVisible }) {
-  const [formData, setFormData] = useState({
+function AddFamily({ setVisible, setSuccess, setError }) {
+  const initialFormData = {
     name: "",
     nationalId: "",
     age: "",
@@ -27,14 +25,26 @@ function AddFamily({ show, onHide, onSuccess, onError, setVisible }) {
     relationToPatient: "",
     username: "",
     email: "",
-    phone: "",
-  });
+    mobileNumber: "",
+    dateOfBirth: "",
+    password: "",
+    passwordConfirm: "",
+    role: "patient",
+    emergencyContact: {
+      fullName: "hazem abdelghany",
+      mobileNumber: "01000066624",
+    },
+  };
+  const [formData, setFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [submitted, setSubmitted] = useState(false);
+  const [calloutVisible, setCalloutVisible] = useState(false);
+  const [calloutMessage, setCalloutMessage] = useState("");
+
   const dispatch = useDispatch();
-  const { error, loading } = useSelector(
+  const { error, loading, familyMember } = useSelector(
     (state) => state.addFamilyMembersReducer
   );
 
@@ -54,214 +64,187 @@ function AddFamily({ show, onHide, onSuccess, onError, setVisible }) {
     setFormData({ ...formData, [name]: value });
   };
   // Function to toggle password visibility
-  const togglePasswordVisibility = (field) => {
-    if (field === "password") {
-      setShowPassword(!showPassword);
-    } else {
-      setShowPasswordConfirm(!showPasswordConfirm);
-    }
-  };
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    if (name === "passwordConfirm" || name === "password") {
-      setPasswordMatch(formData.password === formData.passwordConfirm);
+    // Adjusting the logic to use a function for immediate state reflection
+    if (name === "password" || name === "passwordConfirm") {
+      setFormData((prevFormData) => {
+        const updatedFormData = { ...prevFormData, [name]: value };
+        setPasswordMatch(
+          updatedFormData.password === updatedFormData.passwordConfirm
+        );
+        return updatedFormData;
+      });
     }
-  };
-
-  // Function to handle changes in the confirm password input
-  const handlePasswordConfirmChange = (e) => {
-    const confirmPasswordCurr = e.target.value;
-    setPasswordMatch(
-      password === confirmPasswordCurr ||
-        passwordConfirm === confirmPasswordCurr
-    );
-    e.target.name == "password"
-      ? setPassword(confirmPasswordCurr)
-      : setPasswordConfirm(confirmPasswordCurr);
   };
 
   // Function to handle form submission
   const handleSubmit = (e) => {
+    console.log(FormData);
     e.preventDefault();
-    if (password !== passwordConfirm) {
+    if (!passwordMatch) {
       alert("Passwords do not match!");
       return;
     }
-    console.log("will dispatch");
-    dispatch(
-      addFamilyMembers({
-        name,
-        nationalId,
-        age,
-        gender,
-        relationToPatient,
-        username,
-        password,
-        passwordConfirm,
-        dateOfBirth,
-        mobileNumber: phone,
-        email,
-        role: "patient",
-        emergencyContact: {
-          fullName: "hazem abdelghany",
-          mobileNumber: "01000066624",
-        },
-      })
-    );
+
+    dispatch(addFamilyMembers(formData));
     setSubmitted(true);
   };
 
   // Effect to handle post-submission logic
-  console.log(error, loading);
+
   useEffect(() => {
-    console.log(error);
-    if (submitted & !loading) {
-      if (error && !familyMember) {
-        setAlert(true);
-      } else if (!error && familyMember) {
-        onSuccess();
-        onHide();
+    if (submitted && !loading) {
+      if (error) {
+        setError("Error adding family member");
+        setSubmitted(false);
+      } else if (familyMember) {
+        setSuccess("Family member added successfully");
+        setVisible(false);
+        setFormData(initialFormData);
+        console.log(formData);
+        setSubmitted(false);
       }
     }
-  }, [error, loading, onHide, onSuccess]);
+  }, [submitted, loading, error, familyMember, setSuccess, setError]);
 
   return (
-    <Modal visible={show} setVisible={setVisible}>
-      <div className="p-4">
-        <h2 className="text-2xl font-bold mb-4">Add Family Member</h2>
-        <form onSubmit={handleSubmit}>
-          <Grid numItems={2} className="gap-x-3 gap-y-4">
-            <Col>
-              <TextInput
-                placeholder="Name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-              />
-            </Col>
-            <Col>
-              <TextInput
-                placeholder="National ID"
-                name="nationalId"
-                value={formData.nationalId}
-                onChange={handleInputChange}
-                required
-              />
-            </Col>
-            <Col>
-              <TextInput
-                placeholder="Age"
-                name="age"
-                type="number"
-                value={formData.age}
-                onChange={handleInputChange}
-                required
-              />
-            </Col>
-            <Col>
-              <Select
-                name="gender"
-                value={formData.gender}
-                onChange={handleInputChange}
-                required
-              >
-                <SelectItem value="">Select Gender</SelectItem>
-                <SelectItem value="male">Male</SelectItem>
-                <SelectItem value="female">Female</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
-              </Select>
-            </Col>
-            <Col>
-              <TextInput
-                placeholder="Username"
-                name="username"
-                value={formData.username}
-                onChange={handleInputChange}
-                required
-              />
-            </Col>
-            <Col>
-              <TextInput
-                placeholder="Email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                error={formData.email && !validateEmail(formData.email)}
-              />
-            </Col>
-            <Col>
-              <TextInput
-                placeholder="Phone Number"
-                name="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={handleInputChange}
-                required
-                error={formData.phone && !validatePhoneNumber(formData.phone)}
-              />
-            </Col>
-            <Col numColSpan={2}>
-              <TextInput
-                placeholder="Relation to Patient"
-                name="relationToPatient"
-                value={formData.relationToPatient}
-                onChange={handleInputChange}
-                required
-              />
-            </Col>
-            <Col>
-              <TextInput
-                type="date"
-                placeholder="Date of Birth"
-                name="dateOfBirth"
-                value={formData.dateOfBirth}
-                onChange={handleInputChange}
-                required
-              />
-            </Col>
-            <Col>
-              <TextInput
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                name="password"
-                value={formData.password}
-                onChange={handlePasswordChange}
-                required
-                error={
-                  formData.password && !validatePassword(formData.password)
-                }
-              />
-            </Col>
-            <Col>
-              <TextInput
-                type={showPasswordConfirm ? "text" : "password"}
-                placeholder="Confirm Password"
-                name="passwordConfirm"
-                value={formData.passwordConfirm}
-                onChange={handlePasswordChange}
-                required
-                error={!passwordMatch}
-              />
-            </Col>
-          </Grid>
-          <Button type="submit" className="mt-4">
-            Add Family Member
-          </Button>
-        </form>
-      </div>
-      {error && (
-        <BottomCallout
-          message="An error occurred"
-          variant="error"
-          visible={!!error}
-        />
-      )}
-    </Modal>
+    <div className="p-4 mt-4">
+      {/* <h2 className="text-2xl font-bold mb-4">Add Family Member</h2> */}
+      <form onSubmit={handleSubmit}>
+        <Grid numItems={2} className="gap-x-3 gap-y-4">
+          <Col>
+            <TextInput
+              placeholder="Name"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+            />
+          </Col>
+          <Col>
+            <TextInput
+              placeholder="National ID"
+              name="nationalId"
+              value={formData.nationalId}
+              onChange={handleInputChange}
+              required
+            />
+          </Col>
+          <Col>
+            <TextInput
+              placeholder="Age"
+              name="age"
+              type="number"
+              value={formData.age}
+              onChange={handleInputChange}
+              required
+            />
+          </Col>
+          <Col>
+            <Select
+              name="gender"
+              value={formData.gender}
+              onChange={handleInputChange}
+              required
+            >
+              <SelectItem value="">Select Gender</SelectItem>
+              <SelectItem value="male">Male</SelectItem>
+              <SelectItem value="female">Female</SelectItem>
+              <SelectItem value="other">Other</SelectItem>
+            </Select>
+          </Col>
+          <Col>
+            <TextInput
+              placeholder="Username"
+              name="username"
+              value={formData.username}
+              onChange={handleInputChange}
+              required
+            />
+          </Col>
+          <Col>
+            <TextInput
+              placeholder="Email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+              error={formData.email && !validateEmail(formData.email)}
+            />
+          </Col>
+          <Col>
+            <TextInput
+              placeholder="phone Number"
+              name="mobileNumber"
+              type="tel"
+              value={formData.mobileNumber}
+              onChange={handleInputChange}
+              required
+              error={
+                formData.mobileNumber &&
+                !validatePhoneNumber(formData.mobileNumber)
+              }
+            />
+          </Col>
+
+          <Select
+            placeholder="Relation to patient"
+            onChange={(e) => {
+              console.log(e);
+              setFormData({ ...formData, ["relationToPatient"]: e });
+            }}
+            required
+            name=""
+            value={formData.relationToPatient}
+          >
+            <SelectItem value="">Choose...</SelectItem>
+            <SelectItem value="wife">Wife</SelectItem>
+            <SelectItem value="husband">Husband</SelectItem>
+            <SelectItem value="child">Child</SelectItem>
+          </Select>
+          <Col>
+            <TextInput
+              type="date"
+              placeholder="Date of Birth"
+              name="dateOfBirth"
+              value={formData.dateOfBirth}
+              onChange={handleInputChange}
+              required
+            />
+          </Col>
+          <Col></Col>
+          <Col>
+            <TextInput
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              name="password"
+              value={formData.password}
+              onChange={handlePasswordChange}
+              required
+              error={formData.password && !validatePassword(formData.password)}
+            />
+          </Col>
+          <Col>
+            <TextInput
+              type={showPasswordConfirm ? "text" : "password"}
+              placeholder="Confirm Password"
+              name="passwordConfirm"
+              value={formData.passwordConfirm}
+              onChange={handlePasswordChange}
+              required
+              error={!passwordMatch}
+            />
+          </Col>
+        </Grid>
+        <Button type="submit" className="mt-4" loading={loading}>
+          Add Family Member
+        </Button>
+      </form>
+    </div>
   );
 }
 
