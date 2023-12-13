@@ -1,5 +1,4 @@
 import Sidebar from "@/components/Sidebar";
-// import DrawerNavigation from "./components/RightBar";
 
 export default async function DashboardLayout({ children }) {
   return (
@@ -13,3 +12,4 @@ export default async function DashboardLayout({ children }) {
     </>
   );
 }
+
