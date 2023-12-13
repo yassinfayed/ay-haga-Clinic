@@ -29,6 +29,7 @@ export default function Sidebar() {
 
       { icon:"prescription", label:"Prescriptions", href:"/patient/prescriptions"},
 
+      { icon: "order", label: "Appointments", href: "/patient/appointments" },
 
       { icon: "cart", label: "Cart", href: "/patient/cart" },
       {
