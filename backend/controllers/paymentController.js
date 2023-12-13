@@ -275,7 +275,7 @@ createAppointmentReservation = async (session) => {
   const date = session.metadata.date;
 
   // 1 Create a new appointment
-  await Appointment.create({
+  const appointment = await Appointment.create({
     patientId: patientId,
     doctorId: doctorId,
     date: date,
@@ -285,6 +285,8 @@ createAppointmentReservation = async (session) => {
 
   // 2 Update DR WALLET AND AVAILABILE DATES
   const doctor = await Doctor.findById(doctorId);
+
+  const patient = await Patient.findById(appointment.patientId);
 
   const user = await User.findById(doctor.user);
   user.wallet += doctor.HourlyRate * 0.9; // +HOURLY_RATE REGARDLEESS OF DISCOUNT??
@@ -300,6 +302,18 @@ createAppointmentReservation = async (session) => {
   // Save the updated doctor
   await doctor.save({ validateBeforeSave: false });
   await user.save({ validateBeforeSave: false });
+  const userP = await User.findById(patient.user);
+  await new Email(patient).sendR(appointment.date);
+  const newNotification = new Notification({
+    title: "New Appointment",
+    text:
+      "Your appointment with dr." +
+      appointment?.doctor?.name +
+      "has been rescheduled to: " +
+      date,
+    user: userP._id,
+  });
+  await newNotification.save();
 };
 
 exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
@@ -327,7 +341,7 @@ exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
   req.user.wallet -= price;
   req.user.save({ validateBeforeSave: false });
 
-  await Appointment.create({
+  const appointment = await Appointment.create({
     patientId: id,
     doctorId: doctorId,
     date: date,
@@ -347,9 +361,19 @@ exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
   if (indexToRemove !== -1) {
     doctor.availableDates.splice(indexToRemove, 1);
   }
-
-  // Save the updated doctor
   await doctor.save({ validateBeforeSave: false });
   await user.save({ validateBeforeSave: false });
+
+  // Save the updated doctor
+
   res.status(200).json({ message: "success" });
+
+  const userP = await User.findById(patient.user);
+  await new Email(patient).sendR(appointment.date);
+  const newNotification = new Notification({
+    title: "New Appointment",
+    text: "New appointment with date: " + date,
+    user: userP._id,
+  });
+  await newNotification.save();
 });
