@@ -27,3 +27,6 @@
 .animate {
   transition: all 0.3s ease;
 }
+.btns {
+  color: White;
+}

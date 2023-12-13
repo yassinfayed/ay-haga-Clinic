@@ -8,6 +8,8 @@ const FamilyMemberCard = ({
   gender,
   relationToPatient,
   onCardClick,
+  selectedMemberName,
+  selectedMemberId,
 }) => {
   const getImageUrl = (relation) => {
     switch (relation) {
@@ -84,9 +86,17 @@ const FamilyMemberCard = ({
         return null;
     }
   };
+  console.log("leh", selectedMemberName, name, selectedMemberName == name);
 
   return (
-    <div className="m-4 max-w-md" onClick={() => onCardClick(member)}>
+    <div
+      className={`m-4 max-w-md ${
+        selectedMemberName == name &&
+        "border-y-4 border-indigo-500/100 shadow-lg shadow-indigo-500/50 "
+      } rounded-xl`}
+      style={{ width: "350px" }}
+      onClick={() => onCardClick(member)}
+    >
       <div className="rounded-lg border border-gray-800 px-4 pt-8 pb-10 shadow-2xl">
         <div className="relative mx-auto w-40 h-36 rounded-full overflow-hidden mb-4">
           <Image

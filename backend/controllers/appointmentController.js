@@ -30,7 +30,12 @@ exports.getAllPatientAppointments = catchAsync(async (req, res, next) => {
     Appointment.find({ patientId: id }).populate("doctorId"),
     req.query
   ).filter();
-  const appts = await features.query;
+  let appts;
+  if (req.query.fm)
+    appts = await Appointment.find({ patientId: id }).populate("doctorId");
+  else {
+    appts = await features.query;
+  }
   console.log(appts);
   res.status(200).json({
     status: "success",

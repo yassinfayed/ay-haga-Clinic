@@ -57,7 +57,7 @@ function NewOrOldFamilyMember({
       <p>{subheader}</p>
       <div className="flex justify-center mt-4">
         <Button
-          className={`mx-2 ${
+          className={`mx-2 btns ${
             selectedOption === "link"
               ? "animate-expand-right "
               : selectedOption === "new"
@@ -69,7 +69,7 @@ function NewOrOldFamilyMember({
           Link Existing Family Member
         </Button>
         <Button
-          className={`mx-2 ${
+          className={`mx-2 btns ${
             selectedOption === "new"
               ? "animate-expand-left"
               : selectedOption === "link"
@@ -81,7 +81,36 @@ function NewOrOldFamilyMember({
           Add New Family Member
         </Button>
       </div>
-      {renderModalContent()}
+      <div
+        style={{
+          overflow: "hidden",
+          height: `${selectedOption == "new" ? "400px" : "0px"}`,
+        }}
+      >
+        <AddFamily
+          show={true}
+          onHide={() => setSelectedOption(null)}
+          setSuccess={setSuccess}
+          setError={setError}
+          visible={visible}
+          setVisible={setVisible}
+        />
+      </div>
+      <div
+        style={{
+          overflow: "hidden",
+          height: `${selectedOption == "link" ? "200px" : "0px"}`,
+        }}
+      >
+        <LinkFamily
+          show={true}
+          onHide={() => setSelectedOption(null)}
+          setSuccess={setSuccess}
+          setError={setError}
+          visible={visible}
+          setVisible={setVisible}
+        />
+      </div>
     </div>
   );
 }

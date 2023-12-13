@@ -1,10 +1,17 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPatientAppointments } from "@/app/redux/actions/patientActions";
+
 import {
   Card,
   Title,
   Badge,
+  BadgeDelta,
+  StatusOnlineIcon,
+  ShoppingCartIcon,
+  ClockIcon,
+  CogIcon,
+  MinusCircleIcon,
   Table,
   TableRow,
   TableCell,
@@ -32,11 +39,19 @@ const FamilyAppointments = ({ memberId, memberName }) => {
 
   useEffect(() => {
     if (memberId) {
-      const filteredQueryObj = {
+      console.log(selectedStatus);
+      const queryObj = {
         date: selectedDate,
         status: selectedStatus,
       };
-      console.log("dispatch", filteredQueryObj, memberId);
+
+      const filteredQueryObj = Object.keys(queryObj).reduce((acc, key) => {
+        if (queryObj[key] !== "") {
+          acc[key] = queryObj[key];
+        }
+        return acc;
+      }, {});
+      console.log(filteredQueryObj);
       dispatch(getPatientAppointments(filteredQueryObj, memberId));
     }
   }, [dispatch, selectedDate, selectedStatus, memberId]);
@@ -46,13 +61,13 @@ const FamilyAppointments = ({ memberId, memberName }) => {
     setSelectedStatus("");
   };
 
-  const columns = ["Date", "Doctor Name", "Status"];
+  const columns = ["Date", "Time", "Doctor Name", "Status"];
   const fields = ["date", "doctorname", "status"];
   const rows = useMemo(() => {
     return appointmentsData && appointmentsData.data
       ? appointmentsData.data.map((value) => ({
           date: new Date(value.date).toLocaleString(),
-          doctorname: value.doctorId.name,
+          doctorname: value.doctorId?.name,
           status: value.status,
         }))
       : [];
@@ -61,6 +76,31 @@ const FamilyAppointments = ({ memberId, memberName }) => {
   const notHasAppointments =
     appointmentsData && !appointmentsData?.data[0] && memberName;
   console.log(notHasAppointments);
+  const renderStatusBadge = (status) => {
+    switch (status) {
+      case "Upcoming":
+        return <Badge icon={ClockIcon}>Upcoming</Badge>;
+      case "Completed":
+        return <Badge icon={StatusOnlineIcon}>Completed</Badge>;
+      case "Rescheduled":
+        return <Badge icon={CogIcon}>Rescheduled</Badge>;
+      case "Missed":
+        return <Badge icon={MinusCircleIcon}>Missed</Badge>;
+      case "Cancelled":
+        return <Badge icon={ShoppingCartIcon}>Cancelled</Badge>;
+      default:
+        return <Badge>{status}</Badge>; // Default badge
+    }
+  };
+
+  const formatDateAndTime = (dateTime) => {
+    const dateObj = new Date(dateTime);
+    return {
+      date: dateObj.toLocaleDateString(),
+      time: dateObj.toLocaleTimeString(),
+    };
+  };
+
   return (
     <>
       {memberId ? (
@@ -83,11 +123,22 @@ const FamilyAppointments = ({ memberId, memberName }) => {
                 <SelectItem value="Rescheduled">Rescheduled</SelectItem>
               </Select>
               <TextInput
-                type="datetime-local"
+                type="date"
+                placeholder="Filter By date"
+                name="dateOfBirth"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
+                required
+                style={{ color: "white" }}
               />
-              <Button onClick={handleClearFilters}>Clear Filters</Button>
+
+              <Button
+                variant="secondary"
+                className="px-4  rounded"
+                onClick={handleClearFilters}
+              >
+                Clear Filters
+              </Button>
             </div>
           </div>
 
@@ -114,9 +165,39 @@ const FamilyAppointments = ({ memberId, memberName }) => {
                 <TableBody>
                   {rows.map((item, rowIndex) => (
                     <TableRow key={rowIndex}>
-                      {fields.map((field, fieldIndex) => (
-                        <TableCell key={fieldIndex}>{item[field]}</TableCell>
-                      ))}
+                      {fields.map((field, fieldIndex) => {
+                        if (field === "date") {
+                          const { date, time } = formatDateAndTime(item[field]);
+                          return (
+                            <>
+                              <TableCell
+                                key={`${fieldIndex}-date`}
+                                className="text-lg"
+                              >
+                                {date}
+                              </TableCell>
+                              <TableCell
+                                key={`${fieldIndex}-time`}
+                                className="text-lg"
+                              >
+                                {time}
+                              </TableCell>
+                            </>
+                          );
+                        } else if (field === "status") {
+                          return (
+                            <TableCell key={fieldIndex} className="text-lg">
+                              {renderStatusBadge(item[field])}
+                            </TableCell>
+                          );
+                        } else {
+                          return (
+                            <TableCell key={fieldIndex} className="text-lg">
+                              {item[field]}
+                            </TableCell>
+                          );
+                        }
+                      })}
                     </TableRow>
                   ))}
                 </TableBody>
@@ -127,7 +208,9 @@ const FamilyAppointments = ({ memberId, memberName }) => {
       ) : (
         <Card>
           <h1 className="font-bold text-2xl my-4">Family Appointments</h1>
-          <p className="text-base pt-4">No family member chosen</p>
+          <p className="text-base pt-4">
+            Choose a family member to check his/her appointments
+          </p>
         </Card>
       )}
     </>

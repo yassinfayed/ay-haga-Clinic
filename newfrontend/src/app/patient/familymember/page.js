@@ -114,6 +114,7 @@ function Familymembers() {
                   gender={member.gender}
                   relationToPatient={member.relationToPatient}
                   onCardClick={() => handleCardClick(member)}
+                  selectedMemberName={selectedMemberName}
                 />
               </div>
             ))}
