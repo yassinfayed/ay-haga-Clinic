@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerAction } from "@/app/redux/actions/authActions";
 import { useRouter } from "next/router";
 import { redirect } from "next/navigation";
-import { Button, Col, DatePicker, Grid, TextInput } from "@tremor/react";
+import { Button, Col, DatePicker, Grid, TextInput,DatePickerValue   } from "@tremor/react";
 import { BottomCallout } from "@/components/BottomCallout";
 import {
   validateEmail,
@@ -28,7 +28,7 @@ const SignupPharmacist = () => {
     educationalBackground: "",
     affiliation: "",
     hourlyRate: "",
-    dateOfBirth: "",
+    DateOfbirth: new Date(2023, 1, 1),
     gender: "male",
     mobileNumber: "",
     passwordConfirm: "",
@@ -97,11 +97,13 @@ const SignupPharmacist = () => {
   };
 
   const handleInputChange = (e) => {
+  
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
+    console.log(formData)
   };
 
   const dispatch = useDispatch();
@@ -119,7 +121,7 @@ const SignupPharmacist = () => {
     combinedFormData.append("email", formData.email);
     combinedFormData.append("password", formData.password);
     combinedFormData.append("passwordConfirm", formData.passwordConfirm);
-    combinedFormData.append("DateOfbirth", formData.dateOfBirth);
+    combinedFormData.append("DateOfbirth", formData.DateOfbirth);
     combinedFormData.append("gender", formData.gender);
     combinedFormData.append("speciality", formData.speciality);
     combinedFormData.append("HourlyRate", formData.hourlyRate);
@@ -312,15 +314,10 @@ const SignupPharmacist = () => {
 
                   {/* <Image src="/birthday.svg" height={25} width={25}></Image> <p className="ml-3 text-lg"></p> */}
                   <Col>
-                    <TextInput
-                      className="w-full px-8 py-4 rounded-lg font-medium   placeholder-gray-500 text-lg  "
-                      type="text"
-                      placeholder="DD/MM/YY*"
-                      name="dateOfBirth"
-                      value={formData.dateOfBirth}
-                      onChange={handleInputChange}
-                      required
-                    />
+                
+                  <DatePicker className="max-w-sm mx-auto" enableYearNavigation={true} placeholder="Date Of Birth*" 
+                  onValueChange={() => handleInputChange({ target: { name: 'DateOfbirth' } })} value={formData.DateOfbirth} />
+                
                   </Col>
 
                   <Col>
