@@ -29,6 +29,7 @@ export default function Sidebar() {
 
       { icon:"prescription", label:"Prescriptions", href:"/patient/prescriptions"},
 
+      { icon: "order", label: "Appointments", href: "/patient/appointments" },
 
       { icon: "cart", label: "Cart", href: "/patient/cart" },
       {
@@ -42,6 +43,7 @@ export default function Sidebar() {
       { icon: "profile", label: "Profile", href: "/pharmacist/profile" },
       { icon: "medicines", label: "Medicines", href: "/patient/products" },
       { icon: "sales", label: "Sales Report", href: "/pharmacist/salesReport" },
+      { icon: "order", label: "Appointments", href: "/doctor/appointments" },
       {
         icon: "logout",
         label: "Logout",

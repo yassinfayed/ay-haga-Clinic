@@ -89,6 +89,34 @@ const DoctorSchema = new mongoose.Schema({
       required: [true, "Please upload the required documents"],
     },
   ],
+    isApproved: {
+        type: Boolean,
+        default: false
+    },
+    speciality: {
+        type: String,
+        required: [true, 'Please specify your speciality']
+    },
+    availableDates: {
+        type: [Date],
+        required: true,
+        default: []
+    },
+    employmentContract:{
+        hourlyRate:{ 
+        type: Number,
+        default : 0
+        },
+        status:{
+        type:String,
+            enum: ['Pending', 'accepted','Waiting Admin','Doctor rejected','Admin rejected'],
+            default: 'Waiting Admin'
+        },
+        clinicMarkUp:{
+            type : Number,
+            default : 0.1
+        },
+    },
 });
 DoctorSchema.statics.getAllSpecialities = async function() {
   try {

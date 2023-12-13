@@ -196,7 +196,7 @@ const PersonalCard = ({
           {data?.educationalBackground}
         </p>
         <div className="mt-3 flex flex-wrap justify-between md:space-x-1.2">
-          {fields.map((field, index) => (
+          {fields?.map((field, index) => (
             <div
               key={index}
               className="flex items-center py-3 text-sm w-full md:w-1/2"

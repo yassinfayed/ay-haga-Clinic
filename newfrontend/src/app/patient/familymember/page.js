@@ -1,18 +1,23 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { viewFamilyMembers } from "@/app/redux/actions/FamilyMembersAction";
 import { BottomCallout } from "@/components/BottomCallout";
 import { Modal } from "@/components/Modal";
-import { Button, Card, Grid } from "@tremor/react";
+import { Button, Badge } from "@tremor/react";
 import NewOrOldFamily from "@/app/patient/components/NewOrOldFamilyMemberModal";
 import Lottie from "lottie-react";
 import LoadingAnimation from "../../../../public/loading.json";
+import FamilyMemberCard from "../components/familyMemberCard";
+import FamilyAppointments from "../components/FamilyAppointments";
 
 function Familymembers() {
   const [modalShow, setModalShow] = useState(false);
-  const [successAlert, setSuccessAlert] = useState(false);
-  const [errorAlert, setErrorAlert] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("members");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [selectedMemberName, setSelectedMemberName] = useState("");
+  const [selectedMemberId, setSelectedMemberId] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
 
   const familyMembers = useSelector(
@@ -22,6 +27,12 @@ function Familymembers() {
     (state) => state.addFamilyMembersReducer.loading
   );
 
+  const handleCardClick = (member) => {
+    setSelectedMemberName(member.name);
+    setSelectedMemberId(member.id);
+    console.log(selectedMemberId, member.name);
+    // dispatch(fetchAppointmentsForFamilyMember(id));
+  };
   useEffect(() => {
     dispatch(viewFamilyMembers());
   }, [dispatch, isLoading, modalShow]);
@@ -34,15 +45,20 @@ function Familymembers() {
         age: value?.age,
         gender: value?.linkedPatientId?.gender,
         relationToPatient: value?.relationToPatient,
+        id: value?._id,
       })) || []
     );
   }, [familyMembers, modalShow, isLoading]);
+  console.log(fam);
 
   return (
-    <Card className="grow flex-1 flex flex-col m-4">
-      <h1 className="font-bold text-2xl mb-4">Family Members</h1>
+    <div className="m-4 flex">
+      {/* Family Members Section */}
+      <div className="prof h-400 overflow-hidden rounded-xl p-10  flex-1 w-2/5">
+        <h1 className="font-bold text-2xl mb-4">
+          Family Members <Badge>{fam?.length}</Badge>
+        </h1>
 
-      <div className="flex justify-between">
         <Button
           variant="secondary"
           className="px-4 py-2 my-2 rounded"
@@ -50,62 +66,70 @@ function Familymembers() {
         >
           Add New Family Member
         </Button>
+
+        <Modal visible={modalShow} setVisible={setModalShow} famFlag={true}>
+          <NewOrOldFamily
+            setSuccess={setSuccessMessage}
+            setError={setErrorMessage}
+            visible={modalShow}
+            setVisible={setModalShow}
+          />
+        </Modal>
+
+        {/* Success and Error Messages */}
+        {successMessage && (
+          <BottomCallout
+            message={successMessage}
+            variant="success"
+            visible={!!successMessage}
+            setVisible={() => setSuccessMessage("")}
+          />
+        )}
+        {errorMessage && (
+          <BottomCallout
+            message={errorMessage}
+            variant="error"
+            visible={!!errorMessage}
+            setVisible={() => setErrorMessage("")}
+          />
+        )}
+
+        {/* Family Members Listing */}
+        {isLoading ? (
+          <div className="flex-1 grow flex items-center justify-center">
+            <Lottie
+              animationData={LoadingAnimation}
+              className="w-[15rem] h-[15rem]"
+            />
+          </div>
+        ) : (
+          <div className="flex flex-wrap -mx-2">
+            {fam.map((member, index) => (
+              <div key={index} className="">
+                <FamilyMemberCard
+                  member={member}
+                  name={member.name}
+                  nationalId={member.nationalId}
+                  age={member.age}
+                  gender={member.gender}
+                  relationToPatient={member.relationToPatient}
+                  onCardClick={() => handleCardClick(member)}
+                  selectedMemberName={selectedMemberName}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
-      <Modal visible={modalShow} setVisible={setModalShow}>
-        <NewOrOldFamily
-          onSuccess={() => setSuccessAlert(true)}
-          onError={() => setErrorAlert(true)}
+      {/* Appointments Section (2/3 of the screen) */}
+      <div className="flex-2 w-3/5 pl-4">
+        <FamilyAppointments
+          memberId={selectedMemberId}
+          memberName={selectedMemberName}
         />
-      </Modal>
-
-      {successAlert && (
-        <BottomCallout
-          message="Family member added successfully"
-          variant="success"
-          visible={successAlert}
-          setVisible={setSuccessAlert}
-        />
-      )}
-
-      {errorAlert && (
-        <BottomCallout
-          message="Family member was not added"
-          variant="error"
-          visible={errorAlert}
-          setVisible={setErrorAlert}
-        />
-      )}
-
-      {isLoading ? (
-        <div className="flex-1 grow flex items-center justify-center">
-          <Lottie
-            animationData={LoadingAnimation}
-            className="w-[15rem] h-[15rem]"
-          />
-        </div>
-      ) : (
-        <Grid numItems={1} numItemsMd={2} numItemsLg={3} className="mt-3 gap-4">
-          {fam.map((familymember, index) => (
-            <Card
-              key={index}
-              className="p-4"
-              title={familymember.name}
-              subtitle={`National ID: ${familymember.nationalId}`}
-              body={
-                <>
-                  Age: {familymember.age}
-                  <br />
-                  Gender: {familymember.gender}
-                  <br />
-                  Relation to Patient: {familymember.relationToPatient}
-                </>
-              }
-            />
-          ))}
-        </Grid>
-      )}
-    </Card>
+      </div>
+    </div>
   );
 }
 
