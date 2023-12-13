@@ -239,12 +239,14 @@ export const doctorAddAvailableDateReducer = (state ={}, action) => {
       return {
         ...state,
         loading: true,
+        success: false,
         error: null,
       };
     case DOCTOR_ADDAVAILABLEDATE_SUCCESS: {
       return {
         ...state,
         availableDates: action.payload,
+        success: true,
         loading: false,
         error: null,
       }
@@ -252,6 +254,7 @@ export const doctorAddAvailableDateReducer = (state ={}, action) => {
     case DOCTOR_ADDAVAILABLEDATE_FAIL:
       return {
         ...state,
+        success: false,
         loading: false,
         error: action.payload,
       };
