@@ -98,9 +98,11 @@ function AddFamily({ setVisible, setSuccess, setError }) {
     if (submitted && !loading) {
       if (error) {
         setError("Error adding family member");
+        setSubmitted(false);
       } else if (familyMember) {
         setSuccess("Family member added successfully");
         setVisible(false);
+        setSubmitted(false);
       }
     }
   }, [submitted, loading, error, familyMember, setSuccess, setError]);

@@ -1,11 +1,13 @@
 import React from "react";
 import Image from "next/image";
 const FamilyMemberCard = ({
+  member,
   name,
   nationalId,
   age,
   gender,
   relationToPatient,
+  onCardClick,
 }) => {
   const getImageUrl = (relation) => {
     switch (relation) {
@@ -16,7 +18,7 @@ const FamilyMemberCard = ({
       case "father":
         return "/child.jpg";
       default:
-        return "/path/to/default-image.jpg"; // Default image
+        return "/child.jpg"; // Default image
     }
   };
   const renderIcon = (type) => {
@@ -84,7 +86,7 @@ const FamilyMemberCard = ({
   };
 
   return (
-    <div className="m-4 max-w-md">
+    <div className="m-4 max-w-md" onClick={() => onCardClick(member)}>
       <div className="rounded-lg border border-gray-800 px-4 pt-8 pb-10 shadow-2xl">
         <div className="relative mx-auto w-40 h-36 rounded-full overflow-hidden mb-4">
           <Image

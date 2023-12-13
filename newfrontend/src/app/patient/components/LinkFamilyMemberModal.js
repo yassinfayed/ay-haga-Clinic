@@ -16,6 +16,7 @@ function LinkFamily({ show, setSuccess, setError, visible, setVisible }) {
   const { error, loading, familyMember } = useSelector(
     (state) => state.linkFamilyMemberReducer
   );
+  const [submitted, setSubmitted] = useState(false);
   const dispatch = useDispatch();
 
   const isValidCred = (cred) => {
@@ -37,16 +38,19 @@ function LinkFamily({ show, setSuccess, setError, visible, setVisible }) {
     console.log(email, phone, relationToPatient);
 
     dispatch(LinkFamilyMember({ email, phone, relationToPatient }));
+    setSubmitted(true);
   };
 
   useEffect(() => {
-    if (!loading && familyMember) {
+    if (!loading && familyMember && submitted) {
       setSuccess("Family member added successfully");
       setVisible(false);
+      setSubmitted(false);
       setRelationToPatient("");
       setCred("");
       // Trigger onSuccess if provided
-    } else if (!loading && error) {
+    } else if (!loading && error & submitted) {
+      setSubmitted(false);
       setError("Error adding family member");
     }
   }, [loading, familyMember, setSuccess, setError]);
