@@ -1,21 +1,27 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { doctorViewContract, doctorAcceptContract, rejectDoctor } from "../../redux/actions/doctorActions";
 import { logout } from '@/app/redux/actions/authActions';
+import { Button } from '@tremor/react';
 
 const ContractPage = (props) => {
   const dispatch = useDispatch();
-  const { doctor } = props;
-
+  let doctor;
+    if (localStorage) {
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        doctor = userInfo?.data.user.doctor;
+    }
+ 
   let userId;
   let doctorId;
   let userInfo;
 
   const doctorContract = useSelector((state) => state.doctorViewContractReducer.contract);
-  const rejectionisLoading = useSelector(state => state.rejectDoctorReducer.loading);
-  //const docStatus = doctor?.employmentContract?.status;
+  const docStatus = doctor?.employmentContract?.status;
+
+  console.log(doctor)
 
   if (localStorage) {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -32,8 +38,6 @@ const ContractPage = (props) => {
   const handleAccept = (e) => {
     e.preventDefault();
     dispatch(doctorAcceptContract(userId));
-    window.history.pushState({}, "", `/doctor/${doctorId}`);
-    window.location.reload();
   };
 
   const handleReject = (e) => {
@@ -45,8 +49,9 @@ const ContractPage = (props) => {
     dispatch(logout());
   };
 
-    const docStatus = 'Pending';
-
+    useEffect(() => {
+    dispatch(doctorViewContract(userId));
+  }, [dispatch, doctorContract]);
 
   return (
     <div>
@@ -58,7 +63,7 @@ const ContractPage = (props) => {
                 fontSize: "2rem",
                 marginBottom: "2px",
                 fontWeight: "bold",
-            }} className="text-purple-500 text-center font-bold">Employment Contract</h1>
+            }} className="text-blue-500 text-center font-bold">Employment Contract</h1>
         <h1 style={{
             textAlign: "center",
             fontSize: "1.5rem",
@@ -66,13 +71,13 @@ const ContractPage = (props) => {
             fontWeight: "500",}} > Harmony Clinic</h1>
         <div className='flex justify-center items-center my-4'><hr className='w-1/2'/></div>
         <div className="prof h-400 overflow-hidden  rounded-xl p-10">
-        <h4 className='text-purple-500 font-semibold'>Contract Overview</h4>
+        <h4 className='text-blue-500 font-semibold'>Contract Overview</h4>
             <p>
                 <strong>This employment contract outlines the terms and conditions</strong> of employment for doctors at XClinics. It includes details on job responsibilities, work hours, compensation, and the terms of employment termination.
             </p>
             <br />
             
-            <h4 className='text-purple-500 font-semibold'>Responsibilities</h4>
+            <h4 className='text-blue-500 font-semibold'>Responsibilities</h4>
             <p>
                 Doctors are expected to provide the <strong>highest standard</strong> of medical care to our patients and adhere to the medical and <strong>ethical guidelines</strong> set forth by the clinic which include:
                 <br />
@@ -81,15 +86,15 @@ const ContractPage = (props) => {
             </p>
             <br />
 
-            <h4 className='text-purple-500 font-semibold'>Compensation and Benefits</h4>
+            <h4 className='text-blue-500 font-semibold'>Compensation and Benefits</h4>
             <p>
-                Employee will be compensated an <strong>hourly rate of {doctor?.data?.employmentContract?.hourlyRate}</strong> which will be subject to a <strong>{doctor?.data?.employmentContract?.clinicMarkUp * 100}% clinic markup</strong>.
+                Employee will be compensated an <strong>hourly rate of {doctorContract?.hourlyRate}</strong> which will be subject to a <strong>{doctorContract?.clinicMarkUp * 100}% clinic markup</strong>.
                 <br />
                 Our employees will have access to <strong>healthcare benefits</strong>, including medical, dental, and vision insurance, as per the Employee Benefits Package provided.
             </p>
             <br />
 
-            <h4 className='text-purple-500 font-semibold'>Work Hours and Vacation</h4>
+            <h4 className='text-blue-500 font-semibold'>Work Hours and Vacation</h4>
             <p>
                 Regular work hours will be <strong>Sunday through Thursday, 10:00 AM to 7:00 PM.</strong>
                 <br />
@@ -97,7 +102,7 @@ const ContractPage = (props) => {
             </p>
             <br />
 
-            <h4 className='text-purple-500 font-semibold'>Confidentiality and Non-Compete</h4>
+            <h4 className='text-blue-500 font-semibold'>Confidentiality and Non-Compete</h4>
             <p>
                 Employee agrees to maintain the <strong>confidentiality</strong> of all patient records and clinic-related information <strong>during and after employment</strong>.
                 <br />
@@ -105,7 +110,7 @@ const ContractPage = (props) => {
             </p>
             <br />
 
-            <h4 className='text-purple-500 font-semibold'>Termination</h4>
+            <h4 className='text-blue-500 font-semibold'>Termination</h4>
             <p>
                 Either party may terminate this Contract with written <strong>notice of 30 days</strong>.
                 <br />
@@ -113,13 +118,13 @@ const ContractPage = (props) => {
             </p>
             <br />
 
-            <h4 className='text-purple-500 font-semibold'>Acceptance</h4>
+            <h4 className='text-blue-500 font-semibold'>Acceptance</h4>
             <p>
                 By accepting this contract, both parties <strong>acknowledge and agree to the terms and conditions</strong> outlined above.
             </p>
             <br />
 
-            <p className='text-center mt-5 text-purple-500 py-5'>
+            <p className='text-center mt-5 text-blue-500 py-5'>
                 <strong>
                 This contract is valid as of December 2023.
                 </strong>
@@ -127,33 +132,60 @@ const ContractPage = (props) => {
             <hr />
 
             <div className='flex mt-5 justify-center'>
-                <button onClick={(e) => handleReject(e)} className='px-3 py-2 bg-gray-800 text-white rounded mx-2 hover:bg-gray-700'>Reject</button>
-                <button onClick={(e) => handleAccept(e)} className='px-3 py-2 bg-purple-800 text-white rounded mx-2 hover:bg-purple-500'>Accept</button>
+                <Button variant='secondary' size='md' onClick={(e) => handleReject(e)} className='px-3 py-2 bg-gray-800 text-white rounded mx-2 w-25'>Reject</Button>
+                <Button variant='primary' size='md' onClick={(e) => handleAccept(e)} className='px-3 py-2 text-white rounded mx-2 w-25'>Accept</Button>
             </div>
         </div>
         </div>
     ) : docStatus === 'Waiting Admin' ? (
         <div className="text-center my-10">
-        <h1 className="text-purple-500 text-center font-bold mt-5">Awaiting Review</h1>
-        <h3>Your application is currently under review</h3>
+        <h1 style={{
+                textAlign: "center",
+                fontSize: "2rem",
+                marginBottom: "2px",
+                fontWeight: "bold",
+            }} className="text-blue-500 text-center font-bold mt-5">Awaiting Review</h1>
+        <h1>Your application is currently under review</h1>
         <div className='flex justify-center items-center my-4'><hr className='w-1/2'/></div>
         <h5 className='font-semibold my-3'>Thank you for your patience, we will get back to you soon.</h5>
         </div>
     ) : docStatus === 'Admin rejected' ? (
         <div className="text-center my-10">
-        <h1 className="text-purple-500 text-center font-bold mt-5">Application Terminated</h1>
-        <h3>We have terminated your application process.</h3>
+        <h1 style={{
+                textAlign: "center",
+                fontSize: "2rem",
+                marginBottom: "2px",
+                fontWeight: "bold",
+            }} className="text-blue-500 text-center font-bold mt-5">Application Terminated</h1>
+        <h1>We have terminated your application process.</h1>
         <div className='flex justify-center items-center my-4'><hr className='w-1/2'/></div>
         <h5 className='font-semibold my-3'>We regret to inform you that you have not passed our application screening phase. <br /> We wish you the best of luck in your future endeavors.</h5>
         </div>
     ) : docStatus === 'Doctor rejected' ? (
         <div className="text-center my-10">
-        <h1 className="text-purple-500 text-center font-bold mt-5">Application Terminated</h1>
-        <h3>You have terminated your application process.</h3>
+        <h1 style={{
+                textAlign: "center",
+                fontSize: "2rem",
+                marginBottom: "2px",
+                fontWeight: "bold",
+            }} className="text-blue-500 text-center font-bold mt-5">Application Terminated</h1>
+        <h1>You have terminated your application process.</h1>
         <div className='flex justify-center items-center my-4'><hr className='w-1/2'/></div>
         <h5 className='font-semibold my-3'>Your application has been terminated as you have rejected our employment contract. <br /> We wish you the best of luck in your future endeavors.</h5>
         </div>
-    ) : null}
+    ) : (
+        <div className="text-center my-10">
+        <h1 style={{
+                textAlign: "center",
+                fontSize: "2rem",
+                marginBottom: "2px",
+                fontWeight: "bold",
+            }} className="text-blue-500 text-center font-bold mt-5">Application Accepted </h1>
+        <h1>You have been accepted as one of our Doctors.</h1>
+        <div className='flex justify-center items-center my-4'><hr className='w-1/2'/></div>
+        <h5 className='font-semibold my-3'>Redirecting you to your profile page...</h5>
+        </div>
+    )}
     </div>
 
   );

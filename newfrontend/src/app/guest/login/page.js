@@ -41,7 +41,7 @@ const Login = () => {
           ? "/admin/manage-users"
           : role === "patient"
           ? "/patient/profile"
-          : "/pharmacist/profile";
+          : "/doctor/contract";
           // console.log(url)
       setTimeout(() => {
         window.history.pushState({},"",url)
