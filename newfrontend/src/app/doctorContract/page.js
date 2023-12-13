@@ -6,7 +6,7 @@ import { doctorViewContract, doctorAcceptContract, rejectDoctor } from "../redux
 import { logout } from '@/app/redux/actions/authActions';
 import { Button } from '@tremor/react';
 
-const ContractPage = (props) => {
+const ContractPage = () => {
   const dispatch = useDispatch();
   let doctor;
     if (localStorage) {
