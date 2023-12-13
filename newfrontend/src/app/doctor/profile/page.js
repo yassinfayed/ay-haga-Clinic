@@ -44,9 +44,9 @@ function DoctorProfile () {
       }, [dispatch,updateLoading]);
 
       const [isEditEmail, setIsEditEmail] = useState(false);
-      const [newHourlyRate, setNewHourlyRate] = useState(doctor?.HourlyRate || "");
-      const [newAffiliation, setNewAffiliation] = useState(doctor?.affiliation || "");
-      const [editedEmail, setEditedEmail] = useState(doctor?.email || "");
+      const [newHourlyRate, setNewHourlyRate] = useState(doctor?.HourlyRate);
+      const [newAffiliation, setNewAffiliation] = useState(doctor?.affiliation);
+      const [editedEmail, setEditedEmail] = useState(doctor?.email);
       const [isEditEmployment, setIsEditEmployment] = useState (false);
       const [newdoctor, setNewDoctor] = useState({});
       const[show,setShow]=useState(false);
@@ -67,7 +67,7 @@ function DoctorProfile () {
       }
     
       const handleCancelEditEmail = () => {
-        setIsEditMode(false);
+        setIsEditEmail(false);
         setEditedEmail(doctor?.email || "");
       };
     
