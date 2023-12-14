@@ -74,9 +74,15 @@ exports.followUpAppointment = catchAsync(async (req, res, next) => {
       throw new Error("Doctor not found");
     }
     const doctorId = doctor._id;
-
-    const appointment = await Appointment.findById(req.body.appointmentId);
-
+console.log(req.params.id)
+    const appointment = await Appointment.findByIdAndUpdate( req.body.appointmentId,
+      {  
+        followUp: "Accepted" },
+      {
+        new: true,
+       //runValidators: true,
+      });
+console.log(appointment)
     appt = new Appointment({
       date: req.body.date,
       patientId: appointment.patientId,
