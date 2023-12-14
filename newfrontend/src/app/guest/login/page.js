@@ -35,20 +35,22 @@ const Login = () => {
   let url=""
   useEffect(() => {
     if (isAuthenticated) {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
       const role = JSON.parse(localStorage.getItem("userInfo")).data.user.role;
+      const docUrl = (role=='doctor') ?  (userInfo.data.user.doctor?.employmentContract.status == 'accepted' ? "/doctor/profile" : "/doctorContract" ) : ""
       url =
         role === "administrator"
           ? "/admin/manage-users"
           : role === "patient"
           ? "/patient/profile"
-          : "/pharmacist/profile";
+          : docUrl;
           // console.log(url)
       setTimeout(() => {
         window.history.pushState({},"",url)
         window.location.reload()
       }, 1000);
     }
-  }, [dispatch,  loginError,isAuthenticated]);
+  }, [dispatch,  loginError, isAuthenticated]);
 
   const handleLogin = () => {
     dispatch(login(formData.username, formData.password));
@@ -143,7 +145,7 @@ const [loadingSignUp,setLoadingSignUp]=useState(false);
         />
       )}
 
-{loginSuccess && (
+      {loginSuccess && (
         <BottomCallout
           message="Login Successful"
           variant="success"
