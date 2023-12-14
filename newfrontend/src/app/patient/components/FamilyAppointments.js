@@ -103,116 +103,107 @@ const FamilyAppointments = ({ memberId, memberName }) => {
 
   return (
     <>
-      {memberId ? (
-        <Card>
-          <div className="flex flex-col space-y-4">
-            <Title>
-              Family Appointments<Badge>{rows.length}</Badge>
-            </Title>
+      <Card className="flex flex-col h-full">
+        <div className=" space-y-4 ">
+          <h1 className="font-bold text-2xl mb-4">
+            Family Appointments<Badge>{rows.length}</Badge>
+          </h1>
 
-            <div className="flex space-x-4">
-              <Select
-                value={selectedStatus}
-                onValueChange={(e) => setSelectedStatus(e)}
-              >
-                <SelectItem value="">Filter by status</SelectItem>
-                <SelectItem value="Completed">Completed</SelectItem>
-                <SelectItem value="Upcoming">Upcoming</SelectItem>
-                <SelectItem value="Missed">Missed</SelectItem>
-                <SelectItem value="Cancelled">Cancelled</SelectItem>
-                <SelectItem value="Rescheduled">Rescheduled</SelectItem>
-              </Select>
-              <TextInput
-                type="date"
-                placeholder="Filter By date"
-                name="dateOfBirth"
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-                required
-                style={{ color: "white" }}
-              />
+          <div className="flex space-x-4">
+            <Select
+              value={selectedStatus}
+              onValueChange={(e) => setSelectedStatus(e)}
+            >
+              <SelectItem value="">Filter by status</SelectItem>
+              <SelectItem value="Completed">Completed</SelectItem>
+              <SelectItem value="Upcoming">Upcoming</SelectItem>
+              <SelectItem value="Missed">Missed</SelectItem>
+              <SelectItem value="Cancelled">Cancelled</SelectItem>
+              <SelectItem value="Rescheduled">Rescheduled</SelectItem>
+            </Select>
+            <TextInput
+              type="date"
+              placeholder="Filter By date"
+              name="dateOfBirth"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              required
+              style={{ color: "white" }}
+            />
 
-              <Button
-                variant="secondary"
-                className="px-4  rounded"
-                onClick={handleClearFilters}
-              >
-                Clear Filters
-              </Button>
-            </div>
+            <Button
+              variant="secondary"
+              className="px-4  rounded"
+              onClick={handleClearFilters}
+            >
+              Clear Filters
+            </Button>
           </div>
+        </div>
 
-          {isLoading ? (
-            <div className="flex-1 grow flex items-center justify-center">
-              <Lottie
-                animationData={LoadingAnimation}
-                className="w-[15rem] h-[15rem]"
-              />
-            </div>
-          ) : (
-            <>
-              <Table className="mt-6">
-                <TableHead>
-                  <TableRow>
-                    {columns.map((column, index) => (
-                      <TableHeaderCell key={index}>{column}</TableHeaderCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                {notHasAppointments && (
-                  <p className="pt-5">No appointments for {memberName}</p>
-                )}
-                <TableBody>
-                  {rows.map((item, rowIndex) => (
-                    <TableRow key={rowIndex}>
-                      {fields.map((field, fieldIndex) => {
-                        if (field === "date") {
-                          const { date, time } = formatDateAndTime(item[field]);
-                          return (
-                            <>
-                              <TableCell
-                                key={`${fieldIndex}-date`}
-                                className="text-lg"
-                              >
-                                {date}
-                              </TableCell>
-                              <TableCell
-                                key={`${fieldIndex}-time`}
-                                className="text-lg"
-                              >
-                                {time}
-                              </TableCell>
-                            </>
-                          );
-                        } else if (field === "status") {
-                          return (
-                            <TableCell key={fieldIndex} className="text-lg">
-                              {renderStatusBadge(item[field])}
-                            </TableCell>
-                          );
-                        } else {
-                          return (
-                            <TableCell key={fieldIndex} className="text-lg">
-                              {item[field]}
-                            </TableCell>
-                          );
-                        }
-                      })}
-                    </TableRow>
+        {isLoading ? (
+          <div className="flex-1 grow flex justify-center">
+            <Lottie
+              animationData={LoadingAnimation}
+              className="w-[15rem] h-[15rem]"
+            />
+          </div>
+        ) : (
+          <>
+            <Table className="mt-6">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column, index) => (
+                    <TableHeaderCell key={index}>{column}</TableHeaderCell>
                   ))}
-                </TableBody>
-              </Table>
-            </>
-          )}
-        </Card>
-      ) : (
-        <Card>
-          <h1 className="font-bold text-2xl my-4">Family Appointments</h1>
-          <p className="text-base pt-4">
-            Choose a family member to check his/her appointments
-          </p>
-        </Card>
-      )}
+                </TableRow>
+              </TableHead>
+              {notHasAppointments && (
+                <p className="pt-5">No appointments for {memberName}</p>
+              )}
+              <TableBody>
+                {rows.map((item, rowIndex) => (
+                  <TableRow key={rowIndex}>
+                    {fields.map((field, fieldIndex) => {
+                      if (field === "date") {
+                        const { date, time } = formatDateAndTime(item[field]);
+                        return (
+                          <>
+                            <TableCell
+                              key={`${fieldIndex}-date`}
+                              className="text-lg"
+                            >
+                              {date}
+                            </TableCell>
+                            <TableCell
+                              key={`${fieldIndex}-time`}
+                              className="text-lg"
+                            >
+                              {time}
+                            </TableCell>
+                          </>
+                        );
+                      } else if (field === "status") {
+                        return (
+                          <TableCell key={fieldIndex} className="text-lg">
+                            {renderStatusBadge(item[field])}
+                          </TableCell>
+                        );
+                      } else {
+                        return (
+                          <TableCell key={fieldIndex} className="text-lg">
+                            {item[field]}
+                          </TableCell>
+                        );
+                      }
+                    })}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </>
+        )}
+      </Card>
     </>
   );
 };
