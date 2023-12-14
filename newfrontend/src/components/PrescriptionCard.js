@@ -1,7 +1,12 @@
 import React from 'react';
 import { Button } from '@tremor/react';
+import { useDispatch } from 'react-redux';
 
-const PrescriptionCard = ({ prescriptionDate, doctorName, medicines, instructions }) => {
+import {downloadPrescription} from '@/app/redux/actions/prescriptionsActions';
+
+const PrescriptionCard = ({id, prescriptionDate, doctorName, medicines,  }) => {
+  console.log(id);
+  const dispatch = useDispatch();
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
@@ -44,20 +49,21 @@ const PrescriptionCard = ({ prescriptionDate, doctorName, medicines, instruction
             )}
           </div>
         </div>
-        {/* <div className="flex justify-between mt-3">
+        {id&&
+        <div className="flex justify-center mb-5">
           <Button
             className="border border-purple-500 text-purple-500 px-4 py-2 rounded"
-            // Add functionality for buttons as required
+            onClick={() => {
+              dispatch(downloadPrescription(id));
+            }
+            }
           >
-            Action 1
+            Download Prescription
           </Button>
-          <Button
-            className="bg-purple-500 text-white px-4 py-2 rounded"
-            // Add functionality for buttons as required
-          >
-            Action 2
-          </Button>
-        </div> */}
+  
+        </div>
+        
+          }
       </div>
     </div>
   );

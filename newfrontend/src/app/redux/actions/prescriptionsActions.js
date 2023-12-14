@@ -101,6 +101,7 @@ export const downloadPrescription = (id) => async (dispatch) => {
       withCredentials: true
     };
 
+    console.log(id);
     const response = await axios.get(
       `${baseURL}/api/v1/prescriptions/download/${id}`,
       config

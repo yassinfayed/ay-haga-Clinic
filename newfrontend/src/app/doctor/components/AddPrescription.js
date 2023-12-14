@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, TextInput, DatePicker } from '@tremor/react';
 
-const MedicineInputFields = ({ med, index , handleMedicineChange
+const MedicineInputFields = ({ med, index , handleMedicineChange, deleteMedicine
 }) => (
   <div className="mb-4">
     <TextInput
@@ -36,6 +36,9 @@ const MedicineInputFields = ({ med, index , handleMedicineChange
       onValueChange={(date) => handleMedicineChange(index, 'endDate', date)}
       className='mb-4'
     />
+     <Button onClick={() => deleteMedicine(index)}>Delete Medicine</Button>
+  
+  
   </div>
 );
 const AddPrescription = ({
@@ -58,6 +61,11 @@ const AddPrescription = ({
   const addMedicine = () => {
     setMedicines([...medicines, { medicine: '', dosage: '', frequency: '', startDate: null, endDate: null }]);
   };
+  const deleteMedicine = (index) => {
+    const updatedMedicines = medicines.filter((_, i) => i !== index);
+    setMedicines(updatedMedicines);
+  };
+  
 
 
   return (
@@ -66,9 +74,13 @@ const AddPrescription = ({
         <h2 className="text-xl font-bold leading-8 text-gray-400 text-center mb-4">Add New Prescription</h2>
         <div className="flex flex-col space-y-4 mb-4">
           {medicines.map((med, index) => (
-            <MedicineInputFields med={med} index={index} key={`medicine-${index}`
-            } handleMedicineChange={handleMedicineChange} 
-            />
+            <MedicineInputFields
+            med={med} 
+            index={index} 
+            key={`medicine-${index}`}
+            handleMedicineChange={handleMedicineChange}
+            deleteMedicine={deleteMedicine} 
+          />
           ))}
           <Button onClick={addMedicine}>Add Medicine</Button>
          

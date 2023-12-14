@@ -277,6 +277,7 @@
             doctorName={selected?.doctorName}
             medicines={selected?.medicines}
             instructions={selected?.instructions}
+            id={selected?._id}  
               />
             </div>
           </div>{" "} 
