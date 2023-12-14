@@ -51,6 +51,7 @@ import {
             ...state,
             appointment: action.payload,
             loading: false,
+            success:true,
             error: null,
           };
         }

@@ -118,9 +118,9 @@ const appointmentList  = useMemo(() => {
                 </span>)
                 :(
                   followUp==="Accepted" ? (<span className='mx-10'>
-                  Doctor Accepted
+                  Follow Up Scheduled
                   </span>) : (<span className='mx-10'>
-                  Doctor Rejected
+                  Follow Up Rejected
                   </span>)
                   
                   ))

@@ -275,6 +275,7 @@ export const doctorFollowUpReducer = (state ={}, action) => {
         return {
           ...state,
           appointment: action.payload,
+          success:true,
           loading: false,
           error: null,
         };
@@ -354,6 +355,7 @@ export const doctorEvaluateFollowUpReducer = (state ={}, action) => {
           ...state,
           appointment: action.payload,
           loading: false,
+          success:true,
           error: null,
         };
       }
