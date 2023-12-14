@@ -8,7 +8,7 @@ import { viewPatientDetails } from "@/app/redux/actions/patientActions";
 
 function ReserveModal(props) {
   const { title, subheader, edit, id, healthPackage,hourlyRate,selectedDate,
-success } = props;
+success,reserveloading } = props;
 
   const dispatch = useDispatch();
 

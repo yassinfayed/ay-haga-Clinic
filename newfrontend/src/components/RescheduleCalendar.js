@@ -8,8 +8,9 @@ import { TimePicker } from 'react-ios-time-picker';
 import { viewDoctorDetails } from "@/app/redux/actions/doctorActions";
 import { Button } from "@tremor/react";
 import ReserveModal from "./ReserveModal";
+import { rescheduleAction } from "@/app/redux/actions/appointmentActions";
 
-function ReserveCalendar({ id}) {
+function RescheduleCalendar({id,appointmentId}) {
   const [visibleFeedback, setVisibleFeedback] = useState(true);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
@@ -19,7 +20,7 @@ function ReserveCalendar({ id}) {
   const [selectedDate,setSelectedDate] = useState('')
   const dispatch = useDispatch();
 const success=useSelector((state) => state.orderReducer?.success);
-const loading=useSelector((state) => state.orderReducer?.loading); 
+const loading=useSelector((state) => state.rescheduleReducer?.loading); 
   const {
     loading: addLoading,
     error: addError,
@@ -108,9 +109,10 @@ const loading=useSelector((state) => state.orderReducer?.loading);
                     .map((event, index) => (
                       <div key={index} className="flex text-white rounded  text-2xl mb-1 justify-center">
                         <Button variant="primary" color="blue" className="w-[8rem]" onClick={()=>{
-                            setSelectedDate(event.formattedDate)
+                            dispatch(rescheduleAction(appointmentId,event.formattedDate))
                             setReserve(true)
                         }}
+                        loading={loading}
                         >{displayLocalTime(event.formattedDate)}</Button>
                       </div>
                     ))}
@@ -172,14 +174,13 @@ const loading=useSelector((state) => state.orderReducer?.loading);
         />
       )}
 
-    <ReserveModal visible={reserve} 
+    {/* <ReserveModal visible={reserve} 
     setVisible={setReserve} 
     title="Reservation" 
     id={id} 
     hourlyRate={doctor?.HourlyRate}
     selectedDate={selectedDate}
-    success={success}
-    reserveloading={loading}></ReserveModal>
+    success={success}></ReserveModal> */}
       <div className="container mx-auto mt-10">
         <div className="wrapper rounded shadow w-full ">
           <div className="header flex justify-between border-b p-2">
@@ -264,4 +265,4 @@ const loading=useSelector((state) => state.orderReducer?.loading);
   );
 }
 
-export default ReserveCalendar;
+export default RescheduleCalendar;

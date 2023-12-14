@@ -21,8 +21,8 @@ const appointmentSchema = new mongoose.Schema({
         default: 'Upcoming'
     },followUp : {
         type: String,
-        enum:["FollowUpRequest","Accepted","Revoked"],
-        default: "Accepted"
+        enum:["FollowUpRequest","Accepted","Revoked","None"],
+        default: "None"
     }
     
 });
