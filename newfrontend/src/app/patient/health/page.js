@@ -3,6 +3,7 @@ import { listHealthPackages } from "@/app/redux/actions/healthPackagesActions";
 import { viewPatients } from "@/app/redux/actions/patientsActions";
 import { BottomCallout } from "@/components/BottomCallout";
 import PricingCard from "@/components/HealthPackagesCard";
+import { Divider } from "@tremor/react";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -32,7 +33,7 @@ const page = () => {
   useEffect(() => {
     dispatch(listHealthPackages());
     dispatch(viewPatients({ _id: id }));
-  }, [dispatch, isLoading, modalShow]);
+  }, [dispatch, isLoading]);
 
   const packages = useMemo(() => {
     if (healthPackages && healthPackages.data) {
@@ -59,7 +60,8 @@ const page = () => {
   return (
     <>
       <h2 className="text-2xl font-bold mb-4">Health Packages</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 ">
+      <Divider />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 m-auto mx-[200]">
         {success && <BottomCallout message="Subscription Cancelled" variant="success" visible={visible} setVisible={setVisible} />}
          {orderSuccess && <BottomCallout message="Subscirbed Successfully" variant="success" visible={visible} setVisible={setVisible} />}
         {packages.map((pkg) => (

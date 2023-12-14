@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { viewFamilyMembers } from "@/app/redux/actions/FamilyMembersAction";
 import { makeOrder } from "@/app/redux/actions/paymentActions";
 import { Modal } from "@/components/Modal";
-import { Button, Select, SelectItem } from "@tremor/react";
+import { Button, Divider, Select, SelectItem } from "@tremor/react";
 
 function SubscribeModal(props) {
-  const { title, subheader, edit, id, healthPackage } = props;
+  const { title, subheader, edit, id, healthPackage, loading: loadingP } = props;
 
   const dispatch = useDispatch();
 
@@ -84,10 +84,11 @@ function SubscribeModal(props) {
 
   return (
     <Modal visible={props.visible} setVisible={props.setVisible}>
+      
       <div className="p-4 flex flex-col">
-        <h1 className="text-center my-2">{title}</h1>
-
-        <div className="flex-[2] my-2">
+        <h1 className="text-center my-4">{title}</h1>
+ <Divider></Divider>
+        <div className="flex-[2] my-2 mt-6">
           <input
             type="radio"
             id="me"
@@ -142,8 +143,9 @@ function SubscribeModal(props) {
         <div className="my-4 flex-[2] md:w-3/5">
           <Select
             placeholder={`Choose family member`}
-            disabled={packageReciever === "me"}
+           
             className="mr-2"
+            disabled={packageReciever !== "family"}
             value={familyMember}
             onValueChange={(e) => {
               console.log(e);
@@ -160,7 +162,7 @@ function SubscribeModal(props) {
           </Select>
         </div>
         <div className="my-4 flex-[2] md:w-3/5">
-          <Button onClick={handleSubmit}> Subscribe</Button>
+          <Button disabled={ !paymentMethod || !packageReciever || (packageReciever == 'family' && !familyMember)} loading={ loadingP} onClick={handleSubmit}> Subscribe</Button>
         </div>
       </div>
     </Modal>
