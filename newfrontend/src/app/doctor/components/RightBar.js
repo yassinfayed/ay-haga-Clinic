@@ -2,16 +2,45 @@
 import React, { useState } from "react";
 import InfoBlock from "./InfoBlock";
 // import "./style.css";
+import {
+  downloadPatientDocs,
+  uploadHealthRecords,
+} from "@/app/redux/actions/patientActions";
+import Image from "next/image";
+import { useDispatch } from "react-redux";
 
 const YourComponent = ({ patient, isOpen, setIsOpen }) => {
-  const RecordItem = ({ title }) => (
+  const RecordItem = ({ title, path }) => (
     <div className="flex justify-between items-center bg-gray-800 px-4 py-2 rounded-md mb-2">
       <span className="text-white">{title}</span>
-      <button className="bg-blue-500 text-white px-3 py-1 rounded-md text-sm">
+      <button
+        onClick={(e) => dispatch(downloadPatientDocs(path))}
+        className="bg-blue-500 text-white px-3 py-1 rounded-md text-sm"
+      >
         View
       </button>
     </div>
   );
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (e, patientId) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setSelectedFile({ patientId: patient.patientId, file });
+    }
+  };
+
+  const dispatch = useDispatch();
+  const handleFileUpload = () => {
+    console.log(patient);
+    if (selectedFile) {
+      const { file } = selectedFile;
+      const formData = new FormData();
+      formData.append("image", file);
+
+      dispatch(uploadHealthRecords(formData, patient.patientId));
+    }
+  };
 
   console.log(patient);
 
@@ -180,11 +209,33 @@ const YourComponent = ({ patient, isOpen, setIsOpen }) => {
                   </div>
                 </div>
                 {patient?.healthRecords?.map((record) => (
-                  <RecordItem title={record.substring(22)} />
+                  <RecordItem title={record.substring(22)} path={record} />
                 ))}
-                <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">
-                  Upload New Record
-                </button>
+                <div>
+                  <input
+                    className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    aria-describedby="file_input_help"
+                    id="formFile"
+                    type="file"
+                    onChange={(e) => handleFileChange(e)}
+                  />
+                </div>
+                <div className=" m-auto my-2">
+                  <label htmlFor="fileInput" className="cursor-pointer">
+                    <Image
+                      onClick={handleFileUpload}
+                      src="/upload.svg"
+                      height={25}
+                      width={25}
+                    />{" "}
+                  </label>
+                  <p
+                    className="mt-1 text-sm text-gray-700 dark:text-gray-500"
+                    id="file_input_help"
+                  >
+                    (PDF,JPEG,JPG,PNG)
+                  </p>
+                </div>
               </div>
 
               <div className="mt-6">
@@ -210,7 +261,7 @@ const YourComponent = ({ patient, isOpen, setIsOpen }) => {
                   </div>
                 </div>
                 {patient?.medicalRecords?.map((record) => (
-                  <RecordItem title={record.substring(22)} />
+                  <RecordItem path={record} title={record.substring(22)} />
                 ))}
               </div>
             </div>

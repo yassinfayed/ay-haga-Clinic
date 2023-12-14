@@ -61,7 +61,7 @@ const page = () => {
     <>
       <h2 className="text-2xl font-bold mb-4">Health Packages</h2>
       <Divider />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 m-auto mx-[200]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 m-auto">
         {success && <BottomCallout message="Subscription Cancelled" variant="success" visible={visible} setVisible={setVisible} />}
          {orderSuccess && <BottomCallout message="Subscirbed Successfully" variant="success" visible={visible} setVisible={setVisible} />}
         {packages.map((pkg) => (

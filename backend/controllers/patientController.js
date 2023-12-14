@@ -29,22 +29,22 @@ exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
       req.query
     ).filter();
 
-     presc = await features.query;
+    presc = await features.query;
     if (name)
       presc.filter((p) =>
         p.doctorId.name.toLowerCase().includes(name.toLowerCase())
       );
-  }
-
-  else {
+  } else {
     console.log("doctor");
     const doctor = await Doctor.findOne({ user: req.user._id });
     const doctorId = doctor._id;
-    const patient=await Patient.findOne({user:req.query.patientID})
-    const patientId=patient._id
-     
-    presc = await Prescription.find({ patientId: patientId, doctorId: doctorId }).populate("patientId");
-    
+    const patient = await Patient.findOne({ user: req.query.patientID });
+    const patientId = patient._id;
+
+    presc = await Prescription.find({
+      patientId: patientId,
+      doctorId: doctorId,
+    }).populate("patientId");
   }
   res.status(200).json({
     status: "success",
@@ -347,12 +347,12 @@ exports.postUpload = catchAsync(async (req, res, next) => {
 
 exports.downloadSingleRecord = catchAsync(async (req, res, next) => {
   //Abdullah: to be edited to download all as zip if no query parameter passed
-  const patient = await Patient.findOne({ user: req.user._id });
-  if (!patient.medicalRecords.includes(req.query.name)) {
-    if (!patient.healthRecords.includes(req.query.name)) {
-      return next(new AppError(404, "File not found"));
-    }
-  }
+  // const patient = await Patient.findOne({ user: req.user._id });
+  // if (!patient.medicalRecords.includes(req.query.name)) {
+  //   if (!patient.healthRecords.includes(req.query.name)) {
+  //     return next(new AppError(404, "File not found"));
+  //   }
+  // }
 
   const fileData = await fs.readFileSync(`./${req.query.name}`);
 
