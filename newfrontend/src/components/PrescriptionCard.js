@@ -13,7 +13,7 @@ const PrescriptionCard = ({ prescriptionDate, doctorName, medicines, instruction
         <div className="mb-4 flex-grow">
           <h2 className="text-xl font-bold leading-8 text-gray-400 text-center">Prescription Details</h2>
           <div className="text-center text-sm leading-6 text-gray-500 hover:text-gray-600 mt-4">
-            <p>Date: {formatDate(prescriptionDate)}</p>
+            <p>Date: {prescriptionDate}</p> 
             <p>Doctor Name: {doctorName}</p>
           </div>
           <div className="mt-3">

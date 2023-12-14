@@ -45,6 +45,7 @@ const page = () => {
         eName: emergencyContact.fullName,
         eRelation: emergencyContact.relationToPatient,
         ...user,
+        patientId: _id,
         dateOfBirth: formatDateToDDMMYYYY(dateOfBirth),
       })
     );
@@ -143,7 +144,9 @@ const page = () => {
               ),
               function: (id, e) => {
                 e.stopPropagation();
-                window.location.href = `/doctor/prescriptions/${id}`;
+                window.location.href = `/doctor/prescriptions/${
+                  patientsList.filter((patient) => patient._id == id)[0].patientId
+                }`;
               },
             },
 

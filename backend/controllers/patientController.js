@@ -40,10 +40,9 @@ exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
     console.log("doctor");
     const doctor = await Doctor.findOne({ user: req.user._id });
     const doctorId = doctor._id;
-    const patient=await Patient.findOne({user:req.query.patientID})
-    const patientId=patient._id
+    const patientId = req.query.patientID;
      
-    presc = await Prescription.find({ patientId: patientId, doctorId: doctorId }).populate("patientId");
+    presc = await Prescription.find({ patientId: patientId, doctorId: doctorId }).populate("patientId").populate("doctorId").exec();
     
   }
   res.status(200).json({
