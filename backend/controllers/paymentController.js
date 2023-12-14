@@ -7,6 +7,8 @@ const AppError = require("../utils/appError");
 const FamilyMembers = require("../models/familyMembersModel");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const Appointment = require("../models/appointmentModel");
+const Notification = require("../models/notificationModel");
+const Email = require("../utils/email");
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) Get the currently booked order
@@ -303,7 +305,7 @@ createAppointmentReservation = async (session) => {
   await doctor.save({ validateBeforeSave: false });
   await user.save({ validateBeforeSave: false });
   const userP = await User.findById(patient.user);
-  await new Email(patient).sendR(appointment.date);
+  await new Email(patient).N(appointment.date);
   const newNotification = new Notification({
     title: "New Appointment",
     text:
@@ -369,7 +371,7 @@ exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
   res.status(200).json({ message: "success" });
 
   const userP = await User.findById(patient.user);
-  await new Email(patient).sendR(appointment.date);
+  await new Email(patient).N(appointment.date);
   const newNotification = new Notification({
     title: "New Appointment",
     text: "New appointment with date: " + date,

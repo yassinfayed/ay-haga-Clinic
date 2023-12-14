@@ -40,22 +40,22 @@ module.exports = class Email {
   }
 
   // Send the actual email
-  async send(template, subject, content) {
+  async send(template, subject, date) {
     // 1) Render HTML based on a pug template
-    const html = pug.renderFile(`${__dirname}/../email/${template}.pug`, {
-      // firstName: this.firstName,
-      OTP: this.OTP,
-      subject,
-    });
+    // const html = pug.renderFile(`${__dirname}/../email/${template}.pug`, {
+    //   // firstName: this.firstName,
+    //   OTP: this.OTP,
+    //   subject,
+    // });
 
     // 2) Define email options
-    const mailOptions = {
-      from: this.from,
-      to: this.to,
-      subject,
-      html,
-      text: htmlToText.fromString(html),
-    };
+    // const mailOptions = {
+    //   from: this.from,
+    //   to: this.to,
+    //   subject,
+    //   html,
+    //   text: htmlToText.fromString(html),
+    // };
 
     // 3) Create a transport and send email
     const request = mailjet.post("send", { version: "v3.1" }).request({
@@ -92,14 +92,14 @@ module.exports = class Email {
     await this.send("welcome", "Welcome to elha2ny!");
   }
   async cancel(date) {
-    await this.send("cancel", subject, date);
+    await this.send("cancel","", date);
   }
   async R(date) {
-    await this.send("scheduled", subject, date);
+    await this.send("scheduled", "", date);
   }
 
   async N(date) {
-    await this.send("new", subject, date);
+    await this.send("new", "", date);
   }
   async sendPasswordReset() {
     await this.send(

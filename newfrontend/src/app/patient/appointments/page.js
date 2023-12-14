@@ -8,11 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatDateToDDMMYYYY } from "../../redux/validators";
 import { Button, DatePicker } from "@tremor/react";
 import { Select, SelectItem, TextInput } from "@tremor/react";
-import {
-  Select,
-  SelectItem,
-  TextInput,
-} from "@tremor/react";
+
 import { cancelAction, followUpAction } from '@/app/redux/actions/appointmentActions';
 import ReserveCalendar from '@/components/ReserveCalendar';
 import { viewDoctorDetails } from '@/app/redux/actions/doctorActions';

@@ -1,4 +1,4 @@
-const Notification = require("../models/notifiicationModel");
+const Notification = require("../models/notificationModel");
 const handlerfactory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 

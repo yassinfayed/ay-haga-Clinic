@@ -7,6 +7,8 @@ const Doctor = require("../models/doctorModel");
 const APIFeatures = require("../utils/apiFeatures");
 const FamilyMembers = require("../models/familyMembersModel");
 const User = require("../models/userModel");
+const Notification = require("../models/notificationModel");
+const Email = require("../utils/email");
 
 exports.viewAllAppointments = handlerFactory.getAll(Appointment);
 exports.getAppointment = handlerFactory.getOne(Appointment, {
@@ -123,14 +125,14 @@ exports.rescheduleAppointment = catchAsync(async (req, res, next) => {
   //EMAIL LOGIC
   const patient = await Patient.findById(appointment.patientId);
   const userP = await User.findById(patient.user);
-  await new Email(patient).sendR(appointment.date);
+  await new Email(patient,0).R(appointment.date);;
   const newNotification = new Notification({
     title: "Appointment Rescheduled",
     text:
       "Your appointment with dr." +
       appointment?.doctor?.name +
       "has been rescheduled to: " +
-      date,
+      appointment.date,
     user: userP._id,
   });
 
@@ -153,19 +155,20 @@ exports.cancelAppointment = catchAsync(async (req, res, next) => {
       new: true,
       // runValidators: true
     }
-  );
+  ).populate("doctorId").exec();
   const currentDate = new Date();
   const timeDifference = appointment.date.getTime() - currentDate.getTime();
   const hoursDifference = timeDifference / (1000 * 60 * 60);
   const patient = await Patient.findById(appointment.patientId);
   const userP = await User.findById(patient.user);
   if (hoursDifference > 24 || req.user.role == "doctor") {
-    userP.wallet += appointment.doctor?.HourlyRate;
-    await userP.save({ validator: false });
+    console.log(userP.wallet)
+    console.log(appointment.doctorId)
+    userP.wallet += appointment.doctorId?.HourlyRate;
+    await userP.save({ validateBeforeSave: false });
   }
 
-  //REFUND LOGIC
-  if (appointment.date)
+  
     res.status(200).json({
       status: "success",
       results: 1,
@@ -173,7 +176,7 @@ exports.cancelAppointment = catchAsync(async (req, res, next) => {
         data: appointment,
       },
     });
-  await new Email(patient).sendCancel(appointment.date, "Cancelled");
+  await new Email(patient).cancel(appointment.date, "Cancelled");
   const newNotification = new Notification({
     title: "Appointment Cancelled",
     text:
@@ -183,6 +186,9 @@ exports.cancelAppointment = catchAsync(async (req, res, next) => {
     user: userP._id,
   });
 
+
+  console.log(newNotification);
+  console.log("holaaaa")
   await newNotification.save();
 });
 
