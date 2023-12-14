@@ -174,15 +174,16 @@ const FamilyMemberCard = ({
               <span className="ml-2">{patient.subscriptionStatus} </span>
             </div>
           )}
-          {healthPackage?.name && (
+          {healthPackage?.name &&
+            patient.subscriptionStatus == "subscribed" && (
+              <div className="flex items-center py-1 text-sm">
+                renewal
+                <span className="ml-2">{patient.renewalDate} </span>
+              </div>
+            )}
+          {patient.subscriptionStatus !== "subscribed" && (
             <div className="flex items-center py-1 text-sm">
-              {renderIcon("relation")}
-              <span className="ml-2">{patient.renewalDate} </span>
-            </div>
-          )}
-          {healthPackage?.name && (
-            <div className="flex items-center py-1 text-sm">
-              {renderIcon("relation")}
+              cancellation
               <span className="ml-2">{patient.cancellationEndDate} </span>
             </div>
           )}
@@ -192,7 +193,9 @@ const FamilyMemberCard = ({
           style={{
             overflow: "hidden",
             height: `${
-              healthPackage?.name !== undefined && selectedMemberName == name
+              healthPackage?.name !== undefined &&
+              selectedMemberName == name &&
+              patient.subscriptionStatus == "subscribed"
                 ? "50px"
                 : "0px"
             }`,

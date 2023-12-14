@@ -38,7 +38,7 @@ function Familymembers() {
   };
   useEffect(() => {
     dispatch(viewAllFamilyMembersAndPatients(patientId));
-  }, [dispatch, modalShow]);
+  }, [dispatch, modalShow, confirm, successMessage]);
 
   const fam = useMemo(() => {
     return (
