@@ -125,9 +125,9 @@ exports.viewRegisteredFamilyMembers = catchAsync(async (req, res, next) => {
 
 exports.viewAllFamilyMembersAndPatients = catchAsync(async (req, res, next) => {
   const userId = req.user._id;
-
+  console.log("USER ID INNNNNN ");
   const patient = await Patient.findOne({ user: userId });
-  console.log(patient);
+
   if (!patient) {
     return res
       .status(404)
@@ -139,12 +139,12 @@ exports.viewAllFamilyMembersAndPatients = catchAsync(async (req, res, next) => {
   const familyMembers = await FamilyMember.find({ patientId });
 
   const familyMembersWithPatients = [];
-
+  console.log(familyMembers);
   for (const familyMember of familyMembers) {
     if (familyMember.linkedPatientId) {
       const linkedPatient = await Patient.findById(
         familyMember.linkedPatientId
-      );
+      ).populate("package");
 
       if (linkedPatient) {
         familyMembersWithPatients.push({
@@ -154,5 +154,7 @@ exports.viewAllFamilyMembersAndPatients = catchAsync(async (req, res, next) => {
       }
     }
   }
+  console.log("--------------------------------------");
+  console.log(familyMembersWithPatients);
   return res.status(200).json({ familyMembersWithPatients });
 });

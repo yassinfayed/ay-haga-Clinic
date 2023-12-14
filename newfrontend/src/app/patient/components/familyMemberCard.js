@@ -1,5 +1,7 @@
 import React from "react";
 import Image from "next/image";
+import { Button } from "@tremor/react";
+import HealthPackage from "@/app/admin/healthpackages/page";
 const FamilyMemberCard = ({
   member,
   name,
@@ -10,6 +12,7 @@ const FamilyMemberCard = ({
   onCardClick,
   selectedMemberName,
   selectedMemberId,
+  healthPackage,
 }) => {
   const getImageUrl = (relation) => {
     switch (relation) {
@@ -91,7 +94,7 @@ const FamilyMemberCard = ({
     <div
       className={`m-4 max-w-md ${
         selectedMemberName == name &&
-        "border-y-4 border-indigo-500/100 shadow-lg shadow-indigo-500/50 "
+        "border-y-4 border-blue-500/100 shadow-lg shadow-blue-500/50 "
       } rounded-xl`}
       style={{ width: "350px" }}
       onClick={() => onCardClick(member)}
@@ -125,6 +128,30 @@ const FamilyMemberCard = ({
             {renderIcon("relation")}
             <span className="ml-2">{relationToPatient}</span>
           </div>
+          {healthPackage?.name && (
+            <div className="flex items-center py-1 text-sm">
+              {renderIcon("relation")}
+              <span className="ml-2">{healthPackage?.name} Package</span>
+            </div>
+          )}
+        </div>
+        <div
+          className="flex justify-center"
+          style={{
+            overflow: "hidden",
+            height: `${
+              healthPackage?.name !== undefined && selectedMemberName == name
+                ? "50px"
+                : "0px"
+            }`,
+          }}
+        >
+          <Button
+            className="border border-purple-500 text-purple-500 px-4 py-2 mt-4 rounded bg-indigo"
+            onClick={console.log(healthPackage?.name)}
+          >
+            cancel subscription
+          </Button>
         </div>
       </div>
     </div>

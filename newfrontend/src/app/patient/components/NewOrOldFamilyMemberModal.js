@@ -99,7 +99,7 @@ function NewOrOldFamilyMember({
       <div
         style={{
           overflow: "hidden",
-          height: `${selectedOption == "link" ? "200px" : "0px"}`,
+          height: `${selectedOption == "link" ? "300px" : "0px"}`,
         }}
       >
         <LinkFamily
