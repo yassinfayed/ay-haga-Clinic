@@ -15,6 +15,7 @@ function SubscribeModal(props) {
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [alert, setAlert] = useState(false);
+  const {success: orderSuccess} = useSelector((state) => state.orderReducer);
 
   const { loading, error, session } = useSelector(
     (state) => state.orderReducer
@@ -34,7 +35,7 @@ function SubscribeModal(props) {
     fetchData();
   }, [dispatch, isLoading]);
 
-  useEffect(() => {}, [error, submitted, session, loading, props]);
+  // useEffect(() => {}, [error, submitted, session, loading, props]);
 
   const fam = useMemo(() => {
     if (familyMembers && familyMembers.data) {

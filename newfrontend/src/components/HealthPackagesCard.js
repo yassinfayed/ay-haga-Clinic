@@ -6,7 +6,7 @@ import { Button } from "@tremor/react";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-const PricingCard = ({ hp, patient }) => {
+const PricingCard = ({ hp, patient}) => {
   const [healthPackage, setHealthPackage] = useState(null);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -15,6 +15,10 @@ const PricingCard = ({ hp, patient }) => {
     // setCancelConfirm(false);
     //6549f806f3ee984c4052aa62
   }
+    const {success: orderSuccess} = useSelector((state) => state.orderReducer);
+    useEffect(() => {
+    if(orderSuccess == true) setModalShow(false)
+  }, [orderSuccess]);
   return (
     <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
       <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">
@@ -77,18 +81,7 @@ const PricingCard = ({ hp, patient }) => {
         </li>
       </ul>
 
-      {patient?.package == hp._id &&
-        patient?.subscriptionStatus == "cancelled" && (
-          <>
-            <div className="text-muted text-center ">
-              <small>
-                Subscription will end on <br />
-                {formatDateToDDMMYYYY(patient.cancellationEndDate)}
-              </small>
-            </div>
-          </>
-        )}
-
+    
       <div
         className={`grid grid-cols-1 gap-4 ${
           patient?.package === hp._id &&
@@ -134,6 +127,18 @@ const PricingCard = ({ hp, patient }) => {
           healthPackage={hp}
         />
       </div>
+        {patient?.package == hp._id &&
+        patient?.subscriptionStatus == "cancelled" && (
+          <>
+            <div className="text-muted text-center ">
+              <small>
+                Subscription will end on <br />
+                {formatDateToDDMMYYYY(patient.cancellationEndDate)}
+              </small>
+            </div>
+          </>
+        )}
+
     </div>
   );
 };

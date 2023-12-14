@@ -1,12 +1,13 @@
 "use client";
 import { listHealthPackages } from "@/app/redux/actions/healthPackagesActions";
 import { viewPatients } from "@/app/redux/actions/patientsActions";
+import { BottomCallout } from "@/components/BottomCallout";
 import PricingCard from "@/components/HealthPackagesCard";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const page = () => {
-  const [modalShow, setModalShow] = useState(false);
+  
   const [healthPackage, setHealthPackage] = useState(null);
   const [subscriptionData, setSubscriptionData] = useState("");
 
@@ -24,6 +25,9 @@ const page = () => {
 
   const dispatch = useDispatch();
   const id = JSON.parse(localStorage.getItem("userInfo")).data.user.patient._id;
+  const { success } = useSelector((state) => state.cancelSubscriptionReducer);
+  const [visible, setVisible] = useState(true)
+  const {success: orderSuccess} = useSelector((state) => state.orderReducer);
 
   useEffect(() => {
     dispatch(listHealthPackages());
@@ -42,7 +46,7 @@ const page = () => {
       }));
     }
     return [];
-  }, [healthPackages, modalShow]);
+  }, [healthPackages]);
 
   function handleCancellation() {
     dispatch(cancelSubscription(cancelId));
@@ -50,10 +54,14 @@ const page = () => {
     //6549f806f3ee984c4052aa62
   }
 
+
+
   return (
     <>
       <h2 className="text-2xl font-bold mb-4">Health Packages</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 ">
+        {success && <BottomCallout message="Subscription Cancelled" variant="success" visible={visible} setVisible={setVisible} />}
+         {orderSuccess && <BottomCallout message="Subscirbed Successfully" variant="success" visible={visible} setVisible={setVisible} />}
         {packages.map((pkg) => (
           <PricingCard key={pkg.id} hp={pkg} patient={patient} />
         ))}

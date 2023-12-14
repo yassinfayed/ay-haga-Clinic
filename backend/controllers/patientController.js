@@ -16,23 +16,33 @@ const fs = require("fs");
 exports.getPatient = handlerFactory.getOne(Patient);
 
 exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
-  console.log(req.user._id);
-  const patient = await Patient.findOne({ user: req.user._id });
-  const patientId = patient._id;
-  const name = req.query.name;
-  req.query.name = null;
+  let presc;
+  if (req.user.role == "patient") {
+    const patient = await Patient.findOne({ user: req.user._id });
+    const patientId = patient._id;
+    const name = req.query.name;
+    req.query.name = null;
 
-  const features = new APIFeatures(
-    Prescription.find({ patientId: patientId }).populate("doctorId"),
-    req.query
-  ).filter();
+    const features = new APIFeatures(
+      Prescription.find({ patientId: patientId }).populate("doctorId"),
+      req.query
+    ).filter();
 
-  let presc = await features.query;
-  if (name)
-    presc = presc.filter((p) =>
-      p.doctorId.name.toLowerCase().includes(name.toLowerCase())
-    );
+     presc = await features.query;
+    if (name)
+      presc.filter((p) =>
+        p.doctorId.name.toLowerCase().includes(name.toLowerCase())
+      );
+  }
 
+  else {
+    const doctor = await Doctor.findOne({ user: req.user._id });
+    const doctorId = doctor._id;
+    const patientId = req.query.patientID;
+     
+    presc = await Prescription.find({ patientId: patientId, doctorId: doctorId }).populate("patientId");
+    
+  }
   res.status(200).json({
     status: "success",
     results: presc.length,
