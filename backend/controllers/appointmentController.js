@@ -111,7 +111,8 @@ exports.followUpAppointment = catchAsync(async (req, res, next) => {
 });
 
 exports.rescheduleAppointment = catchAsync(async (req, res, next) => {
-  const oldApp = Appointment.findById(req.params.id)
+  const oldApp = await Appointment.findById(req.params.id)
+  console.log(oldApp)
   const appointment = await Appointment.findByIdAndUpdate(
     req.params.id,
     { date: req.body.date, status: "Rescheduled" },

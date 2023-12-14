@@ -118,7 +118,9 @@ exports.acceptEmploymentContract = catchAsync(async (req, res, next) => {
 exports.addAvailableDate = catchAsync(async (req, res, next) => {
   const doctor = await Doctor.findOne({ user: req.user._id });
   const doctorID = doctor._id;
-  oldAvailableDates=doctor.availableDates;
+  oldAvailableDates = doctor.availableDates;
+  if (!req.body.availableDate)
+    res.status(200).json({})
   //what if the same date entered twice 
  
   const doctorfound = await Doctor.findByIdAndUpdate(doctorID, {availableDates:[...oldAvailableDates,req.body.availableDate]}, 

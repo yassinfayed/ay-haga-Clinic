@@ -112,7 +112,7 @@ const loading=useSelector((state) => state.rescheduleReducer?.loading);
                             dispatch(rescheduleAction(appointmentId,event.formattedDate))
                             setReserve(true)
                         }}
-                        loading={loading}
+                        // loading={loading}
                         >{displayLocalTime(event.formattedDate)}</Button>
                       </div>
                     ))}
