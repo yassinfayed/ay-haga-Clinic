@@ -3,8 +3,8 @@ import SubscribeModal from "@/app/patient/components/SubscribeModal";
 import { cancelSubscription } from "@/app/redux/actions/patientActions";
 import { formatDateToDDMMYYYY } from "@/app/redux/validators";
 import { Button } from "@tremor/react";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const PricingCard = ({ hp, patient}) => {
   const [healthPackage, setHealthPackage] = useState(null);
@@ -15,13 +15,21 @@ const PricingCard = ({ hp, patient}) => {
     // setCancelConfirm(false);
     //6549f806f3ee984c4052aa62
   }
-    const {success: orderSuccess} = useSelector((state) => state.orderReducer);
+
+  
+
+   const cardClasses = `
+    w-full max-w-sm p-4 bg-white rounded-lg shadow sm:p-8 dark:bg-gray-800
+    ${patient?.package === hp._id &&
+          patient?.subscriptionStatus === "subscribed"? 'border-4 border-purple-500' : 'border border-gray-200 dark:border-gray-700'}
+  `;
+    const {success: orderSuccess, loading: orderLoading} = useSelector((state) => state.orderReducer);
     useEffect(() => {
-    if(orderSuccess == true) setModalShow(false)
+    if(orderSuccess == true) setShow(false)
   }, [orderSuccess]);
   return (
-    <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-      <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">
+  <div style={{marginRight: "50px" ,marginLeft: "50px", }} className={cardClasses}>
+      <h5 className="mb-4 text-xl font-medium  text-gray-500 dark:text-gray-400">
         {hp?.name}
       </h5>
       <div className="flex items-baseline text-gray-900 dark:text-white">
@@ -118,6 +126,7 @@ const PricingCard = ({ hp, patient}) => {
           title={`Subscribe to our ${hp?.name} Health Package`}
           subheader={``}
           visible={show}
+          loading={orderLoading}
           setVisible={setShow}
           patient={patient}
           onHide={() => {

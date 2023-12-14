@@ -176,7 +176,7 @@ success } = props;
         <div className="my-4 flex-[2] md:w-3/5">
           <Select
             placeholder={`Choose family member`}
-            disabled={packageReciever === "me"}
+              disabled={packageReciever !== "family"}
             className="mr-2"
             value={familyMember}
             onValueChange={(e) => {
@@ -208,7 +208,7 @@ success } = props;
                                 )}
         <div className="my-4 flex-[2] md:w-3/5">
             
-          <Button onClick={handleSubmit}> Reserve</Button>
+          <Button disabled={ !paymentMethod || !packageReciever || (packageReciever == 'family' && !familyMember)} loading={ loading} onClick={handleSubmit}> Reserve</Button>
         </div>
       </div>
     </Modal>
