@@ -16,7 +16,7 @@ exports.getAppointment = handlerFactory.getOne(Appointment, {
 });
 
 exports.getAllPatientAppointments = catchAsync(async (req, res, next) => {
-  console.log(req.user._id);
+ 
   const patient = await Patient.findOne({ user: req.user._id });
   const patientId = patient._id;
   let id = patient._id.toString();
@@ -39,7 +39,6 @@ exports.getAllPatientAppointments = catchAsync(async (req, res, next) => {
   else {
     appts = await features.query;
   }
-  console.log(appts);
   res.status(200).json({
     status: "success",
     results: appts.length,
@@ -76,7 +75,6 @@ exports.followUpAppointment = catchAsync(async (req, res, next) => {
       throw new Error("Doctor not found");
     }
     const doctorId = doctor._id;
-console.log(req.params.id)
     const appointment = await Appointment.findByIdAndUpdate( req.body.appointmentId,
       {  
         followUp: "Accepted" },
@@ -84,7 +82,6 @@ console.log(req.params.id)
         new: true,
        //runValidators: true,
       });
-console.log(appointment)
     appt = new Appointment({
       date: req.body.date,
       patientId: appointment.patientId,
@@ -114,6 +111,7 @@ console.log(appointment)
 });
 
 exports.rescheduleAppointment = catchAsync(async (req, res, next) => {
+  const oldApp = Appointment.findById(req.params.id)
   const appointment = await Appointment.findByIdAndUpdate(
     req.params.id,
     { date: req.body.date, status: "Rescheduled" },
@@ -125,7 +123,9 @@ exports.rescheduleAppointment = catchAsync(async (req, res, next) => {
   //EMAIL LOGIC
   const patient = await Patient.findById(appointment.patientId);
   const userP = await User.findById(patient.user);
-  await new Email(patient,0).R(appointment.date);;
+  await new Email(patient, 0).R(appointment.date);;
+  
+
   const newNotification = new Notification({
     title: "Appointment Rescheduled",
     text:
@@ -137,6 +137,18 @@ exports.rescheduleAppointment = catchAsync(async (req, res, next) => {
   });
 
   await newNotification.save();
+
+  const doctor = await Doctor.findById(appointment.doctorId);
+  const indexToRemove = doctor.availableDates.findIndex(
+    (availableDate) => availableDate.getTime() === new Date(req.body.date).getTime()
+  );
+
+  if (indexToRemove !== -1) {
+    doctor.availableDates.splice(indexToRemove, 1);
+  }
+  
+  doctor.availableDates.push(oldApp.date);
+  await doctor.save({validateBeforeSave: false})
 
   res.status(200).json({
     status: "success",
@@ -161,13 +173,21 @@ exports.cancelAppointment = catchAsync(async (req, res, next) => {
   const hoursDifference = timeDifference / (1000 * 60 * 60);
   const patient = await Patient.findById(appointment.patientId);
   const userP = await User.findById(patient.user);
+  const {doctorId} = await Appointment.findByIdAndUpdate(
+     req.params.id)
+  const doctor = await Doctor.findById(doctorId);
   if (hoursDifference > 24 || req.user.role == "doctor") {
-    console.log(userP.wallet)
-    console.log(appointment.doctorId)
     userP.wallet += appointment.doctorId?.HourlyRate;
     await userP.save({ validateBeforeSave: false });
+    const userD = await User.findById(appointment.doctorId.user);
+    userD.wallet -= appointment.doctorId?.HourlyRate;
+    await userD.save({ validateBeforeSave: false });
   }
 
+
+   
+  doctor.availableDates.push(appointment.date);
+  await doctor.save({validateBeforeSave: false})
   
     res.status(200).json({
       status: "success",
@@ -186,9 +206,6 @@ exports.cancelAppointment = catchAsync(async (req, res, next) => {
     user: userP._id,
   });
 
-
-  console.log(newNotification);
-  console.log("holaaaa")
   await newNotification.save();
 });
 

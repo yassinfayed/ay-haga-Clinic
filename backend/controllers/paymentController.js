@@ -23,11 +23,8 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         ? familyMember.linkedPatientId
         : familyMember.patientId;
     const patientToBe = await Patient.findOne({ _id: id });
-    console.log(patientToBe);
-    console.log(id);
     id = patientToBe.user._id;
   }
-  console.log(id);
 
   let price = hp.price;
   // const familyMember = await FamilyMembers.findOne()
@@ -35,7 +32,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   if (req.query.fm && patient.package) {
     const pkg = await HealthPackage.findOne({ _id: patient.package });
     price = price - (pkg.familyMemberSubDiscount * price) / 100;
-    console.log(price);
   } else {
     let familyMemberFound;
     const familyMembers = await FamilyMembers.find({
@@ -46,8 +42,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       .exec();
     let pkgFound;
     for (const familyMember of familyMembers) {
-      console.log("theree");
-      console.log(familyMember);
+    
 
       if (familyMember.patientId?.package) {
         pkgFound = familyMember.patientId.package;
@@ -93,7 +88,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
 const createSubscriptionsCheckout = async (session) => {
   const userId = session.client_reference_id;
-  console.log(userId);
 
   await Patient.findOneAndUpdate(
     { user: userId },
@@ -107,7 +101,7 @@ const createSubscriptionsCheckout = async (session) => {
 
 exports.webhookCheckout = async (req, res, next) => {
   const signature = req.headers["stripe-signature"];
-  console.log("here");
+
 
   let event;
 
@@ -117,18 +111,16 @@ exports.webhookCheckout = async (req, res, next) => {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET
     );
-    console.log("here");
+  
   } catch (err) {
     console.error(err);
-    console.log("here");
+   
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
 
   if (event.type === "checkout.session.completed") {
     if (event.data.object.metadata.reserve === "true") {
       createAppointmentReservation(event.data.object);
-
-      console.log("here event");
     } else {
       createSubscriptionsCheckout(event.data.object);
     }
@@ -155,7 +147,6 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   if (req.query.fm && patient.package) {
     const pkg = await HealthPackage.findOne({ _id: patient.package });
     price = price * ((100 - pkg.familyMemberSubDiscount) / 100);
-    console.log(price);
   } else {
     let familyMemberFound;
     const familyMembers = await FamilyMembers.find({
@@ -166,8 +157,6 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       .exec();
     let pkgFound;
     for (const familyMember of familyMembers) {
-      console.log("theree");
-      console.log(familyMember);
 
       if (familyMember.patientId?.package) {
         pkgFound = familyMember.patientId.package;
@@ -186,7 +175,6 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     if (price > user.wallet)
       return next(new AppError("Not enough wallet", 400));
     else {
-      console.log(price);
       user.wallet = user.wallet - price;
       req.body.isPaid = true;
       await user.save({ validateBeforeSave: false });
@@ -230,7 +218,6 @@ exports.getReservationCheckoutSession = catchAsync(async (req, res, next) => {
         ? familyMember.linkedPatientId
         : familyMember.patientId;
   }
-  console.log(id);
 
   let price = parseFloat(req.params.price);
   price = parseInt(price);
@@ -283,7 +270,6 @@ createAppointmentReservation = async (session) => {
     date: date,
   });
 
-  console.log("here app");
 
   // 2 Update DR WALLET AND AVAILABILE DATES
   const doctor = await Doctor.findById(doctorId);
@@ -334,7 +320,6 @@ exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
         : familyMember.patientId;
   }
 
-  console.log(id);
 
   let price = parseFloat(req.params.price);
   price = parseInt(price);
@@ -354,7 +339,6 @@ exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
 
   const user = await User.findById(doctor.user);
   user.wallet += doctor.HourlyRate * 0.9; // +HOURLY_RATE REGARDLEESS OF DISCOUNT??
-  console.log(user.wallet);
 
   const indexToRemove = doctor.availableDates.findIndex(
     (availableDate) => availableDate.getTime() === new Date(date).getTime()

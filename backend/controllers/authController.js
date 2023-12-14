@@ -140,7 +140,6 @@ exports.signup = catchAsync(async (req, res, next) => {
         data: newUser,
       },
     });
-    console.log("admin111111111");
     return;
   }
   try {
@@ -151,7 +150,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 
     if (req.body.role === enums.ROLE.DOCTOR) {
       req.body.documents = req.locals?.docs;
-      console.log(req.body.documents);
       doctor = await Doctor.create(req.body);
       newUser.doctor = doctor;
     }
@@ -252,7 +250,6 @@ exports.login = catchAsync(async (req, res, next) => {
     const pat = await Patient.findOne({ user: user._id });
     user.patient = pat;
   }
-  console.log(user);
 
   createSendToken(user, 200, req, res);
 });
@@ -320,7 +317,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
-    console.log(err);
 
     return next(
       new AppError("There was an error sending the email. Try again later!"),
@@ -333,14 +329,11 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   const user2 =
     (await Patient.findOne({ email: req.body.email })) ||
     (await Doctor.findOne({ email: req.body.email }));
-  console.log(user2);
   let user = await User.findOne({
     OTP: req.body.OTP,
     _id: user2?.user,
     passwordResetExpires: { $gt: Date.now() },
   });
-  console.log(req.body.OTP);
-  console.log(user);
 
   // 2) If token has not expired, and there is user, set the new password
   if (!user) {

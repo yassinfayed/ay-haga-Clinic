@@ -68,7 +68,6 @@ exports.updateDoctor = catchAsync(async (req, res, next) => {
   //Exclude other fields IMPROVMENT
 
   req.params.id = doctorID;
-  console.log("hellooooooooooo", doctorID);
   handlerFactory.updateOne(Doctor)(req, res, next);
 });
 
@@ -93,7 +92,6 @@ exports.viewEmploymentContract = catchAsync(async (req, res, next) => {
 exports.acceptEmploymentContract = catchAsync(async (req, res, next) => {
   const doctor = await Doctor.findOne({ user: req.user._id });
   const doctorID = doctor._id;
-  //console.log(doctor.availableDates);
   const doctorfound = await Doctor.findByIdAndUpdate(doctorID, {employmentContract:{
     hourlyRate:doctor.HourlyRate,
     status:'accepted'
@@ -119,7 +117,6 @@ exports.acceptEmploymentContract = catchAsync(async (req, res, next) => {
 
 exports.addAvailableDate = catchAsync(async (req, res, next) => {
   const doctor = await Doctor.findOne({ user: req.user._id });
-  console.log(req.user._id);
   const doctorID = doctor._id;
   oldAvailableDates=doctor.availableDates;
   //what if the same date entered twice 

@@ -18,7 +18,6 @@ exports.getPatient = handlerFactory.getOne(Patient);
 exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
   let presc;
   if (req.user.role == "patient") {
-    console.log("patient");
     const patient = await Patient.findOne({ user: req.user._id });
     const patientId = patient._id;
     const name = req.query.name;
@@ -35,7 +34,6 @@ exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
         p.doctorId.name.toLowerCase().includes(name.toLowerCase())
       );
   } else {
-    console.log("doctor");
     const doctor = await Doctor.findOne({ user: req.user._id });
     const doctorId = doctor._id;
     const patientId = req.query.patientID;
@@ -182,9 +180,7 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
     const query = { doctorId };
     if (req.query.status) {
       query.status = req.query.status;
-      console.log(query.status);
     }
-    console.log(req.query._id);
     if (req.query._id) {
       query.patientId = req.query._id;
     }

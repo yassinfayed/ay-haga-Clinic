@@ -23,7 +23,6 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
     }
     if (role === 'patient') {
         const patient = await Patient.findOneAndDelete( {user: req.params.id});
-        console.log(patient)
         const familyMembers = await FamilyMembers.deleteMany({
             $or: [
               { patientId: patient._id },
