@@ -44,6 +44,8 @@ export default function Sidebar() {
       { icon: "medicines", label: "Medicines", href: "/patient/products" },
       { icon: "sales", label: "Sales Report", href: "/pharmacist/salesReport" },
       { icon: "order", label: "Appointments", href: "/doctor/appointments" },
+
+      { icon: "users", label: "My Patients", href: "/doctor/my-patients" },
       {
         icon: "logout",
         label: "Logout",

@@ -187,7 +187,6 @@
               className="flex-[2]"
               onChange={(e) => {
                 setSelectedStatus(e)  
-                fetchData();
               }}
             >
               <SelectItem value="">All</SelectItem>

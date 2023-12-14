@@ -139,7 +139,7 @@ const onFollowUp = () => {
               fields={["patientname", "date", "status","detailsButton"]}
               rows={appointments?.data ?.map((appointment) => ({
                 date: formatDateToDDMMYYYY(appointment.date),
-                patientname: appointment.patientId.name,
+                patientname: appointment.patientId?.name,
                 status: appointment.status,
                 detailsButton: (
                     <>

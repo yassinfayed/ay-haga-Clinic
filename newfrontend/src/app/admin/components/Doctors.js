@@ -107,6 +107,7 @@ const Doctors = () => {
               columns={["Username", "Name", "Email"]}
               fields={["username", "name", "email"]}
               freeze={freeze}
+              dr={true}
               buttons={[
                 {
                   size: "xs",

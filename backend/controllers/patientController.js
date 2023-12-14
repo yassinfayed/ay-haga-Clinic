@@ -18,6 +18,7 @@ exports.getPatient = handlerFactory.getOne(Patient);
 exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
   let presc;
   if (req.user.role == "patient") {
+    console.log("patient");
     const patient = await Patient.findOne({ user: req.user._id });
     const patientId = patient._id;
     const name = req.query.name;
@@ -36,9 +37,11 @@ exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
   }
 
   else {
+    console.log("doctor");
     const doctor = await Doctor.findOne({ user: req.user._id });
     const doctorId = doctor._id;
-    const patientId = req.query.patientID;
+    const patient=await Patient.findOne({user:req.query.patientID})
+    const patientId=patient._id
      
     presc = await Prescription.find({ patientId: patientId, doctorId: doctorId }).populate("patientId");
     

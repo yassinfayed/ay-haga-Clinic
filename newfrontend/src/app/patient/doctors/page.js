@@ -210,6 +210,7 @@ setDoctorSelected(true)
                 columns={[ "Name", "Speciality","Affiliation"]}
                 fields={[ "name", "speciality", "affiliation"]}
                 freeze={freeze}
+                dr={true}
                 filters={<DateRangePicker className="z-10" />}
                 buttons={[
                   {
