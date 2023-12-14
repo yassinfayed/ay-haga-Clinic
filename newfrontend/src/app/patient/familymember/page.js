@@ -50,6 +50,8 @@ function Familymembers() {
         relationToPatient: value?.familyMember?.relationToPatient,
         id: value?.familyMember?._id,
         healthPackage: value?.patientDetails?.package,
+        patientId: value?.patientDetails?._id,
+        patient: value?.patientDetails,
       })) || []
     );
   }, [familyMembers, modalShow, isLoading]);
@@ -124,6 +126,9 @@ function Familymembers() {
                   onCardClick={() => handleCardClick(member)}
                   selectedMemberName={selectedMemberName}
                   healthPackage={member.healthPackage}
+                  patientId={member.patientId}
+                  patient={member.patient}
+                  setSuccess={setSuccessMessage}
                 />
               </div>
             ))}
