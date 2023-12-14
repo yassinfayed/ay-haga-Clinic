@@ -44,7 +44,6 @@ import baseURL from '../baseURL';
 import { formulateQueryString } from '../queryStringBuilder';
 
 export const viewDoctorDetails = (doctorId) => async (dispatch) => {
-  console.log(doctorId);
   try {
     dispatch({
       type: DOCTOR_REQUEST,
