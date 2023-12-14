@@ -7,6 +7,7 @@ const AppError = require('../utils/appError');
 const FamilyMembers = require('../models/familyMembersModel');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Appointment = require('../models/appointmentModel');
+const Chat = require ("../models/chatModel");
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     // 1) Get the currently booked order
@@ -281,6 +282,17 @@ price = parseInt(price);
         date: date
     })
 
+
+    const existingChat = await Chat.findOne({
+      members: { $all: [patientId, doctorId] },
+    });
+
+    if (!existingChat) {
+      await Chat.create({
+        members: [patientId, doctorId],
+      });
+    }
+
     
     console.log("here app")
 
@@ -337,6 +349,16 @@ price = parseInt(price);
         doctorId: doctorId,
         date: date
     })
+
+    const existingChat = await Chat.findOne({
+      members: { $all: [patientId, doctorId] },
+    });
+
+    if (!existingChat) {
+       await Chat.create({
+        members: [patientId, doctorId],
+      });
+    }
     
     // 2 Update DR WALLET AND AVAILABILE DATES
      const doctor = await Doctor.findById(doctorId);

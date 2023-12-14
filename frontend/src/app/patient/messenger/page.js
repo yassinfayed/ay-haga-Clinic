@@ -1,6 +1,7 @@
+"use client"
 import Conversation from "../../../../components/Conversation";
 import Message from "../../../../components/message";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 
@@ -15,7 +16,7 @@ export default function Messenger() {
   const scrollRef = useRef();
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8900/chat");
+    socket.current = io("http://localhost:8900/chat");
     socket.current.on("getMessage", (data) => {
       setArrivalMessage({
         sender: data.senderId,
@@ -38,7 +39,7 @@ export default function Messenger() {
   useEffect(() => {
     const getConversations = async () => {
       try {
-        const res = await axios.get("/getChats/" + user._id);
+        const res = await axios.get("http://localhost:8000/api/v1/chats/getChats/" + user._id);
         setConversations(res.data);
       } catch (err) {
         console.log(err);
@@ -50,7 +51,7 @@ export default function Messenger() {
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await axios.get("/getMessages/" + currentChat?._id);
+        const res = await axios.get("http://localhost:8000/api/v1/messages/getMessages/" + currentChat?._id);
         setMessages(res.data);
       } catch (err) {
         console.log(err);
@@ -78,7 +79,7 @@ export default function Messenger() {
     });
 
     try {
-      const res = await axios.post("/createMessage", message);
+      const res = await axios.post("http://localhost:8000/api/v1/messages/createMessage", message);
       setMessages([...messages, res.data]);
       setNewMessage("");
     } catch (err) {
@@ -127,9 +128,7 @@ export default function Messenger() {
                 </div>
               </>
             ) : (
-              <span className="noConversationText">
-                Open a conversation to start a chat.
-              </span>
+              null
             )}
           </div>
         </div>

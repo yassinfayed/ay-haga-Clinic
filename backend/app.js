@@ -27,6 +27,8 @@ const healthPackagesRouter = require("./routes/healthPackagesRoutes.js");
 const appointmentRouter = require("./routes/appointmentRoutes.js");
 const paymentController = require("./controllers/paymentController.js");
 const prescriptionRouter = require("./routes/prescriptionRoutes.js");
+const chatRouter = require ("./routes/chatRoutes.js");
+const messageRouter = require ("./routes/messageRoutes.js");
 
 app.enable("trust proxy");
 
@@ -63,6 +65,60 @@ io.on('connection', (socket) => {
     io.to(data.to).emit('callAccepted', data.signal);
   });
 });
+
+const ioChat = socketIO(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ['GET', 'POST'],
+  },
+}).of('/chat');
+
+
+let users = [];
+
+const addUser = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+  console.log(users);
+};
+
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+};
+
+const getUser = (userId) => {
+  return users.find((user) => user.userId === userId);
+};
+
+ioChat.on("connection", (socket) => {
+  console.log("a user connected.");
+
+  
+  socket.on("addUser", (userId) => {
+    console.log("we will add user");
+    console.log("USER:",userId,"Socket:",socket.id);
+    addUser(userId, socket.id);
+    ioChat.emit("getUsers", users);
+  });
+
+  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+    const user = getUser(receiverId);
+    if(user && user.socketId){
+      ioChat.to(user.socketId).emit("getMessage", {
+        senderId,
+        text,
+      });
+    }
+  });
+
+  //when disconnect
+  socket.on("disconnect", () => {
+    console.log("a user disconnected!");
+    removeUser(socket.id);
+    ioChat.emit("getUsers", users);
+  });
+});
+
 
 // 1) GLOBAL MIDDLEWARES
 // app.use(cors());
@@ -134,6 +190,8 @@ app.use("/api/v1/appointment", appointmentRouter);
 app.use("/api/v1/familyMembers", familyMembersRouter);
 app.use("/api/v1/healthPackages", healthPackagesRouter);
 app.use("/api/v1/prescriptions", prescriptionRouter);
+app.use("/api/v1/chats", chatRouter);
+app.use("/api/v1/messages", messageRouter);
 
 //404 Error , YOU MUST PUT YOUR ROUTERS ABOVE THAT COMMENT
 app.all("*", (req, res, next) => {
