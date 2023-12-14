@@ -130,7 +130,7 @@ export const registerAction = (reqBody) => async (dispatch) => {
   }
 };
 
-export const logout = () => async (dispatch) => {
+export const logoutAction = () => async (dispatch) => {
   try {
     dispatch({
       type: USER_LOGOUT_REQUEST,

@@ -10,19 +10,19 @@ import { Select, SelectItem, TextInput } from "@tremor/react";
 const page = () => {
   const dispatch = useDispatch();
   const [selected, setSelected] = useState();
-  const { patients, loading } = useSelector((state) => state.patientsReducer);
+  const { patients } = useSelector((state) => state.patientsReducer);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState({});
   const [upcoming, setUpcoming] = useState({});
+  const { loading } = useSelector((state) => state.uploadHealthRecordsReducer);
 
   useEffect(() => {
     dispatch(viewPatients({ ...name, ...upcoming }));
-  }, [name, upcoming]);
+  }, [name, upcoming, loading, dispatch]);
 
   const handleSelect = (id, e) => {
     e.stopPropagation();
     for (let i = 0; i < patientsList.length; i++) {
-      
       if (patientsList[i]._id == id) {
         console.log(patientsList[i]._id);
         console.log("aegkerngrlgmsr");
@@ -30,7 +30,6 @@ const page = () => {
         console.log(patientsList[i]);
         break;
       }
-     
     }
     console.log("opening");
 
@@ -50,7 +49,7 @@ const page = () => {
       })
     );
     return t;
-  }, [patients]);
+  }, [patients, loading]);
 
   return (
     <>
@@ -130,7 +129,7 @@ const page = () => {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
-                  viewBox="0 0 24 24" 
+                  viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
                   class="w-4 h-4 px"
@@ -149,7 +148,6 @@ const page = () => {
                 }`;
               },
             },
-
           ]}
           badgeColumns={[]}
           title={"Manage my Patients"}
