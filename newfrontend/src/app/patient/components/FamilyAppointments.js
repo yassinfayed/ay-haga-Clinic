@@ -25,18 +25,34 @@ import {
 } from "@tremor/react";
 import LoadingAnimation from "../../../../public/loading.json";
 import Lottie from "lottie-react";
+import { viewDoctorDetails } from "@/app/redux/actions/doctorActions";
+import { cancelAction, followUpAction } from "@/app/redux/actions/appointmentActions";
+import RescheduleCalendar from "@/components/RescheduleCalendar";
 
 const FamilyAppointments = ({ memberId, memberName }) => {
   const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [reschedule,setReschedule] =useState(false)
+  const [doctorID,setDoctorID]=useState('')
+  const [appointmentId,setAppointmentId]=useState('')
   const appointmentsData = useSelector(
     (state) => state.viewPatientsAppointmentsReducer.appointments
   );
   const isLoading = useSelector(
     (state) => state.viewPatientsAppointmentsReducer.loading
   );
-
+  const {  loading:followUpLoading } = useSelector(
+    (state) => state.followUpReducer
+  );
+  const { doctor, loading:doctorLoading } = useSelector(
+    (state) => state.doctorReducer
+  );
+  const {loading:rescheduleLoading}=useSelector(
+    (state) => state.rescheduleReducer
+  );
+  const {loading:cancelLoading,
+  }=useSelector((state) => state.cancelReducer);
   useEffect(() => {
     if (memberId) {
       console.log(selectedStatus);
@@ -54,21 +70,78 @@ const FamilyAppointments = ({ memberId, memberName }) => {
       console.log(filteredQueryObj);
       dispatch(getPatientAppointments(filteredQueryObj, memberId));
     }
-  }, [dispatch, selectedDate, selectedStatus, memberId]);
+  }, [dispatch, selectedDate, selectedStatus, memberId,cancelLoading,followUpLoading,rescheduleLoading]);
 
   const handleClearFilters = () => {
     setSelectedDate(null);
     setSelectedStatus("");
   };
+  const handleReschedule = (id,appointmentId) =>{
+    dispatch(viewDoctorDetails(id))
+    console.log(id)
+    setAppointmentId(appointmentId)
+    // setDoctorID(id)
+    
+  }
+  const handleCancel = (id) =>{
+  
+    dispatch(cancelAction(id))
+  }
+  const handleFollowUp = (id)=>{
+  
+    dispatch(followUpAction(id))
+  }
+  useEffect (()=>{
+    //dispatch(viewDoctorDetails(doctorID))
+    if(!doctorLoading && doctor)
+    setReschedule(true)
+    setDoctorID(doctor?._id)
+    },[doctorLoading])
 
-  const columns = ["Date", "Time", "Doctor Name", "Status"];
-  const fields = ["date", "doctorname", "status"];
+  const columns = ["Date", "Time", "Doctor Name", "Status",""];
+  const fields = ["date", "doctorname", "status","buttons"];
   const rows = useMemo(() => {
     return appointmentsData && appointmentsData.data
       ? appointmentsData.data.map((value) => ({
           date: new Date(value.date).toLocaleString(),
           doctorname: value.doctorId?.name,
           status: value.status,
+          buttons : (
+            value.status === "Upcoming" ? (value.followUp==='None' ? (<>
+            <Button variant='secondary' className='mx-7' onClick={(e)=>{handleReschedule(value.doctorId._id,value._id)}}>Reschedule</Button>
+            <Button variant='secondary' color='red' onClick={(e)=>handleCancel(value._id)}>Cancel</Button>
+            </>) : 
+            (<>
+            <Button disabled={true} variant='secondary' className='mx-7' style={{background:'transparent' ,border:'none',color:"transparent",cursor:"default"}}>Reschedule</Button>
+            <Button variant='secondary' color='red' onClick={(e)=>handleCancel(value._id)}>Cancel</Button>
+            </>) ) 
+            : (value.status === "Completed" ? 
+            (value.followUp==='None' ? 
+            (<>
+              <Button variant='secondary' className='mx-8' color='green'
+              onClick={(e)=>handleFollowUp(value._id)}>Follow Up</Button>
+              
+              </>)
+              :
+              (value.followUp==='FollowUpRequest' ? 
+              ( 
+              <span className='mx-10'>
+              Awaiting Doctor
+              </span>)
+              :(
+                value.followUp==="Accepted" ? (<span className='mx-10'>
+                Follow Up Scheduled
+                </span>) : (<span className='mx-10'>
+                Follow Up Rejected
+                </span>)
+                
+                ))
+              
+              ) 
+            : 
+            ("")
+            )
+          ) 
         }))
       : [];
   }, [appointmentsData]);
@@ -103,6 +176,7 @@ const FamilyAppointments = ({ memberId, memberName }) => {
 
   return (
     <>
+   {!reschedule && <>
       <Card className="flex flex-col h-full">
         <div className=" space-y-4 ">
           <h1 className="font-bold text-2xl mb-4">
@@ -204,6 +278,16 @@ const FamilyAppointments = ({ memberId, memberName }) => {
           </>
         )}
       </Card>
+    </>}
+    {reschedule && 
+    <Card className="flex flex-col h-full">
+      <div role="button" onClick={() => setReschedule(false)} className="ms-auto">
+       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+           <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clipRule="evenodd" />
+       </svg>
+   </div>
+    <RescheduleCalendar id={doctorID} appointmentId={appointmentId}></RescheduleCalendar>
+    </Card>}
     </>
   );
 };

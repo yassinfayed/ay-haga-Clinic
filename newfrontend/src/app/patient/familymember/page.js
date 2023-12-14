@@ -35,6 +35,8 @@ function Familymembers() {
   const handleCardClick = (member) => {
     setSelectedMemberName(member.name);
     setSelectedMemberId(member.id);
+    console.log(selectedMemberId, member.name);
+    // dispatch(fetchAppointmentsForFamilyMember(id));
   };
   useEffect(() => {
     dispatch(viewAllFamilyMembersAndPatients(patientId));
@@ -106,7 +108,7 @@ function Familymembers() {
 
         {/* Family Members Listing */}
         {isLoading ? (
-          <div className="flex-1 grow flex items-center justify-center ">
+          <div className="flex-1 grow flex items-center justify-center">
             <Lottie
               animationData={LoadingAnimation}
               className="w-[15rem] h-[15rem]"
@@ -135,13 +137,9 @@ function Familymembers() {
           </div>
         )}
       </div>
-      <div
-        className="flex-2 w-3/5 pl-4"
-        style={{
-          overflow: "hidden",
-          width: `${selectedMemberId ? "1300px" : "0px"}`,
-        }}
-      >
+
+      {/* Appointments Section (2/3 of the screen) */}
+      <div className="flex-2 w-3/5 pl-4">
         <FamilyAppointments
           memberId={selectedMemberId}
           memberName={selectedMemberName}

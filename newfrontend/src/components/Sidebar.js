@@ -33,7 +33,11 @@ export default function Sidebar() {
         label: "Family Members",
         href: "/patient/familymember",
       },
-
+      {
+        
+        label: "Doctors",
+        href: "/patient/doctors",
+      },
       {
         icon: "prescription",
         label: "Prescriptions",
@@ -49,6 +53,7 @@ export default function Sidebar() {
         href: "/guest/login",
         onClick: () => dispatch(logoutAction()),
       },
+     
     ],
     doctor: [
       { icon: "profile", label: "Profile", href: "/pharmacist/profile" },

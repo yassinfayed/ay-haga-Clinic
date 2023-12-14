@@ -23,6 +23,7 @@ import {
           return {
             ...state,
             appointment: action.payload,
+            success:true,
             loading: false,
             error: null,
           };
@@ -78,6 +79,7 @@ import {
           return {
             ...state,
             appointment: action.payload,
+            success:true,
             loading: false,
             error: null,
           };

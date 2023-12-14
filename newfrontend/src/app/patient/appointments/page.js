@@ -9,25 +9,34 @@ import { formatDateToDDMMYYYY } from "../../redux/validators";
 import { Button, DatePicker } from "@tremor/react";
 import { Select, SelectItem, TextInput } from "@tremor/react";
 import {
-  cancelAction,
-  followUpAction,
-} from "@/app/redux/actions/appointmentActions";
-import ReserveCalendar from "@/components/ReserveCalendar";
-import { viewDoctorDetails } from "@/app/redux/actions/doctorActions";
-import RescheduleCalendar from "@/components/RescheduleCalendar";
+  Select,
+  SelectItem,
+  TextInput,
+} from "@tremor/react";
+import { cancelAction, followUpAction } from '@/app/redux/actions/appointmentActions';
+import ReserveCalendar from '@/components/ReserveCalendar';
+import { viewDoctorDetails } from '@/app/redux/actions/doctorActions';
+import RescheduleCalendar from '@/components/RescheduleCalendar';
+import PromptMessage from '@/components/PromptMessage';
+
 
 const Appointments = () => {
   const dispatch = useDispatch();
+  const [followUpFeedback,setFollowUpFeedback]=useState(true)
+  const [rescheduleFeedback,setRescheduleFeedback]=useState(true)
+  const [cancelFeedback,setCancelFeedback]=useState(true)
+  const [cancelId,setCancelId]=useState(null)
+const [cancelOpen,setCancelOpen] =useState(false)
   const { appointments, loading } = useSelector(
     (state) => state.viewPatientsAppointmentsReducer
   );
   const { doctor, loading: doctorLoading } = useSelector(
     (state) => state.doctorReducer
   );
-  const { loading: followUpLoading } = useSelector(
+  const {  loading:followUpLoading,success:followUpSuccess,error:followUpError } = useSelector(
     (state) => state.followUpReducer
   );
-  const { loading: rescheduleLoading } = useSelector(
+  const {loading:rescheduleLoading,success:rescheduleSuccess,error:rescheduleError}=useSelector(
     (state) => state.rescheduleReducer
   );
   const [selectedDate, setSelectedDate] = useState(null);
@@ -58,104 +67,93 @@ const Appointments = () => {
     }, {});
 
     dispatch(getPatientAppointments(filteredQueryObj));
-  }
-  const [appointmentId, setAppointmentId] = useState("");
-  const handleReschedule = (id, appointmentId) => {
-    dispatch(viewDoctorDetails(id));
-    console.log(id);
-    setAppointmentId(appointmentId);
-    // setDoctorID(id)
-  };
-  useEffect(() => {
-    //dispatch(viewDoctorDetails(doctorID))
-    if (!doctorLoading && doctor) setReschedule(true);
-    setDoctorID(doctor?._id);
-  }, [doctorLoading]);
-  const handleCancel = (id) => {
-    dispatch(cancelAction(id));
-  };
-  const handleFollowUp = (id) => {
-    dispatch(followUpAction(id));
-  };
-  const { loading: cancelLoading } = useSelector(
-    (state) => state.cancelReducer
-  );
-  const appointmentList = useMemo(() => {
-    return appointments?.data?.map(
-      ({ date, doctorId, status, followUp, _id }) => ({
-        date: formatDateToDDMMYYYY(date),
-        doctorname: doctorId.name,
-        status: status,
-        buttons:
-          status === "Upcoming" ? (
-            followUp === "None" ? (
-              <>
-                <Button
-                  variant="secondary"
-                  className="mx-7"
-                  onClick={(e) => {
-                    handleReschedule(doctorId._id, _id);
-                  }}
-                >
-                  Reschedule
-                </Button>
-                <Button
-                  variant="secondary"
-                  color="red"
-                  onClick={(e) => handleCancel(_id)}
-                >
-                  Cancel
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  disabled={true}
-                  variant="secondary"
-                  className="mx-7"
-                  style={{
-                    background: "transparent",
-                    border: "none",
-                    color: "transparent",
-                    cursor: "default",
-                  }}
-                >
-                  Reschedule
-                </Button>
-                <Button
-                  variant="secondary"
-                  color="red"
-                  onClick={(e) => handleCancel(_id)}
-                >
-                  Cancel
-                </Button>
-              </>
-            )
-          ) : status === "Completed" ? (
-            followUp === "None" ? (
-              <>
-                <Button
-                  variant="secondary"
-                  className="mx-8"
-                  color="green"
-                  onClick={(e) => handleFollowUp(_id)}
-                >
-                  Follow Up
-                </Button>
-              </>
-            ) : followUp === "FollowUpRequest" ? (
-              <span className="mx-10">Awaiting Doctor</span>
-            ) : followUp === "Accepted" ? (
-              <span className="mx-10">Follow Up Scheduled</span>
-            ) : (
-              <span className="mx-10">Follow Up Rejected</span>
-            )
-          ) : (
-            ""
-          ),
-      })
-    );
-  }, [appointments]);
+}
+const [appointmentId,setAppointmentId]=useState('')
+const handleReschedule = (id,appointmentId) =>{
+  dispatch(viewDoctorDetails(id))
+  console.log(id)
+  setAppointmentId(appointmentId)
+  // setDoctorID(id)
+  
+}
+useEffect (()=>{
+  //dispatch(viewDoctorDetails(doctorID))
+  if(!doctorLoading && doctor)
+  setReschedule(true)
+  setDoctorID(doctor?._id)
+  },[doctorLoading])
+const handleCancel = (id) =>{
+  setCancelId(id)
+  setCancelOpen(true)
+
+  //dispatch(cancelAction(id))
+}
+const onCancel = () => {
+  dispatch(cancelAction(cancelId))
+  setCancelOpen(false)
+}
+const onCloseCancel=()=>{
+  setCancelOpen(false)
+  setCancelId(null)
+}
+const handleFollowUp = (id)=>{
+
+  dispatch(followUpAction(id))
+}
+const {loading:cancelLoading,
+success:cancelSuccess,
+error:cancelError
+}=useSelector((state) => state.cancelReducer);
+const appointmentList  = useMemo(() => {
+    return appointments?.data
+        ?.map(({date,doctorId,status,followUp,_id}) => ({
+            date: formatDateToDDMMYYYY(date),
+            doctorname: doctorId.name,
+            status: status,
+            buttons : (
+              status === "Upcoming" ? (followUp==='None' ? (<>
+              <Button variant='secondary' className='mx-7' onClick={(e)=>{handleReschedule(doctorId._id,_id)}}>Reschedule</Button>
+              <Button variant='secondary' color='red' onClick={(e)=>handleCancel(_id)}>Cancel</Button>
+              </>) : 
+              (<>
+              <Button disabled={true} variant='secondary' className='mx-7' style={{background:'transparent' ,border:'none',color:"transparent",cursor:"default"}}>Reschedule</Button>
+              <Button variant='secondary' color='red' onClick={(e)=>handleCancel(_id)}>Cancel</Button>
+              </>) ) 
+              : (status === "Completed" ? 
+              (followUp==='None' ? 
+              (<>
+                <Button variant='secondary' className='mx-8' color='green'
+                onClick={(e)=>handleFollowUp(_id)}>Follow Up</Button>
+                
+                </>)
+                :
+                (followUp==='FollowUpRequest' ? 
+                ( 
+                <span className='mx-10'>
+                Awaiting Doctor
+                </span>)
+                :(
+                  followUp==="Accepted" ? (<span className='mx-10'>
+                  Follow Up Scheduled
+                  </span>) : (<span className='mx-10'>
+                  Follow Up Rejected
+                  </span>)
+                  
+                  ))
+                
+                ) 
+              : 
+              ("")
+              )
+            ) 
+              
+             
+
+            
+            
+        
+        }))
+    }, [appointments]);
 
   useEffect(() => {
     fetchData();
@@ -173,10 +171,66 @@ const Appointments = () => {
   // },[doctorID,dispatch])
   return (
     <>
-      {!reschedule ? (
-        <>
-          <div className="flex flex-row gap-4 mb-4">
-            <Select
+{followUpSuccess &&
+  <BottomCallout
+  message="Follow Up Requested Successfully. Wait for your Doctor's Response"
+  visible={followUpFeedback}
+  setVisible={setFollowUpFeedback}
+  variant="success"
+  />
+}
+{followUpError &&
+  <BottomCallout
+  message={followUpError}
+  visible={followUpFeedback}
+  setVisible={setFollowUpFeedback}
+  variant="error"
+  />
+}
+{rescheduleSuccess &&
+  <BottomCallout
+  message="Appointment Rescheduled Successfully."
+  visible={rescheduleFeedback}
+  setVisible={setRescheduleFeedback}
+  variant="success"
+  />
+}
+{rescheduleError &&
+  <BottomCallout
+  message={rescheduleError}
+  visible={rescheduleFeedback}
+  setVisible={setRescheduleFeedback}
+  variant="error"
+  />
+}
+{cancelSuccess &&
+  <BottomCallout
+  message="Appointment cancelled Successfully."
+  visible={cancelFeedback}
+  setVisible={setCancelFeedback}
+  variant="success"
+  />
+}
+{cancelError &&
+  <BottomCallout
+  message={cancelError}
+  visible={cancelFeedback}
+  setVisible={setCancelFeedback}
+  variant="error"
+  />
+}
+<PromptMessage 
+      message="are you sure you to cancel this appointment?"
+      visible={cancelOpen}
+      setVisible={setCancelOpen}
+      onConfirm={onCancel}
+      confirmLoading={cancelLoading}
+      onCancel={onCloseCancel}
+      />
+      {!reschedule ? (<>
+      <div className="flex flex-row gap-4 mb-4">
+             <Select
+            
               placeholder={`\xa0\xa0\xa0Filter (By Status)`}
               icon={() => (
                 <svg
