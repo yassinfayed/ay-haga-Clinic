@@ -127,8 +127,8 @@ const LandingPage = () => {
           </div>
 
           <div class="w-full lg:w-1/2 p-5 py-10">
-            <h1 class="text-md font-semibold mb-4">About Us</h1>
-            <h2 class="text-2xl font-semibold mb-4 text-blue-500">Egypt's Pinoeering Virtual Clinic</h2>
+            <h1 class="text-xl font-semibold mb-4">About Us</h1>
+            <h2 class="text-3xl font-semibold mb-4 text-blue-500">Egypt's Pinoeering Virtual Clinic</h2>
             <p class="mb-5">
             We proudly introduce Egypt's pioneering virtual clinic, providing convenient online doctor consultations. 
             Farewell to lengthy commutes to the clinics, and say hello to immediate healthcare access at the touch of a button.
@@ -173,7 +173,7 @@ const LandingPage = () => {
           </div>
         </div>
 
-        <div className="w-full md:w-1/3 p-4 pt-5">
+        <div className="w-full md:w-1/3 p-4 pt-7">
           <div className="flex flex-col items-center rounded-lg hover:scale-105 border border-blue-500 shadow-md hover:bg-[#1e2638]">
             <Image src='/person9.png' height={400} width={400} className='mx-auto my-5'/>
             <div className="p-4">
