@@ -81,7 +81,7 @@ const ContractPage = () => {
             }}
           >
             {" "}
-            Harmony Clinic
+            Vite Clinic
           </h1>
           <div className="flex justify-center items-center my-4">
             <hr className="w-1/2" />
