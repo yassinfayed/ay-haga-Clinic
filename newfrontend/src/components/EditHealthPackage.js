@@ -15,6 +15,7 @@ function EditHealthPackageModal({
   data,
   setData,
   setId,
+  setShowCall
 }) {
   console.log(data);
   const dispatch = useDispatch();
@@ -39,6 +40,13 @@ function EditHealthPackageModal({
     e.preventDefault();
     // Dispatch register action with form data
     dispatch(updateHealthPackage(data._id, formData));
+    setVisible(false);
+    setShowCall(true);
+    setFormData({name: data?.name,
+      doctorDiscount: data?.doctorDiscount,
+      familyMemberSubDiscount: data?.familyMemberSubDiscount,
+      medicineDiscount: data?.medicineDiscount,
+      price: data?.price});
     //setShowCallout(true)
     // Clear form fields
   };

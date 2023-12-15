@@ -129,12 +129,14 @@ export const updateHealthPackageReducer = (state = updateHealthPackageInitialSta
             return {
                 ...state,
                 loading: true,
+                success: false,
                 error: null,
             };
         case HEALTH_PACKAGE_UPDATE_SUCCESS:
             return {
                 ...state,
                 healthPackage: action.payload,
+                success : true , 
                 loading: false,
                 error: null,
             };
@@ -142,6 +144,7 @@ export const updateHealthPackageReducer = (state = updateHealthPackageInitialSta
             return {
                 ...state,
                 loading: false,
+                success : false,
                 error: action.payload,
             };
         default:
