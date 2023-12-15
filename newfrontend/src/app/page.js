@@ -150,76 +150,74 @@ const LandingPage = () => {
         style={{
           fontSize: "3rem",
           fontWeight: "650",}}>Patient Testimonials</h1>
-        <h5 className="text-center pb-2 pb-2 text-blue-200 font-medium">Find out what our loyal patients have to say about Vite Clinics...</h5>
+        <h5 className="text-center pb-2 text-blue-200 font-medium">Find out what our loyal patients have to say about Vite Clinics...</h5>
         <div className="flex flex-wrap pb-3 my-5">
         <div class="container mx-auto px-6 py-10">
         <div class="flex flex-wrap justify-center">
 
-        <div className="w-full md:w-1/3 p-4">
+        <div className="w-full md:w-1/3 p-4 pt-0">
           <div className="flex flex-col items-center rounded-lg hover:scale-105 border border-blue-500 shadow-md hover:bg-[#1e2638]">
-            <Image src='/person1.png' height={200} width={200} className='mx-auto my-5'/>
+            <Image src='/person7.png' height={400} width={400} className='mx-auto my-5'/>
             <div className="p-4">
-              <h5 className="text-2xl font-bold text-blue-500 mb-2">Testimonial Title 1</h5>
-              <p className="text-gray-100 mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              <h5 className="text-xl font-bold text-blue-500 mb-2 text-center">Jane Smith</h5>
+              <p className="text-gray-100 mb-3">"Vite has made healthcare so convenient. I can now consult with my doctor from the comfort of my home. It's definitely a game-changer!" </p>
             </div>
           </div>
         </div>
 
-        <div className="w-full md:w-1/3 p-4">
+        <div className="w-full md:w-1/3 p-4 pt-5">
           <div className="flex flex-col items-center rounded-lg hover:scale-105 border border-blue-500 shadow-md hover:bg-[#1e2638]">
-            <Image src='/person2.png' height={200} width={200} className='mx-auto my-5'/>
+            <Image src='/person9.png' height={400} width={400} className='mx-auto my-5'/>
             <div className="p-4">
-              <h5 className="text-2xl font-bold text-blue-500 mb-2">Testimonial Title 2</h5>
-              <p className="text-gray-100 mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <h5 className="text-xl font-bold text-blue-500 mb-2 text-center">David Johnson</h5>
+              <p className="text-gray-100 mb-3">"I was skeptical about virtual diagnoses, but the doctors at Vite have been incredibly accurate. It's like having a doctor in your pocket."</p>
             </div>
           </div>
         </div>
 
-        <div className="w-full md:w-1/3 p-4">
+        <div className="w-full md:w-1/3 p-4 pt-0">
           <div className="flex flex-col items-center rounded-lg hover:scale-105 border border-blue-500 shadow-md hover:bg-[#1e2638]">
-            <Image src='/person4.png' height={200} width={200} className='mx-auto my-5'/>
+            <Image src='/person8.png' height={170} width={170} className='mx-auto my-5'/>
             <div className="p-4">
-              <h5 className="text-2xl font-bold text-blue-500 mb-2">Testimonial Title 3</h5>
-              <p className="text-gray-100 mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <h5 className="text-xl font-bold text-blue-500 mb-2 text-center">John Doe</h5>
+              <p className="text-gray-100 mb-3">"As a busy college professor, Vite saved me so much time!! No more waiting rooms or commutes. Made my life a whole lot easier, I highly recommend it."</p>
             </div>
           </div>
         </div>
         </div>
-</div>
-
+        </div>
         </div>
       </section>
 
 
       {/* Statistics Section */}
-      <section className="container mx-auto p-5">
+      {/* <section className="container mx-auto p-5">
         <h2 className="text-center py-3 text-blue-500"><strong>Get to know our success, but in numbers..</strong></h2>
         <hr className='w-75 mx-auto'/>
         <div className="flex flex-wrap pb-3 my-5">
-          {/* Statistic Item 1 */}
           <div className="w-full md:w-1/4 p-4">
             <div className="text-center">
               <h2 className="text-blue-500">5000+</h2>
               <p>Happy Patients</p>
             </div>
           </div>
-          {/* ... similar structure for other statistics ... */}
         </div>
-      </section>
+      </section> */}
 
       {/* Sign Up Section */}
-      <section className="prof py-5">
+      <section className="prof py-10 mx-auto">
         <div className="container text-center">
-          <h2 className='py-3 text-blue-500'>
-            <strong>
+          <h2 className='py-3 text-blue-100 pb-5' 
+            style={{
+              fontSize: "1.5rem",
+              fontWeight: "600",}}>
               Sign up and never worry about your healthcare again!
-            </strong>
           </h2>
-          <div className="">
-            <a href="/guest/Register" className="bg-blue-500 text-white mt-3 p-3 px-4 rounded">
+          <button class="w-1/4 bg-blue-500 hover:bg-blue-700 text-gray-100 text-md font-bold py-3 px-4 rounded-full hover:scale-105 border-2 border-[#007bff] hover:bg-transparent">
+            <a href="/guest/Register" >
               <strong>Sign Up Now</strong>
             </a>
-          </div>
+          </button>
         </div>
       </section>
     </div>
