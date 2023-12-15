@@ -28,27 +28,25 @@ exports.getAllPatientAppointments = catchAsync(async (req, res, next) => {
         : familyMember.patientId;
   }
 
-  const features = new APIFeatures(
-    Appointment.find({ patientId: id }).populate("doctorId"),
-    req.query
-  ).filter();
-  let appts;
-  if (req.query.fm) {
-    appts = await Appointment.find({
-      patientId: id,
-      date: {
-        $gte: new Date(req.query.date),
-        $lt: new Date(
-          new Date(req.query.date).setDate(
-            new Date(req.query.date).getDate() + 1
-          )
-        ),
-      },
-      status: req.query.status,
-    }).populate("doctorId");
-  } else {
-    appts = await features.query;
+  const query = {
+    patientId: id,
+  };
+
+  if (req.query.date) {
+    query.date = {
+      $gte: new Date(req.query.date),
+      $lt: new Date(
+        new Date(req.query.date).setDate(new Date(req.query.date).getDate() + 1)
+      ),
+    };
   }
+
+  if (req.query.status) {
+    query.status = req.query.status;
+  }
+
+  const appts = await Appointment.find(query).populate("doctorId");
+
   res.status(200).json({
     status: "success",
     results: appts.length,
