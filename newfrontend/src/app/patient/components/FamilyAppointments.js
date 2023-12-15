@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPatientAppointments } from "@/app/redux/actions/patientActions";
+import {BottomCallout }from "@/components/BottomCallout";
+import { DatePicker, DateRangePicker } from "@tremor/react";
 
 import {
   Card,
@@ -36,13 +38,25 @@ const FamilyAppointments = ({ memberId, memberName }) => {
   const [reschedule,setReschedule] =useState(false)
   const [doctorID,setDoctorID]=useState('')
   const [appointmentId,setAppointmentId]=useState('')
+  const [followUpFeedback,setFollowUpFeedback]=useState(true)
+  const [rescheduleFeedback,setRescheduleFeedback]=useState(true)
+  const [cancelFeedback,setCancelFeedback]=useState(true)
   const appointmentsData = useSelector(
     (state) => state.viewPatientsAppointmentsReducer.appointments
+  );
+  const { success:followUpSuccess, error:followUpError } = useSelector(
+    (state) => state.followUpReducer
+  );
+  const { success:rescheduleSuccess, error:rescheduleError } = useSelector(
+    (state) => state.rescheduleReducer
+  );
+  const { success:cancelSuccess, error:cancelError } = useSelector(
+    (state) => state.cancelReducer
   );
   const isLoading = useSelector(
     (state) => state.viewPatientsAppointmentsReducer.loading
   );
-  const {  loading:followUpLoading } = useSelector(
+  const { loading:followUpLoading } = useSelector(
     (state) => state.followUpReducer
   );
   const { doctor, loading:doctorLoading } = useSelector(
@@ -53,11 +67,27 @@ const FamilyAppointments = ({ memberId, memberName }) => {
   );
   const {loading:cancelLoading,
   }=useSelector((state) => state.cancelReducer);
+
   useEffect(() => {
+    fetchData();
+  }, [dispatch, selectedDate, selectedStatus, memberId,cancelLoading,followUpLoading,rescheduleLoading]);
+
+  const formatDateToISOString = (date) => {
+    if (!date) return ''; // Return an empty string if date is falsy
+    const utcDate = new Date(Date.UTC(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    ));
+    const selectedDateState = utcDate.toUTCString();
+    return selectedDateState;
+  };
+
+
+  async function fetchData() {
     if (memberId) {
-      console.log(selectedStatus);
       const queryObj = {
-        date: selectedDate,
+        date: formatDateToISOString(selectedDate),
         status: selectedStatus,
       };
 
@@ -67,10 +97,14 @@ const FamilyAppointments = ({ memberId, memberName }) => {
         }
         return acc;
       }, {});
+
       console.log(filteredQueryObj);
+      console.log("amk;mfea;mae;k");
       dispatch(getPatientAppointments(filteredQueryObj, memberId));
     }
-  }, [dispatch, selectedDate, selectedStatus, memberId,cancelLoading,followUpLoading,rescheduleLoading]);
+
+}
+
 
   const handleClearFilters = () => {
     setSelectedDate(null);
@@ -94,8 +128,8 @@ const FamilyAppointments = ({ memberId, memberName }) => {
   useEffect (()=>{
     //dispatch(viewDoctorDetails(doctorID))
     if(!doctorLoading && doctor)
-    setReschedule(true)
-    setDoctorID(doctor?._id)
+      setReschedule(true)
+      setDoctorID(doctor?._id)
     },[doctorLoading])
 
   const columns = ["Date", "Time", "Doctor Name", "Status",""];
@@ -176,6 +210,56 @@ const FamilyAppointments = ({ memberId, memberName }) => {
 
   return (
     <>
+
+{followUpSuccess &&
+  <BottomCallout
+  message="Follow Up Request Sent Successfully."
+  visible={followUpFeedback}
+  setVisible={setFollowUpFeedback}
+  variant="success"
+  />
+}
+{followUpError &&
+  <BottomCallout
+  message={followUpError}
+  visible={followUpFeedback}
+  setVisible={setFollowUpFeedback}
+  variant="error"
+  />
+}
+{rescheduleSuccess &&
+  <BottomCallout
+  message="Appointment Rescheduled Successfully."
+  visible={rescheduleFeedback}
+  setVisible={setRescheduleFeedback}
+  variant="success"
+  />
+}
+{rescheduleError &&
+  <BottomCallout
+  message={rescheduleError}
+  visible={rescheduleFeedback}
+  setVisible={setRescheduleFeedback}
+  variant="error"
+  />
+}
+{cancelSuccess &&
+  <BottomCallout
+  message="Appointment cancelled Successfully."
+  visible={cancelFeedback}
+  setVisible={setCancelFeedback}
+  variant="success"
+  />
+}
+{cancelError &&
+  <BottomCallout
+  message={cancelError}
+  visible={cancelFeedback}
+  setVisible={setCancelFeedback}
+  variant="error"
+  />
+}
+
    {!reschedule && <>
       <Card className="flex flex-col h-full">
         <div className=" space-y-4 ">
@@ -195,16 +279,15 @@ const FamilyAppointments = ({ memberId, memberName }) => {
               <SelectItem value="Cancelled">Cancelled</SelectItem>
               <SelectItem value="Rescheduled">Rescheduled</SelectItem>
             </Select>
-            <TextInput
-              type="date"
-              placeholder="Filter By date"
-              name="dateOfBirth"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              required
-              style={{ color: "white" }}
-            />
-
+            <DatePicker
+                selected={selectedDate}
+                onValueChange={(date) => {
+                  setSelectedDate(date);
+                }}
+                dateFormat="yyyy-MM-dd"
+                placeholderText="Filter by date"
+                className="w-full"
+              />
             <Button
               variant="secondary"
               className="px-4  rounded"

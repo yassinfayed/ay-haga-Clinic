@@ -32,10 +32,10 @@ const Appointments = () => {
   const followuploading= useSelector(
     (state) => state.doctorFollowUpReducer.loading
     );
-    const {loading:rescheduleLoading ,success:rescheduleSuccess,appointment} = useSelector(
+    const {loading:rescheduleLoading ,success:rescheduleSuccess,appointment,error} = useSelector(
       (state) => state.rescheduleReducer
       );
-      const {loading:cancelLoading ,success:cancelSuccess} = useSelector(
+      const {loading:cancelLoading ,success:cancelSuccess,errorcancle} = useSelector(
         (state) => state.cancelReducer
         );
         const {loading:revokeLoading ,success:revokeSuccess} = useSelector(
@@ -53,8 +53,8 @@ const [cancelId,setCancelId] = useState(null)
 const [cancelOpen,setCancelOpen] = useState(false)
 const [revokeId,setRevokeId] = useState(null)
 const [revokeOpen,setRevokeOpen]=useState(false)
-
-
+const [rescheduleFeedback,setRescheduleFeedback]=useState(true)
+const [cancelFeedback,setCancelFeedback]=useState(true)
 
   const formatDateToISOString = (date) => {
     if (!date) return '';
@@ -145,7 +145,38 @@ const onRevokeCancel=()=>{
 }
   return (
     <>
-
+{rescheduleSuccess &&
+  <BottomCallout
+  message="Appointment Rescheduled Successfully."
+  visible={rescheduleFeedback}
+  setVisible={setRescheduleFeedback}
+  variant="success"
+  />
+}
+{error &&
+  <BottomCallout
+  message={rescheduleError}
+  visible={rescheduleFeedback}
+  setVisible={setRescheduleFeedback}
+  variant="error"
+  />
+}
+{cancelSuccess &&
+  <BottomCallout
+  message="Appointment cancelled Successfully."
+  visible={cancelFeedback}
+  setVisible={setCancelFeedback}
+  variant="success"
+  />
+}
+{errorcancle &&
+  <BottomCallout
+  message={cancelError}
+  visible={cancelFeedback}
+  setVisible={setCancelFeedback}
+  variant="error"
+  />
+}
       <>
       <PromptMessage 
       message="are you sure you to cancel this appointment?"
