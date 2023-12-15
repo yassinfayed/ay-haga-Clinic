@@ -6,8 +6,14 @@ import { downloadPrescription } from "@/app/redux/actions/prescriptionsActions";
 import { CheckoutToPharmacy } from "@/app/redux/services/getMedicinesFromPharmacy";
 import { BottomCallout } from "./BottomCallout";
 
-const PrescriptionCard = ({ id, prescriptionDate, doctorName, medicines }) => {
-  console.log(id);
+const PrescriptionCard = ({
+  id,
+  prescriptionDate,
+  doctorName,
+  medicines,
+  filled,
+}) => {
+  console.log(filled);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const formatDate = (dateString) => {
@@ -73,16 +79,20 @@ const PrescriptionCard = ({ id, prescriptionDate, doctorName, medicines }) => {
             >
               Download Prescription
             </Button>
-            <Button
-              className="border mx-6 px-4 py-2 rounded"
-              color="blue"
-              onClick={() => {
-                CheckoutToPharmacy(medicines, id);
-                setLoading(true);
-              }}
-            >
-              Submit to Pharmacy
-            </Button>
+            {!filled &&
+              JSON.parse(localStorage.getItem("userInfo"))?.data.user.role ==
+                "patient" && (
+                <Button
+                  className="border mx-6 px-4 py-2 rounded"
+                  color="blue"
+                  onClick={() => {
+                    CheckoutToPharmacy(medicines, id);
+                    setLoading(true);
+                  }}
+                >
+                  Submit to Pharmacy
+                </Button>
+              )}
           </div>
         )}
       </div>

@@ -75,6 +75,7 @@ const Prescriptions = () => {
         medicines,
         instructions,
         filled_unfilled: filled_unfilled ? "Filled" : "Unfilled",
+        status: filled_unfilled,
       })
     );
   }, [prescription]);
@@ -248,6 +249,7 @@ const Prescriptions = () => {
               medicines={selected?.medicines}
               instructions={selected?.instructions}
               id={selected?._id}
+              filled={selected?.status}
             />
           </div>
         </div>{" "}
