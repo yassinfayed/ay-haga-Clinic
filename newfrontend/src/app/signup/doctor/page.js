@@ -55,7 +55,7 @@ const SignupPharmacist = () => {
     document3: null,
   });
   const setDocument1 = (file) => {
-    setFiles({ document1: file, ...files });
+    setFiles({ ...files, document1: file });
   };
   const setDocument2 = (file) => {
     setFiles({ ...files, document2: file });
@@ -343,15 +343,18 @@ const SignupPharmacist = () => {
 
                     {/* <Image src="/birthday.svg" height={25} width={25}></Image> <p className="ml-3 text-lg"></p> */}
                     <Col>
-                      <DatePicker
-                        className="max-w-sm mx-auto"
-                        enableYearNavigation={true}
-                        placeholder="Date Of Birth*"
-                        onValueChange={() =>
-                          handleInputChange({ target: { name: "DateOfbirth" } })
-                        }
-                        value={formData.DateOfbirth}
-                      />
+                    <div className="relative">
+                <input
+                  name="DateOfbirth"
+                  value={formData.DateOfbirth}
+                  onChange={handleInputChange}
+                  type="date"
+                  required
+                  className="p-2 bg-gray-800 text-white border border-gray-700 rounded-md outline-none w-full px-8 py-4 rounded-lg font-medium   placeholder-gray-500 text-lg focus:shadow-outline focus:border-blue-500"
+                  // Add other date picker props and event handlers as needed
+                />
+              </div>
+
                     </Col>
 
                     <Col>

@@ -154,7 +154,7 @@ const Login = () => {
           />
         )}
 
-        {loginSuccess && (
+        {isAuthenticated && (
           <BottomCallout
             message="Login Successful"
             variant="success"

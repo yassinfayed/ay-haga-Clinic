@@ -60,6 +60,7 @@ const Patients = () => {
   };
   const confirmDelete = () => {
     dispatch(removeUser(deleteID));
+    setVisibleFeedback(true);
     setShowPrompt(!showPrompt);
   };
   const cancelDelete = () => {
@@ -72,7 +73,7 @@ const Patients = () => {
         <BottomCallout
           message="User removed successfully"
           variant="success"
-          visible={true}
+          visible={visibleFeedback}
           setVisible={setVisibleFeedback}
         />
       )}
@@ -81,7 +82,7 @@ const Patients = () => {
         <BottomCallout
           message="Error removing user"
           variant="error"
-          visible={true}
+          visible={visibleFeedback}
           setVisible={setVisibleFeedback}
         />
       )}

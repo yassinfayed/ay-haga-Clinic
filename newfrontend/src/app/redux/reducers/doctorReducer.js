@@ -157,12 +157,14 @@ export const adminAcceptDoctorReducer = (state ={}, action) => {
       return {
         ...state,
         loading: true,
+        success:false,
         error: null,
       };
     case DOCTOR_ACCEPTED_SUCCESS: {
       return {
         ...state,
         doctor: action.payload,
+        success:true,
         loading: false,
         error: null,
       }
@@ -171,6 +173,7 @@ export const adminAcceptDoctorReducer = (state ={}, action) => {
       return {
         ...state,
         loading: false,
+        success:false,
         error: action.payload,
       };
     default:
@@ -297,12 +300,14 @@ export const rejectDoctorReducer = (state ={}, action) => {
       return {
         ...state,
         loading: true,
+        success:false,
         error: null,
       };
       case DOCTOR_REJECTED_SUCCESS: {
         return {
           ...state,
           doctor: action.payload,
+          success:true,
           loading: false,
           error: null,
         };
@@ -310,6 +315,7 @@ export const rejectDoctorReducer = (state ={}, action) => {
     case DOCTOR_REJECTED_FAIL:
       return {
         ...state,
+        success:false,
         loading: false,
         error: action.payload,
       };

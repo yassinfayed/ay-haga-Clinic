@@ -19,6 +19,7 @@ import PromptMessage from "@/components/PromptMessage";
 const Application = () => {
   const dispatch = useDispatch();
   const [selected, setSelected] = useState();
+  const [showApproval,setShowApproval] = useState(false);
   const onViewFiles = (docId) => {
     dispatch(downloadDoctorDocs(docId));
   };
@@ -50,6 +51,8 @@ const Application = () => {
     }
     setFreeze(true);
   };
+
+  const badgeColumns = ["employmentStatus"];
 
   const buttons = {
     right: {
@@ -98,7 +101,7 @@ const Application = () => {
           />
         </svg>
       ),
-      onClick: (e) => dispatch(adminAcceptDoctor(selected.doctorID)),
+      onClick: (e) => handleAccept(selected.doctorID),
     },
   };
   const doctorList = useMemo(() => {
@@ -124,10 +127,18 @@ const Application = () => {
   };
   const confirmDelete = () => {
     dispatch(rejectDoctor(deleteID));
+    setVisibleFeedback(true);
     setShowPrompt(!showPrompt);
     setSelected(null);
     setFreeze(false);
   };
+
+const handleAccept = (id) => {
+  dispatch(adminAcceptDoctor(id));
+  setShowApproval(true);
+  setFreeze(false);
+}
+
   const cancelDelete = () => {
     setShowPrompt(!showPrompt);
   };
@@ -139,7 +150,7 @@ const Application = () => {
         <BottomCallout
           message="Doctor rejected successfully"
           variant="success"
-          visible={true}
+          visible={visibleFeedback}
           setVisible={setVisibleFeedback}
         />
       )}
@@ -148,16 +159,16 @@ const Application = () => {
         <BottomCallout
           message="Error removing user"
           variant="error"
-          visible={true}
+          visible={visibleFeedback}
           setVisible={setVisibleFeedback}
         />
       )}
       {approvalSuccess && (
         <BottomCallout
-          message="Doctor approved successfully and is now moved to doctors tab!"
+          message="Employment contract has been sent successfully to doctor"
           variant="success"
-          visible={true}
-          setVisible={setVisibleFeedback}
+          visible={showApproval}
+          setVisible={setShowApproval}
         />
       )}
 
@@ -179,6 +190,7 @@ const Application = () => {
               fields={["username", "name", "email", "employmentStatus"]}
               freeze={freeze}
               filters={<DateRangePicker className="z-10" />}
+              badgeColumns={badgeColumns}
               buttons={[
                 {
                   size: "xs",
@@ -230,7 +242,6 @@ const Application = () => {
                   },
                 },
               ]}
-              badgeColumns={[]}
               title={"Manage the Pending Doctors Applications"}
             />
           </div>
@@ -245,7 +256,7 @@ const Application = () => {
               displayColumns={["Status", "Joined On"]}
               actualColumns={["status", "joinedOn"]}
               buttons={
-                selected?.employmentStatus === "Waiting Admin" && buttons
+                selected?.employmentStatus === "Waiting Admin" && freeze && buttons
               }
               worker={true}
               fields={[
@@ -254,6 +265,7 @@ const Application = () => {
                 "username",
                 "HourlyRate",
                 "affiliation",
+                "speciality"
               ]}
               displayNames={[
                 "Email",
@@ -261,6 +273,7 @@ const Application = () => {
                 "Username",
                 "Hourly Rate",
                 "Affiliation",
+                "Speciality"
               ]}
             />
           </div>

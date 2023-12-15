@@ -17,6 +17,9 @@ const colors = {
   "Ready for dispatch": "gray",
   Cancelled: "rose",
   Shipped: "emerald",
+  Pending: "emerald",
+  "Admin rejected": "rose",
+
 };
 
 const TableComponent = ({
@@ -83,6 +86,9 @@ const TableComponent = ({
                         button.label !== "Documents" && !dr
                           ? (e) => {
                               button.function(item._id, e);
+                            } :
+                            button.label == "Delete" && dr  ?  (e) => {
+                               button.function(item.deleteID, e)
                             }
                           : (e) => button.function(item.doctorID, e)
                       }
