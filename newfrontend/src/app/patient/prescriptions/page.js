@@ -57,6 +57,7 @@
             }
             return acc;
           }, {});
+          
 
           console.log(filteredQueryObj);
       dispatch(viewALLPrescriptions(filteredQueryObj));

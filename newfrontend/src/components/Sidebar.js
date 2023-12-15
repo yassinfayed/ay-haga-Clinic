@@ -34,7 +34,7 @@ export default function Sidebar() {
         href: "/patient/familymember",
       },
       {
-        
+        icon: "users",
         label: "Doctors",
         href: "/patient/doctors",
       },
