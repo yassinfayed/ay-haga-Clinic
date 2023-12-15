@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const HealthPackage = require("../models/healthPackages");
 const Patient = require("../models/patientModel");
 const User = require("../models/userModel");
@@ -9,6 +10,18 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const Appointment = require("../models/appointmentModel");
 const Notification = require("../models/notificationModel");
 const Email = require("../utils/email");
+=======
+const HealthPackage = require('../models/healthPackages');
+const Patient = require('../models/patientModel');
+const User = require('../models/userModel');
+const Doctor = require('../models/doctorModel');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
+const FamilyMembers = require('../models/familyMembersModel');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const Appointment = require('../models/appointmentModel');
+const Chat = require ("../models/chatModel");
+>>>>>>> main
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) Get the currently booked order
@@ -263,12 +276,59 @@ createAppointmentReservation = async (session) => {
   const doctorId = session.metadata.dr;
   const date = session.metadata.date;
 
+<<<<<<< HEAD
   // 1 Create a new appointment
   const appointment = await Appointment.create({
     patientId: patientId,
     doctorId: doctorId,
     date: date,
   });
+=======
+    // 1 Create a new appointment
+    await Appointment.create({
+        patientId: patientId,
+        doctorId: doctorId,
+        date: date
+    })
+
+
+    const existingChat = await Chat.findOne({
+      members: { $all: [patientId, doctorId] },
+    });
+
+    if (!existingChat) {
+      await Chat.create({
+        members: [patientId, doctorId],
+      });
+    }
+
+    
+    console.log("here app")
+
+    // 2 Update DR WALLET AND AVAILABILE DATES
+     const doctor = await Doctor.findById(doctorId);
+
+     const user = await User.findById(doctor.user);
+     user.wallet += doctor.HourlyRate * 0.9; // +HOURLY_RATE REGARDLEESS OF DISCOUNT??
+
+     const indexToRemove = doctor.availableDates.findIndex(
+        (availableDate) => availableDate.getTime() === new Date(date).getTime()
+    );
+
+    if (indexToRemove !== -1) {
+        doctor.availableDates.splice(indexToRemove, 1);
+    }
+
+    // Save the updated doctor
+    await doctor.save({validateBeforeSave: false})
+    await user.save({validateBeforeSave: false})
+
+  };
+
+  exports.createAppointmentReservation = catchAsync(async (req,res,next)  => {
+
+    const patient = await Patient.findOne({user: req.user._id})
+>>>>>>> main
 
 
   // 2 Update DR WALLET AND AVAILABILE DATES
@@ -334,8 +394,29 @@ exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
     date: date,
   });
 
+<<<<<<< HEAD
   // 2 Update DR WALLET AND AVAILABILE DATES
   const doctor = await Doctor.findById(doctorId);
+=======
+    await Appointment.create({
+        patientId: id,
+        doctorId: doctorId,
+        date: date
+    })
+
+    const existingChat = await Chat.findOne({
+      members: { $all: [patientId, doctorId] },
+    });
+
+    if (!existingChat) {
+       await Chat.create({
+        members: [patientId, doctorId],
+      });
+    }
+    
+    // 2 Update DR WALLET AND AVAILABILE DATES
+     const doctor = await Doctor.findById(doctorId);
+>>>>>>> main
 
   const user = await User.findById(doctor.user);
   user.wallet += doctor.HourlyRate * 0.9; // +HOURLY_RATE REGARDLEESS OF DISCOUNT??
