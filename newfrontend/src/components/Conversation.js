@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { viewDoctorDetails } from "@/app/redux/actions/doctorActions";
 import { viewPatients } from "@/app/redux/actions/patientsActions";
 import { useSelector } from "react-redux";
+import Image from "next/image";
 
 export default function Conversation({ conversation, currentUser }) {
   const role = JSON.parse(localStorage.getItem('userInfo'))?.data.user.role;
@@ -42,8 +43,10 @@ export default function Conversation({ conversation, currentUser }) {
 
   return (
     <div className="conversation">
-      <span className="conversationName">
-          {role === "patient" ? doctor?.name : pat?.name}
+      <span className="conversationName flex group">
+      <Image src="/blackuser.svg" className="mt-2 ml-1 group-hover:filter group-hover:brightness-125" height={25} width={25}></Image>
+      <p className="text-xl text-black mt-2 ml-2 group-hover:text-blue-500 transition-all">{role === "patient" ? `Dr. ${doctor?.name}` : pat?.name}</p>
+      <hr />
       </span>
     </div>
   );
