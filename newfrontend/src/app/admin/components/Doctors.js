@@ -23,9 +23,9 @@ import PromptMessage from "@/components/PromptMessage";
 const Doctors = () => {
   const dispatch = useDispatch();
   const [selected, setSelected] = useState();
-  const [visibleFeedback, setVisibleFeedback] = useState(true);
+  const [visibleFeedback, setVisibleFeedback] = useState(false);
   const { doctors, loading } = useSelector(
-    (state) => state.getDrsForPatientsReducer
+    (state) => state.getDrsForPatientsReducer,
   );
   const {
     loading: removeLoading,
@@ -41,7 +41,7 @@ const Doctors = () => {
 
   const handleSelect = (id) => {
     for (let i = 0; i < doctorsList.length; i++) {
-      if (doctorsList[i]._id == id) {
+      if (doctorsList[i].doctorID == id) {
         setSelected(doctorsList[i]);
         break;
       }
@@ -54,26 +54,28 @@ const Doctors = () => {
       ?.map(({ _id, user, DateOfbirth, ...rest }) => ({
         ...rest,
         ...user,
+        doctorID: _id,
+        deleteID: user?._id,
         DateOfbirth: formatDateToDDMMYYYY(DateOfbirth),
       }))
-      .filter((value) => value.employmentContract.status==="accepted");
+      .filter((value) => value.employmentContract.status === "accepted");
   }, [removeError, doctors]);
-  const [showPrompt,setShowPrompt]=useState(false)
-  const [deleteID,setDeleteID] = useState("")
-  const handleDelete = (id)=>{
-    setShowPrompt(true)
-    setDeleteID(id)
-
-  }
-  const confirmDelete  =()=>{
-    dispatch(removeUser(deleteID))
-    setShowPrompt(!showPrompt)
-    setSelected(null)
-    setFreeze(false)
-  }
-  const cancelDelete = ()=>{
-    setShowPrompt(!showPrompt)
-  }
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [deleteID, setDeleteID] = useState("");
+  const handleDelete = (id) => {
+    setShowPrompt(true);
+    setDeleteID(id);
+  };
+  const confirmDelete = () => {
+    dispatch(removeUser(deleteID));
+    setVisibleFeedback(true);
+    setShowPrompt(!showPrompt);
+    setSelected(null);
+    setFreeze(false);
+  };
+  const cancelDelete = () => {
+    setShowPrompt(!showPrompt);
+  };
 
   return (
     <>
@@ -97,8 +99,14 @@ const Doctors = () => {
       )}
 
       <>
-      <PromptMessage visible={showPrompt} setVisible={setShowPrompt} message="Are you sure you want to remove this doctor?" onConfirm={confirmDelete} confirmLoading={removeLoading}
-      onCancel={cancelDelete}/>
+        <PromptMessage
+          visible={showPrompt}
+          setVisible={setShowPrompt}
+          message="Are you sure you want to remove this doctor?"
+          onConfirm={confirmDelete}
+          confirmLoading={removeLoading}
+          onCancel={cancelDelete}
+        />
         <div className="flex overflow-hidden gap-x-4 gap-y-8">
           <div className="prof h-400 overflow-hidden w-4/6 rounded-xl p-10">
             <TableComponent
@@ -107,6 +115,7 @@ const Doctors = () => {
               columns={["Username", "Name", "Email"]}
               fields={["username", "name", "email"]}
               freeze={freeze}
+              dr={true}
               buttons={[
                 {
                   size: "xs",
@@ -178,6 +187,7 @@ const Doctors = () => {
                 "username",
                 "HourlyRate",
                 "affiliation",
+                "speciality"
               ]}
               displayNames={[
                 "Email",
@@ -185,6 +195,7 @@ const Doctors = () => {
                 "Username",
                 "Hourly Rate",
                 "Affiliation",
+                "Speciality"
               ]}
             />
           </div>

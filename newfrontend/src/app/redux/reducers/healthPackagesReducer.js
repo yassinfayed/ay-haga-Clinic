@@ -110,6 +110,7 @@ export const createHealthPackageReducer = (state = createHealthPackageInitialSta
                 ...state,
                 healthPackage: action.payload,
                 loading: false,
+                success:true,
                 error: null,
             };
         case HEALTH_PACKAGE_CREATE_FAIL:
@@ -128,12 +129,14 @@ export const updateHealthPackageReducer = (state = updateHealthPackageInitialSta
             return {
                 ...state,
                 loading: true,
+                success: false,
                 error: null,
             };
         case HEALTH_PACKAGE_UPDATE_SUCCESS:
             return {
                 ...state,
                 healthPackage: action.payload,
+                success : true , 
                 loading: false,
                 error: null,
             };
@@ -141,6 +144,7 @@ export const updateHealthPackageReducer = (state = updateHealthPackageInitialSta
             return {
                 ...state,
                 loading: false,
+                success : false,
                 error: action.payload,
             };
         default:
@@ -159,6 +163,7 @@ export const deleteHealthPackageReducer = (state = deleteHealthPackageInitialSta
             return {
                 ...state,
                 loading: false,
+                success:true,
                 error: null,
             };
         case HEALTH_PACKAGE_DELETE_FAIL:

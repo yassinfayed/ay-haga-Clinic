@@ -45,7 +45,7 @@ function AddFamily({ setVisible, setSuccess, setError }) {
 
   const dispatch = useDispatch();
   const { error, loading, familyMember } = useSelector(
-    (state) => state.addFamilyMembersReducer
+    (state) => state.addFamilyMembersReducer,
   );
 
   const handleInputChange = (e) => {
@@ -73,7 +73,7 @@ function AddFamily({ setVisible, setSuccess, setError }) {
       setFormData((prevFormData) => {
         const updatedFormData = { ...prevFormData, [name]: value };
         setPasswordMatch(
-          updatedFormData.password === updatedFormData.passwordConfirm
+          updatedFormData.password === updatedFormData.passwordConfirm,
         );
         return updatedFormData;
       });

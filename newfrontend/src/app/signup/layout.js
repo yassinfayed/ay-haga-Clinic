@@ -6,10 +6,7 @@ export default async function DashboardLayout({ children }) {
   return (
     <>
       <Header />
-      <div>
-        {children}
-        
-      </div>
+      <div>{children}</div>
     </>
   );
 }

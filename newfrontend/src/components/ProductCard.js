@@ -80,7 +80,8 @@ function ProductCard({
                         <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
                     </svg>
                 </div> */}
-        { JSON.parse(localStorage.getItem("userInfo"))?.data.user.role === "patient" &&
+        {JSON.parse(localStorage.getItem("userInfo"))?.data.user.role ===
+          "patient" && (
           <div
             role="button"
             onClick={(e) => {
@@ -92,8 +93,9 @@ function ProductCard({
                 cartHandler(e, id, 1);
               }
             }}
-            className={`cartbtn w-auto h-7 text-center flex items-center justify-center rounded-[0.875rem] mx-1 px-2 ${quantity > 0 && stock > 0 ? "bg-green-600" : "bgColor"
-              }`}
+            className={`cartbtn w-auto h-7 text-center flex items-center justify-center rounded-[0.875rem] mx-1 px-2 ${
+              quantity > 0 && stock > 0 ? "bg-green-600" : "bgColor"
+            }`}
           >
             {stock <= 0 && (
               <Badge className="tw-dark" color="rose">
@@ -124,8 +126,9 @@ function ProductCard({
             {stock > 0 && (
               <>
                 <span
-                  className={`mx-2 text-sm ${quantity > 0 ? "text-white" : "text-black"
-                    }`}
+                  className={`mx-2 text-sm ${
+                    quantity > 0 ? "text-white" : "text-black"
+                  }`}
                 >
                   {quantity > 0 ? quantity : "Cart"}
                 </span>
@@ -151,7 +154,7 @@ function ProductCard({
               </>
             )}
           </div>
-        }
+        )}
       </div>
       <div className="flex flex-row items-center">
         <svg

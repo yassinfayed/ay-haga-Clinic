@@ -188,3 +188,4 @@ const {doctor}=props;
 };
 
 export default ContractPage;
+

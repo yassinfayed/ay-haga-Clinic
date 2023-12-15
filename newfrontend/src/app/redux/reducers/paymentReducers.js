@@ -20,6 +20,7 @@ export const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        success:true,
         session: action.payload,
         error: null,
       };

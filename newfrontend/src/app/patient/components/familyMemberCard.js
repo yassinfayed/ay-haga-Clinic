@@ -1,5 +1,11 @@
 import React from "react";
 import Image from "next/image";
+import { Button } from "@tremor/react";
+import HealthPackage from "@/app/admin/healthpackages/page";
+import { cancelSubscription } from "@/app/redux/actions/patientActions";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import PromptMessage from "@/components/PromptMessage";
 const FamilyMemberCard = ({
   member,
   name,
@@ -10,7 +16,17 @@ const FamilyMemberCard = ({
   onCardClick,
   selectedMemberName,
   selectedMemberId,
+  healthPackage,
+  patientId,
+  setSuccess,
+  patient,
 }) => {
+  const dispatch = useDispatch();
+  const { loading, success } = useSelector(
+    (state) => state.cancelSubscriptionReducer,
+  );
+  const [confirm, setConfirm] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const getImageUrl = (relation) => {
     switch (relation) {
       case "wife":
@@ -86,13 +102,33 @@ const FamilyMemberCard = ({
         return null;
     }
   };
-  console.log("leh", selectedMemberName, name, selectedMemberName == name);
 
+  function handleCancellation() {
+    console.log(patientId);
+    dispatch(cancelSubscription(patientId));
+    // setCancelConfirm(false);
+    //6549f806f3ee984c4052aa62
+    setSubmitted(true);
+  }
+
+  useEffect(() => {
+    if (!loading && submitted) {
+      // setSuccess("Family member added successfully");
+      // setVisible(false);
+      setConfirm(false);
+      setSuccess("Subscription Cancelled Successfuly!");
+      // setCred("");
+      // Trigger onSuccess if provided
+    } else if (!loading & submitted) {
+      setSubmitted(false);
+      // setError("Error adding family member");
+    }
+  }, [loading]);
   return (
     <div
       className={`m-4 max-w-md ${
         selectedMemberName == name &&
-        "border-y-4 border-indigo-500/100 shadow-lg shadow-indigo-500/50 "
+        "border-y-4 border-blue-500/100 shadow-lg shadow-blue-500/50 "
       } rounded-xl`}
       style={{ width: "350px" }}
       onClick={() => onCardClick(member)}
@@ -126,6 +162,61 @@ const FamilyMemberCard = ({
             {renderIcon("relation")}
             <span className="ml-2">{relationToPatient}</span>
           </div>
+          {healthPackage?.name && (
+            <div className="flex items-center py-1 text-sm">
+              {renderIcon("relation")}
+              <span className="ml-2">{healthPackage?.name} Package</span>
+            </div>
+          )}
+          {healthPackage?.name && (
+            <div className="flex items-center py-1 text-sm">
+              {renderIcon("relation")}
+              <span className="ml-2">{patient.subscriptionStatus} </span>
+            </div>
+          )}
+          {healthPackage?.name &&
+            patient.subscriptionStatus == "subscribed" && (
+              <div className="flex items-center py-1 text-sm">
+                renewal
+                <span className="ml-2">{patient.renewalDate} </span>
+              </div>
+            )}
+          {patient.subscriptionStatus !== "subscribed" && (
+            <div className="flex items-center py-1 text-sm">
+              cancellation
+              <span className="ml-2">{patient.cancellationEndDate} </span>
+            </div>
+          )}
+        </div>
+        <div
+          className="flex justify-center"
+          style={{
+            overflow: "hidden",
+            height: `${
+              healthPackage?.name !== undefined &&
+              selectedMemberName == name &&
+              patient.subscriptionStatus == "subscribed"
+                ? "50px"
+                : "0px"
+            }`,
+          }}
+        >
+          <Button
+            className="border border-purple-500 text-purple-500 px-4 py-2 mt-4 rounded bg-indigo"
+            onClick={() => {
+              setConfirm(true);
+              console.log("hey");
+            }}
+          >
+            cancel subscription
+          </Button>
+          <PromptMessage
+            visible={confirm}
+            setVisible={setConfirm}
+            onConfirm={handleCancellation}
+            onCancel={() => setConfirm(false)}
+            confirmLoading={loading}
+          />
         </div>
       </div>
     </div>

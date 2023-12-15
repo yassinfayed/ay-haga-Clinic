@@ -13,6 +13,9 @@ import PromptMessage from "@/components/PromptMessage";
 
 const Admins = () => {
   const admins = useSelector((state) => state.getUsersReducer.user);
+  const [showRemove,setShowRemove] = useState(false);
+  const [showRegister,setShowRegister] = useState(false);
+  const [showUsers,setShowUsers] = useState(false);
   const {
     loading: registerLoading,
     success: registerSuccess,
@@ -65,37 +68,39 @@ const Admins = () => {
     e.preventDefault();
     // Dispatch register action with form data
     dispatch(registerAction({ ...formData, role: "administrator" }));
+    setShowRegister(true);
     // Clear form fields
   };
 
   useEffect(() => {
     dispatch(getAllUsers());
+    setShowUsers(true);
   }, [dispatch, removeLoading, registerLoading]);
   const [visibleFeedback, setVisibleFeedback] = useState(false);
 
-  const [showPrompt,setShowPrompt]=useState(false)
-  const [deleteID,setDeleteID] = useState("")
-  const handleDelete = (id)=>{
-    setShowPrompt(true)
-    setDeleteID(id)
-
-  }
-  const confirmDelete  =()=>{
-    dispatch(removeUser(deleteID))
-    setShowPrompt(!showPrompt)
-  }
-  const cancelDelete = ()=>{
-    setShowPrompt(!showPrompt)
-  }
-    return (
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [deleteID, setDeleteID] = useState("");
+  const handleDelete = (id) => {
+    setShowPrompt(true);
+    setDeleteID(id);
+  };
+  const confirmDelete = () => {
+    dispatch(removeUser(deleteID));
+    setShowRemove(true);
+    setShowPrompt(!showPrompt);
+  };
+  const cancelDelete = () => {
+    setShowPrompt(!showPrompt);
+  };
+  return (
     <>
       {registerSuccess && (
         // Show success message for registration
         <BottomCallout
           message="Registration successful"
           variant="success"
-          visible={true}
-          setVisible={setVisibleFeedback}
+          visible={showRegister}
+          setVisible={setShowRegister}
         />
       )}
 
@@ -104,8 +109,8 @@ const Admins = () => {
         <BottomCallout
           message="User removed successfully"
           variant="success"
-          visible={true}
-          setVisible={setVisibleFeedback}
+          visible={showRemove}
+          setVisible={setShowRemove}
         />
       )}
 
@@ -114,8 +119,8 @@ const Admins = () => {
         <BottomCallout
           message="Registration failed"
           variant="error"
-          visible={true}
-          setVisible={setVisibleFeedback}
+          visible={showRegister}
+          setVisible={setShowRegister}
         />
       )}
 
@@ -124,8 +129,8 @@ const Admins = () => {
         <BottomCallout
           message="Error removing user"
           variant="error"
-          visible={true}
-          setVisible={setVisibleFeedback}
+          visible={showRemove}
+          setVisible={setShowRemove}
         />
       )}
 
@@ -134,16 +139,20 @@ const Admins = () => {
         <BottomCallout
           message="Error fetching users"
           variant="error"
-          visible={true}
-          setVisible={setVisibleFeedback}
+          visible={showUsers}
+          setVisible={setShowUsers}
         />
       )}
 
       <>
-      <PromptMessage visible={showPrompt} setVisible={setShowPrompt} message="Are you sure you want to remove this admin?" onConfirm={confirmDelete} confirmLoading={removeLoading}
-      onCancel={cancelDelete}/>
-
-    
+        <PromptMessage
+          visible={showPrompt}
+          setVisible={setShowPrompt}
+          message="Are you sure you want to remove this admin?"
+          onConfirm={confirmDelete}
+          confirmLoading={removeLoading}
+          onCancel={cancelDelete}
+        />
         <div className="flex overflow-hidden gap-x-4 gap-y-8">
           <div className="prof h-400 overflow-hidden w-4/6 rounded-xl p-10">
             <TableComponent
@@ -197,7 +206,7 @@ const Admins = () => {
               errorMessage={
                 !validateEmail(formData.username) &&
                 formData.username !== "" &&
-                "Please enter a valid username"
+                "Please enter a valid email"
               }
             />
             <TextInput
@@ -234,6 +243,7 @@ const Admins = () => {
               }
             />
             <Button
+              disabled={ !validateEmail(formData.username)  || (!validatePassword(formData.password)) || (formData.password !== formData.passwordConfirm)}
               loading={registerLoading}
               onClick={handleSubmit}
               className="mt-5 tracking-wide font-semibold bg-purple-600 text-gray-100 w-full py-4 rounded-lg hover:bg-purple-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"

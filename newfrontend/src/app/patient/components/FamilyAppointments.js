@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPatientAppointments } from "@/app/redux/actions/patientActions";
+import { BottomCallout } from "@/components/BottomCallout";
+import { DatePicker, DateRangePicker } from "@tremor/react";
 
 import {
   Card,
@@ -25,23 +27,76 @@ import {
 } from "@tremor/react";
 import LoadingAnimation from "../../../../public/loading.json";
 import Lottie from "lottie-react";
+import { viewDoctorDetails } from "@/app/redux/actions/doctorActions";
+import {
+  cancelAction,
+  followUpAction,
+} from "@/app/redux/actions/appointmentActions";
+import RescheduleCalendar from "@/components/RescheduleCalendar";
 
 const FamilyAppointments = ({ memberId, memberName }) => {
   const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [reschedule, setReschedule] = useState(false);
+  const [doctorID, setDoctorID] = useState("");
+  const [appointmentId, setAppointmentId] = useState("");
+  const [followUpFeedback, setFollowUpFeedback] = useState(true);
+  const [rescheduleFeedback, setRescheduleFeedback] = useState(true);
+  const [cancelFeedback, setCancelFeedback] = useState(true);
   const appointmentsData = useSelector(
-    (state) => state.viewPatientsAppointmentsReducer.appointments
+    (state) => state.viewPatientsAppointmentsReducer.appointments,
+  );
+  const { success: followUpSuccess, error: followUpError } = useSelector(
+    (state) => state.followUpReducer,
+  );
+  const { success: rescheduleSuccess, error: rescheduleError } = useSelector(
+    (state) => state.rescheduleReducer,
+  );
+  const { success: cancelSuccess, error: cancelError } = useSelector(
+    (state) => state.cancelReducer,
   );
   const isLoading = useSelector(
-    (state) => state.viewPatientsAppointmentsReducer.loading
+    (state) => state.viewPatientsAppointmentsReducer.loading,
+  );
+  const { loading: followUpLoading } = useSelector(
+    (state) => state.followUpReducer,
+  );
+  const { doctor, loading: doctorLoading } = useSelector(
+    (state) => state.doctorReducer,
+  );
+  const { loading: rescheduleLoading } = useSelector(
+    (state) => state.rescheduleReducer,
+  );
+  const { loading: cancelLoading } = useSelector(
+    (state) => state.cancelReducer,
   );
 
   useEffect(() => {
+    fetchData();
+  }, [
+    dispatch,
+    selectedDate,
+    selectedStatus,
+    memberId,
+    cancelLoading,
+    followUpLoading,
+    rescheduleLoading,
+  ]);
+
+  const formatDateToISOString = (date) => {
+    if (!date) return ""; // Return an empty string if date is falsy
+    const utcDate = new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+    );
+    const selectedDateState = utcDate.toUTCString();
+    return selectedDateState;
+  };
+
+  async function fetchData() {
     if (memberId) {
-      console.log(selectedStatus);
       const queryObj = {
-        date: selectedDate,
+        date: formatDateToISOString(selectedDate),
         status: selectedStatus,
       };
 
@@ -51,24 +106,110 @@ const FamilyAppointments = ({ memberId, memberName }) => {
         }
         return acc;
       }, {});
+
       console.log(filteredQueryObj);
+      console.log("amk;mfea;mae;k");
       dispatch(getPatientAppointments(filteredQueryObj, memberId));
     }
-  }, [dispatch, selectedDate, selectedStatus, memberId]);
+  }
 
   const handleClearFilters = () => {
     setSelectedDate(null);
     setSelectedStatus("");
   };
+  const handleReschedule = (id, appointmentId) => {
+    dispatch(viewDoctorDetails(id));
+    console.log(id);
+    setAppointmentId(appointmentId);
+    // setDoctorID(id)
+  };
+  const handleCancel = (id) => {
+    dispatch(cancelAction(id));
+  };
+  const handleFollowUp = (id) => {
+    dispatch(followUpAction(id));
+  };
+  useEffect(() => {
+    //dispatch(viewDoctorDetails(doctorID))
+    if (!doctorLoading && doctor) setReschedule(true);
+    setDoctorID(doctor?._id);
+  }, [doctorLoading]);
 
-  const columns = ["Date", "Time", "Doctor Name", "Status"];
-  const fields = ["date", "doctorname", "status"];
+  const columns = ["Date", "Time", "Doctor Name", "Status", ""];
+  const fields = ["date", "doctorname", "status", "buttons"];
   const rows = useMemo(() => {
     return appointmentsData && appointmentsData.data
       ? appointmentsData.data.map((value) => ({
           date: new Date(value.date).toLocaleString(),
           doctorname: value.doctorId?.name,
           status: value.status,
+          buttons:
+            value.status === "Upcoming" ? (
+              value.followUp === "None" ? (
+                <>
+                  <Button
+                    variant="secondary"
+                    className="mx-7"
+                    onClick={(e) => {
+                      handleReschedule(value.doctorId._id, value._id);
+                    }}
+                  >
+                    Reschedule
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    color="red"
+                    onClick={(e) => handleCancel(value._id)}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    disabled={true}
+                    variant="secondary"
+                    className="mx-7"
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      color: "transparent",
+                      cursor: "default",
+                    }}
+                  >
+                    Reschedule
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    color="red"
+                    onClick={(e) => handleCancel(value._id)}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              )
+            ) : value.status === "Completed" ? (
+              value.followUp === "None" ? (
+                <>
+                  <Button
+                    variant="secondary"
+                    className="mx-8"
+                    color="green"
+                    onClick={(e) => handleFollowUp(value._id)}
+                  >
+                    Follow Up
+                  </Button>
+                </>
+              ) : value.followUp === "FollowUpRequest" ? (
+                <span className="mx-10">Awaiting Doctor</span>
+              ) : value.followUp === "Accepted" ? (
+                <span className="mx-10">Follow Up Scheduled</span>
+              ) : (
+                <span className="mx-10">Follow Up Rejected</span>
+              )
+            ) : (
+              ""
+            ),
         }))
       : [];
   }, [appointmentsData]);
@@ -103,114 +244,189 @@ const FamilyAppointments = ({ memberId, memberName }) => {
 
   return (
     <>
-      {memberId ? (
-        <Card>
-          <div className="flex flex-col space-y-4">
-            <Title>
-              Family Appointments<Badge>{rows.length}</Badge>
-            </Title>
+      {followUpSuccess && (
+        <BottomCallout
+          message="Follow Up Request Sent Successfully."
+          visible={followUpFeedback}
+          setVisible={setFollowUpFeedback}
+          variant="success"
+        />
+      )}
+      {followUpError && (
+        <BottomCallout
+          message={followUpError}
+          visible={followUpFeedback}
+          setVisible={setFollowUpFeedback}
+          variant="error"
+        />
+      )}
+      {rescheduleSuccess && (
+        <BottomCallout
+          message="Appointment Rescheduled Successfully."
+          visible={rescheduleFeedback}
+          setVisible={setRescheduleFeedback}
+          variant="success"
+        />
+      )}
+      {rescheduleError && (
+        <BottomCallout
+          message={rescheduleError}
+          visible={rescheduleFeedback}
+          setVisible={setRescheduleFeedback}
+          variant="error"
+        />
+      )}
+      {cancelSuccess && (
+        <BottomCallout
+          message="Appointment cancelled Successfully."
+          visible={cancelFeedback}
+          setVisible={setCancelFeedback}
+          variant="success"
+        />
+      )}
+      {cancelError && (
+        <BottomCallout
+          message={cancelError}
+          visible={cancelFeedback}
+          setVisible={setCancelFeedback}
+          variant="error"
+        />
+      )}
 
-            <div className="flex space-x-4">
-              <Select
-                value={selectedStatus}
-                onValueChange={(e) => setSelectedStatus(e)}
-              >
-                <SelectItem value="">Filter by status</SelectItem>
-                <SelectItem value="Completed">Completed</SelectItem>
-                <SelectItem value="Upcoming">Upcoming</SelectItem>
-                <SelectItem value="Missed">Missed</SelectItem>
-                <SelectItem value="Cancelled">Cancelled</SelectItem>
-                <SelectItem value="Rescheduled">Rescheduled</SelectItem>
-              </Select>
-              <TextInput
-                type="date"
-                placeholder="Filter By date"
-                name="dateOfBirth"
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-                required
-                style={{ color: "white" }}
-              />
+      {!reschedule && (
+        <>
+          <Card className="flex flex-col h-full">
+            <div className=" space-y-4 ">
+              <h1 className="font-bold text-2xl mb-4">
+                Family Appointments<Badge>{rows.length}</Badge>
+              </h1>
 
-              <Button
-                variant="secondary"
-                className="px-4  rounded"
-                onClick={handleClearFilters}
-              >
-                Clear Filters
-              </Button>
+              <div className="flex space-x-4">
+                <Select
+                  value={selectedStatus}
+                  onValueChange={(e) => setSelectedStatus(e)}
+                >
+                  <SelectItem value="">Filter by status</SelectItem>
+                  <SelectItem value="Completed">Completed</SelectItem>
+                  <SelectItem value="Upcoming">Upcoming</SelectItem>
+                  <SelectItem value="Missed">Missed</SelectItem>
+                  <SelectItem value="Cancelled">Cancelled</SelectItem>
+                  <SelectItem value="Rescheduled">Rescheduled</SelectItem>
+                </Select>
+                <DatePicker
+                  selected={selectedDate}
+                  onValueChange={(date) => {
+                    setSelectedDate(date);
+                  }}
+                  dateFormat="yyyy-MM-dd"
+                  placeholderText="Filter by date"
+                  className="w-full"
+                />
+                <Button
+                  variant="secondary"
+                  className="px-4  rounded"
+                  onClick={handleClearFilters}
+                >
+                  Clear Filters
+                </Button>
+              </div>
             </div>
-          </div>
 
-          {isLoading ? (
-            <div className="flex-1 grow flex items-center justify-center">
-              <Lottie
-                animationData={LoadingAnimation}
-                className="w-[15rem] h-[15rem]"
-              />
-            </div>
-          ) : (
-            <>
-              <Table className="mt-6">
-                <TableHead>
-                  <TableRow>
-                    {columns.map((column, index) => (
-                      <TableHeaderCell key={index}>{column}</TableHeaderCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                {notHasAppointments && (
-                  <p className="pt-5">No appointments for {memberName}</p>
-                )}
-                <TableBody>
-                  {rows.map((item, rowIndex) => (
-                    <TableRow key={rowIndex}>
-                      {fields.map((field, fieldIndex) => {
-                        if (field === "date") {
-                          const { date, time } = formatDateAndTime(item[field]);
-                          return (
-                            <>
-                              <TableCell
-                                key={`${fieldIndex}-date`}
-                                className="text-lg"
-                              >
-                                {date}
-                              </TableCell>
-                              <TableCell
-                                key={`${fieldIndex}-time`}
-                                className="text-lg"
-                              >
-                                {time}
-                              </TableCell>
-                            </>
-                          );
-                        } else if (field === "status") {
-                          return (
-                            <TableCell key={fieldIndex} className="text-lg">
-                              {renderStatusBadge(item[field])}
-                            </TableCell>
-                          );
-                        } else {
-                          return (
-                            <TableCell key={fieldIndex} className="text-lg">
-                              {item[field]}
-                            </TableCell>
-                          );
-                        }
-                      })}
+            {isLoading ? (
+              <div className="flex-1 grow flex justify-center">
+                <Lottie
+                  animationData={LoadingAnimation}
+                  className="w-[15rem] h-[15rem]"
+                />
+              </div>
+            ) : (
+              <>
+                <Table className="mt-6">
+                  <TableHead>
+                    <TableRow>
+                      {columns.map((column, index) => (
+                        <TableHeaderCell key={index}>{column}</TableHeaderCell>
+                      ))}
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </>
-          )}
-        </Card>
-      ) : (
-        <Card>
-          <h1 className="font-bold text-2xl my-4">Family Appointments</h1>
-          <p className="text-base pt-4">
-            Choose a family member to check his/her appointments
-          </p>
+                  </TableHead>
+                  {notHasAppointments && (
+                    <p className="pt-5">No appointments for {memberName}</p>
+                  )}
+                  <TableBody>
+                    {rows.map((item, rowIndex) => (
+                      <TableRow key={rowIndex}>
+                        {fields.map((field, fieldIndex) => {
+                          if (field === "date") {
+                            const { date, time } = formatDateAndTime(
+                              item[field],
+                            );
+                            return (
+                              <>
+                                <TableCell
+                                  key={`${fieldIndex}-date`}
+                                  className="text-lg"
+                                >
+                                  {date}
+                                </TableCell>
+                                <TableCell
+                                  key={`${fieldIndex}-time`}
+                                  className="text-lg"
+                                >
+                                  {time}
+                                </TableCell>
+                              </>
+                            );
+                          } else if (field === "status") {
+                            return (
+                              <TableCell key={fieldIndex} className="text-lg">
+                                {renderStatusBadge(item[field])}
+                              </TableCell>
+                            );
+                          } else {
+                            return (
+                              <TableCell key={fieldIndex} className="text-lg">
+                                {item[field]}
+                              </TableCell>
+                            );
+                          }
+                        })}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </>
+            )}
+          </Card>
+        </>
+      )}
+      {reschedule && (
+        <Card className="flex flex-col w-64 h-96">
+          {" "}
+          {/* Adjust the width and height as needed */}
+          <div
+            role="button"
+            onClick={() => setReschedule(false)}
+            className="ms-auto"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-4 h-4"
+            >
+              {" "}
+              {/* Adjust the width and height as needed */}
+              <path
+                fillRule="evenodd"
+                d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+          <RescheduleCalendar
+            id={doctorID}
+            appointmentId={appointmentId}
+          ></RescheduleCalendar>
         </Card>
       )}
     </>

@@ -1,7 +1,10 @@
 "use client";
 import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { viewFamilyMembers } from "@/app/redux/actions/FamilyMembersAction";
+import {
+  viewFamilyMembers,
+  viewAllFamilyMembersAndPatients,
+} from "@/app/redux/actions/FamilyMembersAction";
 import { BottomCallout } from "@/components/BottomCallout";
 import { Modal } from "@/components/Modal";
 import { Button, Badge } from "@tremor/react";
@@ -21,11 +24,13 @@ function Familymembers() {
   const dispatch = useDispatch();
 
   const familyMembers = useSelector(
-    (state) => state.viewFamilyMembersReducer.familyMember
+    (state) =>
+      state.viewAllFamilyMembersAndPatientsReducer.familyMembersWithPatients,
   );
   const isLoading = useSelector(
-    (state) => state.addFamilyMembersReducer.loading
+    (state) => state.viewAllFamilyMembersAndPatientsReducer.loading,
   );
+  const patientId = JSON.parse(localStorage.getItem("userInfo"))?.data.user._id;
 
   const handleCardClick = (member) => {
     setSelectedMemberName(member.name);
@@ -34,21 +39,25 @@ function Familymembers() {
     // dispatch(fetchAppointmentsForFamilyMember(id));
   };
   useEffect(() => {
-    dispatch(viewFamilyMembers());
-  }, [dispatch, isLoading, modalShow]);
+    dispatch(viewAllFamilyMembersAndPatients(patientId));
+  }, [dispatch, modalShow, confirm, successMessage]);
 
   const fam = useMemo(() => {
     return (
-      familyMembers?.data?.map((value) => ({
-        name: value?.linkedPatientId?.name,
-        nationalId: value?.nationalId,
-        age: value?.age,
-        gender: value?.linkedPatientId?.gender,
-        relationToPatient: value?.relationToPatient,
-        id: value?._id,
+      familyMembers?.map((value) => ({
+        name: value?.patientDetails?.name,
+        nationalId: value?.familyMember?.nationalId,
+        age: value?.familyMember?.age,
+        gender: value?.familyMember?.gender, // or value?.patientDetails?.gender if this is the preferred source
+        relationToPatient: value?.familyMember?.relationToPatient,
+        id: value?.familyMember?._id,
+        healthPackage: value?.patientDetails?.package,
+        patientId: value?.patientDetails?._id,
+        patient: value?.patientDetails,
       })) || []
     );
   }, [familyMembers, modalShow, isLoading]);
+  console.log(familyMembers);
   console.log(fam);
 
   return (
@@ -58,6 +67,9 @@ function Familymembers() {
         <h1 className="font-bold text-2xl mb-4">
           Family Members <Badge>{fam?.length}</Badge>
         </h1>
+        <p className="text-base py-1 pb-4">
+          Choose a family member to get more Information.
+        </p>
 
         <Button
           variant="secondary"
@@ -115,6 +127,10 @@ function Familymembers() {
                   relationToPatient={member.relationToPatient}
                   onCardClick={() => handleCardClick(member)}
                   selectedMemberName={selectedMemberName}
+                  healthPackage={member.healthPackage}
+                  patientId={member.patientId}
+                  patient={member.patient}
+                  setSuccess={setSuccessMessage}
                 />
               </div>
             ))}

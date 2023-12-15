@@ -16,23 +16,36 @@ const fs = require("fs");
 exports.getPatient = handlerFactory.getOne(Patient);
 
 exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
-  console.log(req.user._id);
-  const patient = await Patient.findOne({ user: req.user._id });
-  const patientId = patient._id;
-  const name = req.query.name;
-  req.query.name = null;
+  let presc;
+  if (req.user.role == "patient") {
+    const patient = await Patient.findOne({ user: req.user._id });
+    const patientId = patient._id;
+    const name = req.query.name;
+    req.query.name = null;
 
-  const features = new APIFeatures(
-    Prescription.find({ patientId: patientId }).populate("doctorId"),
-    req.query
-  ).filter();
+    const features = new APIFeatures(
+      Prescription.find({ patientId: patientId }).populate("doctorId"),
+      req.query,
+    ).filter();
 
-  let presc = await features.query;
-  if (name)
-    presc = presc.filter((p) =>
-      p.doctorId.name.toLowerCase().includes(name.toLowerCase())
-    );
+    presc = await features.query;
+    if (name)
+      presc.filter((p) =>
+        p.doctorId.name.toLowerCase().includes(name.toLowerCase()),
+      );
+  } else {
+    const doctor = await Doctor.findOne({ user: req.user._id });
+    const doctorId = doctor._id;
+    const patientId = req.query.patientID;
 
+    presc = await Prescription.find({
+      patientId: patientId,
+      doctorId: doctorId,
+    })
+      .populate("patientId")
+      .populate("doctorId")
+      .exec();
+  }
   res.status(200).json({
     status: "success",
     results: presc.length,
@@ -107,7 +120,7 @@ exports.viewHealthRecords = catchAsync(async (req, res, next) => {
 
   if (userRole === "patient") {
     const patient = await Patient.findOne({ _id: patientId }).select(
-      "healthRecords"
+      "healthRecords",
     );
 
     if (!patient) {
@@ -172,9 +185,7 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
     const query = { doctorId };
     if (req.query.status) {
       query.status = req.query.status;
-      console.log(query.status);
     }
-    console.log(req.query._id);
     if (req.query._id) {
       query.patientId = req.query._id;
     }
@@ -191,7 +202,7 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
 
   if (req.query.name)
     data = data.filter((pat) =>
-      `${pat.name?.toLowerCase()}`.includes(req.query.name?.toLowerCase())
+      `${pat.name?.toLowerCase()}`.includes(req.query.name?.toLowerCase()),
     );
   if (req.user.role === "patient")
     data = await Patient.find({ _id: req.query._id });
@@ -265,10 +276,10 @@ exports.getMyDetails = catchAsync(async (req, res, next) => {
 // );
 
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, "uploads/");
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     if (!req.locals) {
       req.locals = {};
     }
@@ -293,9 +304,9 @@ const fileFilter = (req, file, cb) => {
   } else {
     cb(
       new Error(
-        "Invalid file type. Only PDF, PNG, JPEG, and JPG files are allowed."
+        "Invalid file type. Only PDF, PNG, JPEG, and JPG files are allowed.",
       ),
-      false
+      false,
     );
   }
 };
@@ -334,18 +345,18 @@ exports.postUpload = catchAsync(async (req, res, next) => {
 
 exports.downloadSingleRecord = catchAsync(async (req, res, next) => {
   //Abdullah: to be edited to download all as zip if no query parameter passed
-  const patient = await Patient.findOne({ user: req.user._id });
-  if (!patient.medicalRecords.includes(req.query.name)) {
-    if (!patient.healthRecords.includes(req.query.name)) {
-      return next(new AppError(404, "File not found"));
-    }
-  }
+  // const patient = await Patient.findOne({ user: req.user._id });
+  // if (!patient.medicalRecords.includes(req.query.name)) {
+  //   if (!patient.healthRecords.includes(req.query.name)) {
+  //     return next(new AppError(404, "File not found"));
+  //   }
+  // }
 
   const fileData = await fs.readFileSync(`./${req.query.name}`);
 
   res.setHeader(
     "Content-Disposition",
-    `attachment; filename="${req.query.name}"`
+    `attachment; filename="${req.query.name}"`,
   );
   res.setHeader("Content-Type", "application/octet-stream");
   res.send(fileData);
@@ -356,11 +367,11 @@ exports.removeSingleRecord = catchAsync(async (req, res, next) => {
   const patient = await Patient.findOne({ user: req.user._id });
   if (patient.medicalRecords.includes(req.query.name)) {
     patient.medicalRecords = patient.medicalRecords.filter(
-      (record) => record !== req.query.name
+      (record) => record !== req.query.name,
     );
   } else if (patient.healthRecords.includes(req.query.name)) {
     patient.healthRecords = patient.healthRecords.filter(
-      (record) => record !== req.query.name
+      (record) => record !== req.query.name,
     );
   } else {
     return next(new AppError(404, "File not found"));

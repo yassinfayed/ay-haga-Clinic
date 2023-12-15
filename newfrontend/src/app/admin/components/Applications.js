@@ -19,15 +19,16 @@ import PromptMessage from "@/components/PromptMessage";
 const Application = () => {
   const dispatch = useDispatch();
   const [selected, setSelected] = useState();
+  const [showApproval,setShowApproval] = useState(false);
   const onViewFiles = (docId) => {
     dispatch(downloadDoctorDocs(docId));
   };
   const [visibleFeedback, setVisibleFeedback] = useState(false);
   const { loading: approvalLoading, success: approvalSuccess } = useSelector(
-    (state) => state.adminAcceptDoctorReducer
+    (state) => state.adminAcceptDoctorReducer,
   );
   const { doctors, loading } = useSelector(
-    (state) => state.getDrsForPatientsReducer
+    (state) => state.getDrsForPatientsReducer,
   );
   const {
     loading: rejectLoading,
@@ -50,6 +51,8 @@ const Application = () => {
     }
     setFreeze(true);
   };
+
+  const badgeColumns = ["employmentStatus"];
 
   const buttons = {
     right: {
@@ -98,37 +101,47 @@ const Application = () => {
           />
         </svg>
       ),
-      onClick: (e) => dispatch(adminAcceptDoctor(selected.doctorID)),
+      onClick: (e) => handleAccept(selected.doctorID),
     },
   };
   const doctorList = useMemo(() => {
     return doctors?.data
-      ?.map(({ _id, user, DateOfbirth,employmentContract, ...rest }) => ({
+      ?.map(({ _id, user, DateOfbirth, employmentContract, ...rest }) => ({
         ...rest,
         ...user,
         doctorID: _id,
-        employmentStatus:employmentContract.status,
+        employmentStatus: employmentContract.status,
         DateOfbirth: formatDateToDDMMYYYY(DateOfbirth),
       }))
-      .filter((value) => (value.isApproved === false || (value.employmentStatus !=="accepted")));
+      .filter(
+        (value) =>
+          value.isApproved === false || value.employmentStatus !== "accepted",
+      );
   }, [rejectLoading, doctors, approvalLoading, approvalSuccess]);
 
-  const [showPrompt,setShowPrompt]=useState(false)
-  const [deleteID,setDeleteID] = useState("")
-  const handleDelete = (id)=>{
-    setShowPrompt(true)
-    setDeleteID(id)
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [deleteID, setDeleteID] = useState("");
+  const handleDelete = (id) => {
+    setShowPrompt(true);
+    setDeleteID(id);
+  };
+  const confirmDelete = () => {
+    dispatch(rejectDoctor(deleteID));
+    setVisibleFeedback(true);
+    setShowPrompt(!showPrompt);
+    setSelected(null);
+    setFreeze(false);
+  };
 
-  }
-  const confirmDelete  =()=>{
-    dispatch(rejectDoctor(deleteID))
-    setShowPrompt(!showPrompt)
-    setSelected(null)
-    setFreeze(false)
-  }
-  const cancelDelete = ()=>{
-    setShowPrompt(!showPrompt)
-  }
+const handleAccept = (id) => {
+  dispatch(adminAcceptDoctor(id));
+  setShowApproval(true);
+  setFreeze(false);
+}
+
+  const cancelDelete = () => {
+    setShowPrompt(!showPrompt);
+  };
 
   return (
     <>
@@ -137,7 +150,7 @@ const Application = () => {
         <BottomCallout
           message="Doctor rejected successfully"
           variant="success"
-          visible={true}
+          visible={visibleFeedback}
           setVisible={setVisibleFeedback}
         />
       )}
@@ -146,31 +159,38 @@ const Application = () => {
         <BottomCallout
           message="Error removing user"
           variant="error"
-          visible={true}
+          visible={visibleFeedback}
           setVisible={setVisibleFeedback}
         />
       )}
       {approvalSuccess && (
         <BottomCallout
-          message="Doctor approved successfully and is now moved to doctors tab!"
+          message="Employment contract has been sent successfully to doctor"
           variant="success"
-          visible={true}
-          setVisible={setVisibleFeedback}
+          visible={showApproval}
+          setVisible={setShowApproval}
         />
       )}
 
       <>
-      <PromptMessage visible={showPrompt} setVisible={setShowPrompt} message="Are you sure you want to reject this doctor?" onConfirm={confirmDelete} confirmLoading={rejectLoading}
-      onCancel={cancelDelete}/>
+        <PromptMessage
+          visible={showPrompt}
+          setVisible={setShowPrompt}
+          message="Are you sure you want to reject this doctor?"
+          onConfirm={confirmDelete}
+          confirmLoading={rejectLoading}
+          onCancel={cancelDelete}
+        />
         <div className="flex overflow-hidden gap-x-4 gap-y-8">
           <div className="prof h-400 overflow-hidden w-4/6 rounded-xl p-10">
             <TableComponent
               setSelected={setSelected}
               rows={doctorList}
-              columns={["Username", "Name", "Email","Status"]}
+              columns={["Username", "Name", "Email", "Status"]}
               fields={["username", "name", "email", "employmentStatus"]}
               freeze={freeze}
               filters={<DateRangePicker className="z-10" />}
+              badgeColumns={badgeColumns}
               buttons={[
                 {
                   size: "xs",
@@ -216,11 +236,12 @@ const Application = () => {
                       />
                     </svg>
                   ),
-                  function: (id) => {onViewFiles(id)
-                console.log(id)},
+                  function: (id) => {
+                    onViewFiles(id);
+                    console.log(id);
+                  },
                 },
               ]}
-              badgeColumns={[]}
               title={"Manage the Pending Doctors Applications"}
             />
           </div>
@@ -234,7 +255,9 @@ const Application = () => {
               data={selected}
               displayColumns={["Status", "Joined On"]}
               actualColumns={["status", "joinedOn"]}
-              buttons={selected?.employmentStatus==='Waiting Admin' && buttons}
+              buttons={
+                selected?.employmentStatus === "Waiting Admin" && freeze && buttons
+              }
               worker={true}
               fields={[
                 "email",
@@ -242,6 +265,7 @@ const Application = () => {
                 "username",
                 "HourlyRate",
                 "affiliation",
+                "speciality"
               ]}
               displayNames={[
                 "Email",
@@ -249,6 +273,7 @@ const Application = () => {
                 "Username",
                 "Hourly Rate",
                 "Affiliation",
+                "Speciality"
               ]}
             />
           </div>

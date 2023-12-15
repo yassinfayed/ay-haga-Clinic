@@ -9,23 +9,23 @@ router.use(authController.protect);
 router.post(
   "/link",
   authController.restrictTo("patient"),
-  familyMemberController.linkFamilyMember
+  familyMemberController.linkFamilyMember,
 );
 router.post(
   "/",
   authController.restrictTo("patient"),
   familyMemberController.addFamilyMembers,
-  authController.signup
+  authController.signup,
 );
 router
   .route("/")
   .get(
     authController.restrictTo("patient"),
-    familyMemberController.viewRegisteredFamilyMembers
+    familyMemberController.viewRegisteredFamilyMembers,
   );
 router.get(
   "/view-all-family-members",
-  familyMemberController.viewAllFamilyMembersAndPatients
+  familyMemberController.viewAllFamilyMembersAndPatients,
 );
 
 module.exports = router;
