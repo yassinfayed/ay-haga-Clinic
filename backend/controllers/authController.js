@@ -12,10 +12,10 @@ const FamilyMember = require("./../models/familyMembersModel");
 const multer = require("multer");
 
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, "uploads/");
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     if (!req.locals) {
       req.locals = {};
     }
@@ -40,9 +40,9 @@ const fileFilter = (req, file, cb) => {
   } else {
     cb(
       new Error(
-        "Invalid file type. Only PDF, PNG, JPEG, and JPG files are allowed."
+        "Invalid file type. Only PDF, PNG, JPEG, and JPG files are allowed.",
       ),
-      false
+      false,
     );
   }
 };
@@ -72,7 +72,7 @@ const createSendToken = (user, statusCode, req, res) => {
 
   res.cookie("jwt", token, {
     Expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true,
     secure: req.secure || req.headers["x-forwarded-proto"] === "https",
@@ -91,6 +91,13 @@ const createSendToken = (user, statusCode, req, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
+  try {
+    if (!req.body.role || req.body.role === "patient") {
+      signupToPharmacy(req, res, next);
+    }
+  } catch (err) {
+    console.error(err);
+  }
   if (req.body.role === enums.ROLE.ADMIN) {
     let token;
     if (
@@ -103,7 +110,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     token = req.cookies?.jwt;
     const err = new AppError(
       "You are not authorized to create an admin account",
-      401
+      401,
     );
 
     if (!token) return next(err);
@@ -112,13 +119,14 @@ exports.signup = catchAsync(async (req, res, next) => {
     const currentUser = await User.findById(decoded.id);
 
     if (!currentUser || currentUser.role !== enums.ROLE.ADMIN) return next(err);
-    var emailValidator = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var emailValidator =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (!emailValidator.test(req.body.username))
       return next(
         new AppError(
           "For an administrator, the username must be an email address",
-          400
-        )
+          400,
+        ),
       );
   }
 
@@ -140,7 +148,6 @@ exports.signup = catchAsync(async (req, res, next) => {
         data: newUser,
       },
     });
-    console.log("admin111111111");
     return;
   }
   try {
@@ -151,7 +158,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 
     if (req.body.role === enums.ROLE.DOCTOR) {
       req.body.documents = req.locals?.docs;
-      console.log(req.body.documents);
       doctor = await Doctor.create(req.body);
       newUser.doctor = doctor;
     }
@@ -159,7 +165,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     else {
       await FamilyMember.updateOne(
         { _id: req.body.id },
-        { linkedPatientId: patient._id }
+        { linkedPatientId: patient._id },
       );
       res.status(200).json({
         FamilyMember,
@@ -193,7 +199,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   if (!token) {
     return next(
-      new AppError("You are not logged in! Please log in to get access.", 401)
+      new AppError("You are not logged in! Please log in to get access.", 401),
     );
   }
 
@@ -206,8 +212,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     return next(
       new AppError(
         "The user belonging to this token does no longer exist.",
-        401
-      )
+        401,
+      ),
     );
   }
 
@@ -221,7 +227,7 @@ exports.restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return next(
-        new AppError("You do not have permission to perform this action", 403)
+        new AppError("You do not have permission to perform this action", 403),
       );
     }
 
@@ -252,7 +258,6 @@ exports.login = catchAsync(async (req, res, next) => {
     const pat = await Patient.findOne({ user: user._id });
     user.patient = pat;
   }
-  console.log(user);
 
   createSendToken(user, 200, req, res);
 });
@@ -320,11 +325,10 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
-    console.log(err);
 
     return next(
       new AppError("There was an error sending the email. Try again later!"),
-      500
+      500,
     );
   }
 });
@@ -333,14 +337,11 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   const user2 =
     (await Patient.findOne({ email: req.body.email })) ||
     (await Doctor.findOne({ email: req.body.email }));
-  console.log(user2);
   let user = await User.findOne({
     OTP: req.body.OTP,
     _id: user2?.user,
     passwordResetExpires: { $gt: Date.now() },
   });
-  console.log(req.body.OTP);
-  console.log(user);
 
   // 2) If token has not expired, and there is user, set the new password
   if (!user) {
@@ -358,3 +359,16 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   // 4) Log the user in, send JWT
   createSendToken(user, 200, req, res);
 });
+
+const axios = require("axios");
+const signupToPharmacy = async (req, res, next) => {
+  try {
+    const resp = await axios.post(
+      "http://localhost:8080/api/v1/user/signup",
+      req.body,
+    );
+    console.log(resp);
+  } catch (err) {
+    console.error(err);
+  }
+};

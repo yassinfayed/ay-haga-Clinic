@@ -31,25 +31,19 @@ exports.addFamilyMembers = catchAsync(async (req, res, next) => {
 });
 exports.linkFamilyMember = catchAsync(async (req, res, next) => {
   const { phone, relationToPatient, email } = req.body;
-  console.log("men gowa link", phone, relationToPatient, email);
   const patient = await Patient.findOne({ user: req.user._id });
   let familymemberaspatient;
   if (email) {
-    console.log("men gowa email", phone, relationToPatient, email);
     familymemberaspatient = await Patient.findOne({ email: email });
-    console.log(familymemberaspatient);
   }
   if (phone) {
-    console.log("men gowa phone", phone, relationToPatient, email);
     familymemberaspatient = await Patient.findOne({
       mobileNumber: phone,
     });
-    console.log(familymemberaspatient);
   }
-  console.log(familymemberaspatient);
   if (!familymemberaspatient) {
     return next(
-      new AppError(404, "No Patient found with that email or phone number")
+      new AppError(404, "No Patient found with that email or phone number"),
     );
   }
   const patientId = patient._id;
@@ -125,9 +119,8 @@ exports.viewRegisteredFamilyMembers = catchAsync(async (req, res, next) => {
 
 exports.viewAllFamilyMembersAndPatients = catchAsync(async (req, res, next) => {
   const userId = req.user._id;
-
   const patient = await Patient.findOne({ user: userId });
-  console.log(patient);
+
   if (!patient) {
     return res
       .status(404)
@@ -139,12 +132,11 @@ exports.viewAllFamilyMembersAndPatients = catchAsync(async (req, res, next) => {
   const familyMembers = await FamilyMember.find({ patientId });
 
   const familyMembersWithPatients = [];
-
   for (const familyMember of familyMembers) {
     if (familyMember.linkedPatientId) {
       const linkedPatient = await Patient.findById(
-        familyMember.linkedPatientId
-      );
+        familyMember.linkedPatientId,
+      ).populate("package");
 
       if (linkedPatient) {
         familyMembersWithPatients.push({

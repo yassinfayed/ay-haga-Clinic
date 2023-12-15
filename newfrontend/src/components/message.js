@@ -1,7 +1,6 @@
-'use client'
+"use client";
 import React from "react";
 import { format } from "timeago.js";
-
 
 export default function Message({ message, own }) {
   return (

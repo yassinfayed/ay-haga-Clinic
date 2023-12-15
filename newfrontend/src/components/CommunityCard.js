@@ -16,16 +16,16 @@ import ProfilePicture from "./ProfilePicture";
 import GradientText from "./GradientText";
 
 export default function CommunityCard({ name, picture, description }) {
-    return (
-        <>
-            <Card className="my-3">
-                <GradientText text="Community Details" wclass="text-2xl" />
-                <div className="flex flex-row items-center my-3">
-                    <ProfilePicture src={picture} size={75} />
-                    <p className="font-bold mx-3">{name}</p>
-                </div>
-                <p className="text-sm text-gray-600 my-3">{description}</p>
-            </Card>
-        </>
-    );
+  return (
+    <>
+      <Card className="my-3">
+        <GradientText text="Community Details" wclass="text-2xl" />
+        <div className="flex flex-row items-center my-3">
+          <ProfilePicture src={picture} size={75} />
+          <p className="font-bold mx-3">{name}</p>
+        </div>
+        <p className="text-sm text-gray-600 my-3">{description}</p>
+      </Card>
+    </>
+  );
 }

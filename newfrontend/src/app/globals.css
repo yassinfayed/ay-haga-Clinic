@@ -3,25 +3,23 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'GeneralSans';
-  src: url('/fonts/GeneralSans-Variable.woff2') format('woff2'),
-    url('/fonts/GeneralSans-Variable.woff') format('woff'),
-    url('/fonts/GeneralSans-Variable.ttf') format('truetype');
+  font-family: "GeneralSans";
+  src:
+    url("/fonts/GeneralSans-Variable.woff2") format("woff2"),
+    url("/fonts/GeneralSans-Variable.woff") format("woff"),
+    url("/fonts/GeneralSans-Variable.ttf") format("truetype");
   font-weight: 200 700;
   font-display: swap;
   font-style: normal;
 }
 
-
 * {
-  font-family: 'GeneralSans', 'Times New Roman';
+  font-family: "GeneralSans", "Times New Roman";
   /* overflow-x: hidden; */
 }
 
-body { 
-  overflow-x: hidden;
+body {
 }
-
 
 :root {
   --foreground-rgb: 255, 255, 255, 0.95;
@@ -42,16 +40,25 @@ svg {
   transition: color 0.5s ease;
 }
 
-p,h1,h2,h3,h4,h5,h6,span {
-  transition: color 0.0s ease !important
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span {
+  transition: color 0s ease !important;
 }
-
 
 body {
   color: rgba(var(--foreground-rgb));
-  background: linear-gradient(to bottom,
+  background: linear-gradient(
+      to bottom,
       transparent,
-      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
 }
 input[type="date"]::-webkit-calendar-picker-indicator {
   color: white;
@@ -61,9 +68,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(100%);
 }
 
-
 .cardBgColor {
-  background-color: rgb(31,41,55) !important
+  background-color: rgb(31, 41, 55) !important;
 }
 
 .bgColor {
@@ -78,7 +84,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   --tw-bg-opacity: 1;
   background-color: rgb(17, 24, 39, var(--tw-bg-opacity));
 }
-
 
 @keyframes slideInRight {
   0% {
@@ -210,7 +215,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding: 20px;
 }
 
-
 .send-button {
   background-color: #3498db;
   color: #fff;
@@ -238,7 +242,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  flex:3;
+  flex: 3;
 }
 
 .message-area {
@@ -291,7 +295,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #f0f0f0; /* Color of the scrollbar track */
 }
 
-
 .conversation-list {
   width: 300px; /* Set the width of the conversation list */
   border-right: 1px solid #adadad; /* Vertical divider */
@@ -305,5 +308,3 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .chatBorder {
   border-color: #3b3b3b !important;
 }
-
-

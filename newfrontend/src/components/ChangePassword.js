@@ -1,18 +1,16 @@
-"use client"
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Card, TextInput } from '@tremor/react';
-import { Button } from '@tremor/react';
-import { validatePassword } from '@/app/redux/validators';
-import { changePasswordAction } from '../app/redux/actions/authActions';
-import { changePasswordReducer } from '@/app/redux/reducers/authReducer';
+"use client";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Card, TextInput } from "@tremor/react";
+import { Button } from "@tremor/react";
+import { validatePassword } from "@/app/redux/validators";
+import { changePasswordAction } from "../app/redux/actions/authActions";
+import { changePasswordReducer } from "@/app/redux/reducers/authReducer";
 import { BottomCallout } from "@/components/BottomCallout";
 
 const ChangePassword = () => {
-
   const dispatch = useDispatch();
   const [visibleFeedback, setVisibleFeedback] = useState(false);
-
 
   const {
     loading: changeLoading,
@@ -25,7 +23,6 @@ const ChangePassword = () => {
     password: "",
     passwordConfirm: "",
   });
-
 
   const handleChange = (e) => {
     setFormData({
@@ -44,7 +41,6 @@ const ChangePassword = () => {
       passwordConfirm: "",
     });
   };
-
 
   return (
     <Card className="prof w-[35rem]">
@@ -81,9 +77,7 @@ const ChangePassword = () => {
         onChange={handleChange}
         name="password"
         required
-        error={
-          !validatePassword(formData.password) && formData.password !== ""
-        }
+        error={!validatePassword(formData.password) && formData.password !== ""}
         errorMessage={
           !validatePassword(formData.password) &&
           formData.password !== "" &&

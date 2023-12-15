@@ -29,8 +29,10 @@ const TableComponent = ({
   setSelected,
   freeze,
   children,
+  dr,
 }) => {
-  // console.log(rows);
+  console.log(rows);
+
   return (
     <Card
     // style={{ borderColor: "rgb(147 51 234 / var(--tw-border-opacity))" }}
@@ -78,9 +80,11 @@ const TableComponent = ({
                   {buttons.map((button, buttonIndex) => (
                     <Button
                       onClick={
-                        button.label !== "Documents"
-                          ? (e) => button.function(item._id)
-                          : (e) => button.function(item.doctorID)
+                        button.label !== "Documents" && !dr
+                          ? (e) => {
+                              button.function(item._id, e);
+                            }
+                          : (e) => button.function(item.doctorID, e)
                       }
                       key={buttonIndex}
                       {...button}

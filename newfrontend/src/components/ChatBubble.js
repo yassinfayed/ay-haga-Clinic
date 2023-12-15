@@ -7,7 +7,13 @@ const ChatComponent = ({ message, own }) => {
   const timestampColor = own ? "#363636" : "#777"; // Adjust the color as needed
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: alignStyle }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: alignStyle,
+      }}
+    >
       <div className={`message ${messageStyle}`}>
         {message.text}
         <div className="" style={{ color: timestampColor, marginTop: "5px" }}>

@@ -110,6 +110,7 @@ export const createHealthPackageReducer = (state = createHealthPackageInitialSta
                 ...state,
                 healthPackage: action.payload,
                 loading: false,
+                success:true,
                 error: null,
             };
         case HEALTH_PACKAGE_CREATE_FAIL:
@@ -159,6 +160,7 @@ export const deleteHealthPackageReducer = (state = deleteHealthPackageInitialSta
             return {
                 ...state,
                 loading: false,
+                success:true,
                 error: null,
             };
         case HEALTH_PACKAGE_DELETE_FAIL:

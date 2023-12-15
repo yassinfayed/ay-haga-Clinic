@@ -24,19 +24,20 @@ export const followUpAction = (appointmentId, date) => async (dispatch) => {
         },
         withCredentials: true,
       };
-  
+      console.log(appointmentId)
       const reqbody = {
         appointmentId,
         date
       };
   
       const { data } = await axios.post(`${baseURL}/api/v1/appointment/followUp`, reqbody, config);
-  
+  console.log(data)
       dispatch({
         type: FOLLOWUP_SUCCESS,
         payload: data.data,
       });
     } catch (error) {
+      console.log(error)
       dispatch({
         type: FOLLOWUP_FAIL,
         payload: error.response
@@ -58,7 +59,7 @@ export const followUpAction = (appointmentId, date) => async (dispatch) => {
         },
         withCredentials: true,
       };
-  
+     
    const reqbody={date}
   
       const { data } = await axios.patch(`${baseURL}/api/v1/appointment/reschedule/${appointmentId}`, reqbody, config);
@@ -77,7 +78,8 @@ export const followUpAction = (appointmentId, date) => async (dispatch) => {
     }
   };
 
-  export const cancelAction = (appointmentId) => async (dispatch) => {
+  export const cancelAction = (appointmentId,reqbody={}) => async (dispatch) => {
+    console.log(appointmentId)
     try {
       dispatch({
         type: CANCEL_REQUEST,
@@ -99,6 +101,7 @@ export const followUpAction = (appointmentId, date) => async (dispatch) => {
         payload: data.data,
       });
     } catch (error) {
+      console.log(error)
       dispatch({
         type: CANCEL_FAIL,
         payload: error.response

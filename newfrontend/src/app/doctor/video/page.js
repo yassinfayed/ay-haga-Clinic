@@ -148,7 +148,7 @@ function Video() {
     setIsCameraOn((prev) => !prev);
   };
 
-   const requestFullscreen = (element) => {
+  const requestFullscreen = (element) => {
     if (element.requestFullscreen) {
       element.requestFullscreen();
     } else if (element.mozRequestFullScreen) {
@@ -159,8 +159,8 @@ function Video() {
       element.msRequestFullscreen();
     }
   };
-  
-   const exitFullscreen = () => {
+
+  const exitFullscreen = () => {
     if (document.exitFullscreen) {
       document.exitFullscreen();
     } else if (document.mozCancelFullScreen) {
@@ -173,120 +173,111 @@ function Video() {
   };
 
   const toggleFullscreen = () => {
-    const container = document.getElementById('fullscreen-container');
-    const videoContainer = document.getElementById('video-container');
+    const container = document.getElementById("fullscreen-container");
+    const videoContainer = document.getElementById("video-container");
 
     if (document.fullscreenElement) {
       exitFullscreen();
       videoContainer.style.marginTop = "";
     } else {
       requestFullscreen(container);
-      videoContainer.style.marginTop = "12rem"; 
+      videoContainer.style.marginTop = "12rem";
     }
   };
 
-  
-
   return (
     <div className="h-full overflow-hidden pl-10">
-      <main
-        id="dashboard-main"
-        className=" overflow-auto px-4 py-10"
-      >
+      <main id="dashboard-main" className=" overflow-auto px-4 py-10">
         <div className="flex flex-row gap-2 ml-[3rem]">
-       
-              
-              <video
-                playsInline
-                muted
-                ref={myVideoRef}
-                autoPlay
-                style={{ width: "35vw" }}
-              />
-        
-           
-        {!callAccepted ? (
-                
-                <Card>
-                    <h1 className="text-5xl mt-[3rem] font-bold text-center text-white-200">Lobby</h1>
-                    <div>
-                        <p className="mt-4 text-muted text-center text-xl text-gray-400">
-                            Please send your room id to the desired patient
-                        </p>
+          <video
+            playsInline
+            muted
+            ref={myVideoRef}
+            autoPlay
+            style={{ width: "35vw" }}
+          />
+
+          {!callAccepted ? (
+            <Card>
+              <h1 className="text-5xl mt-[3rem] font-bold text-center text-white-200">
+                Lobby
+              </h1>
+              <div>
+                <p className="mt-4 text-muted text-center text-xl text-gray-400">
+                  Please send your room id to the desired patient
+                </p>
+              </div>
+              <div className=" mt-[4rem] flex justify-center items-center">
+                <p className="text-3xl font-bold">Room ID</p>{" "}
+                <p className="ml-5 text-xl">: {me}</p>
+                <div className="ml-5" role="button" onClick={coptText}>
+                  <span className="">
+                    <Image src="/copy.svg" height={25} width={25}></Image>
+                  </span>
+                </div>
+              </div>
+              <div>
+                {receivingCall && !callAccepted ? (
+                  <div className="caller mt-[3rem]">
+                    <div className="flex justify-center items-center">
+                      <h1 className="text-2xl">{name} is calling...</h1>
                     </div>
-                    <div className=" mt-[4rem] flex justify-center items-center">
-                    
-                        <p className="text-3xl font-bold">Room ID</p> <p className="ml-5 text-xl">: {me}</p>
-                    
-                    <div className="ml-5" role="button" onClick={coptText}>
-                          <span className="">
-                          <Image src="/copy.svg" height={25} width={25}></Image>
-                          </span>
-                        </div>
-                    </div>
-                    <div>
-                  {receivingCall && !callAccepted ? (
-                    <div className="caller mt-[3rem]">
-                        <div className="flex justify-center items-center">
-                            <h1 className="text-2xl">{name} is calling...</h1>
-                        </div>
-                      <div className=" mt-[2rem] flex justify-center items-center">
+                    <div className=" mt-[2rem] flex justify-center items-center">
                       <Button
                         variant="primary"
                         color="green"
                         onClick={answerCall}
                         className="w-[12rem] h-[2rem] mr-5 mhover:underline focus:outline-none"
-                      >Accept</Button>
+                      >
+                        Accept
+                      </Button>
                       <Button
                         variant="primary"
                         color="red"
                         className="w-[12rem] h-[2rem] hover:underline focus:outline-none"
-                      >Decline</Button>
-                      </div>
+                      >
+                        Decline
+                      </Button>
                     </div>
-                  ) : null}
-                </div>
-                  </Card>
-                  
-        ) : (
-            null
-        )}
-        {callAccepted && !callEnded ? (
-                <video
-                playsInline
-                ref={userVideoRef}
-                muted
-                autoPlay
-                style={{ width: "35vw" }}
-              />
-        ) : (
-            null
-        )}
-        
+                  </div>
+                ) : null}
+              </div>
+            </Card>
+          ) : null}
+          {callAccepted && !callEnded ? (
+            <video
+              playsInline
+              ref={userVideoRef}
+              muted
+              autoPlay
+              style={{ width: "35vw" }}
+            />
+          ) : null}
         </div>
         {callAccepted && !callEnded ? (
-        <div className="mt-[4rem] flex justify-center items-center">
+          <div className="mt-[4rem] flex justify-center items-center">
             <div>
-                <div className="ml-5" role="button" onClick={toggleMic}>
-                          <span className="">
-                          <Image src={isMicOn ? "/mic.svg" : "/muted.svg"} height={25} width={25}></Image>
-                          </span>
-                </div>
+              <div className="ml-5" role="button" onClick={toggleMic}>
+                <span className="">
+                  <Image
+                    src={isMicOn ? "/mic.svg" : "/muted.svg"}
+                    height={25}
+                    width={25}
+                  ></Image>
+                </span>
+              </div>
             </div>
             <div>
-                <div className="ml-5" role="button" onClick={leaveCall}>
-                          <span className="">
-                          <Image src="/leave.svg" height={25} width={25}></Image>
-                          </span>
-                </div>
+              <div className="ml-5" role="button" onClick={leaveCall}>
+                <span className="">
+                  <Image src="/leave.svg" height={25} width={25}></Image>
+                </span>
+              </div>
             </div>
-        </div>
-        ) : (
-            null
-        )}
+          </div>
+        ) : null}
       </main>
     </div>
-    
   );
 }
 
