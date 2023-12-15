@@ -30,9 +30,17 @@ const LandingPage = () => {
               fontWeight: "650",}} >Vite Clinics</h1>
             <h2 className='text-2xl font-light'
               style={{
-                fontSize: "2rem",
+                fontSize: "1.7rem",
                 fontWeight: "300",}} >Convenient healthcare at your fingertips.
             </h2>
+            <button className="px-5 py-3 my-10 text-lg rounded font-medium text-white border-2 transform hover:scale-105 border-[#007bff] hover:bg-[#007bff] transition-all ease-in-out duration-300 bg-transparent text-[#007bff]">
+              <a href="/signup/patient" class="flex items-center justify-center">
+                Join Us!
+                <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </button>
           </div>
           <div className="w-full md:w-1/2 p-4">
             <Lottie animationData={clinicAnimation} className='w-[550px] h-[550px]' loop={true} />
@@ -99,7 +107,7 @@ const LandingPage = () => {
           </div>
         </div>
         <div className="flex justify-center">
-          <button className="w-1/4 px-4 py-3 my-10 text-lg rounded font-bold text-white border-2 transform hover:scale-105 border-[#007bff] hover:bg-[#007bff] transition-all ease-in-out duration-300 bg-transparent text-[#007bff]">
+          <button className="w-1/4 px-4 py-3 my-10 text-lg rounded font-semibold text-white border-2 transform hover:scale-105 border-[#007bff] hover:bg-[#007bff] transition-all ease-in-out duration-300 bg-transparent text-[#007bff]">
             <a href="/services" class="flex items-center justify-center">
               Explore Health Packages
               <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -144,7 +152,7 @@ const LandingPage = () => {
       {/* Testimonial Section */}
       {/* Use Tremor Carousel or equivalent component */}
       {/* ... */}
-      <section className=" container mx-auto p-5" id='about'>
+      <section className=" container mx-auto p-5" id='testimonials'>
         <h5 className="text-center pt-10 pb-2 text-blue-500 font-semibold">A GOOD WORD MEANS A LOT</h5>
         <h1 className="text-center text-gray-100 font-bold"             
         style={{
@@ -190,23 +198,9 @@ const LandingPage = () => {
       </section>
 
 
-      {/* Statistics Section */}
-      {/* <section className="container mx-auto p-5">
-        <h2 className="text-center py-3 text-blue-500"><strong>Get to know our success, but in numbers..</strong></h2>
-        <hr className='w-75 mx-auto'/>
-        <div className="flex flex-wrap pb-3 my-5">
-          <div className="w-full md:w-1/4 p-4">
-            <div className="text-center">
-              <h2 className="text-blue-500">5000+</h2>
-              <p>Happy Patients</p>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
       {/* Sign Up Section */}
-      <section className="prof py-10 mx-auto">
-        <div className="container text-center">
+      <section className="prof py-10 w-full">
+        <div className="container text-center mx-auto">
           <h2 className='py-3 text-blue-100 pb-5' 
             style={{
               fontSize: "1.5rem",

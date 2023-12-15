@@ -130,7 +130,7 @@ export const registerAction = (reqBody) => async (dispatch) => {
   }
 };
 
-export const logout = () => async (dispatch) => {
+export const logoutAction = () => async (dispatch) => {
   try {
     dispatch({
       type: USER_LOGOUT_REQUEST,
@@ -154,7 +154,7 @@ export const logout = () => async (dispatch) => {
     });
 
     localStorage.clear();
-    window.location.href = '/guest/Login'
+    window.location.href = '/guest/login'
   } catch (error) {
     dispatch({
       type: USER_LOGOUT_FAIL,

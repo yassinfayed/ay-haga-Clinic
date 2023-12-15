@@ -53,7 +53,6 @@ const ContractPage = () => {
 
   return (
     <div>
-        {/* add header here  with logo & logout*/}
     {docStatus === 'Pending' ? (
         <div className="container mx-auto my-5 p-16">
         <h1 style={{
