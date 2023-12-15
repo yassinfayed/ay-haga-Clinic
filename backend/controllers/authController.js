@@ -91,6 +91,13 @@ const createSendToken = (user, statusCode, req, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
+  try {
+    if (!req.body.role || req.body.role === "patient") {
+      signupToPharmacy(req, res, next);
+    }
+  } catch (err) {
+    console.error(err);
+  }
   if (req.body.role === enums.ROLE.ADMIN) {
     let token;
     if (
@@ -351,3 +358,16 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   // 4) Log the user in, send JWT
   createSendToken(user, 200, req, res);
 });
+
+const axios = require("axios");
+const signupToPharmacy = async (req, res, next) => {
+  try {
+    const resp = await axios.post(
+      "http://localhost:8080/api/v1/user/signup",
+      req.body
+    );
+    console.log(resp);
+  } catch (err) {
+    console.error(err);
+  }
+};

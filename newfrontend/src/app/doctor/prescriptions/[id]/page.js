@@ -1,39 +1,41 @@
-"use client";  
-import { viewALLPrescriptions } from '@/app/redux/actions/prescriptionsActions';
+"use client";
+import { viewALLPrescriptions } from "@/app/redux/actions/prescriptionsActions";
 import { BottomCallout } from "@/components/BottomCallout";
 import PrescriptionCard from "@/components/PrescriptionCard";
 import TableComponent from "@/components/Table";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { formatDateToDDMMYYYY } from "../../../redux/validators";
-import {  DateRangePicker } from "@tremor/react";
-import AddPrescription from '../../components/AddPrescription';
-import { createPrescription,updatePrescription} from '@/app/redux/actions/prescriptionsActions';
-
+import { DateRangePicker } from "@tremor/react";
+import AddPrescription from "../../components/AddPrescription";
+import {
+  createPrescription,
+  updatePrescription,
+} from "@/app/redux/actions/prescriptionsActions";
+import { fetchMedicines } from "@/app/redux/services/getMedicinesFromPharmacy";
 
 const Prescriptions = ({ params }) => {
   const dispatch = useDispatch();
   const [selected, setSelected] = useState();
   const onViewFiles = (pharmId) => {
-  //   dispatch(downloadPharmacistDocs(pharmId));
+    //   dispatch(downloadPharmacistDocs(pharmId));
   };
   const { prescription, loading } = useSelector(
-    (state) => state.viewAllPrescriptionsReducer 
+    (state) => state.viewAllPrescriptionsReducer
   );
   const [open, setOpen] = useState(false);
-  const [medicines, setMedicines] = useState([{ medicine: '', dosage: '', frequency: '', startDate: null, endDate: null }]);
-  const [instructions, setInstructions] = useState('');
+  const [medicines, setMedicines] = useState([
+    { medicine: "", dosage: "", frequency: "", startDate: null, endDate: null },
+  ]);
+  const [instructions, setInstructions] = useState("");
   const [refresh, setRefresh] = useState(false);
-  const [id,setId] = useState();
-const [edited, setEdited] = useState(false);
+  const [id, setId] = useState();
+  const [edited, setEdited] = useState(false);
 
-   async function fetchData() {
-  
-      const queryObj = {
-     
-        patientID: params.id
-
-      };
+  async function fetchData() {
+    const queryObj = {
+      patientID: params.id,
+    };
 
     dispatch(viewALLPrescriptions(queryObj));
   }
@@ -46,48 +48,52 @@ const [edited, setEdited] = useState(false);
   };
 
   const prescriptionList = useMemo(() => {
-      return prescription?.data
-          ?.map(({ _id, prescriptionDate, doctorId, medicines, instructions, filled_unfilled }) => ({
-            _id,
-            prescriptionDate: formatDateToDDMMYYYY(prescriptionDate),
-            doctorName: doctorId.name,
-            medicines,
-            instructions,
-            filled_unfilled: filled_unfilled ? 'Filled' : 'Unfilled',
-          }))
-      }, [prescription]);
+    return prescription?.data?.map(
+      ({
+        _id,
+        prescriptionDate,
+        doctorId,
+        medicines,
+        instructions,
+        filled_unfilled,
+      }) => ({
+        _id,
+        prescriptionDate: formatDateToDDMMYYYY(prescriptionDate),
+        doctorName: doctorId.name,
+        medicines,
+        instructions,
+        filled_unfilled: filled_unfilled ? "Filled" : "Unfilled",
+      })
+    );
+  }, [prescription]);
 
-    useEffect(() => {
-      fetchData();
+  useEffect(() => {
+    fetchData();
   }, [dispatch, refresh]);
-
 
   const handleSubmit = () => {
     if (edited) {
       const newPrescription = {
-
         medicines: medicines,
-      }
+      };
       dispatch(updatePrescription(id, newPrescription));
       setEdited(false);
       setId(null);
+    } else {
+      const newPrescription = {
+        patientId: params.id,
+        prescriptionDate: new Date(),
+        doctorId: JSON.parse(localStorage.getItem("userInfo"))?.data.user.doctor
+          ?._id,
+        medicines: medicines,
+        filled_unfilled: false,
+      };
+      dispatch(createPrescription(newPrescription));
     }
-    else {
-    const newPrescription = {
-      patientId: params.id,
-      prescriptionDate: new Date(),
-      doctorId: JSON.parse(localStorage.getItem("userInfo"))?.data.user.doctor?._id,
-      medicines: medicines,
-      filled_unfilled: false,
-    }
-    dispatch(createPrescription(newPrescription));
-  }
     setOpen(false);
     setRefresh(!refresh);
+  };
 
-
-  }
-    
   const buttons = {
     right: {
       label: "Download",
@@ -137,40 +143,40 @@ const [edited, setEdited] = useState(false);
       ),
       onClick: (e) => dispatch(adminAcceptPharmacist(selected.pharmacistID)),
     },
-  
   };
+
+  //CROSS PLATFORM
 
   return (
     <>
       <>
-      <div className="w-full flex flex-row gap-4 mb-4 divide-x divide-gray-400">
+        <div className="w-full flex flex-row gap-4 mb-4 divide-x divide-gray-400">
           <button
             onClick={() => {
               setOpen(true);
             }}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             Add New Prescription
           </button>
-
         </div>
 
-        {open&&
-          <AddPrescription 
-        medicines={medicines}
-        setMedicines={setMedicines} 
-        instructions={instructions} 
-        setInstructions={setInstructions} 
-        handleSubmit={handleSubmit}
-         />
-        }
+        {open && (
+          <AddPrescription
+            medicines={medicines}
+            setMedicines={setMedicines}
+            instructions={instructions}
+            setInstructions={setInstructions}
+            handleSubmit={handleSubmit}
+          />
+        )}
         <div className="flex overflow-hidden gap-x-4 gap-y-8">
           <div className="prof h-400 overflow-hidden w-4/6 rounded-xl p-10">
             <TableComponent
-            setSelected={setSelected}
+              setSelected={setSelected}
               rows={prescriptionList}
-              columns={["Prescription Date" ,"Filled/Unfilled"]}
-              fields={["prescriptionDate","filled_unfilled"]}
+              columns={["Prescription Date", "Filled/Unfilled"]}
+              fields={["prescriptionDate", "filled_unfilled"]}
               freeze={freeze}
               filters={<DateRangePicker className="z-10" />}
               buttons={[
@@ -206,7 +212,7 @@ const [edited, setEdited] = useState(false);
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
-                      viewBox="0 0 24 24" 
+                      viewBox="0 0 24 24"
                       stroke-width="1.5"
                       stroke="currentColor"
                       class="w-4 h-4 px"
@@ -219,17 +225,13 @@ const [edited, setEdited] = useState(false);
                     </svg>
                   ),
                   function: (id, e) => {
-                  setMedicines(selected.medicines);
-                  setInstructions(selected.instructions);
-                  setId(selected._id);
-                  setEdited(true);
-                  setOpen(true);
-
+                    setMedicines(selected.medicines);
+                    setInstructions(selected.instructions);
+                    setId(selected._id);
+                    setEdited(true);
+                    setOpen(true);
                   },
-
-                  
                 },
-
               ]}
               badgeColumns={[]}
               title={"View Prescriptions"}
@@ -237,17 +239,16 @@ const [edited, setEdited] = useState(false);
           </div>
 
           <div className="prof h-400 overflow-hidden w-2/6 rounded-xl p-10">
-        <PrescriptionCard
-                prescriptionDate={selected?.prescriptionDate}
-                patientName={selected?.patientId}
-                doctorName={selected?.doctorName}
-                medicines={selected?.medicines}
-                instructions={selected?.instructions}
-                id={selected?._id}
-
+            <PrescriptionCard
+              prescriptionDate={selected?.prescriptionDate}
+              patientName={selected?.patientId}
+              doctorName={selected?.doctorName}
+              medicines={selected?.medicines}
+              instructions={selected?.instructions}
+              id={selected?._id}
             />
           </div>
-        </div> 
+        </div>
       </>
     </>
   );
