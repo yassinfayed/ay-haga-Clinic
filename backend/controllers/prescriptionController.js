@@ -11,9 +11,8 @@ exports.updatePrescription = handlerFactory.updateOne(Prescription);
 exports.downloadPrescription = catchAsync(async (req, res, next) => {
   try {
     const prescriptionId = req.params.id;
-    const prescription = await Prescription.findById(prescriptionId).populate(
-      "patient doctor"
-    );
+    const prescription =
+      await Prescription.findById(prescriptionId).populate("patient doctor");
 
     if (!prescription) {
       return res.status(404).json({ error: "Prescription not found" });
@@ -40,7 +39,9 @@ exports.downloadPrescription = catchAsync(async (req, res, next) => {
 
     pdfDoc.text(`Instructions: ${prescription.instructions || "N/A"}`);
     pdfDoc.text(
-      `Filled/Unfilled: ${prescription.filled_unfilled ? "Filled" : "Unfilled"}`
+      `Filled/Unfilled: ${
+        prescription.filled_unfilled ? "Filled" : "Unfilled"
+      }`,
     );
 
     pdfDoc.end();

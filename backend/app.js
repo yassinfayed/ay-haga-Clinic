@@ -82,7 +82,7 @@ app.use((req, res, next) => {
 app.post(
   "/webhook",
   bodyParser.raw({ type: "application/json" }),
-  paymentController.webhookCheckout
+  paymentController.webhookCheckout,
 );
 
 var corsOptions = {

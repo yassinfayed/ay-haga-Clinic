@@ -22,13 +22,13 @@ const Prescriptions = () => {
   const [name, setName] = useState(initialName);
   const [selectedStatus, setSelectedStatus] = useState(initialStatus);
   const { prescription, loading } = useSelector(
-    (state) => state.viewAllPrescriptionsReducer
+    (state) => state.viewAllPrescriptionsReducer,
   );
 
   const formatDateToISOString = (date) => {
     if (!date) return ""; // Return an empty string if date is falsy
     const utcDate = new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
     );
     const selectedDateState = utcDate.toUTCString();
     return selectedDateState;
@@ -76,7 +76,7 @@ const Prescriptions = () => {
         instructions,
         filled_unfilled: filled_unfilled ? "Filled" : "Unfilled",
         status: filled_unfilled,
-      })
+      }),
     );
   }, [prescription]);
 

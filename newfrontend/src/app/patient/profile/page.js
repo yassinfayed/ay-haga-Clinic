@@ -41,7 +41,7 @@ function Profile() {
   } = useSelector((state) => state.patientRemoveRecordReducer);
 
   const { error: downloadError } = useSelector(
-    (state) => state.downloadDoctorDocsReducer
+    (state) => state.downloadDoctorDocsReducer,
   );
 
   const [visibleFeedback, setVisibleFeedback] = useState(false);
@@ -54,7 +54,7 @@ function Profile() {
   }, [dispatch, uploadLoading, removeLoading]);
 
   const patient = useSelector(
-    (state) => state.patientViewMyDetailsReducer.patient
+    (state) => state.patientViewMyDetailsReducer.patient,
   );
   const [selectedFile, setSelectedFile] = useState(null);
 

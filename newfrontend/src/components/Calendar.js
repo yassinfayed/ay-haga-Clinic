@@ -12,14 +12,13 @@ function Calendar({ id }) {
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
   const [clickedDay, setClickedDay] = useState(null);
   const [events, setEvents] = useState({});
-  const [show,setShow] = useState(false);
+  const [show, setShow] = useState(false);
   const dispatch = useDispatch();
-
 
   const {
     loading: addLoading,
     error: addError,
-    success: addSuccess
+    success: addSuccess,
   } = useSelector((state) => state.doctorAddAvailableDateReducer);
 
   const doctor = useSelector((state) => state.doctorReducer.doctor);
@@ -28,26 +27,35 @@ function Calendar({ id }) {
     const formattedEvents = doctor?.availableDates.reduce((acc, slot) => {
       const date = new Date(slot);
       const day = date.getDate();
-      const time = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      const time = date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
       const month = date.getMonth();
       const year = date.getFullYear();
       const eventKey = `${day}-${month}-${year}`;
-      acc[eventKey] = [...(acc[eventKey] || []), { time, formattedDate: date.toISOString() }];
+      acc[eventKey] = [
+        ...(acc[eventKey] || []),
+        { time, formattedDate: date.toISOString() },
+      ];
       return acc;
     }, {});
     setEvents(formattedEvents);
   }, []);
 
-
   const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = (year, month) => new Date(year, month, 1).getDay();
 
   const prevMonth = () => {
-    setCurrentDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1));
+    setCurrentDate(
+      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1),
+    );
   };
 
   const nextMonth = () => {
-    setCurrentDate((prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1));
+    setCurrentDate(
+      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1),
+    );
   };
 
   const handleDayClick = (day) => {
@@ -57,7 +65,11 @@ function Calendar({ id }) {
 
   const displayLocalTime = (utcTime) => {
     const date = new Date(utcTime);
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", timeZone: "UTC" });
+    return date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "UTC",
+    });
   };
 
   const handleTimeSelected = (time) => {
@@ -68,21 +80,27 @@ function Calendar({ id }) {
       const month = currentDate.getMonth();
       const year = currentDate.getFullYear();
       const selectedDate = new Date(Date.UTC(year, month, day));
-      const selectedTime = new Date(selectedDate.setUTCHours(parseInt(time.split(":")[0]), parseInt(time.split(":")[1])));
+      const selectedTime = new Date(
+        selectedDate.setUTCHours(
+          parseInt(time.split(":")[0]),
+          parseInt(time.split(":")[1]),
+        ),
+      );
       setShow(true);
-      dispatch(doctorAddAvailableDate({ availableDate: selectedTime }))
+      dispatch(doctorAddAvailableDate({ availableDate: selectedTime }));
       dispatch(viewDoctorDetails(id));
       setEvents((prevEvents) => {
         // Update the events based on the previous state
         const updatedEvents = { ...prevEvents };
-        updatedEvents[eventKey] = [...(updatedEvents[eventKey] || []), { time, formattedDate: selectedTime.toISOString() }];
+        updatedEvents[eventKey] = [
+          ...(updatedEvents[eventKey] || []),
+          { time, formattedDate: selectedTime.toISOString() },
+        ];
         return updatedEvents;
       });
       console.log(addSuccess);
     }
   };
-
-  
 
   const renderCalendar = () => {
     const year = currentDate.getFullYear();
@@ -100,35 +118,45 @@ function Calendar({ id }) {
 
     // Add days of the month
     for (let day = 1; day <= totalDays; day++) {
-        const eventKey = `${day}-${currentDate.getMonth()}-${currentDate.getFullYear()}`;
-        days.push(
-          <td
-            key={day}
-            className="border p-1 h-40 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300"
-            onClick={() => handleDayClick(day)}
-          >
-            <div className=" h-40 mx-auto w-40 mx-auto overflow-hidden">
-              <div className="top h-5 w-full">
-                <span className="text-white-500">{day}</span>
-              </div>
-              <div className="bottom flex-grow h-30 py-1 w-full cursor-pointer">
-                {events[eventKey] &&
-                  events[eventKey]
-                    .filter((event) => {
-                      const eventMonth = new Date(event.formattedDate).getMonth();
-                      const eventYear = new Date(event.formattedDate).getFullYear();
-                      return eventMonth === currentDate.getMonth() && eventYear === currentDate.getFullYear();
-                    })
-                    .map((event, index) => (
-                      <div key={index} className="bg-blue-400 text-white rounded  text-2xl mb-1">
-                        <span className="event-name">{displayLocalTime(event.formattedDate)}</span>
-                      </div>
-                    ))}
-              </div>
+      const eventKey = `${day}-${currentDate.getMonth()}-${currentDate.getFullYear()}`;
+      days.push(
+        <td
+          key={day}
+          className="border p-1 h-40 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300"
+          onClick={() => handleDayClick(day)}
+        >
+          <div className=" h-40 mx-auto w-40 mx-auto overflow-hidden">
+            <div className="top h-5 w-full">
+              <span className="text-white-500">{day}</span>
             </div>
-          </td>
-        );
-      }
+            <div className="bottom flex-grow h-30 py-1 w-full cursor-pointer">
+              {events[eventKey] &&
+                events[eventKey]
+                  .filter((event) => {
+                    const eventMonth = new Date(event.formattedDate).getMonth();
+                    const eventYear = new Date(
+                      event.formattedDate,
+                    ).getFullYear();
+                    return (
+                      eventMonth === currentDate.getMonth() &&
+                      eventYear === currentDate.getFullYear()
+                    );
+                  })
+                  .map((event, index) => (
+                    <div
+                      key={index}
+                      className="bg-blue-400 text-white rounded  text-2xl mb-1"
+                    >
+                      <span className="event-name">
+                        {displayLocalTime(event.formattedDate)}
+                      </span>
+                    </div>
+                  ))}
+            </div>
+          </div>
+        </td>,
+      );
+    }
     // Wrap days in rows
     let rows = [];
     let cells = [];
@@ -168,63 +196,70 @@ function Calendar({ id }) {
     );
   };
 
-
   return (
     <>
       <div className="container mx-auto mt-10">
         <div className="wrapper rounded shadow w-full ">
           <div className="header flex justify-between border-b p-2">
             <span className="text-lg font-bold">
-            {currentDate.toLocaleString("default", { month: "long", year: "numeric" })}
+              {currentDate.toLocaleString("default", {
+                month: "long",
+                year: "numeric",
+              })}
             </span>
-            {isTimePickerOpen && <input type="time" onChange={(e) => handleTimeSelected(e.target.value)} />}
+            {isTimePickerOpen && (
+              <input
+                type="time"
+                onChange={(e) => handleTimeSelected(e.target.value)}
+              />
+            )}
             <div className="buttons">
-            <button className="p-1" onClick={prevMonth}>
-            <svg
-              width="1em"
-              fill="gray"
-              height="1em"
-              viewBox="0 0 16 16"
-              className="bi bi-arrow-left-circle"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-              />
-              <path
-                fillRule="evenodd"
-                d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"
-              />
-              <path
-                fillRule="evenodd"
-                d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"
-              />
-            </svg>
-          </button>
-          <button className="p-1" onClick={nextMonth}>
-            <svg
-              width="1em"
-              fill="gray"
-              height="1em"
-              viewBox="0 0 16 16"
-              className="bi bi-arrow-right-circle"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-              />
-              <path
-                fillRule="evenodd"
-                d="M7.646 11.354a.5.5 0 0 1 0-.708L10.293 8 7.646 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0z"
-              />
-              <path
-                fillRule="evenodd"
-                d="M4.5 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z"
-              />
-            </svg>
-          </button>
+              <button className="p-1" onClick={prevMonth}>
+                <svg
+                  width="1em"
+                  fill="gray"
+                  height="1em"
+                  viewBox="0 0 16 16"
+                  className="bi bi-arrow-left-circle"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"
+                  />
+                </svg>
+              </button>
+              <button className="p-1" onClick={nextMonth}>
+                <svg
+                  width="1em"
+                  fill="gray"
+                  height="1em"
+                  viewBox="0 0 16 16"
+                  className="bi bi-arrow-right-circle"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    d="M7.646 11.354a.5.5 0 0 1 0-.708L10.293 8 7.646 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0z"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    d="M4.5 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
           <table className="w-full">

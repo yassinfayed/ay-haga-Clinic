@@ -6,7 +6,14 @@ import { Modal } from "@/components/Modal";
 import { Button, Divider, Select, SelectItem } from "@tremor/react";
 
 function SubscribeModal(props) {
-  const { title, subheader, edit, id, healthPackage, loading: loadingP } = props;
+  const {
+    title,
+    subheader,
+    edit,
+    id,
+    healthPackage,
+    loading: loadingP,
+  } = props;
 
   const dispatch = useDispatch();
 
@@ -15,16 +22,16 @@ function SubscribeModal(props) {
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [alert, setAlert] = useState(false);
-  const {success: orderSuccess} = useSelector((state) => state.orderReducer);
+  const { success: orderSuccess } = useSelector((state) => state.orderReducer);
 
   const { loading, error, session } = useSelector(
-    (state) => state.orderReducer
+    (state) => state.orderReducer,
   );
   const familyMembers = useSelector(
-    (state) => state.viewFamilyMembersReducer.familyMember
+    (state) => state.viewFamilyMembersReducer.familyMember,
   );
   const isLoading = useSelector(
-    (state) => state.addFamilyMembersReducer.loading
+    (state) => state.addFamilyMembersReducer.loading,
   );
 
   async function fetchData() {
@@ -84,10 +91,9 @@ function SubscribeModal(props) {
 
   return (
     <Modal visible={props.visible} setVisible={props.setVisible}>
-      
       <div className="p-4 flex flex-col">
         <h1 className="text-center my-4">{title}</h1>
- <Divider></Divider>
+        <Divider></Divider>
         <div className="flex-[2] my-2 mt-6">
           <input
             type="radio"
@@ -143,7 +149,6 @@ function SubscribeModal(props) {
         <div className="my-4 flex-[2] md:w-3/5">
           <Select
             placeholder={`Choose family member`}
-           
             className="mr-2"
             disabled={packageReciever !== "family"}
             value={familyMember}
@@ -162,7 +167,18 @@ function SubscribeModal(props) {
           </Select>
         </div>
         <div className="my-4 flex-[2] md:w-3/5">
-          <Button disabled={ !paymentMethod || !packageReciever || (packageReciever == 'family' && !familyMember)} loading={ loadingP} onClick={handleSubmit}> Subscribe</Button>
+          <Button
+            disabled={
+              !paymentMethod ||
+              !packageReciever ||
+              (packageReciever == "family" && !familyMember)
+            }
+            loading={loadingP}
+            onClick={handleSubmit}
+          >
+            {" "}
+            Subscribe
+          </Button>
         </div>
       </div>
     </Modal>

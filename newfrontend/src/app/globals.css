@@ -4,7 +4,8 @@
 
 @font-face {
   font-family: "GeneralSans";
-  src: url("/fonts/GeneralSans-Variable.woff2") format("woff2"),
+  src:
+    url("/fonts/GeneralSans-Variable.woff2") format("woff2"),
     url("/fonts/GeneralSans-Variable.woff") format("woff"),
     url("/fonts/GeneralSans-Variable.ttf") format("truetype");
   font-weight: 200 700;
@@ -17,8 +18,7 @@
   /* overflow-x: hidden; */
 }
 
-body { 
-  
+body {
 }
 
 :root {
@@ -99,8 +99,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .slide-in-right {
   animation: slideInRight 2.5s ease-in-out; /* Adjust the duration and timing function as needed */
 }
-<<<<<<< HEAD
-=======
 
 .chat-icon {
   position: fixed;
@@ -217,7 +215,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding: 20px;
 }
 
-
 .send-button {
   background-color: #3498db;
   color: #fff;
@@ -245,7 +242,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  flex:3;
+  flex: 3;
 }
 
 .message-area {
@@ -298,7 +295,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #f0f0f0; /* Color of the scrollbar track */
 }
 
-
 .conversation-list {
   width: 300px; /* Set the width of the conversation list */
   border-right: 1px solid #adadad; /* Vertical divider */
@@ -312,6 +308,3 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .chatBorder {
   border-color: #3b3b3b !important;
 }
-
-
->>>>>>> main

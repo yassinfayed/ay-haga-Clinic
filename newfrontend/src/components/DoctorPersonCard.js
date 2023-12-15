@@ -12,7 +12,7 @@ const DoctorPersonCard = ({
   buttons,
   displayNames,
   selected,
-  handleCheckAvailability
+  handleCheckAvailability,
 }) => {
   const renderIcon = (column) => {
     <svg
@@ -210,13 +210,13 @@ const DoctorPersonCard = ({
           ))}
         </div>
         {selected && (
-           <Button
-           //   loading={createLoading}
-              onClick={handleCheckAvailability}
-             className="mt-5 tracking-wide font-semibold bg-purple-600 text-gray-100 w-full py-4 rounded-lg hover:bg-purple-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-           >
-             <span className="ml-3">Check Availability</span>
-           </Button>
+          <Button
+            //   loading={createLoading}
+            onClick={handleCheckAvailability}
+            className="mt-5 tracking-wide font-semibold bg-purple-600 text-gray-100 w-full py-4 rounded-lg hover:bg-purple-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+          >
+            <span className="ml-3">Check Availability</span>
+          </Button>
         )}
       </div>
     </div>

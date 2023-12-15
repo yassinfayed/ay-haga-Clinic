@@ -46,7 +46,7 @@ const page = () => {
         ...user,
         patientId: _id,
         dateOfBirth: formatDateToDDMMYYYY(dateOfBirth),
-      })
+      }),
     );
     return t;
   }, [patients, loading]);
@@ -144,7 +144,8 @@ const page = () => {
               function: (id, e) => {
                 e.stopPropagation();
                 window.location.href = `/doctor/prescriptions/${
-                  patientsList.filter((patient) => patient._id == id)[0].patientId
+                  patientsList.filter((patient) => patient._id == id)[0]
+                    .patientId
                 }`;
               },
             },

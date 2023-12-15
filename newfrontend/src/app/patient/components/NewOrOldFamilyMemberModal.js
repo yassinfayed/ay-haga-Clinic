@@ -61,8 +61,8 @@ function NewOrOldFamilyMember({
             selectedOption === "link"
               ? "animate-expand-right "
               : selectedOption === "new"
-              ? "animate-shrink-right"
-              : ""
+                ? "animate-shrink-right"
+                : ""
           }`}
           onClick={() => handleSelectOption("link")}
         >
@@ -73,8 +73,8 @@ function NewOrOldFamilyMember({
             selectedOption === "new"
               ? "animate-expand-left"
               : selectedOption === "link"
-              ? "animate-shrink-left"
-              : ""
+                ? "animate-shrink-left"
+                : ""
           }`}
           onClick={() => handleSelectOption("new")}
         >

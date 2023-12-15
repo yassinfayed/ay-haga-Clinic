@@ -7,8 +7,17 @@ import { Button, Divider, Select, SelectItem } from "@tremor/react";
 import { viewPatientDetails } from "@/app/redux/actions/patientActions";
 
 function ReserveModal(props) {
-  const { title, subheader, edit, id, healthPackage,hourlyRate,selectedDate,
-success,reserveloading } = props;
+  const {
+    title,
+    subheader,
+    edit,
+    id,
+    healthPackage,
+    hourlyRate,
+    selectedDate,
+    success,
+    reserveloading,
+  } = props;
 
   const dispatch = useDispatch();
 
@@ -18,20 +27,24 @@ success,reserveloading } = props;
   const [submitted, setSubmitted] = useState(false);
   const [alert, setAlert] = useState(false);
 
-  const patientDetails = useSelector((state) => state.patientViewMyDetailsReducer.patient);
-  const patientLoading = useSelector((state) => state.patientViewMyDetailsReducer.loading);
+  const patientDetails = useSelector(
+    (state) => state.patientViewMyDetailsReducer.patient,
+  );
+  const patientLoading = useSelector(
+    (state) => state.patientViewMyDetailsReducer.loading,
+  );
 
   const health = useMemo(() => {
     return patientDetails?.patient?.package?.doctorDiscount || 0;
-}, [patientDetails, patientLoading]);
+  }, [patientDetails, patientLoading]);
   const { loading, error, session } = useSelector(
-    (state) => state.orderReducer
+    (state) => state.orderReducer,
   );
   const familyMembers = useSelector(
-    (state) => state.viewFamilyMembersReducer.familyMember
+    (state) => state.viewFamilyMembersReducer.familyMember,
   );
   const isLoading = useSelector(
-    (state) => state.addFamilyMembersReducer.loading
+    (state) => state.addFamilyMembersReducer.loading,
   );
 
   async function fetchData() {
@@ -43,9 +56,8 @@ success,reserveloading } = props;
     fetchData();
   }, [dispatch, isLoading]);
   useEffect(() => {
-    if(success)
-    {
-        props.setVisible(false)
+    if (success) {
+      props.setVisible(false);
     }
   }, [dispatch, success]);
 
@@ -89,31 +101,38 @@ success,reserveloading } = props;
       return;
     }
 
-    const price = health ? (hourlyRate - (hourlyRate * (health / 100))) : hourlyRate
+    const price = health
+      ? hourlyRate - hourlyRate * (health / 100)
+      : hourlyRate;
 
-        if (familyMember === null)
-        dispatch(makeOrder({
+    if (familyMember === null)
+      dispatch(
+        makeOrder({
+          date: selectedDate,
+          doctor: id,
+          price,
+          paymentMethod,
+          reserve: true,
+        }),
+      );
+    else
+      dispatch(
+        makeOrder(
+          {
             date: selectedDate,
             doctor: id,
             price,
             paymentMethod,
-            reserve: true
-        }));
+            reserve: true,
+          },
+          familyMember,
+        ),
+      );
 
-        else dispatch(makeOrder({
-            date: selectedDate,
-            doctor: id,
-            price,
-            paymentMethod,
-            reserve: true
-        }, familyMember));
-
-
-        setFamilyMember(null);
-        setPackageReciever(null);
-        setPaymentMethod(null);
-        setSubmitted(true);
-
+    setFamilyMember(null);
+    setPackageReciever(null);
+    setPaymentMethod(null);
+    setSubmitted(true);
   };
 
   return (
@@ -176,7 +195,7 @@ success,reserveloading } = props;
         <div className="my-4 flex-[2] md:w-3/5">
           <Select
             placeholder={`Choose family member`}
-              disabled={packageReciever !== "family"}
+            disabled={packageReciever !== "family"}
             className="mr-2"
             value={familyMember}
             onValueChange={(e) => {
@@ -195,20 +214,28 @@ success,reserveloading } = props;
         </div>
         <Divider></Divider>
         {health ? (
-                <>
-                    <div className='line-through'>
-                                    {hourlyRate.toFixed(2)}                                        </div>
-                                    <div className=''>
-                                        {(hourlyRate - (hourlyRate * (health / 100))).toFixed(2)}
-                                    </div>
-                                </>
-                            ) : (
-                                <div>                                            {hourlyRate.toFixed(2)}
-                            </div>
-                                )}
+          <>
+            <div className="line-through">{hourlyRate.toFixed(2)} </div>
+            <div className="">
+              {(hourlyRate - hourlyRate * (health / 100)).toFixed(2)}
+            </div>
+          </>
+        ) : (
+          <div> {hourlyRate.toFixed(2)}</div>
+        )}
         <div className="my-4 flex-[2] md:w-3/5">
-            
-          <Button disabled={ !paymentMethod || !packageReciever || (packageReciever == 'family' && !familyMember)} loading={ loading} onClick={handleSubmit}> Reserve</Button>
+          <Button
+            disabled={
+              !paymentMethod ||
+              !packageReciever ||
+              (packageReciever == "family" && !familyMember)
+            }
+            loading={loading}
+            onClick={handleSubmit}
+          >
+            {" "}
+            Reserve
+          </Button>
         </div>
       </div>
     </Modal>

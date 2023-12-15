@@ -6,7 +6,7 @@ import { Button } from "@tremor/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const PricingCard = ({ hp, patient}) => {
+const PricingCard = ({ hp, patient }) => {
   const [healthPackage, setHealthPackage] = useState(null);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -16,19 +16,26 @@ const PricingCard = ({ hp, patient}) => {
     //6549f806f3ee984c4052aa62
   }
 
-  
-
-   const cardClasses = `
+  const cardClasses = `
     w-full max-w-sm p-4 bg-white rounded-lg shadow sm:p-8 dark:bg-gray-800
-    ${patient?.package === hp._id &&
-          patient?.subscriptionStatus === "subscribed"? 'border-4 border-purple-500' : 'border border-gray-200 dark:border-gray-700'}
+    ${
+      patient?.package === hp._id &&
+      patient?.subscriptionStatus === "subscribed"
+        ? "border-4 border-purple-500"
+        : "border border-gray-200 dark:border-gray-700"
+    }
   `;
-    const {success: orderSuccess, loading: orderLoading} = useSelector((state) => state.orderReducer);
-    useEffect(() => {
-    if(orderSuccess == true) setShow(false)
+  const { success: orderSuccess, loading: orderLoading } = useSelector(
+    (state) => state.orderReducer,
+  );
+  useEffect(() => {
+    if (orderSuccess == true) setShow(false);
   }, [orderSuccess]);
   return (
-  <div style={{marginRight: "50px" ,marginLeft: "50px", }} className={cardClasses}>
+    <div
+      style={{ marginRight: "50px", marginLeft: "50px" }}
+      className={cardClasses}
+    >
       <h5 className="mb-4 text-xl font-medium  text-gray-500 dark:text-gray-400">
         {hp?.name}
       </h5>
@@ -89,7 +96,6 @@ const PricingCard = ({ hp, patient}) => {
         </li>
       </ul>
 
-    
       <div
         className={`grid grid-cols-1 gap-4 ${
           patient?.package === hp._id &&
@@ -136,7 +142,7 @@ const PricingCard = ({ hp, patient}) => {
           healthPackage={hp}
         />
       </div>
-        {patient?.package == hp._id &&
+      {patient?.package == hp._id &&
         patient?.subscriptionStatus == "cancelled" && (
           <>
             <div className="text-muted text-center ">
@@ -147,7 +153,6 @@ const PricingCard = ({ hp, patient}) => {
             </div>
           </>
         )}
-
     </div>
   );
 };

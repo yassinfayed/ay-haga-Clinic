@@ -25,10 +25,10 @@ function Familymembers() {
 
   const familyMembers = useSelector(
     (state) =>
-      state.viewAllFamilyMembersAndPatientsReducer.familyMembersWithPatients
+      state.viewAllFamilyMembersAndPatientsReducer.familyMembersWithPatients,
   );
   const isLoading = useSelector(
-    (state) => state.viewAllFamilyMembersAndPatientsReducer.loading
+    (state) => state.viewAllFamilyMembersAndPatientsReducer.loading,
   );
   const patientId = JSON.parse(localStorage.getItem("userInfo"))?.data.user._id;
 

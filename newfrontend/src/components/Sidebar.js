@@ -11,7 +11,7 @@ export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const role = JSON.parse(localStorage.getItem("userInfo"))?.data.user.role;
   const notifications = useSelector(
-    (state) => state.getNotificationsReducer?.notifications?.data
+    (state) => state.getNotificationsReducer?.notifications?.data,
   );
 
   useEffect(() => {
@@ -53,7 +53,6 @@ export default function Sidebar() {
         href: "/guest/login",
         onClick: () => dispatch(logoutAction()),
       },
-     
     ],
     doctor: [
       { icon: "profile", label: "Profile", href: "/pharmacist/profile" },

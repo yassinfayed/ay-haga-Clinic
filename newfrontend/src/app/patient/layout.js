@@ -9,11 +9,9 @@ import { FaComment, FaPaperPlane, FaTimes } from "react-icons/fa";
 // import { fetchData } from "../redux/getMe";
 
 export default function DashboardLayout({ children }) {
-
   const [showChatPanel, setShowChatPanel] = useState(false);
   const handleChatIconClick = () => {
     setShowChatPanel(true);
-
   };
 
   const handleCloseChatPanel = () => {
@@ -26,13 +24,16 @@ export default function DashboardLayout({ children }) {
         {children}
         {/* <Footer /> */}
         <div
-        className="chat-icon"
-        onClick={handleChatIconClick}
-        data-tip="Get Help from one of our pharmacists"
-      >
-        <FaComment />
-      </div>
-        <ChatPanel isOpen={showChatPanel} handleClose={handleCloseChatPanel}></ChatPanel>
+          className="chat-icon"
+          onClick={handleChatIconClick}
+          data-tip="Get Help from one of our pharmacists"
+        >
+          <FaComment />
+        </div>
+        <ChatPanel
+          isOpen={showChatPanel}
+          handleClose={handleCloseChatPanel}
+        ></ChatPanel>
       </div>
     </>
   );

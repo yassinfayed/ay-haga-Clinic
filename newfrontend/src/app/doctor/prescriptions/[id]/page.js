@@ -21,7 +21,7 @@ const Prescriptions = ({ params }) => {
     //   dispatch(downloadPharmacistDocs(pharmId));
   };
   const { prescription, loading } = useSelector(
-    (state) => state.viewAllPrescriptionsReducer
+    (state) => state.viewAllPrescriptionsReducer,
   );
   const [open, setOpen] = useState(false);
   const [medicines, setMedicines] = useState([
@@ -63,7 +63,7 @@ const Prescriptions = ({ params }) => {
         medicines,
         instructions,
         filled_unfilled: filled_unfilled ? "Filled" : "Unfilled",
-      })
+      }),
     );
   }, [prescription]);
 

@@ -14,7 +14,7 @@ function LinkFamily({ show, setSuccess, setError, visible, setVisible }) {
   const [calloutVisible, setCalloutVisible] = useState(false);
   const [calloutMessage, setCalloutMessage] = useState("");
   const { error, loading, familyMember } = useSelector(
-    (state) => state.linkFamilyMemberReducer
+    (state) => state.linkFamilyMemberReducer,
   );
   const [submitted, setSubmitted] = useState(false);
   const dispatch = useDispatch();

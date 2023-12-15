@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaComment, FaPaperPlane, FaTimes } from "react-icons/fa";
@@ -19,11 +19,10 @@ const ChatPanel = ({ isOpen, handleClose }) => {
   const socket = useRef();
   const role = JSON.parse(localStorage.getItem("userInfo"))?.data.user.role;
   let user;
-  if(role==="patient"){
-        user = JSON.parse(localStorage.getItem("userInfo"))?.data.user.patient;
-  }
-  else{
-        user = JSON.parse(localStorage.getItem("userInfo"))?.data.user.doctor;
+  if (role === "patient") {
+    user = JSON.parse(localStorage.getItem("userInfo"))?.data.user.patient;
+  } else {
+    user = JSON.parse(localStorage.getItem("userInfo"))?.data.user.doctor;
   }
   const scrollRef = useRef();
 
@@ -51,7 +50,9 @@ const ChatPanel = ({ isOpen, handleClose }) => {
   useEffect(() => {
     const getConversations = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/v1/chats/getChats/" + user._id);
+        const res = await axios.get(
+          "http://localhost:8000/api/v1/chats/getChats/" + user._id,
+        );
         setConversations(res.data);
       } catch (err) {
         console.log(err);
@@ -63,8 +64,11 @@ const ChatPanel = ({ isOpen, handleClose }) => {
   useEffect(() => {
     const getMessages = async () => {
       try {
-        console.log("chatid",currentChat._id)
-        const res = await axios.get("http://localhost:8000/api/v1/messages/getMessages/" + currentChat?._id);
+        console.log("chatid", currentChat._id);
+        const res = await axios.get(
+          "http://localhost:8000/api/v1/messages/getMessages/" +
+            currentChat?._id,
+        );
         setMessages(res.data);
       } catch (err) {
         console.log(err);
@@ -82,7 +86,7 @@ const ChatPanel = ({ isOpen, handleClose }) => {
     };
 
     const receiverId = currentChat.members.find(
-      (member) => member !== user._id
+      (member) => member !== user._id,
     );
 
     socket.current.emit("sendMessage", {
@@ -92,8 +96,11 @@ const ChatPanel = ({ isOpen, handleClose }) => {
     });
 
     try {
-      const res = await axios.post("http://localhost:8000/api/v1/messages/createMessage", message);
-      console.log("new message is ",res.data);
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/messages/createMessage",
+        message,
+      );
+      console.log("new message is ", res.data);
       setMessages([...messages, res.data]);
       setNewMessage("");
     } catch (err) {
@@ -105,10 +112,7 @@ const ChatPanel = ({ isOpen, handleClose }) => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-
-
   const dispatch = useDispatch();
-
 
   return (
     <div className={`chat-panel ${isOpen ? "open" : ""}`}>
@@ -116,7 +120,6 @@ const ChatPanel = ({ isOpen, handleClose }) => {
         <div className="close-button" onClick={handleClose}>
           <FaTimes />
         </div>
-       
       </div>
       <div style={{ height: isOpen ? "400px" : "0px" }} className="flex">
         <div className="conversation-list">
@@ -137,24 +140,22 @@ const ChatPanel = ({ isOpen, handleClose }) => {
                   </div>
                 ))}
               </>
-            ) : (
-              null
-            )}
+            ) : null}
           </div>
           <div className="flex">
-          <input
-          className="w-[20rem] px-2 py-1 border border-gray-700 chatBorder rounded text-black"
-          type="text"
-          placeholder="Type your message..."
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-        />
-        <button className="send-button ml-3" onClick={handleSubmit}>
-        <div className="flex items-center justify-center">
-            <FaPaperPlane width={25} height={25} />
-        </div>
-        </button>
-        </div>
+            <input
+              className="w-[20rem] px-2 py-1 border border-gray-700 chatBorder rounded text-black"
+              type="text"
+              placeholder="Type your message..."
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+            />
+            <button className="send-button ml-3" onClick={handleSubmit}>
+              <div className="flex items-center justify-center">
+                <FaPaperPlane width={25} height={25} />
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </div>

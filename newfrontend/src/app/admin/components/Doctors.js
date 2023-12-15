@@ -25,7 +25,7 @@ const Doctors = () => {
   const [selected, setSelected] = useState();
   const [visibleFeedback, setVisibleFeedback] = useState(true);
   const { doctors, loading } = useSelector(
-    (state) => state.getDrsForPatientsReducer
+    (state) => state.getDrsForPatientsReducer,
   );
   const {
     loading: removeLoading,
@@ -56,24 +56,23 @@ const Doctors = () => {
         ...user,
         DateOfbirth: formatDateToDDMMYYYY(DateOfbirth),
       }))
-      .filter((value) => value.employmentContract.status==="accepted");
+      .filter((value) => value.employmentContract.status === "accepted");
   }, [removeError, doctors]);
-  const [showPrompt,setShowPrompt]=useState(false)
-  const [deleteID,setDeleteID] = useState("")
-  const handleDelete = (id)=>{
-    setShowPrompt(true)
-    setDeleteID(id)
-
-  }
-  const confirmDelete  =()=>{
-    dispatch(removeUser(deleteID))
-    setShowPrompt(!showPrompt)
-    setSelected(null)
-    setFreeze(false)
-  }
-  const cancelDelete = ()=>{
-    setShowPrompt(!showPrompt)
-  }
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [deleteID, setDeleteID] = useState("");
+  const handleDelete = (id) => {
+    setShowPrompt(true);
+    setDeleteID(id);
+  };
+  const confirmDelete = () => {
+    dispatch(removeUser(deleteID));
+    setShowPrompt(!showPrompt);
+    setSelected(null);
+    setFreeze(false);
+  };
+  const cancelDelete = () => {
+    setShowPrompt(!showPrompt);
+  };
 
   return (
     <>
@@ -97,8 +96,14 @@ const Doctors = () => {
       )}
 
       <>
-      <PromptMessage visible={showPrompt} setVisible={setShowPrompt} message="Are you sure you want to remove this doctor?" onConfirm={confirmDelete} confirmLoading={removeLoading}
-      onCancel={cancelDelete}/>
+        <PromptMessage
+          visible={showPrompt}
+          setVisible={setShowPrompt}
+          message="Are you sure you want to remove this doctor?"
+          onConfirm={confirmDelete}
+          confirmLoading={removeLoading}
+          onCancel={cancelDelete}
+        />
         <div className="flex overflow-hidden gap-x-4 gap-y-8">
           <div className="prof h-400 overflow-hidden w-4/6 rounded-xl p-10">
             <TableComponent

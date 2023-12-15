@@ -73,21 +73,20 @@ const Admins = () => {
   }, [dispatch, removeLoading, registerLoading]);
   const [visibleFeedback, setVisibleFeedback] = useState(false);
 
-  const [showPrompt,setShowPrompt]=useState(false)
-  const [deleteID,setDeleteID] = useState("")
-  const handleDelete = (id)=>{
-    setShowPrompt(true)
-    setDeleteID(id)
-
-  }
-  const confirmDelete  =()=>{
-    dispatch(removeUser(deleteID))
-    setShowPrompt(!showPrompt)
-  }
-  const cancelDelete = ()=>{
-    setShowPrompt(!showPrompt)
-  }
-    return (
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [deleteID, setDeleteID] = useState("");
+  const handleDelete = (id) => {
+    setShowPrompt(true);
+    setDeleteID(id);
+  };
+  const confirmDelete = () => {
+    dispatch(removeUser(deleteID));
+    setShowPrompt(!showPrompt);
+  };
+  const cancelDelete = () => {
+    setShowPrompt(!showPrompt);
+  };
+  return (
     <>
       {registerSuccess && (
         // Show success message for registration
@@ -140,10 +139,14 @@ const Admins = () => {
       )}
 
       <>
-      <PromptMessage visible={showPrompt} setVisible={setShowPrompt} message="Are you sure you want to remove this admin?" onConfirm={confirmDelete} confirmLoading={removeLoading}
-      onCancel={cancelDelete}/>
-
-    
+        <PromptMessage
+          visible={showPrompt}
+          setVisible={setShowPrompt}
+          message="Are you sure you want to remove this admin?"
+          onConfirm={confirmDelete}
+          confirmLoading={removeLoading}
+          onCancel={cancelDelete}
+        />
         <div className="flex overflow-hidden gap-x-4 gap-y-8">
           <div className="prof h-400 overflow-hidden w-4/6 rounded-xl p-10">
             <TableComponent

@@ -7,7 +7,7 @@ const Mailjet = require("node-mailjet");
 
 const mailjet = Mailjet.apiConnect(
   "183a88ad461cee6e9e83d592b67dd549",
-  "cd2ffde987f6b1dc6913a839e43f8342"
+  "cd2ffde987f6b1dc6913a839e43f8342",
 );
 module.exports = class Email {
   constructor(user, OTP) {
@@ -76,10 +76,11 @@ module.exports = class Email {
             template == "passwordReset"
               ? "Your OTP is: " + this.OTP
               : template == "cancel"
-              ? "This appointment has been cancelled with this date" + date
-              : template == "scheduled"
-              ? "This appointment has been rescheduled from" + date
-              : "New appointment created successfully with this date" + date,
+                ? "This appointment has been cancelled with this date" + date
+                : template == "scheduled"
+                  ? "This appointment has been rescheduled from" + date
+                  : "New appointment created successfully with this date" +
+                    date,
         },
       ],
     });
@@ -92,7 +93,7 @@ module.exports = class Email {
     await this.send("welcome", "Welcome to elha2ny!");
   }
   async cancel(date) {
-    await this.send("cancel","", date);
+    await this.send("cancel", "", date);
   }
   async R(date) {
     await this.send("scheduled", "", date);
@@ -104,7 +105,7 @@ module.exports = class Email {
   async sendPasswordReset() {
     await this.send(
       "passwordReset",
-      "Your password reset token (valid for only 10 minutes)"
+      "Your password reset token (valid for only 10 minutes)",
     );
   }
 };

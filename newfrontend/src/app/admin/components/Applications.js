@@ -24,10 +24,10 @@ const Application = () => {
   };
   const [visibleFeedback, setVisibleFeedback] = useState(false);
   const { loading: approvalLoading, success: approvalSuccess } = useSelector(
-    (state) => state.adminAcceptDoctorReducer
+    (state) => state.adminAcceptDoctorReducer,
   );
   const { doctors, loading } = useSelector(
-    (state) => state.getDrsForPatientsReducer
+    (state) => state.getDrsForPatientsReducer,
   );
   const {
     loading: rejectLoading,
@@ -103,32 +103,34 @@ const Application = () => {
   };
   const doctorList = useMemo(() => {
     return doctors?.data
-      ?.map(({ _id, user, DateOfbirth,employmentContract, ...rest }) => ({
+      ?.map(({ _id, user, DateOfbirth, employmentContract, ...rest }) => ({
         ...rest,
         ...user,
         doctorID: _id,
-        employmentStatus:employmentContract.status,
+        employmentStatus: employmentContract.status,
         DateOfbirth: formatDateToDDMMYYYY(DateOfbirth),
       }))
-      .filter((value) => (value.isApproved === false || (value.employmentStatus !=="accepted")));
+      .filter(
+        (value) =>
+          value.isApproved === false || value.employmentStatus !== "accepted",
+      );
   }, [rejectLoading, doctors, approvalLoading, approvalSuccess]);
 
-  const [showPrompt,setShowPrompt]=useState(false)
-  const [deleteID,setDeleteID] = useState("")
-  const handleDelete = (id)=>{
-    setShowPrompt(true)
-    setDeleteID(id)
-
-  }
-  const confirmDelete  =()=>{
-    dispatch(rejectDoctor(deleteID))
-    setShowPrompt(!showPrompt)
-    setSelected(null)
-    setFreeze(false)
-  }
-  const cancelDelete = ()=>{
-    setShowPrompt(!showPrompt)
-  }
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [deleteID, setDeleteID] = useState("");
+  const handleDelete = (id) => {
+    setShowPrompt(true);
+    setDeleteID(id);
+  };
+  const confirmDelete = () => {
+    dispatch(rejectDoctor(deleteID));
+    setShowPrompt(!showPrompt);
+    setSelected(null);
+    setFreeze(false);
+  };
+  const cancelDelete = () => {
+    setShowPrompt(!showPrompt);
+  };
 
   return (
     <>
@@ -160,14 +162,20 @@ const Application = () => {
       )}
 
       <>
-      <PromptMessage visible={showPrompt} setVisible={setShowPrompt} message="Are you sure you want to reject this doctor?" onConfirm={confirmDelete} confirmLoading={rejectLoading}
-      onCancel={cancelDelete}/>
+        <PromptMessage
+          visible={showPrompt}
+          setVisible={setShowPrompt}
+          message="Are you sure you want to reject this doctor?"
+          onConfirm={confirmDelete}
+          confirmLoading={rejectLoading}
+          onCancel={cancelDelete}
+        />
         <div className="flex overflow-hidden gap-x-4 gap-y-8">
           <div className="prof h-400 overflow-hidden w-4/6 rounded-xl p-10">
             <TableComponent
               setSelected={setSelected}
               rows={doctorList}
-              columns={["Username", "Name", "Email","Status"]}
+              columns={["Username", "Name", "Email", "Status"]}
               fields={["username", "name", "email", "employmentStatus"]}
               freeze={freeze}
               filters={<DateRangePicker className="z-10" />}
@@ -216,8 +224,10 @@ const Application = () => {
                       />
                     </svg>
                   ),
-                  function: (id) => {onViewFiles(id)
-                console.log(id)},
+                  function: (id) => {
+                    onViewFiles(id);
+                    console.log(id);
+                  },
                 },
               ]}
               badgeColumns={[]}
@@ -234,7 +244,9 @@ const Application = () => {
               data={selected}
               displayColumns={["Status", "Joined On"]}
               actualColumns={["status", "joinedOn"]}
-              buttons={selected?.employmentStatus==='Waiting Admin' && buttons}
+              buttons={
+                selected?.employmentStatus === "Waiting Admin" && buttons
+              }
               worker={true}
               fields={[
                 "email",

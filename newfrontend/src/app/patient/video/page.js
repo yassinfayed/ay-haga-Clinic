@@ -118,92 +118,84 @@ function Video() {
     setIsCameraOn((prev) => !prev);
   };
 
-
-  
-
   return (
     <div className="h-full overflow-hidden pl-10">
-      <main
-        id="dashboard-main"
-        className=" overflow-auto px-4 py-10"
-      >
+      <main id="dashboard-main" className=" overflow-auto px-4 py-10">
         <div className="flex flex-row gap-2 ml-[3rem]">
-        <video
-                playsInline
-                muted
-                className=""
-                ref={myVideoRef}
-                style={{ width: "35vw" }}
-                autoPlay
-              />
-        {!callAccepted ? (
-                <Card>
-                    <h1 className="text-5xl mt-[3rem] font-bold text-center text-white-200">Lobby</h1>
-                    <div>
-                        <p className="mt-4 text-muted text-center text-xl text-gray-400">
-                            Please wait until you receive the room Id from your doctor
-                        </p>
-                    </div>
-                    <div className=" mt-[4rem] flex justify-center items-center">
-                    <TextInput
-                            placeholder="Room Id"
-                            type="text"
-                            className="w-[12rem] h-[2rem]"
-                            value={idToCall}
-                            onChange={(e) => setIdToCall(e.target.value)}
-                          />
-                    </div>
-                    <div className="mt-[2rem] flex justify-center items-center">
-                    <Button
-                                className="w-[12rem] h-[2rem] hover:underline focus:outline-none"
-                                size="xs"
-                                variant="secondary"
-                                color="green"
-                                onClick={() => callUser(idToCall)}
-                              >
-                                Join
-                              </Button>
-                    </div>
-                  </Card>
-        ) : (
-            null
-        )}
-        {callAccepted && !callEnded ? (
-            <video
+          <video
             playsInline
-            ref={userVideoRef}
             muted
-            autoPlay
+            className=""
+            ref={myVideoRef}
             style={{ width: "35vw" }}
+            autoPlay
           />
-
-        ) : (
-            null
-        )}
+          {!callAccepted ? (
+            <Card>
+              <h1 className="text-5xl mt-[3rem] font-bold text-center text-white-200">
+                Lobby
+              </h1>
+              <div>
+                <p className="mt-4 text-muted text-center text-xl text-gray-400">
+                  Please wait until you receive the room Id from your doctor
+                </p>
+              </div>
+              <div className=" mt-[4rem] flex justify-center items-center">
+                <TextInput
+                  placeholder="Room Id"
+                  type="text"
+                  className="w-[12rem] h-[2rem]"
+                  value={idToCall}
+                  onChange={(e) => setIdToCall(e.target.value)}
+                />
+              </div>
+              <div className="mt-[2rem] flex justify-center items-center">
+                <Button
+                  className="w-[12rem] h-[2rem] hover:underline focus:outline-none"
+                  size="xs"
+                  variant="secondary"
+                  color="green"
+                  onClick={() => callUser(idToCall)}
+                >
+                  Join
+                </Button>
+              </div>
+            </Card>
+          ) : null}
+          {callAccepted && !callEnded ? (
+            <video
+              playsInline
+              ref={userVideoRef}
+              muted
+              autoPlay
+              style={{ width: "35vw" }}
+            />
+          ) : null}
         </div>
         {callAccepted && !callEnded ? (
-        <div className="mt-[4rem] flex justify-center items-center">
+          <div className="mt-[4rem] flex justify-center items-center">
             <div>
-                <div className="ml-5" role="button" onClick={toggleMic}>
-                          <span className="">
-                          <Image src={isMicOn ? "/mic.svg" : "/muted.svg"} height={25} width={25}></Image>
-                          </span>
-                </div>
+              <div className="ml-5" role="button" onClick={toggleMic}>
+                <span className="">
+                  <Image
+                    src={isMicOn ? "/mic.svg" : "/muted.svg"}
+                    height={25}
+                    width={25}
+                  ></Image>
+                </span>
+              </div>
             </div>
             <div>
-                <div className="ml-5" role="button" onClick={leaveCall}>
-                          <span className="">
-                          <Image src="/leave.svg" height={25} width={25}></Image>
-                          </span>
-                </div>
+              <div className="ml-5" role="button" onClick={leaveCall}>
+                <span className="">
+                  <Image src="/leave.svg" height={25} width={25}></Image>
+                </span>
+              </div>
             </div>
-        </div>
-        ) : (
-            null
-        )}
+          </div>
+        ) : null}
       </main>
     </div>
-    
   );
 }
 

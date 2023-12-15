@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const HealthPackage = require("../models/healthPackages");
 const Patient = require("../models/patientModel");
 const User = require("../models/userModel");
@@ -10,18 +9,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const Appointment = require("../models/appointmentModel");
 const Notification = require("../models/notificationModel");
 const Email = require("../utils/email");
-=======
-const HealthPackage = require('../models/healthPackages');
-const Patient = require('../models/patientModel');
-const User = require('../models/userModel');
-const Doctor = require('../models/doctorModel');
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
-const FamilyMembers = require('../models/familyMembersModel');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const Appointment = require('../models/appointmentModel');
-const Chat = require ("../models/chatModel");
->>>>>>> main
+const Chat = require("../models/chatModel");
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) Get the currently booked order
@@ -55,8 +43,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       .exec();
     let pkgFound;
     for (const familyMember of familyMembers) {
-    
-
       if (familyMember.patientId?.package) {
         pkgFound = familyMember.patientId.package;
       }
@@ -108,13 +94,12 @@ const createSubscriptionsCheckout = async (session) => {
       package: session.metadata.hp,
       subscriptionStatus: "subscribed",
       renewalDate: Date.now() + 365 * 24 * 60 * 60 * 1000, //+1 year
-    }
+    },
   );
 };
 
 exports.webhookCheckout = async (req, res, next) => {
   const signature = req.headers["stripe-signature"];
-
 
   let event;
 
@@ -122,12 +107,11 @@ exports.webhookCheckout = async (req, res, next) => {
     event = stripe.webhooks.constructEvent(
       req.body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET
+      process.env.STRIPE_WEBHOOK_SECRET,
     );
-  
   } catch (err) {
     console.error(err);
-   
+
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
 
@@ -170,7 +154,6 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       .exec();
     let pkgFound;
     for (const familyMember of familyMembers) {
-
       if (familyMember.patientId?.package) {
         pkgFound = familyMember.patientId.package;
       }
@@ -199,7 +182,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       package: req.params.id,
       subscriptionStatus: "subscribed",
       renewalDate: Date.now() + 365 * 24 * 60 * 60 * 1000, //+1 year
-    }
+    },
   );
 
   res.status(200).json({
@@ -276,60 +259,21 @@ createAppointmentReservation = async (session) => {
   const doctorId = session.metadata.dr;
   const date = session.metadata.date;
 
-<<<<<<< HEAD
   // 1 Create a new appointment
   const appointment = await Appointment.create({
     patientId: patientId,
     doctorId: doctorId,
     date: date,
   });
-=======
-    // 1 Create a new appointment
-    await Appointment.create({
-        patientId: patientId,
-        doctorId: doctorId,
-        date: date
-    })
+  const existingChat = await Chat.findOne({
+    members: { $all: [patientId, doctorId] },
+  });
 
-
-    const existingChat = await Chat.findOne({
-      members: { $all: [patientId, doctorId] },
+  if (!existingChat) {
+    await Chat.create({
+      members: [patientId, doctorId],
     });
-
-    if (!existingChat) {
-      await Chat.create({
-        members: [patientId, doctorId],
-      });
-    }
-
-    
-    console.log("here app")
-
-    // 2 Update DR WALLET AND AVAILABILE DATES
-     const doctor = await Doctor.findById(doctorId);
-
-     const user = await User.findById(doctor.user);
-     user.wallet += doctor.HourlyRate * 0.9; // +HOURLY_RATE REGARDLEESS OF DISCOUNT??
-
-     const indexToRemove = doctor.availableDates.findIndex(
-        (availableDate) => availableDate.getTime() === new Date(date).getTime()
-    );
-
-    if (indexToRemove !== -1) {
-        doctor.availableDates.splice(indexToRemove, 1);
-    }
-
-    // Save the updated doctor
-    await doctor.save({validateBeforeSave: false})
-    await user.save({validateBeforeSave: false})
-
-  };
-
-  exports.createAppointmentReservation = catchAsync(async (req,res,next)  => {
-
-    const patient = await Patient.findOne({user: req.user._id})
->>>>>>> main
-
+  }
 
   // 2 Update DR WALLET AND AVAILABILE DATES
   const doctor = await Doctor.findById(doctorId);
@@ -340,7 +284,7 @@ createAppointmentReservation = async (session) => {
   user.wallet += doctor.HourlyRate * 0.9; // +HOURLY_RATE REGARDLEESS OF DISCOUNT??
 
   const indexToRemove = doctor.availableDates.findIndex(
-    (availableDate) => availableDate.getTime() === new Date(date).getTime()
+    (availableDate) => availableDate.getTime() === new Date(date).getTime(),
   );
 
   if (indexToRemove !== -1) {
@@ -380,7 +324,6 @@ exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
         : familyMember.patientId;
   }
 
-
   let price = parseFloat(req.params.price);
   price = parseInt(price);
   // if(req.user.wallet < price) return next(new AppError(400,"Not enough money"));
@@ -394,35 +337,22 @@ exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
     date: date,
   });
 
-<<<<<<< HEAD
   // 2 Update DR WALLET AND AVAILABILE DATES
   const doctor = await Doctor.findById(doctorId);
-=======
-    await Appointment.create({
-        patientId: id,
-        doctorId: doctorId,
-        date: date
-    })
+  const existingChat = await Chat.findOne({
+    members: { $all: [patientId, doctorId] },
+  });
 
-    const existingChat = await Chat.findOne({
-      members: { $all: [patientId, doctorId] },
+  if (!existingChat) {
+    await Chat.create({
+      members: [patientId, doctorId],
     });
-
-    if (!existingChat) {
-       await Chat.create({
-        members: [patientId, doctorId],
-      });
-    }
-    
-    // 2 Update DR WALLET AND AVAILABILE DATES
-     const doctor = await Doctor.findById(doctorId);
->>>>>>> main
-
+  }
   const user = await User.findById(doctor.user);
   user.wallet += doctor.HourlyRate * 0.9; // +HOURLY_RATE REGARDLEESS OF DISCOUNT??
 
   const indexToRemove = doctor.availableDates.findIndex(
-    (availableDate) => availableDate.getTime() === new Date(date).getTime()
+    (availableDate) => availableDate.getTime() === new Date(date).getTime(),
   );
 
   if (indexToRemove !== -1) {

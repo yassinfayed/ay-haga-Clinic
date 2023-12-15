@@ -24,9 +24,7 @@ const Patients = () => {
   const dispatch = useDispatch();
   const [selected, setSelected] = useState();
   const [visibleFeedback, setVisibleFeedback] = useState(false);
-  const { patients, loading } = useSelector(
-    (state) => state.patientsReducer
-  );
+  const { patients, loading } = useSelector((state) => state.patientsReducer);
   const {
     loading: removeLoading,
     success: removeSuccess,
@@ -48,26 +46,25 @@ const Patients = () => {
         eRelation: emergencyContact.relationToPatient,
         ...user,
         dateOfBirth: formatDateToDDMMYYYY(dateOfBirth),
-      })
+      }),
     );
     // console.log(t);
     return t;
   }, [removeError, patients]);
   // console.log(patientsList);
-  const [showPrompt,setShowPrompt]=useState(false)
-  const [deleteID,setDeleteID] = useState("")
-  const handleDelete = (id)=>{
-    setShowPrompt(true)
-    setDeleteID(id)
-
-  }
-  const confirmDelete  =()=>{
-    dispatch(removeUser(deleteID))
-    setShowPrompt(!showPrompt)
-  }
-  const cancelDelete = ()=>{
-    setShowPrompt(!showPrompt)
-  }
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [deleteID, setDeleteID] = useState("");
+  const handleDelete = (id) => {
+    setShowPrompt(true);
+    setDeleteID(id);
+  };
+  const confirmDelete = () => {
+    dispatch(removeUser(deleteID));
+    setShowPrompt(!showPrompt);
+  };
+  const cancelDelete = () => {
+    setShowPrompt(!showPrompt);
+  };
   return (
     <>
       {removeSuccess && (
@@ -90,8 +87,14 @@ const Patients = () => {
       )}
 
       <>
-      <PromptMessage visible={showPrompt} setVisible={setShowPrompt} message="Are you sure you want to remove this patient?" onConfirm={confirmDelete} confirmLoading={removeLoading}
-      onCancel={cancelDelete}/>
+        <PromptMessage
+          visible={showPrompt}
+          setVisible={setShowPrompt}
+          message="Are you sure you want to remove this patient?"
+          onConfirm={confirmDelete}
+          confirmLoading={removeLoading}
+          onCancel={cancelDelete}
+        />
         <TableComponent
           setSelected={setSelected}
           rows={patientsList}
@@ -149,5 +152,3 @@ const Patients = () => {
 };
 
 export default Patients;
-
-

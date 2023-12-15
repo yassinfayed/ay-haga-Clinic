@@ -1,102 +1,101 @@
-const crypto = require('crypto');
-const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
+const crypto = require("crypto");
+const mongoose = require("mongoose");
+const validator = require("validator");
+const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema({
-    username : {
-        type: 'string',
-        unique: true,
-        lowercase: true,
-        required : [true, "please provide a username"]
+  username: {
+    type: "string",
+    unique: true,
+    lowercase: true,
+    required: [true, "please provide a username"],
+  },
+  role: {
+    type: String,
+    enum: ["patient", "administrator", "doctor"],
+    default: "patient",
+  },
+  password: {
+    type: String,
+    required: [true, "Please provide a password"],
+    minlength: 8,
+    select: false,
+    validate: {
+      validator: function (value) {
+        // Check for at least one letter, one number, and one capital letter
+        return /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[A-Z])/.test(value);
+      },
+      message:
+        "Password must contain at least one letter, one number, and one capital letter",
     },
-    role: {
-        type: String,
-        enum: ['patient', 'administrator', 'doctor'],
-        default: 'patient'
+  },
+  passwordConfirm: {
+    type: String,
+    required: [true, "Please confirm your password"],
+    validate: {
+      // This only works on CREATE and SAVE!!!
+      validator: function (el) {
+        return el === this.password;
+      },
+      message: "Passwords are not the same!",
     },
-    password: {
-        type: String,
-        required: [true, 'Please provide a password'],
-        minlength: 8,
-        select: false,
-        validate: {
-          validator: function (value) {
-            // Check for at least one letter, one number, and one capital letter
-            return /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[A-Z])/.test(value);
-          },
-          message: 'Password must contain at least one letter, one number, and one capital letter',
-        },
-    },
-    passwordConfirm: {
-        type: String,
-        required: [true, 'Please confirm your password'],
-        validate: {
-            // This only works on CREATE and SAVE!!!
-            validator: function (el) {
-                return el === this.password;
-            },
-            message: 'Passwords are not the same!'
-        }
-    },
-    passwordChangedAt: Date,
-    OTP: String,
-    passwordResetExpires: Date,
-    doctor :{
-      type: Object
-    },
-    patient: {
-      type: Object
-    },
-    wallet : {
-      type: Number,
-      default: 0
-    },  
-    passwordResetToken: String,
-    active: {
-      type: Boolean,
-      default: true,
-      select: false
-    }
-    
+  },
+  passwordChangedAt: Date,
+  OTP: String,
+  passwordResetExpires: Date,
+  doctor: {
+    type: Object,
+  },
+  patient: {
+    type: Object,
+  },
+  wallet: {
+    type: Number,
+    default: 0,
+  },
+  passwordResetToken: String,
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
 });
-userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
 
-    this.password = await bcrypt.hash(this.password, 12);
-  
-    this.passwordConfirm = undefined;
-    next();
-  });
-  
-userSchema.pre('save', function (next) {
-    if (!this.isModified('password') || this.isNew) return next();
-  
-    this.passwordChangedAt = Date.now() - 1000;
-    next();
-  });  
-  
+  this.password = await bcrypt.hash(this.password, 12);
+
+  this.passwordConfirm = undefined;
+  next();
+});
+
+userSchema.pre("save", function (next) {
+  if (!this.isModified("password") || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
 userSchema.methods.correctPassword = async function (
-    candidatePassword,
-    userPassword
-  ) {
-    return await bcrypt.compare(candidatePassword, userPassword);
-  };
+  candidatePassword,
+  userPassword,
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
-    if (this.passwordChangedAt) {
-      const changedTimestamp = parseInt(
-        this.passwordChangedAt.getTime() / 1000,
-        10
-      );
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10,
+    );
 
-      return JWTTimestamp < changedTimestamp;
-    }
+    return JWTTimestamp < changedTimestamp;
+  }
 
-    // False means NOT changed
-    return false;
-  };
-  
+  // False means NOT changed
+  return false;
+};
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

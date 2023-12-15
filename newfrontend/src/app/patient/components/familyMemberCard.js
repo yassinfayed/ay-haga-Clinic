@@ -23,7 +23,7 @@ const FamilyMemberCard = ({
 }) => {
   const dispatch = useDispatch();
   const { loading, success } = useSelector(
-    (state) => state.cancelSubscriptionReducer
+    (state) => state.cancelSubscriptionReducer,
   );
   const [confirm, setConfirm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
