@@ -71,7 +71,7 @@ const ContractPage = () => {
         <div className="prof h-400 overflow-hidden  rounded-xl p-10">
         <h4 className='text-blue-500 font-semibold'>Contract Overview</h4>
             <p>
-                <strong>This employment contract outlines the terms and conditions</strong> of employment for doctors at XClinics. It includes details on job responsibilities, work hours, compensation, and the terms of employment termination.
+                <strong>This employment contract outlines the terms and conditions</strong> of employment for doctors at Vite. It includes details on job responsibilities, work hours, compensation, and the terms of employment termination.
             </p>
             <br />
             

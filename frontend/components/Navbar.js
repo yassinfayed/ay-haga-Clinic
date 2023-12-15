@@ -22,7 +22,7 @@ const Navbar = () => {
         <div className="logo"></div>
         <h1 className='nav-title'>
         <a className="navbar-brand" href="/">
-        XClinics
+        Vite
         </a>
         </h1>
           <button

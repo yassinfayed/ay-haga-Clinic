@@ -439,7 +439,7 @@ const Register = () => {
               className="w-50 mx-auto"
             />
             <h1>Registration Successful!</h1>
-            <h5>Thank you for choosing XClinics. Redirecting...</h5>
+            <h5>Thank you for choosing Vite. Redirecting...</h5>
           </div>
           {setTimeout(() => {
             window.history.pushState({}, "", "/patients/medicines");

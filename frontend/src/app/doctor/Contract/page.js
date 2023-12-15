@@ -68,7 +68,7 @@ const {doctor}=props;
               <div className="logo"></div>
               <h1>
                 <label className="navbar-brand">
-                  XClinics
+                  Vite
                 </label>
               </h1>
             </div>
@@ -87,12 +87,12 @@ const {doctor}=props;
         {docStatus === 'Pending' ? (
               <div className="page-div container justify-content-center align-items-center m-5 mx-auto">
               <h1 className="text-primary text-center"><strong>Employment Contract</strong></h1>
-              <h3 className='text-center'>XClinics Clinic</h3>
+              <h3 className='text-center'>Vite Clinic</h3>
               <div className='d-flex justify-content-center align-items-center'><hr className='w-50'/></div>
               <div className="card bg-light rounded shadow p-5 m-5 border-0 align-self-center mx-auto">
                 <h4 className='text-primary text-semibold'>Contract Overview</h4>
                 <p>
-                  <strong>This employment contract outlines the terms and conditions</strong> of employment for doctors at XClinics. It includes details on job responsibilities, work hours, compensation, and the terms of employment termination.
+                  <strong>This employment contract outlines the terms and conditions</strong> of employment for doctors at Vite. It includes details on job responsibilities, work hours, compensation, and the terms of employment termination.
                 </p>
                 <br />
       

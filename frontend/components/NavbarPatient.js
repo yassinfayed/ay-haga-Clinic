@@ -29,7 +29,7 @@ const NavbarPatient = () => {
         <div className="logo"></div>
         <h1>
         <a className="navbar-brand" href="/">
-        XClinics
+        Vite
         </a>
         </h1>
           <button

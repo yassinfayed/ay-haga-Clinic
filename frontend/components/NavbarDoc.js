@@ -30,7 +30,7 @@ const NavbarDoc = () => {
         <div className="logo"></div>
         <h1>
         <label className="navbar-brand">
-        XClinics
+        Vite
         </label>
         </h1>
           <button

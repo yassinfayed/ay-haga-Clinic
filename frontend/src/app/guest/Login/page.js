@@ -81,7 +81,7 @@ function LoginForm() {
         <div className="row gradient-background m-5 rounded shadow mx-auto">
           <div className="col-md-4 mx-auto m-5 p-5">
             <div className="text-size-50 text-bold text-light rounded">
-              XClinics
+              Vite
             </div>
             <h2 className="text-semibold text-light rounded px-3">
               Convenient healthcare at your fingertips...

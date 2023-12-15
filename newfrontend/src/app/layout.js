@@ -3,8 +3,8 @@ import "./globals.css";
 import localFont from "next/font/local";
 
 export const metadata = {
-  title: "Pharmacy",
-  description: "Pharmacy",
+  title: "Clinic",
+  description: "Clinic",
 };
 
 import { ReduxProvider } from "./redux/provider";

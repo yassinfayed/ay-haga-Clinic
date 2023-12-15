@@ -13,7 +13,7 @@ const LandingPage = () => {
           name="viewport"
           content="width=device-width, initial-scale=1.0"
         />
-        <title>XClinics</title>
+        <title>Vite</title>
         <link
           rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -25,7 +25,7 @@ const LandingPage = () => {
       <section className="container m-5 p-5">
         <div className="row pb-5">
           <div className="col-md-9 slide-top">
-            <h1 className='text-size-200 text-primary'>XClinics</h1>
+            <h1 className='text-size-200 text-primary'>Vite</h1>
             <h2>
               Convenient healthcare at your
               fingertips.
@@ -48,7 +48,7 @@ const LandingPage = () => {
             <h2 className='text-primary pb-3'><strong>About Us</strong></h2>
             <div className="bg-light card border-0 shadow " >
               <div className="card-body">
-              <h5 className="card-title text-primary">XClinics</h5>
+              <h5 className="card-title text-primary">Vite</h5>
               <p className="card-text">
               We proudly introduce <strong>Egypt's pioneering virtual clinic</strong>, providing convenient online doctor consultations. 
               Farewell to lengthy commutes to the clinics, and say hello to <strong>immediate healthcare access at the touch of a button</strong>. 
@@ -147,7 +147,7 @@ const LandingPage = () => {
                       <p className="card-subtitle">Happy Patient</p>
                       <hr className='w-75'/>
                       <p className="card-text">
-                      "XClinics has made healthcare so convenient. I can now consult with my doctor from the comfort of my home. It's a game-changer!"                      </p>
+                      "Vite has made healthcare so convenient. I can now consult with my doctor from the comfort of my home. It's a game-changer!"                      </p>
                     </div>
                   </div>
                 </div>
@@ -161,7 +161,7 @@ const LandingPage = () => {
                       <p className="card-subtitle">Satisfied Patient</p>
                       <hr className='w-75'/>
                       <p className="card-text">
-                      "As a busy college professor, XClinics saved me so much time!! No more waiting rooms or commutes. Made my life a whole lot easier, I highly recommend it."                      </p>
+                      "As a busy college professor, Vite saved me so much time!! No more waiting rooms or commutes. Made my life a whole lot easier, I highly recommend it."                      </p>
                     </div>
                   </div>
                 </div>
@@ -175,7 +175,7 @@ const LandingPage = () => {
                       <p className="card-subtitle text-muted">Another Happy Patient</p>
                       <hr className='w-75'/>
                       <p className="card-text">
-                      "I was skeptical about virtual diagnoses, but the doctors at XClinics have been incredibly accurate. It's like having a doctor in your pocket."                      </p>
+                      "I was skeptical about virtual diagnoses, but the doctors at Vite have been incredibly accurate. It's like having a doctor in your pocket."                      </p>
                     </div>
                   </div>
                 </div>
