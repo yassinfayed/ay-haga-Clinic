@@ -14,12 +14,13 @@ exports.getAllDoctors = handlerFactory.getAll(Doctor);
 
 exports.getallDoctorsForPatient = catchAsync(async (req, res, next) => {
   const patient = await Patient.findOne({ user: req.user._id }).populate(
-    "package",
+    "package"
   );
   const features = new APIFeatures(
     Doctor.find({ isApproved: true }),
-    req.query,
+    req.query
   ).filter();
+  // console.log(features.query);
   const results = await features.query;
 
   const doctorsWithSessionPrice = results.map((doctor) => {
@@ -96,7 +97,7 @@ exports.acceptEmploymentContract = catchAsync(async (req, res, next) => {
     {
       new: true,
       runValidators: true,
-    },
+    }
   );
 
   res.status(200).json({
@@ -120,7 +121,7 @@ exports.addAvailableDate = catchAsync(async (req, res, next) => {
     {
       new: true,
       runValidators: true,
-    },
+    }
   );
 
   res.status(200).json({
@@ -145,7 +146,7 @@ exports.acceptDoctor = catchAsync(async (req, res, next) => {
     {
       new: true,
       runValidators: true,
-    },
+    }
   );
 
   res.status(200).json({
@@ -171,7 +172,7 @@ exports.rejectDoctor = catchAsync(async (req, res, next) => {
       {
         new: true,
         runValidators: true,
-      },
+      }
     );
   } else if (doctorfound.employmentContract.status === "Pending") {
     doctor = await Doctor.findByIdAndUpdate(
@@ -186,7 +187,7 @@ exports.rejectDoctor = catchAsync(async (req, res, next) => {
       {
         new: true,
         runValidators: true,
-      },
+      }
     );
   }
 

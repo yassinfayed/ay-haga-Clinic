@@ -447,7 +447,8 @@ const Appointments = () => {
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
               Schedule Followup ?
             </h3>
-            <DatePicker
+            <TextInput
+              type="datetime-local"
               selected={newDate}
               onValueChange={(date) => {
                 setNewDate(date);
@@ -487,7 +488,8 @@ const Appointments = () => {
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
               Chhose a Date if you are sure you want to reschedule
             </h3>
-            <DatePicker
+            <TextInput
+              type="datetime-local"
               selected={rescheduleDate}
               onValueChange={(date) => {
                 setRescheduleDate(date);

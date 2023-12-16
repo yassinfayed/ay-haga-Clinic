@@ -22,17 +22,31 @@ exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
     const patientId = patient._id;
     const name = req.query.name;
     req.query.name = null;
+    let query = req.query;
+    if (req.query.prescriptionDate) {
+      query.prescriptionDate = {
+        gte: new Date(req.query.prescriptionDate),
+        lt: new Date(
+          new Date(req.query.prescriptionDate).setDate(
+            new Date(req.query.prescriptionDate).getDate() + 1
+          )
+        ),
+      };
+    }
+    console.log(query);
 
     const features = new APIFeatures(
       Prescription.find({ patientId: patientId }).populate("doctorId"),
-      req.query
+      query
     ).filter();
 
     presc = await features.query;
+
     if (name)
-      presc.filter((p) =>
-        p.doctorId.name.toLowerCase().includes(name.toLowerCase())
-      );
+      presc = presc.filter((p) => {
+        console.log(p.doctorId.name.toLowerCase().includes(name.toLowerCase()));
+        return p.doctorId.name.toLowerCase().includes(name.toLowerCase());
+      });
   } else {
     const doctor = await Doctor.findOne({ user: req.user._id });
     const doctorId = doctor._id;
@@ -46,6 +60,7 @@ exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
       .populate("doctorId")
       .exec();
   }
+  // console.log(presc);
   res.status(200).json({
     status: "success",
     results: presc.length,

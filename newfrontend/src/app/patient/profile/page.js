@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ChangePassword from "@/components/ChangePassword";
-import { Button, Card, Grid } from "@tremor/react";
+import { Button, Card, Divider, Grid } from "@tremor/react";
 import { BottomCallout } from "@/components/BottomCallout";
 import { Modal } from "@/components/Modal";
 import { translateDate } from "@/util";
@@ -21,6 +21,7 @@ import { downloadDoctorDocsReducer } from "@/app/redux/reducers/doctorReducer";
 import { removeDocsAction } from "@/app/redux/actions/patientActions";
 import { patientRemoveRecordReducer } from "@/app/redux/reducers/patientReducer";
 import PromptMessage from "@/components/PromptMessage";
+import { formatDateToDDMMYYYY } from "@/app/redux/validators";
 
 // EXAMPLE USAGE
 
@@ -111,6 +112,13 @@ function Profile() {
       }, 3000);
     }
   };
+  function formatDate(isoDateString) {
+    const date = new Date(isoDateString);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${month}-${day}-${year}`;
+  }
 
   return (
     <div className="h-full overflow-hidden pl-10">
@@ -163,17 +171,38 @@ function Profile() {
               <p className="ml-3 text-lg">{patient?.patient.mobileNumber}</p>
             </div>
             <div className="flex mt-5">
+              <Image src="/wallet.svg" height={25} width={25}></Image>{" "}
+              <p className="ml-3 text-lg">
+                {patient?.user.wallet?.toFixed(2)} USD
+              </p>
+            </div>
+            <Divider />
+            <div className="flex mt-5">
               <Image src="/health.svg" height={25} width={25}></Image>{" "}
               <p className="ml-3 text-lg">
                 {patient?.patient.package?.name
-                  ? patient?.patient.package?.name
-                  : "Not Subscriibed to a Health Package"}
+                  ? patient?.patient.package?.name + " Package"
+                  : "Not Subscribed to a Health Package"}
               </p>
             </div>
-            <div className="flex mt-5">
-              <Image src="/wallet.svg" height={25} width={25}></Image>{" "}
-              <p className="ml-3 text-lg">{patient?.user.wallet} USD</p>
-            </div>
+            {patient?.patient.renewalDate !== null && (
+              <div className="flex mt-5">
+                <p className="ml-3 text-lg">
+                  <Image src="/renewal.svg" height={25} width={25} />
+
+                  {formatDate(patient?.patient.renewalDate)}
+                </p>
+              </div>
+            )}
+            {patient?.patient.subscriptionStatus === "cancelled" && (
+              <div className="flex mt-5">
+                <Image src="/cancel.svg" height={25} width={25} />
+                <p className="ml-3 text-lg">
+                  Cancellation Date:{" "}
+                  {formatDate(patient?.patient.cancellationEndDate)}
+                </p>
+              </div>
+            )}
           </Card>
           <Card>
             <h1 className="text-xl font-bold text-white-200">

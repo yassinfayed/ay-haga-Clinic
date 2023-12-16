@@ -12,6 +12,7 @@ function SubscribeModal(props) {
     edit,
     id,
     healthPackage,
+    subscribed,
     loading: loadingP,
   } = props;
 
@@ -100,6 +101,7 @@ function SubscribeModal(props) {
             id="me"
             name="packageReceiver"
             value="me"
+            disabled={subscribed}
             checked={packageReciever === "me"}
             onChange={(e) => handleRecieverChange(e)}
             className="mr-2"

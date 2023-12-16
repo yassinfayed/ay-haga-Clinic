@@ -37,32 +37,35 @@ const DoctorsPage = () => {
   const [date, setDate] = useState("");
   const [name, setName] = useState({});
   const [visibleFeedback, setVisibleFeedback] = useState(false);
+  const [availableDate, setAvailableDate] = useState({});
 
   const { doctors, loading, specialities } = useSelector(
     (state) => state.getDrsForPatientsReducer
   );
   console.log(doctors);
   async function fetchData() {
-    const queryObj = {
-      name,
-      speciality,
-    };
+    // const queryObj = {
+    //   name,
+    //   speciality,
+    // };
 
-    const filteredQueryObj = Object.keys(queryObj).reduce((acc, key) => {
-      if (queryObj[key] !== "") {
-        acc[key] = queryObj[key];
-      }
-      return acc;
-    }, {});
+    // const filteredQueryObj = Object.keys(queryObj).reduce((acc, key) => {
+    //   if (queryObj[key] !== "") {
+    //     acc[key] = queryObj[key];
+    //   }
+    //   return acc;
+    // }, {});
 
-    console.log(filteredQueryObj);
-    dispatch(getDoctorsForPatientAction({ ...name, ...speciality }));
+    // console.log(filteredQueryObj);
+    dispatch(
+      getDoctorsForPatientAction({ ...name, ...speciality, ...availableDate })
+    );
   }
 
   useEffect(() => {
     // dispatch(login("sysadmin","pass1234"));
     fetchData();
-  }, [dispatch, name, speciality]);
+  }, [dispatch, name, speciality, availableDate]);
 
   const [freeze, setFreeze] = useState(false);
 
@@ -90,7 +93,7 @@ const DoctorsPage = () => {
         DateOfbirth: formatDateToDDMMYYYY(DateOfbirth),
       }))
       .filter((value) => value.employmentStatus === "accepted");
-  }, [doctors, name]);
+  }, [doctors, name, availableDate]);
 
   const [showPrompt, setShowPrompt] = useState(false);
   const [deleteID, setDeleteID] = useState("");
@@ -198,9 +201,19 @@ const DoctorsPage = () => {
             <SelectItem value="true">Filled</SelectItem>
             <SelectItem value="false">Unfilled</SelectItem> */}
               </Select>
-             
+              <TextInput
+                type="datetime-local"
+                selected={availableDate}
+                onValueChange={(date) => {
+                  setAvailableDate(
+                    date ? { availableDates: { in: date + ":00.000Z" } } : {}
+                  );
+                }}
+                dateFormat="yyyy-MM-dd"
+                placeholderText="Appointment Date"
+                className="w-full"
+              />
             </div>
-            
 
             <div className="flex overflow-hidden gap-x-4 gap-y-8">
               <div className="prof h-400 overflow-hidden w-4/6 rounded-xl p-10">
