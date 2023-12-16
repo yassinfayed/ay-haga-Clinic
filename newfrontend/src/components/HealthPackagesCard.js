@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PromptMessage from "./PromptMessage";
 
-const PricingCard = ({ hp, patient }) => {
+const PricingCard = ({ hp, patient, discount }) => {
   const [healthPackage, setHealthPackage] = useState(null);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -59,14 +59,37 @@ const PricingCard = ({ hp, patient }) => {
         {hp?.name}
       </h5>
       <div className="flex items-baseline text-gray-900 dark:text-white">
-        <span className="text-3xl font-semibold">EGP</span>
-        <span className="text-5xl font-extrabold tracking-tight">
-          {hp?.price}
+        <span
+          className={
+            discount ? `text-xl  line-through` : "text-3xl  font-semibold"
+          }
+        >
+          EGP
         </span>
-        <span className="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">
+        <span
+          className={
+            discount
+              ? `text-2xl font-extrabold tracking-tight line-through`
+              : "text-5xl font-extrabold tracking-tight"
+          }
+        >
+          {hp?.ogprice}
+        </span>
+        <span className="ms-1 text-xl font-normal text-gray-500 line-through dark:text-gray-400">
           /year
         </span>
       </div>
+      {discount && (
+        <div className="flex items-baseline text-gray-900 dark:text-white">
+          <span className="text-3xl font-semibold">EGP</span>
+          <span className="text-5xl font-extrabold tracking-tight">
+            {hp?.price}
+          </span>
+          <span className="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">
+            /year
+          </span>
+        </div>
+      )}
       <ul role="list" className="space-y-5 my-7">
         <li className="flex items-center">
           <svg

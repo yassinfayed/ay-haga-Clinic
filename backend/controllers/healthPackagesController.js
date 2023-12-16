@@ -59,10 +59,12 @@ exports.getAllHealthPackage = catchAsync(async (req, res, next) => {
     }
   }
 
+  const healthPackages2 = await HealthPackage.find({});
   res.status(200).json({
     message: "success",
     data: {
       data: healthPackages,
+      data2: healthPackages2,
     },
   });
 });

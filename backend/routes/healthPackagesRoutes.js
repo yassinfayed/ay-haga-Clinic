@@ -5,9 +5,11 @@ const authController = require("../controllers/authController");
 const paymentController = require("../controllers/paymentController");
 
 router.get("/discount", healthPackagesController.getMyPackage);
+router.route("/landing").get(healthPackagesController.getAllHealthPackage);
+
 router
   .route("/")
-  .get(healthPackagesController.getAllHealthPackage)
+  .get(authController.protect, healthPackagesController.getAllHealthPackage)
   .post(
     authController.protect,
     authController.restrictTo("administrator"),

@@ -268,13 +268,13 @@ const DoctorsPage = () => {
                   selected={doctorSelected}
                   css={{ marginRight: "50px" }}
                   worker={true}
-                  fields={["username", "email", "DateOfbirth", "HourlyRate"]}
+                  fields={["username", "email", "DateOfbirth", "sessionPrice"]}
                   displayNames={[
                     "Username",
                     "Email",
                     "Birth Date",
 
-                    "Hourly Rate",
+                    "Session Price",
                   ]}
                 />
               </div>
