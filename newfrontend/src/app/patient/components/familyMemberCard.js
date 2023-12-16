@@ -187,6 +187,12 @@ const FamilyMemberCard = ({
                   <span className="ml-2">{healthPackage?.name} Package</span>
                 </div>
               )}
+              {!healthPackage?.name && (
+                <div className="flex items-center py-1 text-sm">
+                  {renderIcon("health")}
+                  <span className="ml-2">No Package</span>
+                </div>
+              )}
               {healthPackage?.name && (
                 <div className="flex items-center py-1 text-sm">
                   {renderIcon("status")}
