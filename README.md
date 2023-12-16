@@ -459,12 +459,11 @@ router.get(
 
 ## API Reference
 
-## General Routes
-
-### Webhook
-
+<details>
+<summary>Webhooks</summary>
 - **POST /webhook**
   Handles Stripe webhook events.
+  </details>
 
 <details>
 <summary>Patient Routes</summary>
