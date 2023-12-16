@@ -45,8 +45,9 @@ The motivation behind Vite Clinics stems from the need to improve healthcare acc
 - [Node.js](https://nodejs.org/en/)
 - [Express](https://expressjs.com/)
 - [MongoDB](https://www.mongodb.com/)
-
-### Other technologies used
+<details>
+    <summary></summary>Other technologies used</summary>
+ 
 
 - [Mongoose](https://mongoosejs.com/)
 - [Redux](https://redux.js.org/)
@@ -94,7 +95,7 @@ The motivation behind Vite Clinics stems from the need to improve healthcare acc
 - [React Scripts](https://create-react-app.dev/docs/adding-a-css-preprocessor/)
 - [Web Vitals](https://web.dev/vitals/)
 
-
+</details>
 ## Features
 
 <details>
