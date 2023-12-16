@@ -80,7 +80,7 @@ const forgetPassword = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-900 text-gray-300">
       <div className="max-w-screen-xl m-0 sm:m-10 shadow sm:rounded-lg flex justify-center flex-1">
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
-          <div className="flex flex-col items-center rounded-lg border border-purple-600 px-4 pt-8 pb-10 shadow-lg w-full">
+          <div className="flex flex-col items-center rounded-lg border px-4 pt-8 pb-10 shadow-lg w-full">
             {counter === 0 && (
               <h1 className="text-2xl xl:text-3xl font-extrabold">
                 Please Enter Email
@@ -126,7 +126,7 @@ const forgetPassword = () => {
                       />
                     </Grid>
                     <Button
-                      className="mt-5 tracking-wide font-semibold bg-purple-600 text-gray-100 w-full py-4 rounded-lg hover:bg-purple-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                      className="mt-5 tracking-wide font-semibold text-gray-100 w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                       onClick={handleSendOTP}
                       loading={forgetLoading}
                       variant="primary"
@@ -204,7 +204,7 @@ const forgetPassword = () => {
                       />
                     </Grid>
                     <Button
-                      className="mt-5 tracking-wide font-semibold bg-purple-600 text-gray-100 w-full py-4 rounded-lg hover:bg-purple-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                      className="mt-5 tracking-wide font-semibold text-gray-100 w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                       onClick={handleResetPass}
                       loading={resetLoading}
                       variant="primary"

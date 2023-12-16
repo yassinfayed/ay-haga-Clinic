@@ -177,7 +177,7 @@ const DoctorPersonCard = ({
   };
 
   return (
-    <div style={{ width: "120%" }} className="max-w-md">
+    <div style={{ width: "150%" }} className="max-w-md">
       <div
         style={css && { marginRight: "60px" }}
         className="rounded-lg border border-gray-800 px-4 pt-8 pb-10 shadow-lg"
@@ -226,7 +226,7 @@ const DoctorPersonCard = ({
           <Button
             //   loading={createLoading}
             onClick={handleCheckAvailability}
-            className="mt-5 tracking-wide font-semibold bg-purple-600 text-gray-100 w-full py-4 rounded-lg hover:bg-purple-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+            className="mt-5 tracking-wide font-semibold text-gray-100 w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
           >
             <span className="text-white">Check Availability</span>
           </Button>

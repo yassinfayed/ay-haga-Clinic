@@ -1,8 +1,16 @@
 import React from "react";
 
 const Footer = () => {
+  let fullFooter = false;
+
+  const dirs = window.location.href.split('/');
+  console.log(dirs);
+  if (dirs.includes("signup") || dirs.includes("guest") || dirs.includes("pharmacistWaiting") || window.location.href === "http://localhost:3000/" || window.location.href === "http://127.0.0.1:3000/") {
+    fullFooter = true;
+  }
+
   return (
-    <div className="mt-auto sm:ml-64">
+    <div className={`mt-auto ${fullFooter ? '' : 'sm:ml-64'}`}>
       <footer className="bg-white rounded-lg shadow dark:bg-gray-900 ">
         <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
           <div className="sm:flex sm:items-center sm:justify-between">

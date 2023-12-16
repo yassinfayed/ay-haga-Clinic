@@ -113,7 +113,7 @@ const Appointments = () => {
               <>
                 <Button
                   variant="secondary"
-                  className="mx-7"
+                  className="mx-1"
                   onClick={(e) => {
                     handleReschedule(doctorId._id, _id);
                   }}
@@ -122,6 +122,7 @@ const Appointments = () => {
                 </Button>
                 <Button
                   variant="secondary"
+                  className="mx-1"
                   color="red"
                   onClick={(e) => handleCancel(_id)}
                 >
@@ -132,8 +133,8 @@ const Appointments = () => {
               <>
                 <Button
                   disabled={true}
+                  className="mx-1"
                   variant="secondary"
-                  className="mx-7"
                   style={{
                     background: "transparent",
                     border: "none",
@@ -145,6 +146,7 @@ const Appointments = () => {
                 </Button>
                 <Button
                   variant="secondary"
+                  className="mx-1"
                   color="red"
                   onClick={(e) => handleCancel(_id)}
                 >
@@ -157,7 +159,7 @@ const Appointments = () => {
               <>
                 <Button
                   variant="secondary"
-                  className="mx-8"
+                  className="mx-1"
                   color="green"
                   onClick={(e) => handleFollowUp(_id)}
                 >
@@ -165,22 +167,52 @@ const Appointments = () => {
                 </Button>
               </>
             ) : followUp === "FollowUpRequest" ? (
-              <span className="mx-10">Awaiting Doctor</span>
+              <span>Awaiting Doctor</span>
             ) : followUp === "Accepted" ? (
-              <span className="mx-10">Follow Up Scheduled</span>
+              <span>Follow Up Scheduled</span>
             ) : (
-              <span className="mx-10">Follow Up Rejected</span>
+              <span>Follow Up Rejected</span>
+            )
+          ) : status !== "Cancelled" ? (
+            status === "Rescheduled" && (
+              <>
+                <Button
+                  disabled={true}
+                  className="mx-1"
+                  variant="secondary"
+                >
+                  Reschedule
+                </Button>
+                <Button
+                  variant="secondary"
+                  className="mx-1"
+                  color="red"
+                  onClick={(e) => handleCancel(_id)}
+                >
+                  Cancel
+                </Button>
+              </>
+
             )
           ) : (
-            status === "Rescheduled" && (
+            <>
               <Button
+                disabled={true}
+                className="mx-1"
                 variant="secondary"
+              >
+                Reschedule
+              </Button>
+              <Button
+                disabled
+                variant="secondary"
+                className="mx-1"
                 color="red"
                 onClick={(e) => handleCancel(_id)}
               >
                 Cancel
               </Button>
-            )
+            </>
           ),
       })
     );
