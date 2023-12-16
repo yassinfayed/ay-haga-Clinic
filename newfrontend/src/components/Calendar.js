@@ -14,6 +14,7 @@ function Calendar({ id }) {
   const [clickedDay, setClickedDay] = useState(null);
   const [events, setEvents] = useState({});
   const [show, setShow] = useState(false);
+  const [initialCurrentDay] = useState(new Date());
   const dispatch = useDispatch();
 
   const {
@@ -48,10 +49,20 @@ function Calendar({ id }) {
   const firstDayOfMonth = (year, month) => new Date(year, month, 1).getDay();
 
   const prevMonth = () => {
-    setCurrentDate(
-      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1)
-    );
+    const currentDateClone = new Date(currentDate);
+    currentDateClone.setMonth(currentDateClone.getMonth() - 1);
+  
+    // Check if the current month is before the system's current month
+    if(currentDateClone.getMonth() == 11){
+      setCurrentDate(currentDateClone);
+    }
+    if (currentDateClone < new Date()) {
+      return;
+    }
+  
+    setCurrentDate(currentDateClone);
   };
+  
 
   const nextMonth = () => {
     setCurrentDate(
@@ -116,38 +127,50 @@ function Calendar({ id }) {
   const renderCalendar = () => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-
+    const currentDay = currentDate.getDate(); // Get the current day
+  
     const totalDays = daysInMonth(year, month);
     const startingDay = firstDayOfMonth(year, month);
-
+  
     let days = [];
-
+  
     // Add empty cells for the days before the 1st of the month
     for (let i = 0; i < startingDay; i++) {
-      days.push(<td key={`empty-${i}`} className="border p-1 w-10 h-40"></td>);
+      days.push(
+        <td key={`empty-${i}`} className="border p-1 w-10 h-40 text-gray-400">
+          {/* Add a class to make the text gray and indicate that it's disabled */}
+        </td>
+      );
     }
-
+  
     // Add days of the month
     for (let day = 1; day <= totalDays; day++) {
       const eventKey = `${day}-${currentDate.getMonth()}-${currentDate.getFullYear()}`;
+      const isDisabled = currentDate.getMonth() === initialCurrentDay.getMonth() && day < initialCurrentDay.getDate();
+
+  
       days.push(
         <td
           key={day}
-          className="border p-1 h-40 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300"
-          onClick={() => handleDayClick(day)}
+           className={`border p-1 h-40 w-10 overflow-auto transition cursor-pointer duration-500 ease ${
+          isDisabled
+            ? 'text-gray-400' // Add class to make the text gray for disabled days
+            : 'hover:bg-gray-300' // Add hover effect for non-disabled days
+        }`}
+          onClick={() => !isDisabled && handleDayClick(day)} // Disable click for disabled days
         >
           <div className=" h-40 mx-auto w-40 mx-auto overflow-hidden">
             <div className="top h-5 w-full">
-              <span className="text-white-500">{day}</span>
+              <span className={`text-white-500 ${isDisabled && 'opacity-50'}`}>
+                {day}
+              </span>
             </div>
             <div className="bottom flex-grow h-30 py-1 w-full cursor-pointer">
               {events[eventKey] &&
                 events[eventKey]
                   .filter((event) => {
                     const eventMonth = new Date(event.formattedDate).getMonth();
-                    const eventYear = new Date(
-                      event.formattedDate
-                    ).getFullYear();
+                    const eventYear = new Date(event.formattedDate).getFullYear();
                     return (
                       eventMonth === currentDate.getMonth() &&
                       eventYear === currentDate.getFullYear()
@@ -168,10 +191,11 @@ function Calendar({ id }) {
         </td>
       );
     }
+  
     // Wrap days in rows
     let rows = [];
     let cells = [];
-
+  
     days.forEach((day, index) => {
       if (index % 7 !== 0 || index === 0) {
         cells.push(day);
@@ -181,13 +205,13 @@ function Calendar({ id }) {
         cells.push(day);
       }
     });
-
+  
     // Add the last row
     rows.push(<tr key={days.length / 7}>{cells}</tr>);
-
+  
     // Define an array of day names
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
+  
     // Create header row with day names
     const headerRow = (
       <tr>
@@ -198,7 +222,7 @@ function Calendar({ id }) {
         ))}
       </tr>
     );
-
+  
     return (
       <tbody>
         {headerRow}
@@ -206,6 +230,7 @@ function Calendar({ id }) {
       </tbody>
     );
   };
+  
 
   return (
     <>
