@@ -30,3 +30,9 @@
 .btns {
   color: White;
 }
+.arrow-hover-effect:hover {
+  transform: translateY(
+    -5px
+  ); /* Example effect: move the arrow up 5px on hover */
+  transition: transform 0.2s; /* Smooth transition for the hover effect */
+}

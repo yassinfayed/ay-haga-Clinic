@@ -6,6 +6,7 @@ import { cancelSubscription } from "@/app/redux/actions/patientActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import PromptMessage from "@/components/PromptMessage";
+import "./component.css";
 const FamilyMemberCard = ({
   member,
   name,
@@ -23,7 +24,7 @@ const FamilyMemberCard = ({
 }) => {
   const dispatch = useDispatch();
   const { loading, success } = useSelector(
-    (state) => state.cancelSubscriptionReducer,
+    (state) => state.cancelSubscriptionReducer
   );
   const [confirm, setConfirm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -98,6 +99,14 @@ const FamilyMemberCard = ({
         return <Image src="/gender.svg" height={25} width={25} />;
       case "relation":
         return <Image src="/family.svg" height={25} width={25} />;
+      case "status":
+        return <Image src="/status.svg" height={25} width={25} />;
+      case "cancel":
+        return <Image src="/cancel.svg" height={25} width={25} />;
+      case "renewal":
+        return <Image src="/renewal.svg" height={25} width={25} />;
+      case "health":
+        return <Image src="/health.svg" height={25} width={25} />;
       default:
         return null;
     }
@@ -109,6 +118,13 @@ const FamilyMemberCard = ({
     // setCancelConfirm(false);
     //6549f806f3ee984c4052aa62
     setSubmitted(true);
+  }
+  function formatDate(isoDateString) {
+    const date = new Date(isoDateString);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${month}-${day}-${year}`;
   }
 
   useEffect(() => {
@@ -133,7 +149,7 @@ const FamilyMemberCard = ({
       style={{ width: "350px" }}
       onClick={() => onCardClick(member)}
     >
-      <div className="rounded-lg border border-gray-800 px-4 pt-8 pb-10 shadow-2xl">
+      <div className="rounded-lg border border-gray-800 px-4 pt-8 pb-5 shadow-2xl">
         <div className="relative mx-auto w-40 h-36 rounded-full overflow-hidden mb-4">
           <Image
             src={getImageUrl(relationToPatient)}
@@ -162,32 +178,46 @@ const FamilyMemberCard = ({
             {renderIcon("relation")}
             <span className="ml-2">{relationToPatient}</span>
           </div>
-          {healthPackage?.name && (
-            <div className="flex items-center py-1 text-sm">
-              {renderIcon("relation")}
-              <span className="ml-2">{healthPackage?.name} Package</span>
-            </div>
-          )}
-          {healthPackage?.name && (
-            <div className="flex items-center py-1 text-sm">
-              {renderIcon("relation")}
-              <span className="ml-2">{patient.subscriptionStatus} </span>
-            </div>
-          )}
-          {healthPackage?.name &&
-            patient.subscriptionStatus == "subscribed" && (
-              <div className="flex items-center py-1 text-sm">
-                renewal
-                <span className="ml-2">{patient.renewalDate} </span>
-              </div>
-            )}
-          {patient.subscriptionStatus !== "subscribed" && (
-            <div className="flex items-center py-1 text-sm">
-              cancellation
-              <span className="ml-2">{patient.cancellationEndDate} </span>
-            </div>
+          {selectedMemberName == name && (
+            <>
+              {" "}
+              {healthPackage?.name && (
+                <div className="flex items-center py-1 text-sm">
+                  {renderIcon("health")}
+                  <span className="ml-2">{healthPackage?.name} Package</span>
+                </div>
+              )}
+              {healthPackage?.name && (
+                <div className="flex items-center py-1 text-sm">
+                  {renderIcon("status")}
+                  <span className="ml-2">{patient.subscriptionStatus} </span>
+                </div>
+              )}
+              {healthPackage?.name &&
+                patient.subscriptionStatus === "subscribed" && (
+                  <div className="flex items-center py-1 text-sm">
+                    {renderIcon("renewal")}
+                    <span className="ml-2">
+                      {formatDate(patient.renewalDate)}
+                    </span>
+                  </div>
+                )}
+              {patient.subscriptionStatus === "cancelled" && (
+                <div className="flex items-center py-1 text-sm">
+                  {renderIcon("cancel")}
+                  <span className="ml-2">
+                    {formatDate(patient.cancellationEndDate)}
+                  </span>
+                </div>
+              )}
+            </>
           )}
         </div>
+        {selectedMemberName !== name && (
+          <div className="flex justify-center arrow-hover-effect">
+            <Image src="/down.svg" height={25} width={25} alt="Down arrow" />
+          </div>
+        )}
         <div
           className="flex justify-center"
           style={{
@@ -210,6 +240,7 @@ const FamilyMemberCard = ({
           >
             cancel subscription
           </Button>
+
           <PromptMessage
             visible={confirm}
             setVisible={setConfirm}
