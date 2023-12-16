@@ -201,23 +201,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* Style your chat messages and input area as needed */
 /* Add this to your CSS file or style component */
 
-.chat-panel {
-  position: fixed;
-  bottom: -400px;
-  right: 20px;
-  width: 320px;
-  background-color: #fff;
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition: bottom 0.3s ease-in-out;
-}
-
 .chat-panel.open {
   bottom: 20px;
 }
 
 .chat-header {
-  background-color: #3498db;
+  background-color: rgb(59 130 246);
   color: #fff;
   padding: 15px;
   display: flex;
@@ -241,7 +230,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .send-button {
-  background-color: #3498db;
+  background-color: rgb(59 130 246);
   color: #fff;
   border: none;
   border-radius: 50%;
