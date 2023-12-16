@@ -319,7 +319,6 @@ const HealthPackage = () => {
               <h1 className="font-semibold">Doctor Session Discount</h1>
               <NumberInput
                 className="mt-2"
-                type="username"
                 placeholder="Percentage (e.g. 10%)"
                 onChange={handleChange}
                 name="doctorDiscount"
@@ -338,7 +337,6 @@ const HealthPackage = () => {
 
               <NumberInput
                 className="mt-2"
-                type="username"
                 placeholder="Percentage (e.g. 10%)"
                 onChange={handleChange}
                 name="familyMemberSubDiscount"
@@ -358,7 +356,6 @@ const HealthPackage = () => {
 
               <NumberInput
                 className="mt-2"
-                type="username"
                 placeholder="Percentage (e.g. 10%)"
                 onChange={handleChange}
                 name="medicineDiscount"
@@ -377,7 +374,6 @@ const HealthPackage = () => {
 
               <NumberInput
                 className="mt-2"
-                type="username"
                 placeholder="Package Price (e.g. 10 USD)"
                 onChange={handleChange}
                 name="price"
