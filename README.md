@@ -964,7 +964,7 @@ Backend Dependencies
 }
 ```
 
-Make sure to configure the following environment variables in your `config.env` file:
+Make sure to configure the following environment variables in your `config.env` file in  the backend directory:
 
 - **NODE_ENV**: Set to "development" for the development environment.
 - **PORT**: Port on which the server will run (e.g., 8000).
