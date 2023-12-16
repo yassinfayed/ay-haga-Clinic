@@ -100,13 +100,13 @@ const Login = () => {
                   />
                 </Grid>
                 <Button
-                  className="mt-5 tracking-wide font-semibold bg-purple-600 text-gray-100 w-full py-4 rounded-lg hover:bg-purple-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                  className="mt-5 tracking-wide font-semibold text-gray-100 w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                   onClick={handleLogin}
                   loading={loginLoading}
                   variant="primary"
                   loadingText="Logging In..."
                 >
-                  <span className="ml-3">Log In</span>
+                  <span className="text-white">Log In</span>
                 </Button>
 
                 {/* Forgot Password Link */}
@@ -124,13 +124,13 @@ const Login = () => {
 
                 {/* Sign Up Button */}
                 <Button
-                  className="mt-4 tracking-wide font-semibold bg-purple-600 text-gray-100 w-full py-4 rounded-lg hover:bg-purple-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                  className="mt-4 tracking-wide font-semibold text-gray-100 w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                   variant="primary"
                   onClick={handleSignup}
                   loading={loadingSignUp}
                   loadingText="En Route To Sign Up"
                 >
-                  <span className="ml-3">Sign Up</span>
+                  <span className="ml-3 text-white">Sign Up</span>
                 </Button>
               </div>
             </div>

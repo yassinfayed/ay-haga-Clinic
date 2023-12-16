@@ -40,7 +40,7 @@ const PricingCard = ({ hp, patient, discount }) => {
     w-full max-w-sm p-4 bg-white rounded-lg shadow sm:p-8 dark:bg-gray-800
     ${
       patient?.package === hp._id
-        ? "border-4 border-purple-500"
+        ? "border-4"
         : "border border-gray-200 dark:border-gray-700"
     }
   `;

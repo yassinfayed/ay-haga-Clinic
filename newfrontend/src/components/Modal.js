@@ -12,6 +12,7 @@ function Modal({ children, visible, setVisible, famFlag, className }) {
         background: "rgba(0,0,0,0.75)",
         zIndex: 49,
         display: visible ? "block" : "none",
+        // overflow: 'scroll'
       }}
     >
       <div
@@ -24,10 +25,11 @@ function Modal({ children, visible, setVisible, famFlag, className }) {
           minWidth: "500px",
           minHeight: `${famFlag ? "50px" : "500px"}`,
           zIndex: 50,
+          overflow: 'scroll'
         }}
         className={className}
       >
-        <Card className="flex flex-col flex-1 grow">
+        <Card style={{overflow: 'scroll'}} className="flex flex-col flex-1 grow">
           <div className="flex flex-row w-100">
             <div
               role="button"
