@@ -4,11 +4,17 @@ import DrawerNavigation from "./components/RightBar";
 import ChatPanel from "@/components/chatModal";
 import { useState } from "react";
 import { FaComment, FaPaperPlane, FaTimes } from "react-icons/fa";
+import { CrossinitSocket } from "../redux/actions/socketActions";
+import { useDispatch } from "react-redux";
 
 export default function DashboardLayout({ children }) {
   const [showChatPanel, setShowChatPanel] = useState(false);
+
+
+  const dispatch = useDispatch();
   const handleChatIconClick = () => {
     setShowChatPanel(true);
+    dispatch(CrossinitSocket());
   };
 
   const handleCloseChatPanel = () => {

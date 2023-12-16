@@ -27,8 +27,8 @@ exports.getallDoctorsForPatient = catchAsync(async (req, res, next) => {
     const hourlyRate = doctor.HourlyRate;
     const clinicMarkup = 0.1;
     const sessionPrice = patient.package?.doctorDiscount
-      ? hourlyRate + clinicMarkup - patient.package.doctorDiscount
-      : hourlyRate + clinicMarkup;
+      ? hourlyRate * ((100 - patient.package.doctorDiscount) / 100)
+      : hourlyRate;
 
     return {
       ...doctor.toObject(),
