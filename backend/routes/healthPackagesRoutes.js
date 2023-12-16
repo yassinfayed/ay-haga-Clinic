@@ -4,13 +4,14 @@ const router = express.Router();
 const authController = require("../controllers/authController");
 const paymentController = require("../controllers/paymentController");
 
+router.get("/discount", healthPackagesController.getMyPackage);
 router
   .route("/")
   .get(healthPackagesController.getAllHealthPackage)
   .post(
     authController.protect,
     authController.restrictTo("administrator"),
-    healthPackagesController.createHealthPackage,
+    healthPackagesController.createHealthPackage
   );
 
 router
@@ -26,12 +27,12 @@ router
   .patch(
     authController.protect,
     authController.restrictTo("administrator"),
-    healthPackagesController.updateHealthPackage,
+    healthPackagesController.updateHealthPackage
   )
   .delete(
     authController.protect,
     authController.restrictTo("administrator"),
-    healthPackagesController.deleteHealthPackage,
+    healthPackagesController.deleteHealthPackage
   );
 
 router
@@ -40,7 +41,7 @@ router
   .post(
     authController.protect,
     authController.restrictTo("administrator"),
-    healthPackagesController.createHealthPackage,
+    healthPackagesController.createHealthPackage
   );
 
 module.exports = router;

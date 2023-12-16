@@ -12,10 +12,10 @@ const FamilyMember = require("./../models/familyMembersModel");
 const multer = require("multer");
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: function(req, file, cb) {
     cb(null, "uploads/");
   },
-  filename: function (req, file, cb) {
+  filename: function(req, file, cb) {
     if (!req.locals) {
       req.locals = {};
     }
@@ -40,9 +40,9 @@ const fileFilter = (req, file, cb) => {
   } else {
     cb(
       new Error(
-        "Invalid file type. Only PDF, PNG, JPEG, and JPG files are allowed.",
+        "Invalid file type. Only PDF, PNG, JPEG, and JPG files are allowed."
       ),
-      false,
+      false
     );
   }
 };
@@ -72,7 +72,7 @@ const createSendToken = (user, statusCode, req, res) => {
 
   res.cookie("jwt", token, {
     Expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
     secure: req.secure || req.headers["x-forwarded-proto"] === "https",
@@ -110,7 +110,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     token = req.cookies?.jwt;
     const err = new AppError(
       "You are not authorized to create an admin account",
-      401,
+      401
     );
 
     if (!token) return next(err);
@@ -119,14 +119,13 @@ exports.signup = catchAsync(async (req, res, next) => {
     const currentUser = await User.findById(decoded.id);
 
     if (!currentUser || currentUser.role !== enums.ROLE.ADMIN) return next(err);
-    var emailValidator =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var emailValidator = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (!emailValidator.test(req.body.username))
       return next(
         new AppError(
           "For an administrator, the username must be an email address",
-          400,
-        ),
+          400
+        )
       );
   }
 
@@ -165,7 +164,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     else {
       await FamilyMember.updateOne(
         { _id: req.body.id },
-        { linkedPatientId: patient._id },
+        { linkedPatientId: patient._id }
       );
       res.status(200).json({
         FamilyMember,
@@ -199,7 +198,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   if (!token) {
     return next(
-      new AppError("You are not logged in! Please log in to get access.", 401),
+      new AppError("You are not logged in! Please log in to get access.", 401)
     );
   }
 
@@ -212,8 +211,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     return next(
       new AppError(
         "The user belonging to this token does no longer exist.",
-        401,
-      ),
+        401
+      )
     );
   }
 
@@ -227,7 +226,7 @@ exports.restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return next(
-        new AppError("You do not have permission to perform this action", 403),
+        new AppError("You do not have permission to perform this action", 403)
       );
     }
 
@@ -328,7 +327,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
     return next(
       new AppError("There was an error sending the email. Try again later!"),
-      500,
+      500
     );
   }
 });
@@ -365,7 +364,7 @@ const signupToPharmacy = async (req, res, next) => {
   try {
     const resp = await axios.post(
       "http://localhost:8080/api/v1/user/signup",
-      req.body,
+      req.body
     );
     console.log(resp);
   } catch (err) {

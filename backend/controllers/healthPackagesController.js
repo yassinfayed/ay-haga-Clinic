@@ -2,6 +2,7 @@ const handlerFactory = require("./handlerFactory");
 const HealthPackage = require("../models/healthPackages");
 const catchAsync = require("../utils/catchAsync");
 const Patient = require("../models/patientModel");
+const User = require("../models/userModel");
 const FamilyMembers = require("../models/familyMembersModel");
 
 exports.createHealthPackage = handlerFactory.createOne(HealthPackage);
@@ -63,5 +64,15 @@ exports.getAllHealthPackage = catchAsync(async (req, res, next) => {
     data: {
       data: healthPackages,
     },
+  });
+});
+
+exports.getMyPackage = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ username: req.query.username });
+  const patient = await Patient.findOne({ user: user._id }).populate("package");
+  const pkg = patient?.package;
+
+  res.status(200).json({
+    discount: pkg ? pkg.medicineDiscount : 0,
   });
 });

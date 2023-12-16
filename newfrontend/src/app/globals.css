@@ -4,8 +4,7 @@
 
 @font-face {
   font-family: "GeneralSans";
-  src:
-    url("/fonts/GeneralSans-Variable.woff2") format("woff2"),
+  src: url("/fonts/GeneralSans-Variable.woff2") format("woff2"),
     url("/fonts/GeneralSans-Variable.woff") format("woff"),
     url("/fonts/GeneralSans-Variable.ttf") format("truetype");
   font-weight: 200 700;
@@ -307,4 +306,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .chatBorder {
   border-color: #3b3b3b !important;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid green;
+  -webkit-text-fill-color: green;
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
