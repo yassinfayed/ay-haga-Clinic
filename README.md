@@ -19,7 +19,7 @@ The motivation behind Vite Clinics stems from the need to improve healthcare acc
 
 ### Formatting:
 
-- Prettier: In conjunction with ESLint, we use Prettier as an opinionated code formatter. It enforces a consistent style by parsing code and re-printing it with its own rules that take the maximum line length into account, wrapping code when necessary.
+- Prettier: we use Prettier as an opinionated code formatter. It enforces a consistent style by parsing code and re-printing it with its own rules that take the maximum line length into account, wrapping code when necessary.
 
 ### Code Reviews:
 
@@ -431,21 +431,8 @@ Install with `npm`
 ```bash
 > git clone https://github.com/advanced-computer-lab-2023/ay-haga-Clinic.git
 > cd ay-haga-clinic/
-```
-
-open 2 terminals,
-write the following in the first one:
-
-```bash
-> cd backend
-> npm install
-```
-
-write the following in the second one:
-
-```bash
-> cd newfrontend
-> npm install
+> cd backend && npm i
+> cd newfrontend && npm i
 ```
 
 Frontend Dependencies
@@ -575,5 +562,6 @@ Acknowledgment of resources and tutorials that assisted in the project developme
 ## License
 
 - [stripe](https://stripe.com/)
+- [Apache 2.0] (https://www.apache.org/)
 - [mailjet](https://www.mailjet.com/)
 - [mailtrap](https://mailtrap.io/)
