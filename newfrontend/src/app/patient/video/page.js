@@ -137,7 +137,8 @@ function Video() {
               </h1>
               <div>
                 <p className="mt-4 text-muted text-center text-xl text-gray-400">
-                  Please wait until you receive the room Id from your doctor
+                  Please wait for your doctor to share the room ID with you on
+                  chat when your appointment begins.
                 </p>
               </div>
               <div className=" mt-[4rem] flex justify-center items-center">

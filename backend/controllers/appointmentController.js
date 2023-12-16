@@ -147,21 +147,34 @@ exports.rescheduleAppointment = catchAsync(async (req, res, next) => {
   //EMAIL LOGIC
   const patient = await Patient.findById(appointment.patientId);
   const userP = await User.findById(patient.user);
+  const doctor = await Doctor.findById(appointment.doctorId);
+  const userD = await User.findById(doctor.user);
   await new Email(patient, 0).R(appointment.date);
+  await new Email(doctor, 0).R(appointment.date);
 
   const newNotification = new Notification({
     title: "Appointment Rescheduled",
     text:
       "Your appointment with dr." +
-      appointment?.doctor?.name +
-      "has been rescheduled to: " +
+      doctor?.name +
+      " has been rescheduled to: " +
       appointment.date,
     user: userP._id,
   });
 
-  await newNotification.save();
+  const newNotification2 = new Notification({
+    title: "Appointment Rescheduled",
+    text:
+      "Your appointment with PATIENT" +
+      patient?.name +
+      "has been rescheduled to: " +
+      appointment.date,
+    user: userD._id,
+  });
 
-  const doctor = await Doctor.findById(appointment.doctorId);
+  await newNotification.save();
+  await newNotification2.save();
+
   const indexToRemove = doctor.availableDates.findIndex(
     (availableDate) =>
       availableDate.getTime() === new Date(req.body.date).getTime()
@@ -201,10 +214,11 @@ exports.cancelAppointment = catchAsync(async (req, res, next) => {
   const userP = await User.findById(patient.user);
   const { doctorId } = await Appointment.findByIdAndUpdate(req.params.id);
   const doctor = await Doctor.findById(doctorId);
+  const userD = await User.findById(appointment.doctorId.user);
   if (hoursDifference > 24 || req.user.role == "doctor") {
     userP.wallet += appointment.doctorId?.HourlyRate;
     await userP.save({ validateBeforeSave: false });
-    const userD = await User.findById(appointment.doctorId.user);
+
     userD.wallet -= appointment.doctorId?.HourlyRate;
     await userD.save({ validateBeforeSave: false });
   }
@@ -219,17 +233,25 @@ exports.cancelAppointment = catchAsync(async (req, res, next) => {
       data: appointment,
     },
   });
+
   await new Email(patient).cancel(appointment.date, "Cancelled");
+  await new Email(doctor).cancel(appointment.date, "Cancelled");
+
   const newNotification = new Notification({
     title: "Appointment Cancelled",
+    text: "Your appointment with dr." + doctor?.name + " has been cancelled",
+    user: userP?._id,
+  });
+
+  const newNotification2 = new Notification({
+    title: "Appointment Cancelled",
     text:
-      "Your appointment with dr." +
-      appointment?.doctor?.name +
-      " has been cancelled",
-    user: userP._id,
+      "Your appointment with patient" + patient?.name + " has been cancelled",
+    user: userD?._id,
   });
 
   await newNotification.save();
+  await newNotification2.save();
 });
 
 exports.evaluateFollowUp = catchAsync(async (req, res, next) => {

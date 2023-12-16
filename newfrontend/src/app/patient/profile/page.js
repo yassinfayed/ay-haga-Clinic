@@ -41,7 +41,7 @@ function Profile() {
   } = useSelector((state) => state.patientRemoveRecordReducer);
 
   const { error: downloadError } = useSelector(
-    (state) => state.downloadDoctorDocsReducer,
+    (state) => state.downloadDoctorDocsReducer
   );
 
   const [visibleFeedback, setVisibleFeedback] = useState(false);
@@ -54,7 +54,7 @@ function Profile() {
   }, [dispatch, uploadLoading, removeLoading]);
 
   const patient = useSelector(
-    (state) => state.patientViewMyDetailsReducer.patient,
+    (state) => state.patientViewMyDetailsReducer.patient
   );
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -143,11 +143,15 @@ function Profile() {
             </div>
             <div className="flex mt-5">
               <Image src="/mobile.svg" height={25} width={25}></Image>{" "}
-              <p className="ml-3 text-lg">0{patient?.patient.mobileNumber}</p>
+              <p className="ml-3 text-lg">{patient?.patient.mobileNumber}</p>
             </div>
             <div className="flex mt-5">
               <Image src="/health.svg" height={25} width={25}></Image>{" "}
-              <p className="ml-3 text-lg">{patient?.patient.package?.name}</p>
+              <p className="ml-3 text-lg">
+                {patient?.patient.package?.name
+                  ? patient?.patient.package?.name
+                  : "Not Subscriibed to a Health Package"}
+              </p>
             </div>
             <div className="flex mt-5">
               <Image src="/wallet.svg" height={25} width={25}></Image>{" "}
@@ -167,7 +171,7 @@ function Profile() {
             <div className="flex mt-5">
               <Image src="/mobile.svg" height={25} width={25} />
               <p className="ml-3 text-lg">
-                0{patient?.patient.emergencyContact.mobileNumber}
+                {patient?.patient.emergencyContact.mobileNumber}
               </p>
             </div>
           </Card>

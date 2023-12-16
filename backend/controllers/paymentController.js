@@ -94,7 +94,7 @@ const createSubscriptionsCheckout = async (session) => {
       package: session.metadata.hp,
       subscriptionStatus: "subscribed",
       renewalDate: Date.now() + 365 * 24 * 60 * 60 * 1000, //+1 year
-    },
+    }
   );
 };
 
@@ -107,7 +107,7 @@ exports.webhookCheckout = async (req, res, next) => {
     event = stripe.webhooks.constructEvent(
       req.body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET,
+      process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
     console.error(err);
@@ -182,7 +182,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       package: req.params.id,
       subscriptionStatus: "subscribed",
       renewalDate: Date.now() + 365 * 24 * 60 * 60 * 1000, //+1 year
-    },
+    }
   );
 
   res.status(200).json({
@@ -284,7 +284,7 @@ createAppointmentReservation = async (session) => {
   user.wallet += doctor.HourlyRate * 0.9; // +HOURLY_RATE REGARDLEESS OF DISCOUNT??
 
   const indexToRemove = doctor.availableDates.findIndex(
-    (availableDate) => availableDate.getTime() === new Date(date).getTime(),
+    (availableDate) => availableDate.getTime() === new Date(date).getTime()
   );
 
   if (indexToRemove !== -1) {
@@ -295,17 +295,29 @@ createAppointmentReservation = async (session) => {
   await doctor.save({ validateBeforeSave: false });
   await user.save({ validateBeforeSave: false });
   const userP = await User.findById(patient.user);
+  const userD = await User.findById(doctor.user);
   await new Email(patient).N(appointment.date);
+  await new Email(doctor).N(appointment.date);
   const newNotification = new Notification({
     title: "New Appointment",
     text:
       "Your appointment with dr." +
-      appointment?.doctor?.name +
-      "has been rescheduled to: " +
+      doctor?.name +
+      "has been reserved on: " +
       date,
     user: userP._id,
   });
+  const newNotification2 = new Notification({
+    title: "New Appointment",
+    text:
+      "New appointment with patient: " +
+      patient?.name +
+      " has been reserved on: " +
+      date,
+    user: userD._id,
+  });
   await newNotification.save();
+  await newNotification2.save();
 };
 
 exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
@@ -352,7 +364,7 @@ exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
   user.wallet += doctor.HourlyRate * 0.9; // +HOURLY_RATE REGARDLEESS OF DISCOUNT??
 
   const indexToRemove = doctor.availableDates.findIndex(
-    (availableDate) => availableDate.getTime() === new Date(date).getTime(),
+    (availableDate) => availableDate.getTime() === new Date(date).getTime()
   );
 
   if (indexToRemove !== -1) {
@@ -365,12 +377,30 @@ exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
 
   res.status(200).json({ message: "success" });
 
+  await doctor.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
   const userP = await User.findById(patient.user);
+  const userD = await User.findById(doctor.user);
   await new Email(patient).N(appointment.date);
+  await new Email(doctor).N(appointment.date);
   const newNotification = new Notification({
     title: "New Appointment",
-    text: "New appointment with date: " + date,
+    text:
+      "Your appointment with dr." +
+      doctor?.name +
+      "has been reserved on: " +
+      date,
     user: userP._id,
   });
+  const newNotification2 = new Notification({
+    title: "New Appointment",
+    text:
+      "New appointment with patient: " +
+      patient?.name +
+      " has been reserved on: " +
+      date,
+    user: userD._id,
+  });
   await newNotification.save();
+  await newNotification2.save();
 });
