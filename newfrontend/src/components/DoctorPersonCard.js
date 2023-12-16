@@ -177,10 +177,10 @@ const DoctorPersonCard = ({
   };
 
   return (
-    <div style={{ width: "150%" }} className="max-w-md">
+    <div className="">
       <div
-        style={css && { marginRight: "60px" }}
-        className="rounded-lg border border-gray-800 px-4 pt-8 pb-10 shadow-lg"
+        style={css}
+        className="rounded-lg border border-gray-800 px-4 pt-8 pb-10 shadow-lg w-full"
       >
         <div className="relative mx-auto w-28 rounded-full">
           <span className="absolute right-0 m-3 h-3 w-3 rounded-full bg-green-500 ring-2 ring-green-300 ring-offset-2"></span>
@@ -203,10 +203,10 @@ const DoctorPersonCard = ({
         </p>
         <div className="mt-3 flex flex-wrap justify-between md:space-x-1.2">
           {fields.map((field, index) => (
-            <div key={index} className="flex items-center py-3 text-sm w-full ">
+            <div key={index} className="flex justify-center items-center py-3 text-sm w-full ">
               <span className="mr-2">{renderIcon(field)}</span>
               {/* <span className="ml-1 mr-1">{data && displayNames[index]}: </span> */}
-              <span className="mr-auto">
+              <span className="">
                 {typeof (data && data[field]) === "number" ? (
                   <div className="flex items-center">
                     <p className="mr-2"> </p>
