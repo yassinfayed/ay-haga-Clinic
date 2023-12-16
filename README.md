@@ -39,7 +39,6 @@ The motivation behind Vite Clinics stems from the need to improve healthcare acc
 <details>
 <summary>Landing Page</summary>
 ![image](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/f0457fe6-fda3-4d57-8d07-fda5d523edc2)
-![image](https://user-images.githubusercontent.com/82768721/210188013-cf33cf2f-f473-4e47-a98e-9bec634a1afb.png)
 ![Screenshot 2023-12-16 204206](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/1d4df9df-3d2f-47ee-9357-3610afb2a0f4)
 
 </details>
