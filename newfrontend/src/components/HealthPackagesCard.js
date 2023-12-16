@@ -89,7 +89,7 @@ const PricingCard = ({ hp, patient, discount }) => {
         <div className="flex items-baseline text-gray-900 dark:text-white">
           <span className="text-3xl font-semibold">EGP</span>
           <span className="text-5xl font-extrabold tracking-tight">
-            {hp?.price}
+            {hp?.price?.toFixed(2)}
           </span>
           <span className="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">
             /year
