@@ -194,7 +194,7 @@ const PersonalCard = ({
         </h1>
         {data?.affiliation && (
           <h3 className="font-lg text-semibold text-center leading-6 text-gray-600">
-            {`Pharmacist at ${data?.affiliation}`}
+            {`Doctor at ${data?.educationalBackground}`}
           </h3>
         )}
         <p className="text-center text-sm leading-6 text-gray-500 hover:text-gray-600">
