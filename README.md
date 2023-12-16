@@ -63,6 +63,7 @@ Insert gif or link to demo
 - [Postman](https://www.postman.com/)
 - [VSCode](https://code.visualstudio.com/)
 - [tremor](https://www.tremor.so/)
+- [axios](https://www.npmjs.com/package/axios)
 - [Mailtrap](https://mailtrap.io/)
 
 ## Features
@@ -588,6 +589,6 @@ Acknowledgment of resources and tutorials that assisted in the project developme
 ## License
 
 - [stripe](https://stripe.com/)
-- [Apache 2.0] (https://www.apache.org/)
+- [Apache-2.0] (https://www.apache.org/)
 - [mailjet](https://www.mailjet.com/)
 - [mailtrap](https://mailtrap.io/)
