@@ -12,6 +12,7 @@ import { Button } from "@tremor/react";
 import { Tab } from "@tremor/react";
 import { TabList } from "@tremor/react";
 import { TabGroup } from "@tremor/react";
+import { CrossSendMessage } from "@/app/redux/actions/socketActions";
 
 // ChatPanel component
 const ChatPanel = ({ isOpen, handleClose }) => {
@@ -20,6 +21,13 @@ const ChatPanel = ({ isOpen, handleClose }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [crossMessage,setCrossMessage] = useState("");
+  const [pharmacy,setPharmacy] = useState("");
+  const [clinic,setClinic] = useState("");
+
+
+  const crossMessages = useSelector((state) => state.crossSocketReducer.messages);
+
   const socket = useRef();
   const role = JSON.parse(localStorage.getItem("userInfo"))?.data.user.role;
   let user;
@@ -30,6 +38,36 @@ const ChatPanel = ({ isOpen, handleClose }) => {
   }
   const scrollRef = useRef();
 
+
+
+  const handleCrossSendMessage = () => {
+    if (crossMessage.trim() === "") {
+      return; // Prevent sending empty messages
+    }
+
+    // Dispatch the action to send the message to the server
+    console.log(JSON.parse(localStorage.getItem("userInfo")).data.user._id);
+    dispatch(
+      CrossSendMessage({
+        sender: JSON.parse(localStorage.getItem("userInfo")).data.user._id,
+        receiver: "agent", // Adjust as needed
+        content: crossMessage,
+      })
+    );
+
+    // Clear the input field after sending the message
+    setCrossMessage("");
+  };
+
+  const selectPharmacy = () => {
+    setPharmacy(true);
+    setClinic(false);
+}
+
+const selectClinic = () => {
+  setClinic(true);
+  setPharmacy(false);
+}
 
   const [selectedTab, setSelectedTab] = useState("Clinic");
   const handleTabClick = (tab) => {
@@ -135,13 +173,14 @@ const ChatPanel = ({ isOpen, handleClose }) => {
             <p className="text-xl mr-3">Chat with your doctors</p>
         ) : (
           <>
-          <Button color="white" variant="secondary"> <p className="text-xl">Clinic</p> </Button>
-          <Button color="white" variant="secondary"> <p className="text-xl">Pharmacy</p></Button>
+          <Button color="white" variant="secondary"onClick={selectClinic}> <p className="text-xl" >Clinic</p> </Button>
+          <Button color="white" variant="secondary"onClick={selectPharmacy}> <p className="text-xl">Pharmacy</p></Button>
           </>
         )}
         </div>
       </div>
-      <div style={{ height: isOpen ? "400px" : "0px" }} className="flex">
+      {clinic ? (
+        <div style={{ height: isOpen ? "400px" : "0px" }} className="flex">
         <div className="conversation-list">
           {conversations.map((c) => (
             <div key={c._id} onClick={() => setCurrentChat(c)}>
@@ -178,6 +217,42 @@ const ChatPanel = ({ isOpen, handleClose }) => {
           </div>
         </div>
       </div>
+      ) : (
+        <div style={{ height: isOpen ? "400px" : "0px" }} className="chat-body">
+        
+          <div className="message-area">
+          {crossMessages.map((msg) => (
+            <div
+              key={msg.id}
+              className={
+                JSON.parse(localStorage.getItem("userInfo")).data.user._id ===
+                msg.sender
+                  ? `message user`
+                  : "message agent"
+              }
+            >
+              {msg.content}
+            </div>
+          ))}
+        </div>
+        <div className="flex">
+        <input
+          className="w-[15rem] px-2 py-1 border border-gray-700 chatBorder rounded text-black"
+          type="text"
+          placeholder="Type your message..."
+          value={crossMessage}
+          onChange={(e) => setCrossMessage(e.target.value)}
+        />
+        <button className="send-button ml-3" onClick={handleCrossSendMessage}>
+              <div className="flex items-center justify-center">
+                <FaPaperPlane width={25} height={25} />
+              </div>
+        </button>
+        </div>
+        
+      </div>
+      )}
+      
     </div>
   );
 };

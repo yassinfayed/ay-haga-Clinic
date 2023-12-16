@@ -70,6 +70,8 @@ import {
   updateNotificationReducer,
 } from "./reducers/notificationReducer";
 
+import { crossSocketReducer } from "./reducers/socketReducer";
+
 const store = configureStore({
   reducer: {
     loginReducer,
@@ -122,6 +124,7 @@ const store = configureStore({
     orderReducer,
     getNotificationsReducer,
     updateNotificationReducer,
+    crossSocketReducer
   },
 });
 
