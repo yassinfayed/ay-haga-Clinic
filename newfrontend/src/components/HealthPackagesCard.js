@@ -75,7 +75,13 @@ const PricingCard = ({ hp, patient, discount }) => {
         >
           {hp?.ogprice}
         </span>
-        <span className="ms-1 text-xl font-normal text-gray-500 line-through dark:text-gray-400">
+        <span
+          className={
+            discount
+              ? "ms-1 text-xl font-normal text-gray-500 line-through dark:text-gray-400"
+              : "ms-1 text-xl font-normal text-gray-500  dark:text-gray-400"
+          }
+        >
           /year
         </span>
       </div>

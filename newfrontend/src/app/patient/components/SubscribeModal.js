@@ -18,7 +18,11 @@ function SubscribeModal(props) {
 
   const dispatch = useDispatch();
 
-  const [packageReciever, setPackageReciever] = useState("me");
+  console.log(subscribed);
+  console.log(healthPackage);
+  const [packageReciever, setPackageReciever] = useState(
+    !subscribed ? "me" : "family"
+  );
   const [familyMember, setFamilyMember] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [submitted, setSubmitted] = useState(false);
@@ -103,7 +107,10 @@ function SubscribeModal(props) {
           <div className="flex w-full items-center justify-center">
             <div
               role={!subscribed && "button"}
-              onClick={() => handleRecieverChange("me")}
+              onClick={() => {
+                if (subscribed) return;
+                handleRecieverChange("me");
+              }}
               className="flex-1 flex-col grow flex items-center justify-center"
               style={{
                 filter: packageReciever === "me" ? "" : "brightness(0.3)",
