@@ -425,7 +425,8 @@ router.get(
 - **POST /webhook**
   Handles Stripe webhook events.
 
-## Patient Routes
+<details>
+<summary>## Patient Routes</summary>
 
 - **GET /api/v1/patient/auth**
   Authenticates a patient.
@@ -456,7 +457,9 @@ router.get(
 - **DELETE /api/v1/patient/removeDoc**
   Removes a document.
 
-## Doctor Routes
+</details>
+<details>
+<summary>## Doctor Routes</summary>
 
 - **GET /api/v1/doctor/auth**
   Authenticates a doctor.
@@ -485,7 +488,10 @@ router.get(
 - **GET /api/v1/doctor/my-details**
   Retrieves doctor's details.
 
-## Appointment Routes
+</details>
+
+<details>
+<summary>## Appointment Routes</summary>
 
 - **GET /api/v1/appointment/get-patient-appointments**
   Retrieves all patient appointments.
@@ -512,7 +518,9 @@ router.get(
 - **POST /api/v1/appointment/reserve/:id/:price**
   Creates appointment reservation.
 
-## Family Member Routes
+</details>
+<details>
+<summary>## Family Member Routes</summary>
 
 - **POST /api/v1/familyMembers/link**
   Links a family member.
@@ -523,7 +531,10 @@ router.get(
 - **GET /api/v1/familyMembers/view-all-family-members**
   Retrieves all family members and patients.
 
-## Prescription Routes
+</details>
+
+<details>
+<summary>## Prescription Routes</summary>
 
 - **POST /api/v1/prescriptions/addPrescription**
   Adds a prescription.
@@ -534,7 +545,10 @@ router.get(
 - **POST /api/v1/prescriptions/check**
   Checks a prescription.
 
-## Health Packages Routes
+</details>
+
+<details>
+<summary>## Health Packages Routes</summary>
 
 - **GET /api/v1/healthPackages/discount**
   Retrieves discount information.
@@ -555,7 +569,10 @@ router.get(
 - **GET /api/v1/healthPackages/services**
   Retrieves all health package services.
 
-## Authentication Routes
+</details>
+
+<details>
+<summary>## Authentication Routes</summary>
 
 - **GET /api/v1/auth/auth**
   Authenticates user.
@@ -574,26 +591,37 @@ router.get(
 - **POST /api/v1/auth/logout**
   Logs out user.
 
-## Notification Routes
+</details>
+
+<details>
+<summary>## Notification Routes</summary>
 
 - **PATCH /api/v1/notifications/:id**
   Updates a notification.
 - **GET /api/v1/notifications**
   Retrieves notifications.
 
-## Message Routes
+</details>
+
+<details>
+<summary>## Message Routes</summary>
 
 - **POST /api/v1/messages/createMessage**
   Creates a message.
 - **GET /api/v1/messages/getMessages/:id**
   Retrieves messages.
 
-## Chat Routes
+</details>
+
+<details>
+<summary>## Chat Routes</summary>
 
 - **GET /api/v1/chats/getChats/:id**
   Retrieves chats.
 - **POST /api/v1/chats/createChat**
   Creates a chat.
+
+</details>
 
 for more details refer to the [postman collection](./Elha2ny.postman_collection.json)
 
