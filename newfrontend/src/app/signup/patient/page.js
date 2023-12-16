@@ -2,7 +2,7 @@
 import Header from "@/components/Header";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import pharmacyanimation from "../../../../public/pharmacy.json";
+import doctorAnimation from "../../../../public/doctor.json";
 import Lottie from "lottie-react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerAction } from "@/app/redux/actions/authActions";
@@ -131,8 +131,8 @@ const Signup = () => {
       <div className="min-h-screen flex items-center justify-center bg-gray-900 text-gray-300">
         <div className="max-w-screen-xl m-0 sm:m-10 shadow sm:rounded-lg flex justify-center flex-1">
           <Lottie
-            animationData={pharmacyanimation}
-            className="w-[550px] h-[750px]"
+            animationData={doctorAnimation}
+            className="w-[550px] h-[850px]"
             loop={true}
           />
           <div className="lg:w-2/3 xl:w-2/3 p-6 sm:p-12 transform scale-70">

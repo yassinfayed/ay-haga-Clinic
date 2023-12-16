@@ -1,7 +1,7 @@
 "use client";
 import Header from "@/components/Header";
 import React, { useEffect, useState } from "react";
-import pharmacyanimation from "../../../../public/pharmacy.json";
+import doctorAnimation from "../../../../public/doctor.json";
 import Lottie from "lottie-react";
 import { login } from "@/app/redux/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -139,11 +139,8 @@ const Login = () => {
 
         {/* GIF to the Right */}
 
-        <Lottie
-          animationData={pharmacyanimation}
-          className="w-[550px] h-[550px]"
-          loop={true}
-        />
+        <Lottie animationData={doctorAnimation} loop={true} className='w-[550px] h-[550px]'/>          
+
 
         {loginError && (
           <BottomCallout
