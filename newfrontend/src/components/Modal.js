@@ -1,6 +1,6 @@
 const { Card } = require("@tremor/react");
 
-function Modal({ children, visible, setVisible, famFlag, className }) {
+function Modal({ children, visible, setVisible, famFlag, className, scroll = false }) {
   return (
     <div
       style={{
@@ -25,11 +25,13 @@ function Modal({ children, visible, setVisible, famFlag, className }) {
           minWidth: "500px",
           minHeight: `${famFlag ? "50px" : "500px"}`,
           zIndex: 50,
-          overflow: 'scroll'
+          overflow: scroll ? 'scroll' : 'auto'
         }}
         className={className}
       >
-        <Card style={{overflow: 'scroll'}} className="flex flex-col flex-1 grow">
+        <Card style={{
+          overflow: scroll ? 'scroll' : 'auto'
+        }} className="flex flex-col flex-1 grow">
           <div className="flex flex-row w-100">
             <div
               role="button"
