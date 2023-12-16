@@ -161,6 +161,7 @@ const PricingCard = ({ hp, patient, discount }) => {
                 setConfirm(true);
                 console.log("hey");
               }}
+              color="red"
               className="text-white  focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
             >
               Cancel subscription

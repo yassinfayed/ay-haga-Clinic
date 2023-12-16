@@ -77,7 +77,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     cancel_url: `http://localhost:3000/patient/health`,
     metadata: {
       hp: req.params.id,
-      pkgBuyer: req.user._id,
+      pkgBuyer: req.user._id.toString(),
     },
   });
   res.status(200).json({
@@ -184,7 +184,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       package: req.params.id,
       subscriptionStatus: "subscribed",
       renewalDate: Date.now() + 365 * 24 * 60 * 60 * 1000, //+1 year
-      pkgBuyer: req.user._id,
+      pkgBuyer: req.user._id?.toString(),
     }
   );
 
@@ -249,7 +249,7 @@ exports.getReservationCheckoutSession = catchAsync(async (req, res, next) => {
       dr: req.params.id,
       date: req.query.date,
       reserve: "true",
-      paidUser: req.user._id,
+      paidUser: req.user._id?.toString(),
       paid: price,
     },
   });
@@ -270,6 +270,7 @@ createAppointmentReservation = async (session) => {
     doctorId: doctorId,
     date: date,
     paidUser: session.metadata.paidUser,
+    paid: session.metadata.paid,
   });
   const existingChat = await Chat.findOne({
     members: { $all: [patientId.toString(), doctorId.toString()] },

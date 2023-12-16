@@ -141,77 +141,77 @@ const FamilyAppointments = ({ memberId, memberName }) => {
   const rows = useMemo(() => {
     return appointmentsData && appointmentsData.data
       ? appointmentsData.data.map((value) => ({
-        date: new Date(value.date).toLocaleString(),
-        doctorname: value.doctorId?.name,
-        status: value.status,
-        buttons:
-          value.status === "Upcoming" ? (
-            value.followUp === "None" ? (
-              <>
-                <Button
-                  variant="secondary"
-                  className="mx-7"
-                  onClick={(e) => {
-                    handleReschedule(value.doctorId._id, value._id);
-                  }}
-                >
-                  Reschedule
-                </Button>
-                <Button
-                  variant="secondary"
-                  color="red"
-                  onClick={(e) => handleCancel(value._id)}
-                >
-                  Cancel
-                </Button>
-              </>
+          date: new Date(value.date).toLocaleString(),
+          doctorname: value.doctorId?.name,
+          status: value.status,
+          buttons:
+            value.status === "Upcoming" ? (
+              value.followUp === "None" ? (
+                <>
+                  <Button
+                    variant="secondary"
+                    className="mx-7"
+                    onClick={(e) => {
+                      handleReschedule(value.doctorId._id, value._id);
+                    }}
+                  >
+                    Reschedule
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    color="red"
+                    onClick={(e) => handleCancel(value._id)}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    disabled={true}
+                    variant="secondary"
+                    className="mx-7"
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      color: "transparent",
+                      cursor: "default",
+                    }}
+                  >
+                    Reschedule
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    color="red"
+                    onClick={(e) => handleCancel(value._id)}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              )
+            ) : value.status === "Completed" ? (
+              value.followUp === "None" ? (
+                <>
+                  <Button
+                    variant="secondary"
+                    className="mx-8"
+                    color="green"
+                    onClick={(e) => handleFollowUp(value._id)}
+                  >
+                    Follow Up
+                  </Button>
+                </>
+              ) : value.followUp === "FollowUpRequest" ? (
+                <span className="mx-10">Awaiting Doctor</span>
+              ) : value.followUp === "Accepted" ? (
+                <span className="mx-10">Follow Up Scheduled</span>
+              ) : (
+                <span className="mx-10">Follow Up Rejected</span>
+              )
             ) : (
-              <>
-                <Button
-                  disabled={true}
-                  variant="secondary"
-                  className="mx-7"
-                  style={{
-                    background: "transparent",
-                    border: "none",
-                    color: "transparent",
-                    cursor: "default",
-                  }}
-                >
-                  Reschedule
-                </Button>
-                <Button
-                  variant="secondary"
-                  color="red"
-                  onClick={(e) => handleCancel(value._id)}
-                >
-                  Cancel
-                </Button>
-              </>
-            )
-          ) : value.status === "Completed" ? (
-            value.followUp === "None" ? (
-              <>
-                <Button
-                  variant="secondary"
-                  className="mx-8"
-                  color="green"
-                  onClick={(e) => handleFollowUp(value._id)}
-                >
-                  Follow Up
-                </Button>
-              </>
-            ) : value.followUp === "FollowUpRequest" ? (
-              <span className="mx-10">Awaiting Doctor</span>
-            ) : value.followUp === "Accepted" ? (
-              <span className="mx-10">Follow Up Scheduled</span>
-            ) : (
-              <span className="mx-10">Follow Up Rejected</span>
-            )
-          ) : (
-            ""
-          ),
-      }))
+              ""
+            ),
+        }))
       : [];
   }, [appointmentsData]);
   console.log(appointmentsData, !appointmentsData?.data[0]);
@@ -310,7 +310,7 @@ const FamilyAppointments = ({ memberId, memberName }) => {
                   <SelectItem value="">Filter by status</SelectItem>
                   <SelectItem value="Completed">Completed</SelectItem>
                   <SelectItem value="Upcoming">Upcoming</SelectItem>
-                  <SelectItem value="Missed">Missed</SelectItem>
+                  {/* <SelectItem value="Missed">Missed</SelectItem> */}
                   <SelectItem value="Cancelled">Cancelled</SelectItem>
                   <SelectItem value="Rescheduled">Rescheduled</SelectItem>
                 </Select>
@@ -401,14 +401,19 @@ const FamilyAppointments = ({ memberId, memberName }) => {
           </Card>
         </>
       )}
-      <Modal visible={reschedule} setVisible={setReschedule} className="w-full h-full" scroll={true}>
-        {reschedule &&
+      <Modal
+        visible={reschedule}
+        setVisible={setReschedule}
+        className="w-full h-full"
+        scroll={true}
+      >
+        {reschedule && (
           <RescheduleCalendar
             setCalendar={setReschedule}
             id={doctorID}
             appointmentId={appointmentId}
           ></RescheduleCalendar>
-        }
+        )}
       </Modal>
     </>
   );

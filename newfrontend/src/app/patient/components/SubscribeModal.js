@@ -190,7 +190,9 @@ function SubscribeModal(props) {
               }
             >
               Wallet (Available Balance:{" "}
-              {JSON.parse(localStorage.getItem("userInfo")).data?.user.wallet}{" "}
+              {JSON.parse(
+                localStorage.getItem("userInfo")
+              ).data?.user.wallet.toFixed(2)}{" "}
               USD)
             </SelectItem>
 

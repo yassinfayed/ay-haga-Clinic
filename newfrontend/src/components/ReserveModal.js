@@ -92,22 +92,22 @@ function ReserveModal(props) {
   const [init, setInit] = useState(false);
 
   useEffect(() => {
-    if (!loading && init == true) {
-      window.location.href = "/patient/appointments";
+    if (!loading && init == true && paymentMethod != "Stripe") {
+      // window.location.href = "/patient/appointments";
     }
     setInit(true);
   }, [loading]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      !packageReciever ||
-      (packageReciever === "family" && !familyMember) ||
-      !paymentMethod
-    ) {
-      setAlert(true);
-      return;
-    }
+    // if (
+    //   !packageReciever ||
+    //   (packageReciever === "family" && !familyMember) ||
+    //   !paymentMethod
+    // ) {
+    //   setAlert(true);
+    //   return;
+    // }
 
     const price = health
       ? hourlyRate - hourlyRate * (health / 100)
