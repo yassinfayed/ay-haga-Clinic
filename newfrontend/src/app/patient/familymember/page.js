@@ -147,7 +147,7 @@ function Familymembers() {
         ) : (
           <div className="flex flex-wrap -mx-2">
             {fam.map((member, index) => (
-              <div key={index} className="">
+              <div key={index}>
                 <FamilyMemberCard
                   member={member}
                   name={member.name}
