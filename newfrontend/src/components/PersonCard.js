@@ -192,13 +192,13 @@ const PersonalCard = ({
         <h1 className="my-1 text-center text-xl font-bold leading-8 text-gray-400">
           {name}
         </h1>
-        {data?.affiliation && (
+        {data?.educationalbackground && (
           <h3 className="font-lg text-semibold text-center leading-6 text-gray-600">
-            {`Doctor at ${data?.educationalBackground}`}
+            {`Doctor at ${data?.educationalbackground}`}
           </h3>
         )}
         <p className="text-center text-sm leading-6 text-gray-500 hover:text-gray-600">
-          {data?.educationalBackground}
+          {data?.affiliation}
         </p>
         <div className="mt-3 flex flex-row items-center justify-center">
           <div>
