@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Button } from "@tremor/react";
+import { Badge, Button, Card } from "@tremor/react";
 import { useDispatch } from "react-redux";
 
 import { downloadPrescription } from "@/app/redux/actions/prescriptionsActions";
 import { CheckoutToPharmacy } from "@/app/redux/services/getMedicinesFromPharmacy";
 import { BottomCallout } from "./BottomCallout";
+import { translateDate } from "@/util";
 
 const PrescriptionCard = ({
   id,
@@ -40,29 +41,20 @@ const PrescriptionCard = ({
               Medicines
             </h3>
             {medicines && medicines.length > 0 ? (
-              <table className="min-w-full text-sm text-gray-500 mt-2">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-2 px-4">Medicine</th>
-                    <th className="text-left py-2 px-4">Dosage</th>
-                    <th className="text-left py-2 px-4">Frequency</th>
-                    <th className="text-left py-2 px-4">From - To</th>
-                  </tr>
-                </thead>
-                <tbody>
+              <>
+                <ul className="w-full text-center">
                   {medicines.map((medicine, index) => (
-                    <tr key={index} className="border-b">
-                      <td className="py-2 px-4">{medicine.medicine}</td>
-                      <td className="py-2 px-4">{medicine.dosage}</td>
-                      <td className="py-2 px-4">{medicine.frequency}</td>
-                      <td className="py-2 px-4">
-                        {formatDate(medicine.startDate)} -{" "}
-                        {formatDate(medicine.endDate)}
-                      </td>
-                    </tr>
+                    <li className="my-2">
+                      <Card>
+                        <p className="mb-1">{medicine.medicine} ({medicine.dosage})</p>
+                        <Badge className="my-1">{medicine.frequency}</Badge>
+                        <p className="text-sm text-gray-600 my-1">{translateDate(new Date(medicine.startDate))[0]} - {translateDate(new Date(medicine.endDate))[0]}</p>
+                      </Card>
+                    </li>
                   ))}
-                </tbody>
-              </table>
+                  
+                </ul>
+              </>
             ) : (
               <p className="text-center">No Medicines Found</p>
             )}
@@ -81,7 +73,7 @@ const PrescriptionCard = ({
             </Button>
             {!filled &&
               JSON.parse(localStorage.getItem("userInfo"))?.data.user.role ==
-                "patient" && (
+              "patient" && (
                 <Button
                   className="border mx-6 px-4 py-2 rounded"
                   color="blue"

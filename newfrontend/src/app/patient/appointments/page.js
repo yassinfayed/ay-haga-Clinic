@@ -1,22 +1,19 @@
 "use client";
 import { getPatientAppointments } from "@/app/redux/actions/patientActions";
 import { BottomCallout } from "@/components/BottomCallout";
-import PersonalCard from "@/components/PersonCard";
 import TableComponent from "@/components/Table";
-import React, { useEffect, useMemo, useState } from "react";
+import { Button, DatePicker, Select, SelectItem } from "@tremor/react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { formatDateToDDMMYYYY } from "../../redux/validators";
-import { Button, DatePicker } from "@tremor/react";
-import { Select, SelectItem, TextInput } from "@tremor/react";
 
 import {
   cancelAction,
   followUpAction,
 } from "@/app/redux/actions/appointmentActions";
-import ReserveCalendar from "@/components/ReserveCalendar";
 import { viewDoctorDetails } from "@/app/redux/actions/doctorActions";
-import RescheduleCalendar from "@/components/RescheduleCalendar";
 import PromptMessage from "@/components/PromptMessage";
+import RescheduleCalendar from "@/components/RescheduleCalendar";
+import { translateDate } from "@/util";
 
 const Appointments = () => {
   const dispatch = useDispatch();
@@ -107,7 +104,7 @@ const Appointments = () => {
   const appointmentList = useMemo(() => {
     return appointments?.data?.map(
       ({ date, doctorId, status, followUp, _id }) => ({
-        date: formatDateToDDMMYYYY(date),
+        date: translateDate(new Date(date))[0] + ' @ ' + translateDate(new Date(date))[1],
         doctorname: doctorId.name,
         status: status,
         buttons:

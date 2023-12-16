@@ -21,9 +21,9 @@ const Prescriptions = ({ params }) => {
     //   dispatch(downloadPharmacistDocs(pharmId));
   };
   // const [followUpFeedback, setFollowUpFeedback] = useState(true);
-  const [createPrescriptionFeedback, setCreatePrescriptionFeedback] = useState( true);
+  const [createPrescriptionFeedback, setCreatePrescriptionFeedback] = useState(true);
 
-  const [updatePrescriptionFeedback, setUpdatePrescriptionFeedback] = useState( true);
+  const [updatePrescriptionFeedback, setUpdatePrescriptionFeedback] = useState(true);
   const { prescription, loading } = useSelector(
     (state) => state.viewAllPrescriptionsReducer
   );
@@ -56,7 +56,7 @@ const Prescriptions = ({ params }) => {
     setFreeze(true);
   };
 
-  const { loading: updateLoading  , prescription: updatePrescription, error: updateError
+  const { loading: updateLoading, prescription: updatePrescription, error: updateError
   } = useSelector(
     (state) => state.updatePrescriptionReducer
   );
@@ -164,7 +164,7 @@ const Prescriptions = ({ params }) => {
   return (
     <>
 
-{createError  && (
+      {createError && (
         <BottomCallout
           message="Error creating prescription"
           visible={createPrescriptionFeedback}
@@ -198,27 +198,33 @@ const Prescriptions = ({ params }) => {
       )}
 
       <>
-        <div className="w-full flex flex-row gap-4 mb-4 divide-x divide-gray-400">
-          <button
+        <div className="w-full flex flex-row gap-4 mb-4 divide-gray-400">
+          <h1 className="font-bold text-xl">Prescriptions</h1>
+          <svg role="button" onClick={() => setOpen(true)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-6 h-6">
+            <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z" clipRule="evenodd" />
+          </svg>
+
+
+
+          {/* <button
             onClick={() => {
               setOpen(true);
             }}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            Add New Prescription
-          </button>
+            
+          </button> */}
         </div>
 
-        {open && (
-          <AddPrescription
-            medicines={medicines}
-            setVisible={setOpen}
-            setMedicines={setMedicines}
-            instructions={instructions}
-            setInstructions={setInstructions}
-            handleSubmit={handleSubmit}
-          />
-        )}
+        <AddPrescription
+          medicines={medicines}
+          visible={open}
+          setVisible={setOpen}
+          setMedicines={setMedicines}
+          instructions={instructions}
+          setInstructions={setInstructions}
+          handleSubmit={handleSubmit}
+        />
         <div className="flex overflow-hidden gap-x-4 gap-y-8">
           <div className="prof h-400 overflow-hidden w-4/6 rounded-xl p-10">
             <TableComponent
