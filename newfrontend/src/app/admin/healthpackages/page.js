@@ -20,12 +20,12 @@ import { EditHealthPackageModal } from "@/components/EditHealthPackage";
 
 const HealthPackage = () => {
   const [showCallout, setShowCallout] = useState(false);
-  const [showCreate,setShowCreate] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
   const [modalShow, setModalShow] = useState(false);
-  const [showRemove,setShowRemove] = useState(false);
-  const [showEdit,setShowEdit] = useState(false);
+  const [showRemove, setShowRemove] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const UpdateisLoading = useSelector(
-    (state) => state.updateHealthPackageReducer.loading,
+    (state) => state.updateHealthPackageReducer.loading
   );
   const [id, setId] = useState(0);
   const {
@@ -131,14 +131,16 @@ const HealthPackage = () => {
 
   return (
     <>
-      <EditHealthPackageModal
-        visible={modalShow}
-        setVisible={setModalShow}
-        data={data}
-        setData={setData}
-        setId={setId}
-        setShowCall={setShowEdit}
-      ></EditHealthPackageModal>
+      {modalShow && (
+        <EditHealthPackageModal
+          visible={modalShow}
+          setVisible={setModalShow}
+          data={data}
+          setData={setData}
+          setId={setId}
+          setShowCall={setShowEdit}
+        ></EditHealthPackageModal>
+      )}
       {createSuccess && (
         // Show success message for registration
         <BottomCallout
@@ -365,7 +367,13 @@ const HealthPackage = () => {
             <Button
               loading={createLoading}
               onClick={handleSubmit}
-              disabled={formData.name === "" || formData.doctorDiscount === "" || formData.familyMemberSubDiscount === "" || formData.medicineDiscount === "" || formData.price === ""}
+              disabled={
+                formData.name === "" ||
+                formData.doctorDiscount === "" ||
+                formData.familyMemberSubDiscount === "" ||
+                formData.medicineDiscount === "" ||
+                formData.price === ""
+              }
               className="mt-5 tracking-wide font-semibold bg-purple-600 text-gray-100 w-full py-4 rounded-lg hover:bg-purple-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
             >
               <span className="ml-3">Submit</span>
