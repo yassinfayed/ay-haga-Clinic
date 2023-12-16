@@ -322,6 +322,7 @@ const FamilyAppointments = ({ memberId, memberName }) => {
                   placeholderText="Filter by date"
                   className="w-full"
                 />
+
                 <Button
                   variant="secondary"
                   className="px-4  rounded"
