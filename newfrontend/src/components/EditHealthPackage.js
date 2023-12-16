@@ -4,7 +4,7 @@ const {
 const {
   updateHealthPackageReducer,
 } = require("@/app/redux/reducers/healthPackagesReducer");
-const { Card, TextInput, Button } = require("@tremor/react");
+const { Card, TextInput, Button, NumberInput } = require("@tremor/react");
 const { useState, useEffect } = require("react");
 const { useDispatch } = require("react-redux");
 
@@ -110,56 +110,38 @@ function EditHealthPackageModal({
             </h2>
             <div className="flex flex-row w-100"></div>
             {children}
+            <h1>Health Package Name</h1>
             <TextInput
               onChange={handleChange}
-              className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 mt-5"
+              className="mt-1"
               type="name"
               placeholder={data?.name}
-              // placeholder="Package Name"
               name="name"
               required
-              //   error={
-              //     createError && formData.name===""
-              //   }
-              //   errorMessage={
-              //     createError && formData.name==="" &&
-              //     "Please enter a package name"
-              //   }
             />
-            <TextInput
-              className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400  mt-5"
+
+            <h1 className="mt-2">Doctor Discount</h1>
+            <NumberInput
+              className="mt-1"
               type="number"
               placeholder={data?.doctorDiscount}
-              // placeholder="Doctor Session Discount"
               onChange={handleChange}
               name="doctorDiscount"
               required
-              //   error={
-              //     createError && formData.doctorDiscount===""
-              //   }
-              //   errorMessage={
-              //     createError && formData.doctorDiscount==="" &&
-              //     "Please enter a doctor session discount"
-              //   }
             />
-            <TextInput
-              className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400  mt-5"
+            <h1 className="mt-2">Family Member Subscription Discount</h1>
+            <NumberInput
+              className="mt-1"
               type="number"
               placeholder={data?.familyMemberSubDiscount}
               // placeholder="Subscription Discount"
               onChange={handleChange}
               name="familyMemberSubDiscount"
               required
-              //   error={
-              //     createError && formData.familyMemberSubDiscount===""
-              //   }
-              //   errorMessage={
-              //     createError && formData.familyMemberSubDiscount==="" &&
-              //     "Please enter a family member subscription discount"
-              //   }
             />
-            <TextInput
-              className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400  mt-5"
+            <h1>Medicine Discount</h1>
+            <NumberInput
+              className="mt-1"
               type="number"
               placeholder={data?.medicineDiscount}
               // placeholder="Medicine Discount"
@@ -167,29 +149,16 @@ function EditHealthPackageModal({
               name="medicineDiscount"
               maxLength={3}
               required
-              //   error={
-              //     createError && formData.medicineDiscount===""
-              //   }
-              //   errorMessage={
-              //     createError && formData.medicineDiscount==="" &&
-              //     "Please enter a medicine discount"
-              //   }
             />
-            <TextInput
-              className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400  mt-5"
+            <h1 className="mt-2">Price of Health Package</h1>
+            <NumberInput
+              className="mt-1"
               type="number"
               placeholder={data?.price}
               // placeholder="Price"
               onChange={handleChange}
               name="price"
               required
-              //   error={
-              //     createError && formData.price===""
-              //   }
-              //   errorMessage={
-              //     createError && formData.price==="" &&
-              //     "Please enter a price"
-              //   }
             />
             <Button
               //   loading={createLoading}
