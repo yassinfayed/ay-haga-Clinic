@@ -38,11 +38,10 @@ const PricingCard = ({ hp, patient }) => {
 
   const cardClasses = `
     w-full max-w-sm p-4 bg-white rounded-lg shadow sm:p-8 dark:bg-gray-800
-    ${
-      patient?.package === hp._id &&
+    ${patient?.package === hp._id &&
       patient?.subscriptionStatus === "subscribed"
-        ? "border-4 border-purple-500"
-        : "border border-gray-200 dark:border-gray-700"
+      ? "border-4 border-purple-500"
+      : "border border-gray-200 dark:border-gray-700"
     }
   `;
   const { success: orderSuccess, loading: orderLoading } = useSelector(
@@ -117,12 +116,11 @@ const PricingCard = ({ hp, patient }) => {
       </ul>
 
       <div
-        className={`grid grid-cols-1 gap-4 ${
-          patient?.package === hp._id &&
-          patient?.subscriptionStatus === "subscribed"
+        className={`grid grid-cols-1 gap-4 ${patient?.package === hp._id &&
+            patient?.subscriptionStatus === "subscribed"
             ? "md:grid-cols-2"
             : "md:grid-cols-1"
-        }`}
+          }`}
       >
         {patient?.package === hp._id &&
           patient?.subscriptionStatus === "subscribed" && (
@@ -148,7 +146,7 @@ const PricingCard = ({ hp, patient }) => {
           }}
           className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
         >
-          Choose plan
+          <span className="text-white font-semibold">Choose Plan</span>
         </Button>
         <PromptMessage
           visible={confirm}

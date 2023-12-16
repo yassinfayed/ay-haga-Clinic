@@ -104,9 +104,9 @@ const Patients = () => {
             "Name",
             "Email",
             "Birth Date",
-            "Emergency Contact Number",
-            "Emergency Contact Email",
-            "Emergency Contact Relation",
+            "Emergency Name",
+            "Emergency Number",
+            "Emergency Relation",
           ]}
           fields={[
             "username",

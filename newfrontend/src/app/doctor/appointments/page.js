@@ -19,6 +19,7 @@ import {
 } from "@/app/redux/actions/appointmentActions";
 import { rescheduleReducer } from "@/app/redux/reducers/appointmentReducer";
 import PromptMessage from "@/components/PromptMessage";
+import { translateDate } from "@/util";
 
 const Appointments = () => {
   const dispatch = useDispatch();
@@ -252,7 +253,7 @@ const Appointments = () => {
               columns={["Patient Name", "Date", "Status", ""]}
               fields={["patientname", "date", "status", "detailsButton"]}
               rows={appointments?.data?.map((appointment) => ({
-                date: formatDateToDDMMYYYY(appointment.date),
+                date: translateDate(new Date(appointment.date))[0] + " @ " + translateDate(new Date(appointment.date))[1],
                 patientname: appointment.patientId?.name,
                 status: appointment.status,
                 detailsButton: (
