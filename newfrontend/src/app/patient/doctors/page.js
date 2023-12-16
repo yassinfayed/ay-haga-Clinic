@@ -266,7 +266,6 @@ const DoctorsPage = () => {
                   displayColumns={["Status", "Joined On"]}
                   actualColumns={["status", "joinedOn"]}
                   selected={doctorSelected}
-                  css={{ marginRight: "50px" }}
                   worker={true}
                   fields={["username", "email", "DateOfbirth", "sessionPrice"]}
                   displayNames={[
