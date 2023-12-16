@@ -1030,6 +1030,7 @@ Acknowledgment of resources and tutorials that assisted in the project developme
 ## License
 
 - [stripe](https://stripe.com/)
-- [Apache-2.0] (https://www.apache.org/)
+- [MIT](https://opensource.org/license/mit/)
+- [Apache-2.0](https://www.apache.org/)
 - [mailjet](https://www.mailjet.com/)
 - [mailtrap](https://mailtrap.io/)
