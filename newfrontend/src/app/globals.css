@@ -99,6 +99,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: rgb(17, 24, 39, var(--tw-bg-opacity));
 }
 
+.prof-hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(40, 51, 77, var(--tw-bg-opacity));
+}
+
+.text-prof {
+  --tw-bg-opacity: 1;
+  color: rgb(17, 24, 39, var(--tw-bg-opacity));
+}
+
+
 @keyframes slideInRight {
   0% {
     transform: translateX(100%);

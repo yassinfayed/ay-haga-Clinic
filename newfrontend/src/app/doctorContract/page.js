@@ -59,8 +59,7 @@ const ContractPage = () => {
 
   return (
     <div>
-      {/* add header here  with logo & logout*/}
-      {docStatus === "Pending" ? (
+    {docStatus === 'Pending' ? (
         <div className="container mx-auto my-5 p-16">
           <h1
             style={{
@@ -82,7 +81,7 @@ const ContractPage = () => {
             }}
           >
             {" "}
-            Harmony Clinic
+            Vite Clinic
           </h1>
           <div className="flex justify-center items-center my-4">
             <hr className="w-1/2" />
