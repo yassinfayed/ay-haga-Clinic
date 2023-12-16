@@ -47,7 +47,7 @@ const Signup = () => {
     const confirmPassword = e.target.value;
     setPasswordMatch(
       formData.password === confirmPassword ||
-        formData.passwordConfirm === confirmPassword,
+        formData.passwordConfirm === confirmPassword
     );
     handleInputChange(e);
   };
@@ -104,7 +104,7 @@ const Signup = () => {
           mobileNumber: formData.eNumber,
           relationToPatient: formData.erelationToPatient,
         },
-      }),
+      })
     );
   };
 
@@ -122,7 +122,7 @@ const Signup = () => {
       {registerError && (
         // Show success message for registration
         <BottomCallout
-          message="Please fill in the required fields correctly"
+          message={registerError}
           variant="error"
           visible={true}
           setVisible={setVisibleFeedback}
@@ -268,7 +268,7 @@ const Signup = () => {
                           formData.mobileNumber !== ""
                             ? formData.mobileNumber &&
                               !validatePhoneNumber(formData.mobileNumber) &&
-                              "Please enter 11 digits sarting by a zero"
+                              "Please enter 11 digits starting by a zero"
                             : registerError && "Please fill in this field"
                         }
                       />
@@ -322,15 +322,16 @@ const Signup = () => {
 
                     {/* <Image src="/birthday.svg" height={25} width={25}></Image> <p className="ml-3 text-lg"></p> */}
                     <Col>
-                      <TextInput
-                        className="w-full px-8 py-4 rounded-lg font-medium   placeholder-gray-500 text-lg  "
-                        type="text"
-                        placeholder="DD/MM/YY*"
-                        name="dateOfBirth"
-                        value={formData.dateOfBirth}
-                        onChange={handleInputChange}
-                        required
-                      />
+                      <div className="relative">
+                        <input
+                          name="dateOfBirth"
+                          value={formData.dateOfBirth}
+                          onChange={handleInputChange}
+                          type="date"
+                          required
+                          className="p-2 bg-gray-800 text-white border border-gray-700 rounded-md outline-none w-full px-8 py-4 rounded-lg font-medium   placeholder-gray-500 text-lg focus:shadow-outline focus:border-blue-500"
+                        />
+                      </div>
                     </Col>
 
                     <Col>

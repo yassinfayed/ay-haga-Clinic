@@ -33,30 +33,37 @@ const MedicineInputFields = ({
       ))}
     </Select>
     <TextInput
-      placeholder="Dosage"
+      placeholder="Dosage (in mg)"
       value={med.dosage}
+      type="number"
       onValueChange={(e) => handleMedicineChange(index, "dosage", e)}
       className="mb-4"
+      required
     />
     <TextInput
       placeholder="Frequency"
       value={med.frequency}
       onValueChange={(e) => handleMedicineChange(index, "frequency", e)}
       className="mb-4"
+      required
     />
     <DatePicker
       placeholder="Start Date"
       value={med.startDate && new Date(med.startDate)}
       onValueChange={(date) => handleMedicineChange(index, "startDate", date)}
       className="mb-4"
+      required
     />
     <DatePicker
       placeholder="End Date"
       value={med.endDate && new Date(med.endDate)}
       onValueChange={(date) => handleMedicineChange(index, "endDate", date)}
       className="mb-4"
+      required
     />
-    <Button onClick={() => deleteMedicine(index)}>Delete Medicine</Button>
+    <Button color="rose" onClick={() => deleteMedicine(index)}>
+      Delete Medicine
+    </Button>
   </div>
 );
 const AddPrescription = ({
@@ -125,13 +132,11 @@ const AddPrescription = ({
               medicines={pMedicines}
             />
           ))}
-          <Button onClick={addMedicine}>Add Medicine</Button>
-
-          <TextInput
-            placeholder="Instructions"
-            value={instructions}
-            onValueChange={(e) => setInstructions(e)}
-          />
+          <div className="mb-4">
+            <Button onClick={addMedicine} variant="secondary">
+              Add New Medicine
+            </Button>
+          </div>
 
           <Button className="mt-4" onClick={handleSubmit}>
             Submit Prescription

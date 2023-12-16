@@ -36,9 +36,7 @@ exports.getAllPatientAppointments = catchAsync(async (req, res, next) => {
     query.date = {
       $gte: new Date(req.query.date),
       $lt: new Date(
-        new Date(req.query.date).setDate(
-          new Date(req.query.date).getDate() + 1,
-        ),
+        new Date(req.query.date).setDate(new Date(req.query.date).getDate() + 1)
       ),
     };
   }
@@ -62,11 +60,23 @@ exports.getAllDoctorAppointments = catchAsync(async (req, res, next) => {
   const doctor = await Doctor.findOne({ user: req.user._id });
   const doctorId = doctor._id;
 
-  const features = new APIFeatures(
-    Appointment.find({ doctorId: doctorId }).populate("patientId"),
-    req.query,
-  ).filter();
-  const appts = await features.query;
+  const query = { doctorId: doctorId };
+  if (req.query.date) {
+    query.date = {
+      $gte: new Date(req.query.date),
+      $lt: new Date(
+        new Date(req.query.date).setDate(new Date(req.query.date).getDate() + 1)
+      ),
+    };
+  }
+
+  if (req.query.status) {
+    query.status = req.query.status;
+  }
+
+  const appts = await Appointment.find(query)
+    .populate("doctorId")
+    .populate("patientId");
 
   res.status(200).json({
     status: "success",
@@ -93,7 +103,7 @@ exports.followUpAppointment = catchAsync(async (req, res, next) => {
       {
         new: true,
         //runValidators: true,
-      },
+      }
     );
     appt = new Appointment({
       date: req.body.date,
@@ -110,7 +120,7 @@ exports.followUpAppointment = catchAsync(async (req, res, next) => {
       {
         new: true,
         // runValidators: true
-      },
+      }
     );
   }
 
@@ -132,7 +142,7 @@ exports.rescheduleAppointment = catchAsync(async (req, res, next) => {
     {
       new: true,
       runValidators: true,
-    },
+    }
   );
   //EMAIL LOGIC
   const patient = await Patient.findById(appointment.patientId);
@@ -154,7 +164,7 @@ exports.rescheduleAppointment = catchAsync(async (req, res, next) => {
   const doctor = await Doctor.findById(appointment.doctorId);
   const indexToRemove = doctor.availableDates.findIndex(
     (availableDate) =>
-      availableDate.getTime() === new Date(req.body.date).getTime(),
+      availableDate.getTime() === new Date(req.body.date).getTime()
   );
 
   if (indexToRemove !== -1) {
@@ -180,7 +190,7 @@ exports.cancelAppointment = catchAsync(async (req, res, next) => {
     {
       new: true,
       // runValidators: true
-    },
+    }
   )
     .populate("doctorId")
     .exec();
@@ -231,7 +241,7 @@ exports.evaluateFollowUp = catchAsync(async (req, res, next) => {
       {
         new: true,
         // runValidators: true
-      },
+      }
     );
 
     appt = new Appointment({
@@ -249,7 +259,7 @@ exports.evaluateFollowUp = catchAsync(async (req, res, next) => {
       {
         new: true,
         // runValidators: true
-      },
+      }
     );
   }
 

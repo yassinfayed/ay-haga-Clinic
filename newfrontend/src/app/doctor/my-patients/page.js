@@ -14,11 +14,15 @@ const page = () => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState({});
   const [upcoming, setUpcoming] = useState({});
-  const { loading } = useSelector((state) => state.uploadHealthRecordsReducer);
-
+  const { loading, success } = useSelector(
+    (state) => state.uploadHealthRecordsReducer
+  );
+  const uploadLoading = useSelector(
+    (state) => state.uploadHealthRecordsReducer.loading
+  );
   useEffect(() => {
     dispatch(viewPatients({ ...name, ...upcoming }));
-  }, [name, upcoming, loading, dispatch]);
+  }, [name, upcoming, loading, dispatch, uploadLoading, success]);
 
   const handleSelect = (id, e) => {
     e.stopPropagation();
@@ -46,7 +50,7 @@ const page = () => {
         ...user,
         patientId: _id,
         dateOfBirth: formatDateToDDMMYYYY(dateOfBirth),
-      }),
+      })
     );
     return t;
   }, [patients, loading]);

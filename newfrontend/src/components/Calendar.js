@@ -6,6 +6,7 @@ import { BottomCallout } from "./BottomCallout";
 import { useSelector } from "react-redux";
 // import { TimePicker } from 'react-ios-time-picker';
 import { viewDoctorDetails } from "@/app/redux/actions/doctorActions";
+import { Button } from "@tremor/react";
 
 function Calendar({ id }) {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -48,13 +49,13 @@ function Calendar({ id }) {
 
   const prevMonth = () => {
     setCurrentDate(
-      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1),
+      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1)
     );
   };
 
   const nextMonth = () => {
     setCurrentDate(
-      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1),
+      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1)
     );
   };
 
@@ -72,36 +73,46 @@ function Calendar({ id }) {
     });
   };
 
+  const [selectedTime, setSelectedTime] = useState();
+  const [time, setTime] = useState();
+
   const handleTimeSelected = (time) => {
-    setIsTimePickerOpen(false);
     if (time) {
+      setTime(time);
       const eventKey = `${clickedDay}-${currentDate.getMonth()}-${currentDate.getFullYear()}`;
       const day = clickedDay;
       const month = currentDate.getMonth();
       const year = currentDate.getFullYear();
       const selectedDate = new Date(Date.UTC(year, month, day));
-      const selectedTime = new Date(
-        selectedDate.setUTCHours(
-          parseInt(time.split(":")[0]),
-          parseInt(time.split(":")[1]),
-        ),
+      setSelectedTime(
+        new Date(
+          selectedDate.setUTCHours(
+            parseInt(time.split(":")[0]),
+            parseInt(time.split(":")[1])
+          )
+        )
       );
-      setShow(true);
-      dispatch(doctorAddAvailableDate({ availableDate: selectedTime }));
-      dispatch(viewDoctorDetails(id));
-      setEvents((prevEvents) => {
-        // Update the events based on the previous state
-        const updatedEvents = { ...prevEvents };
-        updatedEvents[eventKey] = [
-          ...(updatedEvents[eventKey] || []),
-          { time, formattedDate: selectedTime.toISOString() },
-        ];
-        return updatedEvents;
-      });
-      console.log(addSuccess);
     }
   };
 
+  const handleSubmit = () => {
+    const eventKey = `${clickedDay}-${currentDate.getMonth()}-${currentDate.getFullYear()}`;
+    setIsTimePickerOpen(false);
+    dispatch(doctorAddAvailableDate({ availableDate: selectedTime }));
+    dispatch(viewDoctorDetails(id));
+    setEvents((prevEvents) => {
+      // Update the events based on the previous state
+      const updatedEvents = { ...prevEvents };
+      updatedEvents[eventKey] = [
+        ...(updatedEvents[eventKey] || []),
+        { time, formattedDate: selectedTime.toISOString() },
+      ];
+      return updatedEvents;
+    });
+
+    setShow(true);
+    console.log(addSuccess);
+  };
   const renderCalendar = () => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -135,7 +146,7 @@ function Calendar({ id }) {
                   .filter((event) => {
                     const eventMonth = new Date(event.formattedDate).getMonth();
                     const eventYear = new Date(
-                      event.formattedDate,
+                      event.formattedDate
                     ).getFullYear();
                     return (
                       eventMonth === currentDate.getMonth() &&
@@ -154,7 +165,7 @@ function Calendar({ id }) {
                   ))}
             </div>
           </div>
-        </td>,
+        </td>
       );
     }
     // Wrap days in rows
@@ -208,10 +219,19 @@ function Calendar({ id }) {
               })}
             </span>
             {isTimePickerOpen && (
-              <input
-                type="time"
-                onChange={(e) => handleTimeSelected(e.target.value)}
-              />
+              <div className="ml-0 mr-2">
+                <input
+                  type="time"
+                  onChange={(e) => handleTimeSelected(e.target.value)}
+                  className="bg-gray-800 text-white p-2 rounded-md focus:outline-none focus:border-blue-500"
+                />
+                <button
+                  onClick={handleSubmit}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md ml-2 focus:outline-none focus:shadow-outline-blue"
+                >
+                  Add slot
+                </button>
+              </div>
             )}
             <div className="buttons">
               <button className="p-1" onClick={prevMonth}>

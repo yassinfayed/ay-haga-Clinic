@@ -71,7 +71,7 @@ const SignupPharmacist = () => {
     const confirmPassword = e.target.value;
     setPasswordMatch(
       formData.password === confirmPassword ||
-        formData.passwordConfirm === confirmPassword,
+        formData.passwordConfirm === confirmPassword
     );
     handleInputChange(e);
   };
@@ -81,7 +81,21 @@ const SignupPharmacist = () => {
     //e.preventDefault();
 
     if (isAuthenticated) {
-      url = "/guest/login";
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      const role = JSON.parse(localStorage.getItem("userInfo")).data.user.role;
+      const docUrl =
+        role == "doctor"
+          ? userInfo.data.user.doctor?.employmentContract.status == "accepted"
+            ? "/doctor/profile"
+            : "/doctorContract"
+          : "";
+      url =
+        role === "administrator"
+          ? "/admin/manage-users"
+          : role === "patient"
+          ? "/patient/profile"
+          : docUrl;
+      // console.log(url)
       setTimeout(() => {
         window.history.pushState({}, "", url);
         window.location.reload();
@@ -124,7 +138,7 @@ const SignupPharmacist = () => {
     combinedFormData.append("HourlyRate", formData.hourlyRate);
     combinedFormData.append(
       "educationalbackground",
-      formData.educationalBackground,
+      formData.educationalBackground
     );
     combinedFormData.append("role", "doctor");
     combinedFormData.append("affiliation", formData.affiliation);
@@ -150,7 +164,7 @@ const SignupPharmacist = () => {
       {registerError && (
         // Show success message for registration
         <BottomCallout
-          message="Please fill in the required fields correctly"
+          message={registerError}
           variant="error"
           visible={true}
           setVisible={setVisibleFeedback}
@@ -343,18 +357,17 @@ const SignupPharmacist = () => {
 
                     {/* <Image src="/birthday.svg" height={25} width={25}></Image> <p className="ml-3 text-lg"></p> */}
                     <Col>
-                    <div className="relative">
-                <input
-                  name="DateOfbirth"
-                  value={formData.DateOfbirth}
-                  onChange={handleInputChange}
-                  type="date"
-                  required
-                  className="p-2 bg-gray-800 text-white border border-gray-700 rounded-md outline-none w-full px-8 py-4 rounded-lg font-medium   placeholder-gray-500 text-lg focus:shadow-outline focus:border-blue-500"
-                  // Add other date picker props and event handlers as needed
-                />
-              </div>
-
+                      <div className="relative">
+                        <input
+                          name="DateOfbirth"
+                          value={formData.DateOfbirth}
+                          onChange={handleInputChange}
+                          type="date"
+                          required
+                          className="p-2 bg-gray-800 text-white border border-gray-700 rounded-md outline-none w-full px-8 py-4 rounded-lg font-medium   placeholder-gray-500 text-lg focus:shadow-outline focus:border-blue-500"
+                          // Add other date picker props and event handlers as needed
+                        />
+                      </div>
                     </Col>
 
                     <Col>

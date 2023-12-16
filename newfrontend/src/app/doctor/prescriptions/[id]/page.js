@@ -21,7 +21,7 @@ const Prescriptions = ({ params }) => {
     //   dispatch(downloadPharmacistDocs(pharmId));
   };
   const { prescription, loading } = useSelector(
-    (state) => state.viewAllPrescriptionsReducer,
+    (state) => state.viewAllPrescriptionsReducer
   );
   const [open, setOpen] = useState(false);
   const [medicines, setMedicines] = useState([
@@ -47,6 +47,9 @@ const Prescriptions = ({ params }) => {
     setFreeze(true);
   };
 
+  const { loading: updateLoading } = useSelector(
+    (state) => state.updatePrescriptionReducer
+  );
   const prescriptionList = useMemo(() => {
     return prescription?.data?.map(
       ({
@@ -63,9 +66,9 @@ const Prescriptions = ({ params }) => {
         medicines,
         instructions,
         filled_unfilled: filled_unfilled ? "Filled" : "Unfilled",
-      }),
+      })
     );
-  }, [prescription]);
+  }, [prescription, updateLoading]);
 
   useEffect(() => {
     fetchData();
@@ -92,6 +95,7 @@ const Prescriptions = ({ params }) => {
     }
     setOpen(false);
     setRefresh(!refresh);
+    setMedicines([]);
   };
 
   const buttons = {

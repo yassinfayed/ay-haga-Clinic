@@ -25,13 +25,13 @@ exports.getAllPrescriptions = catchAsync(async (req, res, next) => {
 
     const features = new APIFeatures(
       Prescription.find({ patientId: patientId }).populate("doctorId"),
-      req.query,
+      req.query
     ).filter();
 
     presc = await features.query;
     if (name)
       presc.filter((p) =>
-        p.doctorId.name.toLowerCase().includes(name.toLowerCase()),
+        p.doctorId.name.toLowerCase().includes(name.toLowerCase())
       );
   } else {
     const doctor = await Doctor.findOne({ user: req.user._id });
@@ -120,7 +120,7 @@ exports.viewHealthRecords = catchAsync(async (req, res, next) => {
 
   if (userRole === "patient") {
     const patient = await Patient.findOne({ _id: patientId }).select(
-      "healthRecords",
+      "healthRecords"
     );
 
     if (!patient) {
@@ -190,19 +190,25 @@ exports.viewMyPatients = catchAsync(async (req, res, next) => {
       query.patientId = req.query._id;
     }
     appointments = await Appointment.find(query).populate("patient");
-    data = appointments.map((appointment) => {
-      //TODO: handle this properly
-      if (appointment.patient) {
-        appointment.patient.appointmentDate = appointment.date;
-        return appointment.patient;
+
+    const uniqueAppointments = [];
+    const uniqueEmails = new Set();
+
+    appointments.forEach((appointment) => {
+      const email = appointment.patient.email;
+      if (!uniqueEmails.has(email)) {
+        uniqueEmails.add(email);
+        uniqueAppointments.push(appointment);
       }
     });
+
+    data = uniqueAppointments.map((appointment) => appointment.patient);
     //  data = Array.from(new Set(data));
   }
 
   if (req.query.name)
     data = data.filter((pat) =>
-      `${pat.name?.toLowerCase()}`.includes(req.query.name?.toLowerCase()),
+      `${pat.name?.toLowerCase()}`.includes(req.query.name?.toLowerCase())
     );
   if (req.user.role === "patient")
     data = await Patient.find({ _id: req.query._id });
@@ -276,10 +282,10 @@ exports.getMyDetails = catchAsync(async (req, res, next) => {
 // );
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: function(req, file, cb) {
     cb(null, "uploads/");
   },
-  filename: function (req, file, cb) {
+  filename: function(req, file, cb) {
     if (!req.locals) {
       req.locals = {};
     }
@@ -304,9 +310,9 @@ const fileFilter = (req, file, cb) => {
   } else {
     cb(
       new Error(
-        "Invalid file type. Only PDF, PNG, JPEG, and JPG files are allowed.",
+        "Invalid file type. Only PDF, PNG, JPEG, and JPG files are allowed."
       ),
-      false,
+      false
     );
   }
 };
@@ -356,7 +362,7 @@ exports.downloadSingleRecord = catchAsync(async (req, res, next) => {
 
   res.setHeader(
     "Content-Disposition",
-    `attachment; filename="${req.query.name}"`,
+    `attachment; filename="${req.query.name}"`
   );
   res.setHeader("Content-Type", "application/octet-stream");
   res.send(fileData);
@@ -367,11 +373,11 @@ exports.removeSingleRecord = catchAsync(async (req, res, next) => {
   const patient = await Patient.findOne({ user: req.user._id });
   if (patient.medicalRecords.includes(req.query.name)) {
     patient.medicalRecords = patient.medicalRecords.filter(
-      (record) => record !== req.query.name,
+      (record) => record !== req.query.name
     );
   } else if (patient.healthRecords.includes(req.query.name)) {
     patient.healthRecords = patient.healthRecords.filter(
-      (record) => record !== req.query.name,
+      (record) => record !== req.query.name
     );
   } else {
     return next(new AppError(404, "File not found"));

@@ -23,11 +23,11 @@ import PromptMessage from "@/components/PromptMessage";
 const Appointments = () => {
   const dispatch = useDispatch();
   const { appointments, loading } = useSelector(
-    (state) => state.viewDoctorsAppointmentsReducer,
+    (state) => state.viewDoctorsAppointmentsReducer
   );
 
   const followuploading = useSelector(
-    (state) => state.doctorFollowUpReducer.loading,
+    (state) => state.doctorFollowUpReducer.loading
   );
   const {
     loading: rescheduleLoading,
@@ -41,7 +41,7 @@ const Appointments = () => {
     errorcancle,
   } = useSelector((state) => state.cancelReducer);
   const { loading: revokeLoading, success: revokeSuccess } = useSelector(
-    (state) => state.cancelReducer,
+    (state) => state.doctorEvaluateFollowUpReducer
   );
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
@@ -61,7 +61,7 @@ const Appointments = () => {
   const formatDateToISOString = (date) => {
     if (!date) return "";
     const utcDate = new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
     );
     const selectedDateState = utcDate.toUTCString();
     return selectedDateState;
@@ -137,7 +137,7 @@ const Appointments = () => {
     setRevokeOpen(true);
   };
   const onRevoke = () => {
-    dispatch(doctorEvaluateFollowUp("Revoked", "", cancelId));
+    dispatch(doctorEvaluateFollowUp("Revoked", "", revokeId));
     setRevokeOpen(false);
   };
   const onRevokeCancel = () => {
@@ -146,6 +146,14 @@ const Appointments = () => {
   };
   return (
     <>
+      {revokeSuccess && (
+        <BottomCallout
+          message="Follow up Revoked."
+          visible={rescheduleFeedback}
+          setVisible={setRescheduleFeedback}
+          variant="success"
+        />
+      )}
       {rescheduleSuccess && (
         <BottomCallout
           message="Appointment Rescheduled Successfully."
@@ -384,7 +392,32 @@ const Appointments = () => {
                         </Button>
                       </>
                     ) : (
-                      ""
+                      appointment.status === "Rescheduled" && (
+                        <Button
+                          className="hover:underline focus:outline-none mx-1"
+                          onClick={handleCancel(appointment._id)}
+                          size="xs"
+                          variant="secondary"
+                          color="red"
+                          style={{ marginLeft: "135px" }}
+                          icon={() => (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              className="w-6 h-6"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          )}
+                        >
+                          Cancel
+                        </Button>
+                      )
                     )}
                   </>
                 ),

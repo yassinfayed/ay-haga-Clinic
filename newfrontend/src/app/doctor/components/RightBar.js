@@ -40,6 +40,7 @@ const YourComponent = ({ patient, isOpen, setIsOpen }) => {
 
       dispatch(uploadHealthRecords(formData, patient.patientId));
     }
+    setSelectedFile({});
   };
 
   console.log(patient);

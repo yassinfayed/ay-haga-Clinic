@@ -4,7 +4,7 @@ import axios from "axios";
 export async function fetchMedicines() {
   try {
     const { data } = await axios.get(
-      "http://localhost:8080/api/v1/medicines/getmedicines"
+      "http://localhost:8080/api/v1/medicines/getmedicines/admin"
     );
 
     console.log(data.data);

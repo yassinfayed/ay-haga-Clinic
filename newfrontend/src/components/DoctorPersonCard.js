@@ -13,6 +13,7 @@ const DoctorPersonCard = ({
   displayNames,
   selected,
   handleCheckAvailability,
+  css,
 }) => {
   const renderIcon = (column) => {
     <svg
@@ -176,8 +177,8 @@ const DoctorPersonCard = ({
   };
 
   return (
-    <div style={{ width: "120%" }} className="m-10  max-w-md">
-      <div className="rounded-lg border border-gray-800 px-4 pt-8 pb-10 shadow-lg">
+    <div style={{ width: "120%" }} className="m-10  max-w-md" >
+      <div style={css && { marginRight: "60px" }} className="rounded-lg border border-gray-800 px-4 pt-8 pb-10 shadow-lg">
         <div className="relative mx-auto w-28 rounded-full">
           <span className="absolute right-0 m-3 h-3 w-3 rounded-full bg-green-500 ring-2 ring-green-300 ring-offset-2"></span>
           <img

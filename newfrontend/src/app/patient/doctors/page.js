@@ -24,6 +24,7 @@ import PromptMessage from "@/components/PromptMessage";
 import DoctorPersonCard from "@/components/DoctorPersonCard";
 import Calendar from "@/components/Calendar";
 import ReserveCalendar from "@/components/ReserveCalendar";
+// import DateTimePicker from 'terra-date-time-picker';
 
 //OPTIONAL
 
@@ -38,7 +39,7 @@ const DoctorsPage = () => {
   const [visibleFeedback, setVisibleFeedback] = useState(false);
 
   const { doctors, loading, specialities } = useSelector(
-    (state) => state.getDrsForPatientsReducer,
+    (state) => state.getDrsForPatientsReducer
   );
   console.log(doctors);
   async function fetchData() {
@@ -197,7 +198,9 @@ const DoctorsPage = () => {
             <SelectItem value="true">Filled</SelectItem>
             <SelectItem value="false">Unfilled</SelectItem> */}
               </Select>
+             
             </div>
+            
 
             <div className="flex overflow-hidden gap-x-4 gap-y-8">
               <div className="prof h-400 overflow-hidden w-4/6 rounded-xl p-10">
@@ -250,6 +253,7 @@ const DoctorsPage = () => {
                   displayColumns={["Status", "Joined On"]}
                   actualColumns={["status", "joinedOn"]}
                   selected={doctorSelected}
+                  css={{ marginRight: "50px" }}
                   worker={true}
                   fields={["username", "email", "DateOfbirth", "HourlyRate"]}
                   displayNames={[

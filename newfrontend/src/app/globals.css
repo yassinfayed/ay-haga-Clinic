@@ -14,10 +14,25 @@
 
 * {
   font-family: "GeneralSans", "Times New Roman";
+
   /* overflow-x: hidden; */
 }
 
 body {
+  overflow-x: hidden;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+button {
+  transition: color 0s ease !important;
 }
 
 :root {
