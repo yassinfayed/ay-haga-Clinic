@@ -255,8 +255,9 @@ const handleAccept = (id) => {
               data={selected}
               displayColumns={["Status", "Joined On"]}
               actualColumns={["status", "joinedOn"]}
+              selected={selected?.employmentStatus === 'Waiting Admin'}
               buttons={
-                selected?.employmentStatus === "Waiting Admin" && freeze && buttons
+                buttons
               }
               worker={true}
               fields={[
