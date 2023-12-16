@@ -401,7 +401,7 @@ const FamilyAppointments = ({ memberId, memberName }) => {
           </Card>
         </>
       )}
-      <Modal visible={reschedule} setVisible={setReschedule} className="w-full h-full">
+      <Modal visible={reschedule} setVisible={setReschedule} className="w-full h-full" scroll={true}>
         {reschedule &&
           <RescheduleCalendar
             setCalendar={setReschedule}

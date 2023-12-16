@@ -38,9 +38,11 @@ const page = () => {
     dispatch(viewPatients({ _id: id }));
   }, [dispatch, isLoading, loading, orderLoading]);
 
-  const packages = useMemo(() => {
+  const [packages, setPackages] = useState([]);
+
+  useEffect(() => {
     if (healthPackages && healthPackages.data && healthPackages.data2) {
-      return healthPackages.data.map((value) => {
+      const updatedPackages = healthPackages.data.map((value) => {
         const correspondingData2 = healthPackages.data2.find(
           (item) => item._id === value._id
         );
@@ -55,9 +57,15 @@ const page = () => {
           ogprice: correspondingData2 ? correspondingData2.price : null, // Set ogprice based on data2
         };
       });
+
+      setPackages(updatedPackages);
+    } else {
+      console.log(healthPackages);
+      console.log("HEREEE");
+      setPackages([]);
     }
-    return [];
   }, [healthPackages, isLoading, loading]);
+
 
   function handleCancellation() {
     dispatch(cancelSubscription(cancelId));
