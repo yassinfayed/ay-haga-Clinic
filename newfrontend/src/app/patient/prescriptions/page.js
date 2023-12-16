@@ -22,34 +22,28 @@ const Prescriptions = () => {
   const [name, setName] = useState(initialName);
   const [selectedStatus, setSelectedStatus] = useState(initialStatus);
   const { prescription, loading } = useSelector(
-    (state) => state.viewAllPrescriptionsReducer,
+    (state) => state.viewAllPrescriptionsReducer
   );
 
   const formatDateToISOString = (date) => {
-    if (!date) return ""; // Return an empty string if date is falsy
+    if (!date) return "";
     const utcDate = new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
     );
     const selectedDateState = utcDate.toUTCString();
     return selectedDateState;
   };
 
   async function fetchData() {
-    const queryObj = {
-      prescriptionDate: formatDateToISOString(selectedDate),
-      name,
-      filled_unfilled: selectedStatus,
-    };
-
-    const filteredQueryObj = Object.keys(queryObj).reduce((acc, key) => {
-      if (queryObj[key] !== "") {
-        acc[key] = queryObj[key];
-      }
-      return acc;
-    }, {});
-
-    console.log(filteredQueryObj);
-    dispatch(viewALLPrescriptions(filteredQueryObj));
+    dispatch(
+      viewALLPrescriptions(
+        {
+          ...name,
+          ...selectedStatus,
+        },
+        formatDateToISOString(selectedDate)
+      )
+    );
   }
 
   const [freeze, setFreeze] = useState(false);
@@ -76,7 +70,7 @@ const Prescriptions = () => {
         instructions,
         filled_unfilled: filled_unfilled ? "Filled" : "Unfilled",
         status: filled_unfilled,
-      }),
+      })
     );
   }, [prescription]);
 
@@ -141,9 +135,12 @@ const Prescriptions = () => {
         <div className="flex flex-row gap-4 mb-4">
           <TextInput
             onChange={(e) => {
-              setName(e.target.value);
+              setName({
+                name:
+                  e.target.value && e.target.value != "" ? e.target.value : {},
+              });
             }}
-            value={name}
+            // value={name}
             icon={() => (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -182,7 +179,7 @@ const Prescriptions = () => {
             )}
             className="flex-[2]"
             onChange={(e) => {
-              setSelectedStatus(e);
+              setSelectedStatus(e ? { filled_unfilled: e } : {});
             }}
           >
             <SelectItem value="">All</SelectItem>

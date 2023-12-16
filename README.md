@@ -1,5 +1,7 @@
 ![Logo](https://flowbite.com/docs/images/logo.svg)
 
+![Mongo DB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)![Expree.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Node.JS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![Redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white) ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Stripe](https://img.shields.io/badge/Stripe-626CD9?style=for-the-badge&logo=Stripe&logoColor=white) ![VS code](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
+
 # Vite Clinics
 
 Vite Clinics is an innovative virtual healthcare platform designed to revolutionize the patient and healthcare provider experience in Egypt. By leveraging the power of digital technology, Vite Clinics facilitates a comprehensive suite of services for both doctors and patients through an accessible online portal. The platform's primary aim is to streamline the process of healthcare delivery by offering a range of functionalities from appointment scheduling to telemedicine consultations.
@@ -19,7 +21,7 @@ The motivation behind Vite Clinics stems from the need to improve healthcare acc
 
 ### Formatting:
 
-- Prettier: In conjunction with ESLint, we use Prettier as an opinionated code formatter. It enforces a consistent style by parsing code and re-printing it with its own rules that take the maximum line length into account, wrapping code when necessary.
+- Prettier: we use Prettier as an opinionated code formatter. It enforces a consistent style by parsing code and re-printing it with its own rules that take the maximum line length into account, wrapping code when necessary.
 
 ### Code Reviews:
 
@@ -31,17 +33,73 @@ The motivation behind Vite Clinics stems from the need to improve healthcare acc
 
 - File Structure: We maintain a logical file structure, grouping related files in dedicated folders, and following a consistent naming convention for files and directories.
 
-## Screenshots
+## Screenshots 🖵
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 
-## Demo
+<details>
+<summary>Landing Page</summary>
+![image](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/f0457fe6-fda3-4d57-8d07-fda5d523edc2)
+![Screenshot 2023-12-16 204206](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/1d4df9df-3d2f-47ee-9357-3610afb2a0f4)
 
-Insert gif or link to demo
+</details>
+
+<details>
+<summary>Login Page</summary>
+![Screenshot 2023-12-16 204239](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/98380a4e-ccbf-48c7-94d7-1b0953690f7b)
+
+</details>
+
+<details>
+<summary>Patient Profile Page</summary>
+![Screenshot 2023-12-16 204402](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/29dde6b5-6463-4c81-b1ef-71ddd44b283d)
+
+</details>
+
+<details>
+<summary>Family Members' Page</summary>
+![Screenshot 2023-12-16 204510](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/dd7f3709-3ea0-48e9-b5ce-ed2880875c82)
+
+</details>
+
+<details>
+<summary>Doctor's Contract Page</summary>
+![Screenshot 2023-12-16 204844](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/80060872-491a-4072-aae3-d6dc99d4a0bf)
+
+</details>
+
+<details>
+<summary>Doctor's Profile Page</summary>
+![Screenshot 2023-12-16 204906](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/1dc1920c-84a3-438e-bae4-78f5dcb80f86)
+
+</details>
+
+<details>
+<summary>Sign up Page</summary>
+![Screenshot 2023-12-16 204953](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/c4b7e758-25ab-437a-8288-452aa3531113)
+
+</details>
+
+<details>
+<summary>Adding A New Family Member</summary>
+![Screenshot 2023-12-16 205702](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/6936fbd4-ac8b-498f-b7ba-072ed871b3b9)
+
+</details>
+
+<details>
+<summary>Health Packages Page</summary>
+![Screenshot 2023-12-16 205917](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/97824627-c0b0-41e2-9037-b6bdcd9272dd)
+
+</details>
+
+<details>
+<summary>Manage User Page For Admin</summary>
+![Screenshot 2023-12-16 210337](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/309def71-64db-4687-8916-c69be1027d15)
+![Screenshot 2023-12-16 210407](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/e9be64a9-7aa6-47d2-b31b-f3d56b6e72f1)
+
+</details>
+
 
 ## Tech/Framework Used
-
-![Mongo DB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)![Expree.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Node.JS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![Redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white) ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Stripe](https://img.shields.io/badge/Stripe-626CD9?style=for-the-badge&logo=Stripe&logoColor=white) ![VS code](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
 
 ### MERN stack (MongoDB, Express.js, React, Node.js)
 
@@ -49,8 +107,9 @@ Insert gif or link to demo
 - [Node.js](https://nodejs.org/en/)
 - [Express](https://expressjs.com/)
 - [MongoDB](https://www.mongodb.com/)
-
-### Other technologies used
+<details>
+    <summary>Other technologies used</summary>
+ 
 
 - [Mongoose](https://mongoosejs.com/)
 - [Redux](https://redux.js.org/)
@@ -63,11 +122,47 @@ Insert gif or link to demo
 - [Postman](https://www.postman.com/)
 - [VSCode](https://code.visualstudio.com/)
 - [tremor](https://www.tremor.so/)
+- [axios](https://www.npmjs.com/package/axios)
 - [Mailtrap](https://mailtrap.io/)
+- [Archiver](https://www.npmjs.com/package/archiver)
+- [bcryptjs](https://www.npmjs.com/package/bcryptjs)
+- [Compression](https://www.npmjs.com/package/compression)
+- [Cookie-parser](https://www.npmjs.com/package/cookie-parser)
+- [CORS](https://www.npmjs.com/package/cors)
+- [dotenv](https://www.npmjs.com/package/dotenv)
+- [Express Mongo Sanitize](https://www.npmjs.com/package/express-mongo-sanitize)
+- [Express Rate Limit](https://www.npmjs.com/package/express-rate-limit)
+- [Express Validator](https://express-validator.github.io/docs/)
+- [Helmet](https://helmetjs.github.io/)
+- [hpp](https://www.npmjs.com/package/hpp)
+- [html-to-text](https://www.npmjs.com/package/html-to-text)
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+- [Morgan](https://www.npmjs.com/package/morgan)
+- [Multer](https://www.npmjs.com/package/multer)
+- [Node-Mailjet](https://www.npmjs.com/package/node-mailjet)
+- [Nodemailer](https://nodemailer.com/)
+- [Nodemon](https://nodemon.io/)
+- [PDFKit](https://pdfkit.org/)
+- [Pug](https://pugjs.org/api/getting-started.html)
+- [Sharp](https://sharp.pixelplumbing.com/)
+- [Slugify](https://www.npmjs.com/package/slugify)
+- [Socket.IO](https://socket.io/)
+- [Validator](https://www.npmjs.com/package/validator)
+- [XSS-clean](https://www.npmjs.com/package/xss-clean)
+- [Material-UI](https://material-ui.com/)
+- [i18next](https://www.i18next.com/)
+- [React Bootstrap](https://react-bootstrap.github.io/)
+- [React Cookie](https://www.npmjs.com/package/react-cookie)
+- [React Router DOM](https://reactrouter.com/)
+- [React Scripts](https://create-react-app.dev/docs/adding-a-css-preprocessor/)
+- [Web Vitals](https://web.dev/vitals/)
+
+</details>
 
 ## Features
 
-### For Admins
+<details>
+<summary>For Admins </summary>
 
 - User Management: Ability to view, add, and manage all users on the platform, including patients, doctors, and other admins. Admins also can delete user accounts when necessary.
 - Doctor Approval and Management: Oversee doctor registrations and grant approvals for new doctors joining the clinic. Admins have the ability to accept or reject doctors, including the handling of employment contracts, and Access to view and manage all doctors' details, including specializations, qualifications, and availability.
@@ -79,8 +174,10 @@ Insert gif or link to demo
 - Reporting and Analytics: Access to comprehensive reports and analytics tools. Ability to generate reports on clinic operations, user activities, financial metrics, and other key performance indicators.
 - Security and Data Privacy: Ensure the security and confidentiality of all user data on the platform. Implement and oversee data privacy policies in compliance with healthcare regulations.
 - Feedback and Complaints Management: Address and manage feedback and complaints from users. Implement measures to improve user satisfaction and service quality.
+</details>
 
-### For Doctors:
+<details>
+<summary>For Doctors: </summary>
 
 - Profile Management: Doctors can update personal information, including email, hourly rates, and hospital affiliations.
 - Employment Contract Management: The ability to view and accept employment contracts digitally.
@@ -89,8 +186,10 @@ Insert gif or link to demo
 - Appointment Management: Doctors can view, accept, filter, reschedule, and cancel appointments.
 - Prescription Management: The platform allows the addition, deletion, and updating of medicines and dosages on prescriptions. Doctors can also download prescriptions in PDF format.
 - Health Records: Input new health records for patients, ensuring all medical information is up-to-date and easily accessible.
+</details>
 
-### For Patients:
+<details>
+<summary>For Patients: </summary>
 
 - Appointment Management: Patients can filter appointments by date and status, view upcoming and past appointments, and manage cancellations and rescheduling.
 - Health Record Access: Patients have access to their health records and prescriptions, with the ability to download them.
@@ -98,13 +197,17 @@ Insert gif or link to demo
 - Health Packages: Patients can subscribe and unsubscribe to health packages which gives them discounts on appointments for them and their family members.
 - Family Member Linking: Patients can add new family member or link existing patient as their own family member.
 - Family Member Management: Patients can manage appointments, and Health Packages for themselves and linked family members, enhancing the platform's convenience.
+</details>
 
-### Common Features for Doctors and Patients:
+<details>
+<summary> Common Features for Doctors and Patients:</summary>
 
 - Notifications: Both parties receive notifications of appointments and changes to them via the system and email.
 - Communication: A chat feature is available for instant communication between patients and doctors.
 - Appointment Filtering: Both roles can filter appointments by various criteria, including date and status.
 - Wallet Management: Users can view the amount in their wallet, which for patients could include funds for services, and for doctors, represent earnings.
+
+</details>
 
 ## Code Examples
 
@@ -416,13 +519,358 @@ router.get(
 
 </details>
 
+<details>
+    
+<summary> Link Existing Family Member Component </summary>
+
+```javascript
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { LinkFamilyMember } from "@/app/redux/actions/FamilyMembersAction";
+import { Button, TextInput, Select, SelectItem } from "@tremor/react";
+
+import { validateEmail, validatePhoneNumber } from "../../redux/validators";
+import { Modal } from "../../../components/Modal"; // Your custom Modal component
+import Lottie from "lottie-react";
+import LoadingAnimation from "../../../../public/loading.json";
+
+function LinkFamily({ show, setSuccess, setError, visible, setVisible }) {
+  const [cred, setCred] = useState("");
+  const [relationToPatient, setRelationToPatient] = useState("");
+  const [calloutVisible, setCalloutVisible] = useState(false);
+  const [calloutMessage, setCalloutMessage] = useState("");
+  const { error, loading, familyMember } = useSelector(
+    (state) => state.linkFamilyMemberReducer,
+  );
+  const [submitted, setSubmitted] = useState(false);
+  const dispatch = useDispatch();
+
+  const isValidCred = (cred) => {
+    return validateEmail(cred) || validatePhoneNumber(cred);
+  };
+  console.log(visible);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let phone, email;
+
+    if (validateEmail(cred)) {
+      email = cred;
+    } else if (validatePhoneNumber(cred)) {
+      phone = cred;
+    } else {
+      console.log("Invalid email or phone number");
+      return;
+    }
+    console.log(email, phone, relationToPatient);
+
+    dispatch(LinkFamilyMember({ email, phone, relationToPatient }));
+    setSubmitted(true);
+  };
+
+  useEffect(() => {
+    if (!loading && familyMember && submitted) {
+      setSuccess("Family member added successfully");
+      setVisible(false);
+      setSubmitted(false);
+      setRelationToPatient("");
+      setCred("");
+      // Trigger onSuccess if provided
+    } else if (!loading && error & submitted) {
+      setSubmitted(false);
+      setError("Error adding family member");
+    }
+  }, [loading, familyMember, setSuccess, setError]);
+
+  return (
+    <div className="p-4 mt-4">
+      {/* <h2 className="text-2xl font-bold mb-4">Link Family Member</h2> */}
+
+      <form onSubmit={handleSubmit}>
+        <TextInput
+          className="mb-4"
+          placeholder="Enter email or phone number"
+          value={cred}
+          onChange={(e) => setCred(e.target.value)}
+          error={cred && !isValidCred(cred)}
+          errorMessage="Please enter a valid email or phone number"
+          required
+        />
+
+        <Select
+          placeholder="Relation to patient"
+          onChange={(e) => {
+            console.log(e);
+            setRelationToPatient(e);
+          }}
+          required
+          name=""
+          value={relationToPatient}
+        >
+          <SelectItem value="">Choose...</SelectItem>
+          <SelectItem value="wife">Wife</SelectItem>
+          <SelectItem value="husband">Husband</SelectItem>
+          <SelectItem value="child">Child</SelectItem>
+        </Select>
+
+        <Button type="submit" className="mt-4" loading={loading}>
+          Link Member
+        </Button>
+      </form>
+    </div>
+  );
+}
+
+export default LinkFamily;
+```
+
+</details>
+
+<details>
+    
+<summary> Get Health Packages Reducer </summary>
+
+```javascript
+export const getHealthPackagesReducer = (state = getHealthPackagesInitialState, action) => {
+    switch (action.type) {
+        case HEALTH_PACKAGES_LIST_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null,
+            };
+        case HEALTH_PACKAGES_LIST_SUCCESS: {
+            return {
+                ...state,
+                healthPackages: action.payload,
+                loading: false,
+                error: null,
+            }
+        };
+        case HEALTH_PACKAGES_LIST_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+        default:
+            return state;
+    }
+}
+```
+
+</details>
+
 ## API Reference
 
-refer to this documentation.
+<details>
+<summary>Webhooks</summary>
+- **POST /webhook**
+  Handles Stripe webhook events.
+  </details>
+
+<details>
+<summary>Patient Routes</summary>
+
+- **GET /api/v1/patient/auth**
+  Authenticates a patient.
+- **GET /api/v1/patient/view-Patients**
+  Views patient information.
+- **GET /api/v1/patient**
+  Retrieves all patients (Admin only).
+- **GET /api/v1/patient/viewHealthPackageSubscription/:id**
+  Views health package subscription details.
+- **POST /api/v1/patient/upload/healthRecords/:id**
+  Uploads health records.
+- **GET /api/v1/patient/viewHealthRecords**
+  Retrieves health records.
+- **GET /api/v1/patient/cancelSubscription/:id**
+  Cancels subscription.
+- **GET /api/v1/patient/getPatient/:id**
+  Retrieves patient details.
+- **GET /api/v1/patient/prescription**
+  Retrieves all prescriptions.
+- **GET /api/v1/patient/prescription/:id**
+  Retrieves specific prescription.
+- **GET /api/v1/patient/my-details**
+  Retrieves patient's details.
+- **POST /api/v1/patient/upload/medicalRecords**
+  Uploads medical records.
+- **GET /api/v1/patient/download**
+  Downloads a file.
+- **DELETE /api/v1/patient/removeDoc**
+  Removes a document.
+
+</details>
+<details>
+<summary>Doctor Routes</summary>
+
+- **GET /api/v1/doctor/auth**
+  Authenticates a doctor.
+- **GET /api/v1/doctor**
+  Retrieves all doctors.
+- **PATCH /api/v1/doctor/updatedoctor**
+  Updates doctor's information.
+- **PATCH /api/v1/doctor/acceptdoctor/:id**
+  Accepts a doctor.
+- **PATCH /api/v1/doctor/rejectdoctor/:id**
+  Rejects a doctor.
+- **GET /api/v1/doctor/viewcontract**
+  Views employment contract.
+- **PATCH /api/v1/doctor/acceptcontract**
+  Accepts employment contract.
+- **PATCH /api/v1/doctor/addavailabledate**
+  Adds an available date.
+- **GET /api/v1/doctor/doctorDocs/:id**
+  Retrieves doctor's documents.
+- **GET /api/v1/doctor/getAllDoctors**
+  Retrieves all doctors for a patient.
+- **GET /api/v1/doctor/specialities**
+  Lists all specialities.
+- **GET /api/v1/doctor/:id**
+  Retrieves specific doctor.
+- **GET /api/v1/doctor/my-details**
+  Retrieves doctor's details.
+
+</details>
+
+<details>
+<summary>Appointment Routes</summary>
+
+- **GET /api/v1/appointment/get-patient-appointments**
+  Retrieves all patient appointments.
+- **GET /api/v1/appointment/get-doctor-appointments**
+  Retrieves all doctor appointments.
+- **GET /api/v1/appointment/:id**
+  Retrieves specific appointment.
+- **POST /api/v1/appointment/newAppointment**
+  Creates a new appointment.
+- **POST /api/v1/appointment/followUp**
+  Follows up an appointment.
+- **PATCH /api/v1/appointment/reschedule/:id**
+  Reschedules an appointment.
+- **PATCH /api/v1/appointment/cancel/:id**
+  Cancels an appointment.
+- **PATCH /api/v1/appointment/update/:id**
+  Updates an appointment.
+- **POST /api/v1/appointment/evaluateFollowUp/:id**
+  Evaluates follow-up.
+- **DELETE /api/v1/appointment/delete/:id**
+  Deletes an appointment.
+- **GET /api/v1/appointment/reserveStripe/:id/:price**
+  Gets checkout session for Stripe.
+- **POST /api/v1/appointment/reserve/:id/:price**
+  Creates appointment reservation.
+
+</details>
+<details>
+<summary>Family Member Routes</summary>
+
+- **POST /api/v1/familyMembers/link**
+  Links a family member.
+- **POST /api/v1/familyMembers**
+  Adds family members.
+- **GET /api/v1/familyMembers**
+  Retrieves registered family members.
+- **GET /api/v1/familyMembers/view-all-family-members**
+  Retrieves all family members and patients.
+
+</details>
+
+<details>
+<summary>Prescription Routes</summary>
+
+- **POST /api/v1/prescriptions/addPrescription**
+  Adds a prescription.
+- **PATCH /api/v1/prescriptions/update/:id**
+  Updates a prescription.
+- **GET /api/v1/prescriptions/download/:id**
+  Downloads a prescription.
+- **POST /api/v1/prescriptions/check**
+  Checks a prescription.
+
+</details>
+
+<details>
+<summary>Health Packages Routes</summary>
+
+- **GET /api/v1/healthPackages/discount**
+  Retrieves discount information.
+- **GET /api/v1/healthPackages**
+  Retrieves all health packages.
+- **POST /api/v1/healthPackages**
+  Creates a health package.
+- **GET /api/v1/healthPackages/subscribeStripe/:id**
+  Retrieves Stripe checkout session.
+- **POST /api/v1/healthPackages/subscribe/:id**
+  Creates order for health package.
+- **GET /api/v1/healthPackages/:id**
+  Retrieves specific health package.
+- **PATCH /api/v1/healthPackages/:id**
+  Updates a health package.
+- **DELETE /api/v1/healthPackages/:id**
+  Deletes a health package.
+- **GET /api/v1/healthPackages/services**
+  Retrieves all health package services.
+
+</details>
+
+<details>
+<summary>Authentication Routes</summary>
+
+- **GET /api/v1/auth/auth**
+  Authenticates user.
+- **POST /api/v1/auth/signup**
+  Signs up a user.
+- **POST /api/v1/auth/login**
+  Logs in a user.
+- **GET /api/v1/auth**
+  Retrieves all users.
+- **POST /api/v1/auth/forgotPassword**
+  Sends password reset link.
+- **PATCH /api/v1/auth/resetPassword**
+  Resets password.
+- **PATCH /api/v1/auth/changePassword**
+  Changes password.
+- **POST /api/v1/auth/logout**
+  Logs out user.
+
+</details>
+
+<details>
+<summary>Notification Routes</summary>
+
+- **PATCH /api/v1/notifications/:id**
+  Updates a notification.
+- **GET /api/v1/notifications**
+  Retrieves notifications.
+
+</details>
+
+<details>
+<summary>Message Routes</summary>
+
+- **POST /api/v1/messages/createMessage**
+  Creates a message.
+- **GET /api/v1/messages/getMessages/:id**
+  Retrieves messages.
+
+</details>
+
+<details>
+<summary>Chat Routes</summary>
+
+- **GET /api/v1/chats/getChats/:id**
+  Retrieves chats.
+- **POST /api/v1/chats/createChat**
+  Creates a chat.
+
+</details>
+
+for more details refer to the [postman collection](./Elha2ny.postman_collection.json)
 
 ## Running Tests
 
-We used Postman for API testing.
+We used [Postman](./Elha2ny.postman_collection.json) for API testing. We also tested the UI by trying to perform every action, and see the results, also by assessing the design and theme.
 
 ## Installation
 
@@ -431,21 +879,8 @@ Install with `npm`
 ```bash
 > git clone https://github.com/advanced-computer-lab-2023/ay-haga-Clinic.git
 > cd ay-haga-clinic/
-```
-
-open 2 terminals,
-write the following in the first one:
-
-```bash
-> cd backend
-> npm install
-```
-
-write the following in the second one:
-
-```bash
-> cd newfrontend
-> npm install
+> cd backend && npm i
+> cd newfrontend && npm i
 ```
 
 Frontend Dependencies
@@ -529,6 +964,25 @@ Backend Dependencies
 }
 ```
 
+Make sure to configure the following environment variables in your `config.env` file:
+
+- **NODE_ENV**: Set to "development" for the development environment.
+- **PORT**: Port on which the server will run (e.g., 8000).
+- **DATABASE**: MongoDB database connection URI.
+- **DATABASE_PASSWORD**: Password for the MongoDB database.
+- **JWT_SECRET**: Secret key for JWT token generation.
+- **JWT_EXPIRES_IN**: JWT token expiration time (e.g., "90d" for 90 days).
+- **JWT_COOKIES_EXPIRES_IN**: JWT cookie expiration time (e.g., "90").
+- **EMAIL_USERNAME**: SMTP email username.
+- **EMAIL_PASSWORD**: SMTP email password.
+- **EMAIL_PORT**: SMTP email port.
+- **EMAIL_HOST**: SMTP email host.
+- **EMAIL_FROM**: Default "from" email address for outgoing emails.
+- **SENDGRID_USERNAME**: SendGrid API username.
+- **SENDGRID_PASSWORD**: SendGrid API password.
+- **STRIPE_SECRET_KEY**: Stripe secret API key.
+- **STRIPE_WEBHOOK_SECRET**: Stripe webhook secret.
+
 ## How To Use
 
 ```bash
@@ -575,5 +1029,7 @@ Acknowledgment of resources and tutorials that assisted in the project developme
 ## License
 
 - [stripe](https://stripe.com/)
+- [MIT](https://opensource.org/license/mit/)
+- [Apache-2.0](https://www.apache.org/)
 - [mailjet](https://www.mailjet.com/)
 - [mailtrap](https://mailtrap.io/)

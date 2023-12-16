@@ -8,7 +8,7 @@ export default async function DashboardLayout({ children }) {
   return (
     <>
       <Sidebar />
-      <div className="p-[32px] sm:ml-64  flex flex-col">{children}</div>
+      <div className="p-[32px] sm:ml-64 flex-1 grow flex flex-col">{children}</div>
     </>
   );
 }

@@ -1,6 +1,6 @@
 const { Card } = require("@tremor/react");
 
-function Modal({ children, visible, setVisible, famFlag }) {
+function Modal({ children, visible, setVisible, famFlag, className }) {
   return (
     <div
       style={{
@@ -25,6 +25,7 @@ function Modal({ children, visible, setVisible, famFlag }) {
           minHeight: `${famFlag ? "50px" : "500px"}`,
           zIndex: 50,
         }}
+        className={className}
       >
         <Card className="flex flex-col flex-1 grow">
           <div className="flex flex-row w-100">

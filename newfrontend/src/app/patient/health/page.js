@@ -39,15 +39,22 @@ const page = () => {
   }, [dispatch, isLoading, loading, orderLoading]);
 
   const packages = useMemo(() => {
-    if (healthPackages && healthPackages.data) {
-      return healthPackages.data.map((value) => ({
-        _id: value._id,
-        name: value.name,
-        price: value.price,
-        doctorDiscount: value.doctorDiscount,
-        medicineDiscount: value.medicineDiscount,
-        familyDiscount: value.familyMemberSubDiscount,
-      }));
+    if (healthPackages && healthPackages.data && healthPackages.data2) {
+      return healthPackages.data.map((value) => {
+        const correspondingData2 = healthPackages.data2.find(
+          (item) => item._id === value._id
+        );
+
+        return {
+          _id: value._id,
+          name: value.name,
+          price: value.price,
+          doctorDiscount: value.doctorDiscount,
+          medicineDiscount: value.medicineDiscount,
+          familyDiscount: value.familyMemberSubDiscount,
+          ogprice: correspondingData2 ? correspondingData2.price : null, // Set ogprice based on data2
+        };
+      });
     }
     return [];
   }, [healthPackages, isLoading, loading]);
@@ -80,7 +87,12 @@ const page = () => {
           />
         )}
         {packages.map((pkg) => (
-          <PricingCard key={pkg.id} hp={pkg} patient={patient} />
+          <PricingCard
+            key={pkg.id}
+            hp={pkg}
+            patient={patient}
+            discount={pkg.ogprice != pkg.price}
+          />
         ))}
       </div>
     </>

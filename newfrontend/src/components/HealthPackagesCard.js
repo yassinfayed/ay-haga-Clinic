@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PromptMessage from "./PromptMessage";
 
-const PricingCard = ({ hp, patient }) => {
+const PricingCard = ({ hp, patient, discount }) => {
   const [healthPackage, setHealthPackage] = useState(null);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -39,8 +39,7 @@ const PricingCard = ({ hp, patient }) => {
   const cardClasses = `
     w-full max-w-sm p-4 bg-white rounded-lg shadow sm:p-8 dark:bg-gray-800
     ${
-      patient?.package === hp._id &&
-      patient?.subscriptionStatus === "subscribed"
+      patient?.package === hp._id
         ? "border-4 border-purple-500"
         : "border border-gray-200 dark:border-gray-700"
     }
@@ -60,14 +59,43 @@ const PricingCard = ({ hp, patient }) => {
         {hp?.name}
       </h5>
       <div className="flex items-baseline text-gray-900 dark:text-white">
-        <span className="text-3xl font-semibold">EGP</span>
-        <span className="text-5xl font-extrabold tracking-tight">
-          {hp?.price}
+        <span
+          className={
+            discount ? `text-xl  line-through` : "text-3xl  font-semibold"
+          }
+        >
+          EGP
         </span>
-        <span className="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">
+        <span
+          className={
+            discount
+              ? `text-2xl font-extrabold tracking-tight line-through`
+              : "text-5xl font-extrabold tracking-tight"
+          }
+        >
+          {hp?.ogprice}
+        </span>
+        <span
+          className={
+            discount
+              ? "ms-1 text-xl font-normal text-gray-500 line-through dark:text-gray-400"
+              : "ms-1 text-xl font-normal text-gray-500  dark:text-gray-400"
+          }
+        >
           /year
         </span>
       </div>
+      {discount && (
+        <div className="flex items-baseline text-gray-900 dark:text-white">
+          <span className="text-3xl font-semibold">EGP</span>
+          <span className="text-5xl font-extrabold tracking-tight">
+            {hp?.price?.toFixed(2)}
+          </span>
+          <span className="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">
+            /year
+          </span>
+        </div>
+      )}
       <ul role="list" className="space-y-5 my-7">
         <li className="flex items-center">
           <svg
@@ -148,7 +176,7 @@ const PricingCard = ({ hp, patient }) => {
           }}
           className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
         >
-          Choose plan
+          <span className="text-white font-semibold">Choose Plan</span>
         </Button>
         <PromptMessage
           visible={confirm}
@@ -161,6 +189,10 @@ const PricingCard = ({ hp, patient }) => {
         <SubscribeModal
           title={`Subscribe to our ${hp?.name} Health Package`}
           subheader={``}
+          subscribed={
+            patient?.subscriptionStatus === "subscribed" ||
+            patient?.subscriptionStatus == "cancelled"
+          }
           visible={show}
           loading={orderLoading}
           setVisible={setShow}

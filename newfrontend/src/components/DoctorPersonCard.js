@@ -154,7 +154,7 @@ const DoctorPersonCard = ({
             />
           </svg>
         );
-      case "HourlyRate":
+      case "sessionPrice":
         return (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -177,8 +177,11 @@ const DoctorPersonCard = ({
   };
 
   return (
-    <div style={{ width: "120%" }} className="m-10  max-w-md" >
-      <div style={css && { marginRight: "60px" }} className="rounded-lg border border-gray-800 px-4 pt-8 pb-10 shadow-lg">
+    <div style={{ width: "120%" }} className="max-w-md">
+      <div
+        style={css && { marginRight: "60px" }}
+        className="rounded-lg border border-gray-800 px-4 pt-8 pb-10 shadow-lg"
+      >
         <div className="relative mx-auto w-28 rounded-full">
           <span className="absolute right-0 m-3 h-3 w-3 rounded-full bg-green-500 ring-2 ring-green-300 ring-offset-2"></span>
           <img
@@ -200,13 +203,22 @@ const DoctorPersonCard = ({
         </p>
         <div className="mt-3 flex flex-wrap justify-between md:space-x-1.2">
           {fields.map((field, index) => (
-            <div
-              key={index}
-              className="flex items-center py-3 text-sm w-full md:w-1/2"
-            >
-              <span>{renderIcon(field)}</span>
-              <span className="ml-1 mr-1">{data && displayNames[index]}: </span>
-              <span className="mr-auto">{data && data[field]}</span>
+            <div key={index} className="flex items-center py-3 text-sm w-full ">
+              <span className="mr-2">{renderIcon(field)}</span>
+              {/* <span className="ml-1 mr-1">{data && displayNames[index]}: </span> */}
+              <span className="mr-auto">
+                {typeof (data && data[field]) === "number" ? (
+                  <div className="flex items-center">
+                    <p className="mr-2"> </p>
+                    <p className="line-through mr-2">{data.HourlyRate}</p>
+                    <p>{data[field].toFixed(2)}</p>
+                  </div>
+                ) : data && data[field] ? (
+                  data[field]
+                ) : (
+                  <></>
+                )}
+              </span>
             </div>
           ))}
         </div>
@@ -216,7 +228,7 @@ const DoctorPersonCard = ({
             onClick={handleCheckAvailability}
             className="mt-5 tracking-wide font-semibold bg-purple-600 text-gray-100 w-full py-4 rounded-lg hover:bg-purple-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
           >
-            <span className="ml-3">Check Availability</span>
+            <span className="text-white">Check Availability</span>
           </Button>
         )}
       </div>

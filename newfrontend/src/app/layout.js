@@ -1,14 +1,11 @@
+"use client"
 import Header from "@/components/Header";
 import "./globals.css";
 import localFont from "next/font/local";
 
-export const metadata = {
-  title: "Clinic",
-  description: "Clinic",
-};
-
 import { ReduxProvider } from "./redux/provider";
 import Footer from "@/components/Footer";
+import { useEffect } from "react";
 
 const myFont = localFont({
   src: [
@@ -36,6 +33,18 @@ const myFont = localFont({
 });
 
 export default function RootLayout({ children }) {
+  useEffect(() => {
+    const inputs = document.querySelectorAll("input");
+    inputs.forEach((input) => {
+      input.setAttribute("autocomplete", "off");
+    });
+
+    const forms = document.querySelectorAll("form");
+    forms.forEach((form) => {
+      form.setAttribute("autocomplete", "off");
+    });
+  });
+
   return (
     <html lang="en" className="dark">
       <body className={myFont.className + " min-h-screen flex flex-col "}>

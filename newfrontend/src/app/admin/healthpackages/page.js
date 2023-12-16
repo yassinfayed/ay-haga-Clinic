@@ -1,5 +1,5 @@
 "use client";
-import { Button, Grid } from "@tremor/react";
+import { Button, Grid, NumberInput } from "@tremor/react";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers, removeUser } from "@/app/redux/actions/userActions";
@@ -20,12 +20,12 @@ import { EditHealthPackageModal } from "@/components/EditHealthPackage";
 
 const HealthPackage = () => {
   const [showCallout, setShowCallout] = useState(false);
-  const [showCreate,setShowCreate] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
   const [modalShow, setModalShow] = useState(false);
-  const [showRemove,setShowRemove] = useState(false);
-  const [showEdit,setShowEdit] = useState(false);
+  const [showRemove, setShowRemove] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const UpdateisLoading = useSelector(
-    (state) => state.updateHealthPackageReducer.loading,
+    (state) => state.updateHealthPackageReducer.loading
   );
   const [id, setId] = useState(0);
   const {
@@ -131,14 +131,16 @@ const HealthPackage = () => {
 
   return (
     <>
-      <EditHealthPackageModal
-        visible={modalShow}
-        setVisible={setModalShow}
-        data={data}
-        setData={setData}
-        setId={setId}
-        setShowCall={setShowEdit}
-      ></EditHealthPackageModal>
+      {modalShow && (
+        <EditHealthPackageModal
+          visible={modalShow}
+          setVisible={setModalShow}
+          data={data}
+          setData={setData}
+          setId={setId}
+          setShowCall={setShowEdit}
+        ></EditHealthPackageModal>
+      )}
       {createSuccess && (
         // Show success message for registration
         <BottomCallout
@@ -291,84 +293,115 @@ const HealthPackage = () => {
           </div>
 
           <div className="prof h-400 overflow-hidden w-2/6 rounded-xl p-10">
-            <h2 className="text-3xl text-center font-semibold mb-6">
-              Create New Health Package
+            <h2 className="text-3xl font-semibold mb-6">
+              New Health Package
             </h2>
-            <TextInput
-              onChange={handleChange}
-              className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 mt-5"
-              type="username"
-              placeholder="Package Name"
-              name="name"
-              required
-              error={createError && formData.name === ""}
-              errorMessage={
-                createError &&
-                formData.name === "" &&
-                "Please enter a package name"
-              }
-            />
-            <TextInput
-              className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400  mt-5"
-              type="username"
-              placeholder="Doctor Session Discount"
-              onChange={handleChange}
-              name="doctorDiscount"
-              required
-              error={createError && formData.doctorDiscount === ""}
-              errorMessage={
-                createError &&
-                formData.doctorDiscount === "" &&
-                "Please enter a doctor session discount"
-              }
-            />
-            <TextInput
-              className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400  mt-5"
-              type="username"
-              placeholder="Subscription Discount"
-              onChange={handleChange}
-              name="familyMemberSubDiscount"
-              required
-              error={createError && formData.familyMemberSubDiscount === ""}
-              errorMessage={
-                createError &&
-                formData.familyMemberSubDiscount === "" &&
-                "Please enter a family member subscription discount"
-              }
-            />
-            <TextInput
-              className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400  mt-5"
-              type="username"
-              placeholder="Medicine Discount"
-              onChange={handleChange}
-              name="medicineDiscount"
-              required
-              error={createError && formData.medicineDiscount === ""}
-              errorMessage={
-                createError &&
-                formData.medicineDiscount === "" &&
-                "Please enter a medicine discount"
-              }
-            />
-            <TextInput
-              className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400  mt-5"
-              type="username"
-              placeholder="Price"
-              onChange={handleChange}
-              name="price"
-              required
-              error={createError && formData.price === ""}
-              errorMessage={
-                createError && formData.price === "" && "Please enter a price"
-              }
-            />
+
+            <div className="my-3">
+              <h1 className="font-semibold">Package Name</h1>
+              <TextInput
+                onChange={handleChange}
+                className="mt-2"
+                type="username"
+                placeholder="Name (e.g. Gold)"
+                name="name"
+                required
+                error={createError && formData.name === ""}
+                errorMessage={
+                  createError &&
+                  formData.name === "" &&
+                  "Please enter a package name"
+                }
+              />
+            </div>
+
+            <div className="my-3">
+              <h1 className="font-semibold">Doctor Session Discount</h1>
+              <NumberInput
+                className="mt-2"
+                type="username"
+                placeholder="Percentage (e.g. 10%)"
+                onChange={handleChange}
+                name="doctorDiscount"
+                required
+                error={createError && formData.doctorDiscount === ""}
+                errorMessage={
+                  createError &&
+                  formData.doctorDiscount === "" &&
+                  "Please enter a doctor session discount"
+                }
+              />
+            </div>
+
+            <div className="my-3">
+              <h1 className="font-semibold">Subscription Discount</h1>
+
+              <NumberInput
+                className="mt-2"
+                type="username"
+                placeholder="Percentage (e.g. 10%)"
+                onChange={handleChange}
+                name="familyMemberSubDiscount"
+                required
+                error={createError && formData.familyMemberSubDiscount === ""}
+                errorMessage={
+                  createError &&
+                  formData.familyMemberSubDiscount === "" &&
+                  "Please enter a family member subscription discount"
+                }
+              />
+            </div>
+
+
+            <div className="my-3">
+              <h1 className="font-semibold">Medicine Discount</h1>
+
+              <NumberInput
+                className="mt-2"
+                type="username"
+                placeholder="Percentage (e.g. 10%)"
+                onChange={handleChange}
+                name="medicineDiscount"
+                required
+                error={createError && formData.medicineDiscount === ""}
+                errorMessage={
+                  createError &&
+                  formData.medicineDiscount === "" &&
+                  "Please enter a medicine discount"
+                }
+              />
+            </div>
+
+            <div className="my-3">
+              <h1 className="font-semibold">Package Price</h1>
+
+              <NumberInput
+                className="mt-2"
+                type="username"
+                placeholder="Package Price (e.g. 10 USD)"
+                onChange={handleChange}
+                name="price"
+                required
+                error={createError && formData.price === ""}
+                errorMessage={
+                  createError && formData.price === "" && "Please enter a price"
+                }
+              />
+            </div>
+
             <Button
               loading={createLoading}
               onClick={handleSubmit}
-              disabled={formData.name === "" || formData.doctorDiscount === "" || formData.familyMemberSubDiscount === "" || formData.medicineDiscount === "" || formData.price === ""}
+              disabled={
+                formData.name === "" ||
+                formData.doctorDiscount === "" ||
+                formData.familyMemberSubDiscount === "" ||
+                formData.medicineDiscount === "" ||
+                formData.price === ""
+              }
               className="mt-5 tracking-wide font-semibold bg-purple-600 text-gray-100 w-full py-4 rounded-lg hover:bg-purple-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
             >
-              <span className="ml-3">Submit</span>
+              <span className="text-white">Submit</span>
             </Button>
           </div>
         </div>{" "}
