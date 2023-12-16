@@ -457,6 +457,41 @@ router.get(
 
 </details>
 
+<details>
+    
+<summary> Get Health Packages Reducer </summary>
+
+```javascript
+export const getHealthPackagesReducer = (state = getHealthPackagesInitialState, action) => {
+    switch (action.type) {
+        case HEALTH_PACKAGES_LIST_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null,
+            };
+        case HEALTH_PACKAGES_LIST_SUCCESS: {
+            return {
+                ...state,
+                healthPackages: action.payload,
+                loading: false,
+                error: null,
+            }
+        };
+        case HEALTH_PACKAGES_LIST_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+        default:
+            return state;
+    }
+}
+```
+
+</details>
+
 ## API Reference
 
 <details>
