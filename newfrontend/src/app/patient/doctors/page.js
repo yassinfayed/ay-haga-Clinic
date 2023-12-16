@@ -210,8 +210,8 @@ const DoctorsPage = () => {
                   );
                 }}
                 dateFormat="yyyy-MM-dd"
-                placeholderText="Appointment Date"
-                className="w-full"
+                className="flex-[2]"
+                placeholder="Filter by available dates"
               />
             </div>
 
