@@ -33,9 +33,72 @@ The motivation behind Vite Clinics stems from the need to improve healthcare acc
 
 - File Structure: We maintain a logical file structure, grouping related files in dedicated folders, and following a consistent naming convention for files and directories.
 
-## Screenshots
+## Screenshots 🖵
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+
+<details>
+<summary>Landing Page</summary>
+![image](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/f0457fe6-fda3-4d57-8d07-fda5d523edc2)
+![image](https://user-images.githubusercontent.com/82768721/210188013-cf33cf2f-f473-4e47-a98e-9bec634a1afb.png)
+![Screenshot 2023-12-16 204206](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/1d4df9df-3d2f-47ee-9357-3610afb2a0f4)
+
+</details>
+
+<details>
+<summary>Login Page</summary>
+![Screenshot 2023-12-16 204239](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/98380a4e-ccbf-48c7-94d7-1b0953690f7b)
+
+</details>
+
+<details>
+<summary>Patient Profile Page</summary>
+![Screenshot 2023-12-16 204402](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/29dde6b5-6463-4c81-b1ef-71ddd44b283d)
+
+</details>
+
+<details>
+<summary>Family Members' Page</summary>
+![Screenshot 2023-12-16 204510](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/dd7f3709-3ea0-48e9-b5ce-ed2880875c82)
+
+</details>
+
+<details>
+<summary>Doctor's Contract Page</summary>
+![Screenshot 2023-12-16 204844](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/80060872-491a-4072-aae3-d6dc99d4a0bf)
+
+</details>
+
+<details>
+<summary>Doctor's Profile Page</summary>
+![Screenshot 2023-12-16 204906](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/1dc1920c-84a3-438e-bae4-78f5dcb80f86)
+
+</details>
+
+<details>
+<summary>Sign up Page</summary>
+![Screenshot 2023-12-16 204953](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/c4b7e758-25ab-437a-8288-452aa3531113)
+
+</details>
+
+<details>
+<summary>Adding A New Family Member</summary>
+![Screenshot 2023-12-16 205702](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/6936fbd4-ac8b-498f-b7ba-072ed871b3b9)
+
+</details>
+
+<details>
+<summary>Health Packages Page</summary>
+![Screenshot 2023-12-16 205917](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/97824627-c0b0-41e2-9037-b6bdcd9272dd)
+
+</details>
+
+<details>
+<summary>Manage User Page For Admin</summary>
+![Screenshot 2023-12-16 210337](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/309def71-64db-4687-8916-c69be1027d15)
+![Screenshot 2023-12-16 210407](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/e9be64a9-7aa6-47d2-b31b-f3d56b6e72f1)
+
+</details>
+
 
 ## Tech/Framework Used
 
