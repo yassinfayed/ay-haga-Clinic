@@ -431,8 +431,21 @@ Install with `npm`
 ```bash
 > git clone https://github.com/advanced-computer-lab-2023/ay-haga-Clinic.git
 > cd ay-haga-clinic/
-> cd backend && npm i
-> cd newfrontend && npm i
+```
+
+open 2 terminals,
+write the following in the first one:
+
+```bash
+> cd backend
+> npm install
+```
+
+write the following in the second one:
+
+```bash
+> cd newfrontend
+> npm install
 ```
 
 Frontend Dependencies
