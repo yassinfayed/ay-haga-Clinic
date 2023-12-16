@@ -24,6 +24,7 @@ const FamilyMemberCard = ({
   buyerID,
 }) => {
   const dispatch = useDispatch();
+  console.log(buyerID);
   const { loading, success } = useSelector(
     (state) => state.cancelSubscriptionReducer
   );
@@ -239,7 +240,7 @@ const FamilyMemberCard = ({
           }}
         >
           {buyerID ===
-            JSON.parse(localStorage.getItem("userInfo")).data?.user?.role && (
+            JSON.parse(localStorage.getItem("userInfo")).data?.user?._id && (
             <Button
               className="border border-purple-500 text-purple-500 px-4 py-2 mt-4 rounded bg-indigo"
               onClick={() => {

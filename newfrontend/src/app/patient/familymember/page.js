@@ -146,25 +146,28 @@ function Familymembers() {
           </div>
         ) : (
           <div className="flex flex-wrap -mx-2">
-            {fam.map((member, index) => (
-              <div key={index} className="">
-                <FamilyMemberCard
-                  member={member}
-                  name={member.name}
-                  nationalId={member.nationalId}
-                  age={member.age}
-                  gender={member.gender}
-                  relationToPatient={member.relationToPatient}
-                  onCardClick={() => handleCardClick(member)}
-                  selectedMemberName={selectedMemberName}
-                  healthPackage={member.healthPackage}
-                  patientId={member.patientId}
-                  patient={member.patient}
-                  setSuccess={setSuccessMessage}
-                  buyerID={member.pkgBuyer}
-                />
-              </div>
-            ))}
+            {fam.map((member, index) => {
+              console.log(member);
+              return (
+                <div key={index} className="">
+                  <FamilyMemberCard
+                    member={member}
+                    name={member.name}
+                    nationalId={member.nationalId}
+                    age={member.age}
+                    gender={member.gender}
+                    relationToPatient={member.relationToPatient}
+                    onCardClick={() => handleCardClick(member)}
+                    selectedMemberName={selectedMemberName}
+                    healthPackage={member.healthPackage}
+                    patientId={member.patientId}
+                    patient={member.patient}
+                    setSuccess={setSuccessMessage}
+                    buyerID={member.patient?.pkgBuyer}
+                  />
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
