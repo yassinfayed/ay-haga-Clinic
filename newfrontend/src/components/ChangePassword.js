@@ -46,7 +46,7 @@ const ChangePassword = () => {
     <Card className="prof w-[35rem]">
       {changeSuccess && (
         <BottomCallout
-          message="Changing password was successful"
+          message="You have successfully changed your password"
           variant="success"
           visible={true}
           setVisible={setVisibleFeedback}

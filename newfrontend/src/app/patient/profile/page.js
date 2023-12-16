@@ -102,6 +102,7 @@ function Profile() {
     if (selectedFile) {
       const formData = new FormData();
       formData.append("documents", selectedFile);
+      setSelectedFile(null);
       console.log(formData);
       dispatch(uploadDocsAction(formData));
       setShowUpload(true);
@@ -322,7 +323,7 @@ function Profile() {
           </div>
           {uploadError && showUpload && (
             <BottomCallout
-              message="There was an error uploading your file"
+              message="File format should be JPEG, JPG, PNEG or PDF"
               variant="error"
               visible={true}
               setVisible={setVisibleFeedback}
