@@ -15,7 +15,7 @@ function EditHealthPackageModal({
   data,
   setData,
   setId,
-  setShowCall
+  setShowCall,
 }) {
   console.log(data);
   const dispatch = useDispatch();
@@ -27,6 +27,8 @@ function EditHealthPackageModal({
     medicineDiscount: data?.medicineDiscount,
     price: data?.price,
   });
+  console.log(data);
+  console.log(formData);
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -42,11 +44,13 @@ function EditHealthPackageModal({
     dispatch(updateHealthPackage(data._id, formData));
     setVisible(false);
     setShowCall(true);
-    setFormData({name: data?.name,
+    setFormData({
+      name: data?.name,
       doctorDiscount: data?.doctorDiscount,
       familyMemberSubDiscount: data?.familyMemberSubDiscount,
       medicineDiscount: data?.medicineDiscount,
-      price: data?.price});
+      price: data?.price,
+    });
     //setShowCallout(true)
     // Clear form fields
   };
@@ -109,9 +113,9 @@ function EditHealthPackageModal({
             <TextInput
               onChange={handleChange}
               className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 mt-5"
-              type="username"
-              defaultValue={data?.name}
-              placeholder="Package Name"
+              type="name"
+              placeholder={data?.name}
+              // placeholder="Package Name"
               name="name"
               required
               //   error={
@@ -124,9 +128,9 @@ function EditHealthPackageModal({
             />
             <TextInput
               className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400  mt-5"
-              type="username"
-              defaultValue={data?.doctorDiscount}
-              placeholder="Doctor Session Discount"
+              type="number"
+              placeholder={data?.doctorDiscount}
+              // placeholder="Doctor Session Discount"
               onChange={handleChange}
               name="doctorDiscount"
               required
@@ -140,9 +144,9 @@ function EditHealthPackageModal({
             />
             <TextInput
               className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400  mt-5"
-              type="username"
-              defaultValue={data?.familyMemberSubDiscount}
-              placeholder="Subscription Discount"
+              type="number"
+              placeholder={data?.familyMemberSubDiscount}
+              // placeholder="Subscription Discount"
               onChange={handleChange}
               name="familyMemberSubDiscount"
               required
@@ -156,11 +160,12 @@ function EditHealthPackageModal({
             />
             <TextInput
               className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400  mt-5"
-              type="username"
-              defaultValue={data?.medicineDiscount}
-              placeholder="Medicine Discount"
+              type="number"
+              placeholder={data?.medicineDiscount}
+              // placeholder="Medicine Discount"
               onChange={handleChange}
               name="medicineDiscount"
+              maxLength={3}
               required
               //   error={
               //     createError && formData.medicineDiscount===""
@@ -172,9 +177,9 @@ function EditHealthPackageModal({
             />
             <TextInput
               className="w-full px-8 py-4 rounded-lg font-medium bg-gray-800 border border-gray-900 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400  mt-5"
-              type="username"
-              defaultValue={data?.price}
-              placeholder="Price"
+              type="number"
+              placeholder={data?.price}
+              // placeholder="Price"
               onChange={handleChange}
               name="price"
               required
