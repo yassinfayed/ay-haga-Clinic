@@ -194,7 +194,7 @@ function EditHealthPackageModal({
             <Button
               //   loading={createLoading}
               onClick={handleSubmit}
-              className="mt-5 tracking-wide font-semibold bg-purple-600 text-gray-100 w-full py-4 rounded-lg hover:bg-purple-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+              className="mt-5 tracking-wide font-semibold text-gray-100 w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
             >
               <span className="ml-3">Submit</span>
             </Button>

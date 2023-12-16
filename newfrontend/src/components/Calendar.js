@@ -4,7 +4,6 @@ import { doctorAddAvailableDate } from "@/app/redux/actions/doctorActions";
 import { doctorAddAvailableDateReducer } from "@/app/redux/reducers/doctorReducer";
 import { BottomCallout } from "./BottomCallout";
 import { useSelector } from "react-redux";
-// import { TimePicker } from 'react-ios-time-picker';
 import { viewDoctorDetails } from "@/app/redux/actions/doctorActions";
 import { Button } from "@tremor/react";
 

@@ -47,6 +47,9 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en" className="dark">
+      <head>
+        <title>Vite Clinics</title>
+      </head>
       <body className={myFont.className + " min-h-screen flex flex-col "}>
         <ReduxProvider>{children} </ReduxProvider>
         {/* <div className="flex-1 grow"></div> */}

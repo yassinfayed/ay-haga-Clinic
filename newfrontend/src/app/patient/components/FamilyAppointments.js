@@ -33,6 +33,7 @@ import {
   followUpAction,
 } from "@/app/redux/actions/appointmentActions";
 import RescheduleCalendar from "@/components/RescheduleCalendar";
+import { Modal } from "@/components/Modal";
 
 const FamilyAppointments = ({ memberId, memberName }) => {
   const dispatch = useDispatch();
@@ -140,77 +141,77 @@ const FamilyAppointments = ({ memberId, memberName }) => {
   const rows = useMemo(() => {
     return appointmentsData && appointmentsData.data
       ? appointmentsData.data.map((value) => ({
-          date: new Date(value.date).toLocaleString(),
-          doctorname: value.doctorId?.name,
-          status: value.status,
-          buttons:
-            value.status === "Upcoming" ? (
-              value.followUp === "None" ? (
-                <>
-                  <Button
-                    variant="secondary"
-                    className="mx-7"
-                    onClick={(e) => {
-                      handleReschedule(value.doctorId._id, value._id);
-                    }}
-                  >
-                    Reschedule
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    color="red"
-                    onClick={(e) => handleCancel(value._id)}
-                  >
-                    Cancel
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    disabled={true}
-                    variant="secondary"
-                    className="mx-7"
-                    style={{
-                      background: "transparent",
-                      border: "none",
-                      color: "transparent",
-                      cursor: "default",
-                    }}
-                  >
-                    Reschedule
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    color="red"
-                    onClick={(e) => handleCancel(value._id)}
-                  >
-                    Cancel
-                  </Button>
-                </>
-              )
-            ) : value.status === "Completed" ? (
-              value.followUp === "None" ? (
-                <>
-                  <Button
-                    variant="secondary"
-                    className="mx-8"
-                    color="green"
-                    onClick={(e) => handleFollowUp(value._id)}
-                  >
-                    Follow Up
-                  </Button>
-                </>
-              ) : value.followUp === "FollowUpRequest" ? (
-                <span className="mx-10">Awaiting Doctor</span>
-              ) : value.followUp === "Accepted" ? (
-                <span className="mx-10">Follow Up Scheduled</span>
-              ) : (
-                <span className="mx-10">Follow Up Rejected</span>
-              )
+        date: new Date(value.date).toLocaleString(),
+        doctorname: value.doctorId?.name,
+        status: value.status,
+        buttons:
+          value.status === "Upcoming" ? (
+            value.followUp === "None" ? (
+              <>
+                <Button
+                  variant="secondary"
+                  className="mx-7"
+                  onClick={(e) => {
+                    handleReschedule(value.doctorId._id, value._id);
+                  }}
+                >
+                  Reschedule
+                </Button>
+                <Button
+                  variant="secondary"
+                  color="red"
+                  onClick={(e) => handleCancel(value._id)}
+                >
+                  Cancel
+                </Button>
+              </>
             ) : (
-              ""
-            ),
-        }))
+              <>
+                <Button
+                  disabled={true}
+                  variant="secondary"
+                  className="mx-7"
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    color: "transparent",
+                    cursor: "default",
+                  }}
+                >
+                  Reschedule
+                </Button>
+                <Button
+                  variant="secondary"
+                  color="red"
+                  onClick={(e) => handleCancel(value._id)}
+                >
+                  Cancel
+                </Button>
+              </>
+            )
+          ) : value.status === "Completed" ? (
+            value.followUp === "None" ? (
+              <>
+                <Button
+                  variant="secondary"
+                  className="mx-8"
+                  color="green"
+                  onClick={(e) => handleFollowUp(value._id)}
+                >
+                  Follow Up
+                </Button>
+              </>
+            ) : value.followUp === "FollowUpRequest" ? (
+              <span className="mx-10">Awaiting Doctor</span>
+            ) : value.followUp === "Accepted" ? (
+              <span className="mx-10">Follow Up Scheduled</span>
+            ) : (
+              <span className="mx-10">Follow Up Rejected</span>
+            )
+          ) : (
+            ""
+          ),
+      }))
       : [];
   }, [appointmentsData]);
   console.log(appointmentsData, !appointmentsData?.data[0]);
@@ -400,37 +401,15 @@ const FamilyAppointments = ({ memberId, memberName }) => {
           </Card>
         </>
       )}
-      {reschedule && (
-        <Card className="flex flex-col w-64 h-96">
-          {" "}
-          {/* Adjust the width and height as needed */}
-          <div
-            role="button"
-            onClick={() => setReschedule(false)}
-            className="ms-auto"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-4 h-4"
-            >
-              {" "}
-              {/* Adjust the width and height as needed */}
-              <path
-                fillRule="evenodd"
-                d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
+      <Modal visible={reschedule} setVisible={setReschedule} className="w-full h-full">
+        {reschedule &&
           <RescheduleCalendar
             setCalendar={setReschedule}
             id={doctorID}
             appointmentId={appointmentId}
           ></RescheduleCalendar>
-        </Card>
-      )}
+        }
+      </Modal>
     </>
   );
 };

@@ -216,7 +216,7 @@ const DoctorsPage = () => {
             </div>
 
             <div className="flex overflow-hidden gap-x-4 gap-y-8">
-              <div className="prof h-400 overflow-hidden w-4/6 rounded-xl p-10">
+              <div className="prof h-400 overflow-hidden flex-1 grow w-4/6 rounded-xl p-10">
                 <TableComponent
                   setSelected={setSelected}
                   rows={doctorList}
@@ -251,11 +251,11 @@ const DoctorsPage = () => {
                     },
                   ]}
                   badgeColumns={[]}
-                  title={"Check Our Doctors"}
+                  title={"Check Out Our Doctors"}
                 />
               </div>
 
-              <div className="prof h-400 overflow-hidden w-2/6 rounded-xl p-10">
+              <div className={`prof h-400 overflow-hidden ${selected ? 'w-2/6 p-10' : 'w-0'} rounded-xl`}>
                 <DoctorPersonCard
                   imageUrl="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
                   name={selected?.name}
