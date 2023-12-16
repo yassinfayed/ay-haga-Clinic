@@ -173,8 +173,14 @@ const selectClinic = () => {
             <p className="text-xl mr-3">Chat with your doctors</p>
         ) : (
           <>
+          <div className="flex">
+          <div className="mr-3">
           <Button color="white" variant="secondary"onClick={selectClinic}> <p className="text-xl" >Clinic</p> </Button>
+          </div>
+          <div>
           <Button color="white" variant="secondary"onClick={selectPharmacy}> <p className="text-xl">Pharmacy</p></Button>
+          </div>
+          </div>
           </>
         )}
         </div>
@@ -237,7 +243,7 @@ const selectClinic = () => {
         </div>
         <div className="flex">
         <input
-          className="w-[15rem] px-2 py-1 border border-gray-700 chatBorder rounded text-black"
+          className="w-[40rem] px-2 py-1 border border-gray-700 chatBorder rounded text-black"
           type="text"
           placeholder="Type your message..."
           value={crossMessage}
