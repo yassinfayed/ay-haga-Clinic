@@ -246,6 +246,8 @@ exports.getReservationCheckoutSession = catchAsync(async (req, res, next) => {
       dr: req.params.id,
       date: req.query.date,
       reserve: "true",
+      paidUser: req.user._id,
+      paid: price,
     },
   });
   res.status(200).json({
@@ -264,6 +266,7 @@ createAppointmentReservation = async (session) => {
     patientId: patientId,
     doctorId: doctorId,
     date: date,
+    paidUser: session.metadata.paidUser,
   });
   const existingChat = await Chat.findOne({
     members: { $all: [patientId.toString(), doctorId.toString()] },
@@ -347,6 +350,8 @@ exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
     patientId: id,
     doctorId: doctorId,
     date: date,
+    paidUser: req.user._id,
+    paid: price,
   });
 
   // 2 Update DR WALLET AND AVAILABILE DATES

@@ -25,6 +25,10 @@ const appointmentSchema = new mongoose.Schema({
     enum: ["FollowUpRequest", "Accepted", "Revoked", "None"],
     default: "None",
   },
+  paidUser: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  paid: {
+    type: Number,
+  },
 });
 appointmentSchema.virtual("patient", {
   ref: "Patient",
