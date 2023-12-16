@@ -168,6 +168,7 @@ const Prescriptions = ({ params }) => {
         {open && (
           <AddPrescription
             medicines={medicines}
+            setVisible={setOpen}
             setMedicines={setMedicines}
             instructions={instructions}
             setInstructions={setInstructions}
