@@ -467,7 +467,7 @@ router.get(
   Handles Stripe webhook events.
 
 <details>
-<summary>## Patient Routes</summary>
+<summary>Patient Routes</summary>
 
 - **GET /api/v1/patient/auth**
   Authenticates a patient.
@@ -500,7 +500,7 @@ router.get(
 
 </details>
 <details>
-<summary>## Doctor Routes</summary>
+<summary>Doctor Routes</summary>
 
 - **GET /api/v1/doctor/auth**
   Authenticates a doctor.
@@ -532,7 +532,7 @@ router.get(
 </details>
 
 <details>
-<summary>## Appointment Routes</summary>
+<summary>Appointment Routes</summary>
 
 - **GET /api/v1/appointment/get-patient-appointments**
   Retrieves all patient appointments.
@@ -561,7 +561,7 @@ router.get(
 
 </details>
 <details>
-<summary>## Family Member Routes</summary>
+<summary>Family Member Routes</summary>
 
 - **POST /api/v1/familyMembers/link**
   Links a family member.
@@ -575,7 +575,7 @@ router.get(
 </details>
 
 <details>
-<summary>## Prescription Routes</summary>
+<summary>Prescription Routes</summary>
 
 - **POST /api/v1/prescriptions/addPrescription**
   Adds a prescription.
@@ -589,7 +589,7 @@ router.get(
 </details>
 
 <details>
-<summary>## Health Packages Routes</summary>
+<summary>Health Packages Routes</summary>
 
 - **GET /api/v1/healthPackages/discount**
   Retrieves discount information.
@@ -613,7 +613,7 @@ router.get(
 </details>
 
 <details>
-<summary>## Authentication Routes</summary>
+<summary>Authentication Routes</summary>
 
 - **GET /api/v1/auth/auth**
   Authenticates user.
@@ -635,7 +635,7 @@ router.get(
 </details>
 
 <details>
-<summary>## Notification Routes</summary>
+<summary>Notification Routes</summary>
 
 - **PATCH /api/v1/notifications/:id**
   Updates a notification.
@@ -645,7 +645,7 @@ router.get(
 </details>
 
 <details>
-<summary>## Message Routes</summary>
+<summary>Message Routes</summary>
 
 - **POST /api/v1/messages/createMessage**
   Creates a message.
@@ -655,7 +655,7 @@ router.get(
 </details>
 
 <details>
-<summary>## Chat Routes</summary>
+<summary>Chat Routes</summary>
 
 - **GET /api/v1/chats/getChats/:id**
   Retrieves chats.
