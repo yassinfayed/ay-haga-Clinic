@@ -5,6 +5,7 @@ import Link from "next/link";
 import GradientText from "./GradientText";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "@/app/redux/actions/authActions";
+import Image from "next/image";
 import { getNotifications } from "@/app/redux/actions/notificationActions";
 import ActiveIconNotification from "./Notification";
 export default function Sidebar() {
@@ -56,8 +57,6 @@ export default function Sidebar() {
     ],
     doctor: [
       { icon: "profile", label: "Profile", href: "/pharmacist/profile" },
-      { icon: "medicines", label: "Medicines", href: "/patient/products" },
-      { icon: "sales", label: "Sales Report", href: "/pharmacist/salesReport" },
       { icon: "order", label: "Appointments", href: "/doctor/appointments" },
 
       { icon: "users", label: "My Patients", href: "/doctor/my-patients" },
@@ -69,9 +68,8 @@ export default function Sidebar() {
       },
     ],
     administrator: [
-      { icon: "medicines", label: "Medicines", href: "/patient/products" },
-      { icon: "sales", label: "Sales Report", href: "/pharmacist/salesReport" },
       { icon: "users", label: "Manage Users", href: "/admin/manage-users" },
+      { icon: "health", label: "Health Packages", href: "/admin/healthpackages" },
       {
         icon: "profile",
         label: "Change Password",
@@ -183,6 +181,24 @@ export default function Sidebar() {
             />
           </svg>
         );
+
+        case "health":
+          return (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 35 35"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M29.125 10.375h-7.5v-7.5c0-1.036-0.839-1.875-1.875-1.875h-7.5c-1.036 0-1.875 0.84-1.875 1.875v7.5h-7.5c-1.036 0-1.875 0.84-1.875 1.875v7.5c0 1.036 0.84 1.875 1.875 1.875h7.5v7.5c0 1.036 0.84 1.875 1.875 1.875h7.5c1.036 0 1.875-0.84 1.875-1.875v-7.5h7.5c1.035 0 1.875-0.839 1.875-1.875v-7.5c0-1.036-0.84-1.875-1.875-1.875z"
+              />
+            </svg>
+          );
 
       case "cart":
         return (

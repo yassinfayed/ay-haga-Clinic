@@ -266,12 +266,12 @@ createAppointmentReservation = async (session) => {
     date: date,
   });
   const existingChat = await Chat.findOne({
-    members: { $all: [patientId, doctorId] },
+    members: { $all: [patientId.toString(), doctorId.toString()] },
   });
 
   if (!existingChat) {
     await Chat.create({
-      members: [patientId, doctorId],
+      members: [patientId.toString(), doctorId.toString()],
     });
   }
 
@@ -340,12 +340,12 @@ exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
   // 2 Update DR WALLET AND AVAILABILE DATES
   const doctor = await Doctor.findById(doctorId);
   const existingChat = await Chat.findOne({
-    members: { $all: [patientId, doctorId] },
+    members: { $all: [patientId.toString(), doctorId.toString()] },
   });
 
   if (!existingChat) {
     await Chat.create({
-      members: [patientId, doctorId],
+      members: [patientId.toString(), doctorId.toString()],
     });
   }
   const user = await User.findById(doctor.user);

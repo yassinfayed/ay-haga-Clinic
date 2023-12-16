@@ -8,6 +8,10 @@ import axios from "axios";
 import { io } from "socket.io-client";
 import ChatComponent from "./ChatBubble";
 import Conversation from "./Conversation";
+import { Button } from "@tremor/react";
+import { Tab } from "@tremor/react";
+import { TabList } from "@tremor/react";
+import { TabGroup } from "@tremor/react";
 
 // ChatPanel component
 const ChatPanel = ({ isOpen, handleClose }) => {
@@ -25,6 +29,12 @@ const ChatPanel = ({ isOpen, handleClose }) => {
     user = JSON.parse(localStorage.getItem("userInfo"))?.data.user.doctor;
   }
   const scrollRef = useRef();
+
+
+  const [selectedTab, setSelectedTab] = useState("Clinic");
+  const handleTabClick = (tab) => {
+    setSelectedTab(tab);
+  };
 
   useEffect(() => {
     socket.current = io("http://localhost:8900");
@@ -119,6 +129,16 @@ const ChatPanel = ({ isOpen, handleClose }) => {
       <div className="chat-header">
         <div className="close-button" onClick={handleClose}>
           <FaTimes />
+        </div>
+        <div className="chat-title">
+        {role === "patient" ? (
+            <p className="text-xl mr-3">Chat with your doctors</p>
+        ) : (
+          <>
+          <Button color="white" variant="secondary"> <p className="text-xl">Clinic</p> </Button>
+          <Button color="white" variant="secondary"> <p className="text-xl">Pharmacy</p></Button>
+          </>
+        )}
         </div>
       </div>
       <div style={{ height: isOpen ? "400px" : "0px" }} className="flex">

@@ -154,7 +154,7 @@ export const logoutAction = () => async (dispatch) => {
     });
 
     localStorage.clear();
-    window.location.href = '/guest/Login'
+    window.location.href = '/guest/login'
   } catch (error) {
     dispatch({
       type: USER_LOGOUT_FAIL,

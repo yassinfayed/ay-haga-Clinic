@@ -12,26 +12,50 @@ export default function Conversation({ conversation, currentUser }) {
   const role = JSON.parse(localStorage.getItem("userInfo"))?.data.user.role;
 
   const dispatch = useDispatch();
-  const doctor = useSelector((state) => state.doctorReducer.doctor);
-  const patients = useSelector((state) => state.patientsReducer.patients?.data);
+  const [doctor,setDoctor] = useState("");
+  const [patient,setPatient] = useState("");
   const [pat, setPat] = useState("");
-  useEffect(() => {
-    console.log("patient is", patients);
-    if (patients) {
-      setPat(patients[0]);
-      console.log("single", pat);
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    withCredentials: true,
+  };
+
+
+  const getDoctors = async (id) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/api/v1/doctor?_id=${id}`, config
+      );
+      console.log(res.data.data.data[0]);
+      setDoctor(res.data.data.data[0]);
+    } catch (err) {
+      console.log(err);
     }
-  }, [patients]);
+  }
+
+  const getPatients = async (id) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/api/v1/view-Patients?_id=${id}`, config
+      );
+      setPatient(res.data.data[0]);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   useEffect(() => {
     const friendId = conversation.members.find((m) => m !== currentUser._id);
     if (role === "patient") {
-      dispatch(viewDoctorDetails(friendId));
+      
+      getDoctors(friendId);
+      
     } else {
-      const queryObj = {
-        id: friendId,
-      };
-      dispatch(viewPatients(queryObj));
+      
+      getPatients(friendId);
     }
   }, [currentUser, conversation]);
 

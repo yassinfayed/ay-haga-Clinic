@@ -23,7 +23,7 @@ import PromptMessage from "@/components/PromptMessage";
 const Doctors = () => {
   const dispatch = useDispatch();
   const [selected, setSelected] = useState();
-  const [visibleFeedback, setVisibleFeedback] = useState(true);
+  const [visibleFeedback, setVisibleFeedback] = useState(false);
   const { doctors, loading } = useSelector(
     (state) => state.getDrsForPatientsReducer,
   );
@@ -41,7 +41,7 @@ const Doctors = () => {
 
   const handleSelect = (id) => {
     for (let i = 0; i < doctorsList.length; i++) {
-      if (doctorsList[i]._id == id) {
+      if (doctorsList[i].doctorID == id) {
         setSelected(doctorsList[i]);
         break;
       }
@@ -54,6 +54,8 @@ const Doctors = () => {
       ?.map(({ _id, user, DateOfbirth, ...rest }) => ({
         ...rest,
         ...user,
+        doctorID: _id,
+        deleteID: user?._id,
         DateOfbirth: formatDateToDDMMYYYY(DateOfbirth),
       }))
       .filter((value) => value.employmentContract.status === "accepted");
@@ -66,6 +68,7 @@ const Doctors = () => {
   };
   const confirmDelete = () => {
     dispatch(removeUser(deleteID));
+    setVisibleFeedback(true);
     setShowPrompt(!showPrompt);
     setSelected(null);
     setFreeze(false);
@@ -184,6 +187,7 @@ const Doctors = () => {
                 "username",
                 "HourlyRate",
                 "affiliation",
+                "speciality"
               ]}
               displayNames={[
                 "Email",
@@ -191,6 +195,7 @@ const Doctors = () => {
                 "Username",
                 "Hourly Rate",
                 "Affiliation",
+                "Speciality"
               ]}
             />
           </div>
