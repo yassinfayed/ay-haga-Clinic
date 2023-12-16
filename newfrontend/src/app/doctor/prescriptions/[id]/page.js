@@ -20,9 +20,18 @@ const Prescriptions = ({ params }) => {
   const onViewFiles = (pharmId) => {
     //   dispatch(downloadPharmacistDocs(pharmId));
   };
+  // const [followUpFeedback, setFollowUpFeedback] = useState(true);
+  const [createPrescriptionFeedback, setCreatePrescriptionFeedback] = useState( true);
+
+  const [updatePrescriptionFeedback, setUpdatePrescriptionFeedback] = useState( true);
   const { prescription, loading } = useSelector(
     (state) => state.viewAllPrescriptionsReducer
   );
+
+  const { loading: createLoading, prescription: createPrescription, error: createError } = useSelector(
+    (state) => state.createPrescriptionReducer
+  );
+
   const [open, setOpen] = useState(false);
   const [medicines, setMedicines] = useState([
     { medicine: "", dosage: "", frequency: "", startDate: null, endDate: null },
@@ -47,7 +56,8 @@ const Prescriptions = ({ params }) => {
     setFreeze(true);
   };
 
-  const { loading: updateLoading } = useSelector(
+  const { loading: updateLoading  , prescription: updatePrescription, error: updateError
+  } = useSelector(
     (state) => state.updatePrescriptionReducer
   );
   const prescriptionList = useMemo(() => {
@@ -153,6 +163,40 @@ const Prescriptions = ({ params }) => {
 
   return (
     <>
+
+{createError  && (
+        <BottomCallout
+          message="Error creating prescription"
+          visible={createPrescriptionFeedback}
+          variant="error"
+          setVisible={setCreatePrescriptionFeedback}
+        />
+      )}
+      {createPrescription && (
+        <BottomCallout
+          message="Prescription created successfully"
+          visible={createPrescriptionFeedback}
+          variant="success"
+          setVisible={setCreatePrescriptionFeedback}
+        />
+      )}
+      {updateError && (
+        <BottomCallout
+          message="Error updating prescription"
+          visible={updatePrescriptionFeedback}
+          setVisible={setUpdatePrescriptionFeedback}
+          variant="error"
+        />
+      )}
+      {updatePrescription && (
+        <BottomCallout
+          message="Prescription updated successfully"
+          visible={updatePrescriptionFeedback}
+          variant="success"
+          setVisible={setUpdatePrescriptionFeedback}
+        />
+      )}
+
       <>
         <div className="w-full flex flex-row gap-4 mb-4 divide-x divide-gray-400">
           <button
