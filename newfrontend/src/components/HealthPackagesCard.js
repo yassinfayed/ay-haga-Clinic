@@ -5,6 +5,7 @@ import { formatDateToDDMMYYYY } from "@/app/redux/validators";
 import { Button } from "@tremor/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import PromptMessage from "./PromptMessage";
 
 const PricingCard = ({ hp, patient }) => {
   const [healthPackage, setHealthPackage] = useState(null);
@@ -12,9 +13,28 @@ const PricingCard = ({ hp, patient }) => {
   const dispatch = useDispatch();
   function handleCancellation() {
     dispatch(cancelSubscription(patient._id));
+    setSubmitted(true);
     // setCancelConfirm(false);
     //6549f806f3ee984c4052aa62
   }
+  const [confirm, setConfirm] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const { loading, success } = useSelector(
+    (state) => state.cancelSubscriptionReducer
+  );
+  useEffect(() => {
+    if (!loading && submitted) {
+      // setSuccess("Family member added successfully");
+      // setVisible(false);
+      setConfirm(false);
+      // setSuccess("Subscription Cancelled Successfuly!");
+      // setCred("");
+      // Trigger onSuccess if provided
+    } else if (!loading & submitted) {
+      setSubmitted(false);
+      // setError("Error adding family member");
+    }
+  }, [loading]);
 
   const cardClasses = `
     w-full max-w-sm p-4 bg-white rounded-lg shadow sm:p-8 dark:bg-gray-800
@@ -26,7 +46,7 @@ const PricingCard = ({ hp, patient }) => {
     }
   `;
   const { success: orderSuccess, loading: orderLoading } = useSelector(
-    (state) => state.orderReducer,
+    (state) => state.orderReducer
   );
   useEffect(() => {
     if (orderSuccess == true) setShow(false);
@@ -109,7 +129,10 @@ const PricingCard = ({ hp, patient }) => {
             <Button
               type="button"
               variant="secondary"
-              onClick={() => handleCancellation()}
+              onClick={() => {
+                setConfirm(true);
+                console.log("hey");
+              }}
               className="text-white  focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
             >
               Cancel subscription
@@ -127,6 +150,13 @@ const PricingCard = ({ hp, patient }) => {
         >
           Choose plan
         </Button>
+        <PromptMessage
+          visible={confirm}
+          setVisible={setConfirm}
+          onConfirm={handleCancellation}
+          onCancel={() => setConfirm(false)}
+          confirmLoading={loading}
+        />
 
         <SubscribeModal
           title={`Subscribe to our ${hp?.name} Health Package`}

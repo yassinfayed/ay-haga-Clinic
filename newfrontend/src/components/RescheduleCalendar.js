@@ -10,7 +10,7 @@ import { Button } from "@tremor/react";
 import ReserveModal from "./ReserveModal";
 import { rescheduleAction } from "@/app/redux/actions/appointmentActions";
 
-function RescheduleCalendar({ id, appointmentId }) {
+function RescheduleCalendar({ id, appointmentId, setCalendar }) {
   const [visibleFeedback, setVisibleFeedback] = useState(true);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
@@ -58,13 +58,13 @@ function RescheduleCalendar({ id, appointmentId }) {
 
   const prevMonth = () => {
     setCurrentDate(
-      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1),
+      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1)
     );
   };
 
   const nextMonth = () => {
     setCurrentDate(
-      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1),
+      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1)
     );
   };
 
@@ -72,7 +72,16 @@ function RescheduleCalendar({ id, appointmentId }) {
     setClickedDay(day);
     setIsTimePickerOpen(true);
   };
+  const [init, setInit] = useState(false);
 
+  useEffect(() => {
+    if (!loading && init == true) {
+      setTimeout(() => {
+        setCalendar(false);
+      }, 2000);
+    }
+    setInit(true);
+  }, [loading]);
   const displayLocalTime = (utcTime) => {
     const date = new Date(utcTime);
     return date.toLocaleTimeString([], {
@@ -115,7 +124,7 @@ function RescheduleCalendar({ id, appointmentId }) {
                   .filter((event) => {
                     const eventMonth = new Date(event.formattedDate).getMonth();
                     const eventYear = new Date(
-                      event.formattedDate,
+                      event.formattedDate
                     ).getFullYear();
                     return (
                       eventMonth === currentDate.getMonth() &&
@@ -133,10 +142,7 @@ function RescheduleCalendar({ id, appointmentId }) {
                         className="w-[8rem]"
                         onClick={() => {
                           dispatch(
-                            rescheduleAction(
-                              appointmentId,
-                              event.formattedDate,
-                            ),
+                            rescheduleAction(appointmentId, event.formattedDate)
                           );
                           setReserve(true);
                         }}
@@ -148,7 +154,7 @@ function RescheduleCalendar({ id, appointmentId }) {
                   ))}
             </div>
           </div>
-        </td>,
+        </td>
       );
     }
     // Wrap days in rows

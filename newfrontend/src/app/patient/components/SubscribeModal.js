@@ -25,13 +25,13 @@ function SubscribeModal(props) {
   const { success: orderSuccess } = useSelector((state) => state.orderReducer);
 
   const { loading, error, session } = useSelector(
-    (state) => state.orderReducer,
+    (state) => state.orderReducer
   );
   const familyMembers = useSelector(
-    (state) => state.viewFamilyMembersReducer.familyMember,
+    (state) => state.viewFamilyMembersReducer.familyMember
   );
   const isLoading = useSelector(
-    (state) => state.addFamilyMembersReducer.loading,
+    (state) => state.addFamilyMembersReducer.loading
   );
 
   async function fetchData() {
@@ -129,7 +129,12 @@ function SubscribeModal(props) {
             id="me"
             name="paymentMethod"
             value="wallet"
-            // disabled={ JSON.parse(localStorage.getItem('userInfo')).data.user.wallet === undefined || JSON.parse(localStorage.getItem('userInfo')).data.user.wallet < healthPackage?.price }
+            disabled={
+              JSON.parse(localStorage.getItem("userInfo")).data?.user.wallet ===
+                undefined ||
+              JSON.parse(localStorage.getItem("userInfo")).data?.user.wallet <
+                healthPackage?.price
+            }
             checked={paymentMethod === "wallet"}
             onChange={(e) => handlePaymentChange(e)}
           />

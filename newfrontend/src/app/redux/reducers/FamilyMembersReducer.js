@@ -37,11 +37,12 @@ export const addFamilyMembersReducer = (state = initialState, action) => {
       };
     }
     case FAMILY_MEMBERS_FAIL:
+      console.log(action.payload);
       return {
         ...state,
         familyMember: null,
         loading: false,
-        error: true,
+        error: action.payload,
       };
     default:
       return state;
@@ -86,6 +87,7 @@ export const linkFamilyMemberReducer = (state = initialState, action) => {
         ...state,
         loading: true,
         error: null,
+        success: false,
       };
     case LINK_FAMILY_MEMBER_SUCCESS: {
       return {
@@ -93,6 +95,7 @@ export const linkFamilyMemberReducer = (state = initialState, action) => {
         familyMember: action.payload,
         loading: false,
         error: null,
+        success: true,
       };
     }
     case LINK_FAMILY_MEMBER_FAIL:
@@ -100,6 +103,7 @@ export const linkFamilyMemberReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload,
+        success: false,
       };
     default:
       return state;

@@ -43,7 +43,7 @@ exports.linkFamilyMember = catchAsync(async (req, res, next) => {
   }
   if (!familymemberaspatient) {
     return next(
-      new AppError(404, "No Patient found with that email or phone number"),
+      new AppError("No Patient found with that email or phone number", 404)
     );
   }
   const patientId = patient._id;
@@ -135,7 +135,7 @@ exports.viewAllFamilyMembersAndPatients = catchAsync(async (req, res, next) => {
   for (const familyMember of familyMembers) {
     if (familyMember.linkedPatientId) {
       const linkedPatient = await Patient.findById(
-        familyMember.linkedPatientId,
+        familyMember.linkedPatientId
       ).populate("package");
 
       if (linkedPatient) {

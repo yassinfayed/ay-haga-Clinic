@@ -20,6 +20,7 @@ import { downloadPatientDocs } from "@/app/redux/actions/patientActions";
 import { downloadDoctorDocsReducer } from "@/app/redux/reducers/doctorReducer";
 import { removeDocsAction } from "@/app/redux/actions/patientActions";
 import { patientRemoveRecordReducer } from "@/app/redux/reducers/patientReducer";
+import PromptMessage from "@/components/PromptMessage";
 
 // EXAMPLE USAGE
 
@@ -48,6 +49,12 @@ function Profile() {
   const [showUpload, setShowUpload] = useState(false);
   const [showRemove, setShowRemove] = useState(false);
   const [showDownload, setShowDownload] = useState(false);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const confirmDelete = () => {
+    handleRemove();
+    setShowRemove(true);
+    setShowPrompt(!showPrompt);
+  };
 
   useEffect(() => {
     dispatch(viewPatientDetails());
@@ -75,18 +82,19 @@ function Profile() {
   };
 
   const handleRemove = (fileName) => {
-    console.log(removeError);
-    console.log(removeSuccess);
-    dispatch(removeDocsAction(fileName));
+    dispatch(removeDocsAction(filenameR));
     setShowRemove(true);
-    console.log(removeError);
-    console.log(removeSuccess);
+
     setTimeout(() => {
       setShowRemove(false);
     }, 3000);
   };
+  const cancelDelete = () => {
+    setShowPrompt(!showPrompt);
+  };
 
   const dispatch = useDispatch();
+  const [filenameR, setFilenameR] = useState("");
 
   const role = JSON.parse(localStorage.getItem("userInfo"))?.data.user.role;
 
@@ -121,6 +129,14 @@ function Profile() {
           </div>
         </div>
         <br />
+        <PromptMessage
+          visible={showPrompt}
+          setVisible={setShowPrompt}
+          message="Are you sure you want to remove this document?"
+          onConfirm={confirmDelete}
+          confirmLoading={removeLoading}
+          onCancel={cancelDelete}
+        />
 
         <div numItems={3} className="flex flex-row gap-2">
           <Card>
@@ -201,13 +217,16 @@ function Profile() {
                         className=" hover:underline focus:outline-none"
                         size="xs"
                         variant="secondary"
-                        color="gray"
+                        color="blue"
                       >
                         Download
                       </Button>
                       {role === "patient" && (
                         <Button
-                          onClick={() => handleRemove(filename)}
+                          onClick={() => {
+                            setFilenameR(filename);
+                            setShowPrompt(true);
+                          }}
                           className="ml-3 text-red-500 hover:underline focus:outline-none"
                           size="xs"
                           variant="secondary"
@@ -243,13 +262,16 @@ function Profile() {
                         className=" hover:underline focus:outline-none"
                         size="xs"
                         variant="secondary"
-                        color="gray"
+                        color="blue"
                       >
                         Download
                       </Button>
                       {role === "patient" && (
                         <Button
-                          onClick={() => handleRemove(filename)}
+                          onClick={() => {
+                            setFilenameR(filename);
+                            setShowPrompt(true);
+                          }}
                           className="ml-3 text-red-500 hover:underline focus:outline-none"
                           size="xs"
                           variant="secondary"

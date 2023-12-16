@@ -45,31 +45,31 @@ const FamilyAppointments = ({ memberId, memberName }) => {
   const [rescheduleFeedback, setRescheduleFeedback] = useState(true);
   const [cancelFeedback, setCancelFeedback] = useState(true);
   const appointmentsData = useSelector(
-    (state) => state.viewPatientsAppointmentsReducer.appointments,
+    (state) => state.viewPatientsAppointmentsReducer.appointments
   );
   const { success: followUpSuccess, error: followUpError } = useSelector(
-    (state) => state.followUpReducer,
+    (state) => state.followUpReducer
   );
   const { success: rescheduleSuccess, error: rescheduleError } = useSelector(
-    (state) => state.rescheduleReducer,
+    (state) => state.rescheduleReducer
   );
   const { success: cancelSuccess, error: cancelError } = useSelector(
-    (state) => state.cancelReducer,
+    (state) => state.cancelReducer
   );
   const isLoading = useSelector(
-    (state) => state.viewPatientsAppointmentsReducer.loading,
+    (state) => state.viewPatientsAppointmentsReducer.loading
   );
   const { loading: followUpLoading } = useSelector(
-    (state) => state.followUpReducer,
+    (state) => state.followUpReducer
   );
   const { doctor, loading: doctorLoading } = useSelector(
-    (state) => state.doctorReducer,
+    (state) => state.doctorReducer
   );
   const { loading: rescheduleLoading } = useSelector(
-    (state) => state.rescheduleReducer,
+    (state) => state.rescheduleReducer
   );
   const { loading: cancelLoading } = useSelector(
-    (state) => state.cancelReducer,
+    (state) => state.cancelReducer
   );
 
   useEffect(() => {
@@ -87,7 +87,7 @@ const FamilyAppointments = ({ memberId, memberName }) => {
   const formatDateToISOString = (date) => {
     if (!date) return ""; // Return an empty string if date is falsy
     const utcDate = new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
     );
     const selectedDateState = utcDate.toUTCString();
     return selectedDateState;
@@ -358,7 +358,7 @@ const FamilyAppointments = ({ memberId, memberName }) => {
                         {fields.map((field, fieldIndex) => {
                           if (field === "date") {
                             const { date, time } = formatDateAndTime(
-                              item[field],
+                              item[field]
                             );
                             return (
                               <>
@@ -424,6 +424,7 @@ const FamilyAppointments = ({ memberId, memberName }) => {
             </svg>
           </div>
           <RescheduleCalendar
+            setCalendar={setReschedule}
             id={doctorID}
             appointmentId={appointmentId}
           ></RescheduleCalendar>

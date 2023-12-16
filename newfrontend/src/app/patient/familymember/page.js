@@ -23,13 +23,27 @@ function Familymembers() {
   const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
 
+  const [visibleFeedback, setVisibleFeedback] = useState(true);
   const familyMembers = useSelector(
     (state) =>
-      state.viewAllFamilyMembersAndPatientsReducer.familyMembersWithPatients,
+      state.viewAllFamilyMembersAndPatientsReducer.familyMembersWithPatients
   );
   const isLoading = useSelector(
-    (state) => state.viewAllFamilyMembersAndPatientsReducer.loading,
+    (state) => state.viewAllFamilyMembersAndPatientsReducer.loading
   );
+  const { error: registerError } = useSelector(
+    (state) => state.addFamilyMembersReducer
+  );
+  const {
+    error: linkError,
+    success: linkSuccess,
+    loading: linkLoading,
+  } = useSelector((state) => state.linkFamilyMemberReducer);
+
+  useEffect(() => {
+    setVisibleFeedback(true);
+  }, [registerError, linkLoading]);
+
   const patientId = JSON.parse(localStorage.getItem("userInfo"))?.data.user._id;
 
   const handleCardClick = (member) => {
@@ -97,12 +111,28 @@ function Familymembers() {
             setVisible={() => setSuccessMessage("")}
           />
         )}
-        {errorMessage && (
+        {registerError && (
           <BottomCallout
-            message={errorMessage}
+            message={registerError}
             variant="error"
-            visible={!!errorMessage}
-            setVisible={() => setErrorMessage("")}
+            visible={visibleFeedback}
+            setVisible={setVisibleFeedback}
+          />
+        )}
+        {linkError && (
+          <BottomCallout
+            message={linkError}
+            variant="error"
+            visible={visibleFeedback}
+            setVisible={setVisibleFeedback}
+          />
+        )}
+        {linkSuccess && (
+          <BottomCallout
+            message={linkSuccess}
+            variant="success"
+            visible={visibleFeedback}
+            setVisible={setVisibleFeedback}
           />
         )}
 

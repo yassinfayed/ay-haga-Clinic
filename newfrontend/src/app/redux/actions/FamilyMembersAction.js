@@ -44,7 +44,9 @@ export const addFamilyMembers = (reqBody) => async (dispatch) => {
     console.log(error);
     dispatch({
       type: FAMILY_MEMBERS_FAIL,
-      payload: "adding a family member failed. Please try again.",
+      payload: error.response
+        ? error.response.data.message
+        : "adding a family member failed. Please try again.",
     });
   }
 };
@@ -104,7 +106,9 @@ export const LinkFamilyMember = (body) => async (dispatch) => {
     console.log(error);
     dispatch({
       type: LINK_FAMILY_MEMBER_FAIL,
-      payload: true,
+      payload: error.response
+        ? error.response.data.message
+        : "Link family member failed",
     });
   }
 };

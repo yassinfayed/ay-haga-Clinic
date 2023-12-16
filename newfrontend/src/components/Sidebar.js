@@ -46,6 +46,11 @@ export default function Sidebar() {
       },
 
       { icon: "order", label: "Appointments", href: "/patient/appointments" },
+      {
+        icon: "health",
+        label: "Health Packages",
+        href: "/patient/health",
+      },
 
       { icon: "video", label: "Video Room", href: "/patient/video" },
       {

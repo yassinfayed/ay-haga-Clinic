@@ -17,22 +17,26 @@ const page = () => {
     patient = patients[0];
   }
   const healthPackages = useSelector(
-    (state) => state.getHealthPackagesReducer.healthPackages,
+    (state) => state.getHealthPackagesReducer.healthPackages
   );
   const isLoading = useSelector(
-    (state) => state.addFamilyMembersReducer.loading,
+    (state) => state.addFamilyMembersReducer.loading
   );
 
   const dispatch = useDispatch();
   const id = JSON.parse(localStorage.getItem("userInfo")).data.user.patient._id;
-  const { success } = useSelector((state) => state.cancelSubscriptionReducer);
+  const { success, loading } = useSelector(
+    (state) => state.cancelSubscriptionReducer
+  );
   const [visible, setVisible] = useState(true);
-  const { success: orderSuccess } = useSelector((state) => state.orderReducer);
+  const { success: orderSuccess, loading: orderLoading } = useSelector(
+    (state) => state.orderReducer
+  );
 
   useEffect(() => {
     dispatch(listHealthPackages());
     dispatch(viewPatients({ _id: id }));
-  }, [dispatch, isLoading]);
+  }, [dispatch, isLoading, loading, orderLoading]);
 
   const packages = useMemo(() => {
     if (healthPackages && healthPackages.data) {
@@ -46,7 +50,7 @@ const page = () => {
       }));
     }
     return [];
-  }, [healthPackages]);
+  }, [healthPackages, isLoading, loading]);
 
   function handleCancellation() {
     dispatch(cancelSubscription(cancelId));

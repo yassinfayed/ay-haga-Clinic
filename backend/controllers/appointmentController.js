@@ -159,7 +159,7 @@ exports.rescheduleAppointment = catchAsync(async (req, res, next) => {
       doctor?.name +
       " has been rescheduled to: " +
       appointment.date,
-    user: userP._id,
+    user: userP?._id,
   });
 
   const newNotification2 = new Notification({

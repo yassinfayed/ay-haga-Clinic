@@ -26,10 +26,10 @@ const Appointments = () => {
   const [cancelId, setCancelId] = useState(null);
   const [cancelOpen, setCancelOpen] = useState(false);
   const { appointments, loading } = useSelector(
-    (state) => state.viewPatientsAppointmentsReducer,
+    (state) => state.viewPatientsAppointmentsReducer
   );
   const { doctor, loading: doctorLoading } = useSelector(
-    (state) => state.doctorReducer,
+    (state) => state.doctorReducer
   );
   const {
     loading: followUpLoading,
@@ -49,7 +49,7 @@ const Appointments = () => {
   const formatDateToISOString = (date) => {
     if (!date) return "";
     const utcDate = new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
     );
     const selectedDateState = utcDate.toUTCString();
     return selectedDateState;
@@ -175,9 +175,17 @@ const Appointments = () => {
               <span className="mx-10">Follow Up Rejected</span>
             )
           ) : (
-            ""
+            status === "Rescheduled" && (
+              <Button
+                variant="secondary"
+                color="red"
+                onClick={(e) => handleCancel(_id)}
+              >
+                Cancel
+              </Button>
+            )
           ),
-      }),
+      })
     );
   }, [appointments]);
 
@@ -332,6 +340,7 @@ const Appointments = () => {
             </svg>
           </div>
           <RescheduleCalendar
+            setCalendar={setReschedule}
             id={doctorID}
             appointmentId={appointmentId}
           ></RescheduleCalendar>

@@ -45,7 +45,7 @@ function AddFamily({ setVisible, setSuccess, setError }) {
 
   const dispatch = useDispatch();
   const { error, loading, familyMember } = useSelector(
-    (state) => state.addFamilyMembersReducer,
+    (state) => state.addFamilyMembersReducer
   );
 
   const handleInputChange = (e) => {
@@ -73,7 +73,7 @@ function AddFamily({ setVisible, setSuccess, setError }) {
       setFormData((prevFormData) => {
         const updatedFormData = { ...prevFormData, [name]: value };
         setPasswordMatch(
-          updatedFormData.password === updatedFormData.passwordConfirm,
+          updatedFormData.password === updatedFormData.passwordConfirm
         );
         return updatedFormData;
       });
@@ -84,10 +84,6 @@ function AddFamily({ setVisible, setSuccess, setError }) {
   const handleSubmit = (e) => {
     console.log(FormData);
     e.preventDefault();
-    if (!passwordMatch) {
-      alert("Passwords do not match!");
-      return;
-    }
 
     dispatch(addFamilyMembers(formData));
     setSubmitted(true);
@@ -153,7 +149,6 @@ function AddFamily({ setVisible, setSuccess, setError }) {
               <SelectItem value="">Select Gender</SelectItem>
               <SelectItem value="male">Male</SelectItem>
               <SelectItem value="female">Female</SelectItem>
-              <SelectItem value="other">Other</SelectItem>
             </Select>
           </Col>
           <Col>

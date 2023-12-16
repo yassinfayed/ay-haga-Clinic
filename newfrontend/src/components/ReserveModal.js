@@ -28,23 +28,23 @@ function ReserveModal(props) {
   const [alert, setAlert] = useState(false);
 
   const patientDetails = useSelector(
-    (state) => state.patientViewMyDetailsReducer.patient,
+    (state) => state.patientViewMyDetailsReducer.patient
   );
   const patientLoading = useSelector(
-    (state) => state.patientViewMyDetailsReducer.loading,
+    (state) => state.patientViewMyDetailsReducer.loading
   );
 
   const health = useMemo(() => {
     return patientDetails?.patient?.package?.doctorDiscount || 0;
   }, [patientDetails, patientLoading]);
   const { loading, error, session } = useSelector(
-    (state) => state.orderReducer,
+    (state) => state.orderReducer
   );
   const familyMembers = useSelector(
-    (state) => state.viewFamilyMembersReducer.familyMember,
+    (state) => state.viewFamilyMembersReducer.familyMember
   );
   const isLoading = useSelector(
-    (state) => state.addFamilyMembersReducer.loading,
+    (state) => state.addFamilyMembersReducer.loading
   );
 
   async function fetchData() {
@@ -89,6 +89,14 @@ function ReserveModal(props) {
   const handlePaymentChange = (e) => {
     setPaymentMethod(e.target.value);
   };
+  const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    if (!loading && init == true) {
+      window.location.href = "/patient/appointments";
+    }
+    setInit(true);
+  }, [loading]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -113,7 +121,7 @@ function ReserveModal(props) {
           price,
           paymentMethod,
           reserve: true,
-        }),
+        })
       );
     else
       dispatch(
@@ -125,8 +133,8 @@ function ReserveModal(props) {
             paymentMethod,
             reserve: true,
           },
-          familyMember,
-        ),
+          familyMember
+        )
       );
 
     setFamilyMember(null);
