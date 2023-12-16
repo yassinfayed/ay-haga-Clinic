@@ -18,7 +18,9 @@ exports.getAppointment = handlerFactory.getOne(Appointment, {
 exports.getAllPatientAppointments = catchAsync(async (req, res, next) => {
   const patient = await Patient.findOne({ user: req.user._id });
   const patientId = patient._id;
+
   let id = patient._id.toString();
+  let paidUser;
   if (req.query.fm) {
     const familyMember = await FamilyMembers.findOne({ _id: req.query.fm });
 
@@ -26,11 +28,13 @@ exports.getAllPatientAppointments = catchAsync(async (req, res, next) => {
       familyMember.patientId.toString() == patient._id.toString()
         ? familyMember.linkedPatientId
         : familyMember.patientId;
+    paidUser = req.user._id;
   }
-
+  /// put the query here broo
   const query = {
     patientId: id,
   };
+  if (paidUser) query.paidUser = paidUser;
 
   if (req.query.date) {
     query.date = {
@@ -216,10 +220,10 @@ exports.cancelAppointment = catchAsync(async (req, res, next) => {
   const doctor = await Doctor.findById(doctorId);
   const userD = await User.findById(appointment.doctorId.user);
   if (hoursDifference > 24 || req.user.role == "doctor") {
-    userP.wallet += appointment.doctorId?.HourlyRate;
+    userP.wallet += appointment.paid;
     await userP.save({ validateBeforeSave: false });
 
-    userD.wallet -= appointment.doctorId?.HourlyRate;
+    userD.wallet -= appointment.doctorId?.HourlyRate * 0.9;
     await userD.save({ validateBeforeSave: false });
   }
 

@@ -73,10 +73,11 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     client_reference_id: id?.toString(),
     line_items: lineItems,
     mode: "payment",
-    success_url: `http://localhost:3000/patient/healthpackages`, // Adjust success and cancel URLs
-    cancel_url: `http://localhost:3000/patient/healthpackages`,
+    success_url: `http://localhost:3000/patient/health`, // Adjust success and cancel URLs
+    cancel_url: `http://localhost:3000/patient/health`,
     metadata: {
       hp: req.params.id,
+      pkgBuyer: req.user._id,
     },
   });
   res.status(200).json({
@@ -92,6 +93,7 @@ const createSubscriptionsCheckout = async (session) => {
     { user: userId },
     {
       package: session.metadata.hp,
+      pkgBuyer: session.metadata.pkgBuyer,
       subscriptionStatus: "subscribed",
       renewalDate: Date.now() + 365 * 24 * 60 * 60 * 1000, //+1 year
     }
@@ -182,6 +184,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       package: req.params.id,
       subscriptionStatus: "subscribed",
       renewalDate: Date.now() + 365 * 24 * 60 * 60 * 1000, //+1 year
+      pkgBuyer: req.user._id,
     }
   );
 
@@ -240,12 +243,14 @@ exports.getReservationCheckoutSession = catchAsync(async (req, res, next) => {
     client_reference_id: id?.toString(),
     line_items: lineItems,
     mode: "payment",
-    success_url: `http://localhost:3000/patient/Appointments`, // Adjust success and cancel URLs
-    cancel_url: `http://localhost:3000/patient/Appointments`,
+    success_url: `http://localhost:3000/patient/appointments`, // Adjust success and cancel URLs
+    cancel_url: `http://localhost:3000/patient/appointments`,
     metadata: {
       dr: req.params.id,
       date: req.query.date,
       reserve: "true",
+      paidUser: req.user._id,
+      paid: price,
     },
   });
   res.status(200).json({
@@ -264,6 +269,7 @@ createAppointmentReservation = async (session) => {
     patientId: patientId,
     doctorId: doctorId,
     date: date,
+    paidUser: session.metadata.paidUser,
   });
   const existingChat = await Chat.findOne({
     members: { $all: [patientId.toString(), doctorId.toString()] },
@@ -347,6 +353,8 @@ exports.createAppointmentReservation = catchAsync(async (req, res, next) => {
     patientId: id,
     doctorId: doctorId,
     date: date,
+    paidUser: req.user._id,
+    paid: price,
   });
 
   // 2 Update DR WALLET AND AVAILABILE DATES

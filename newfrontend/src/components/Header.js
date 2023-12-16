@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { logoutAction } from "@/app/redux/actions/authActions";
 import { useDispatch } from "react-redux";

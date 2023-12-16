@@ -66,6 +66,10 @@ const patientSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
+  pkgBuyer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   healthRecords: [
     {
       type: String,
@@ -83,7 +87,7 @@ patientSchema.virtual("helathPackage", {
 
 // Apply the virtual field to the schema
 
-patientSchema.pre(/^find/, function (next) {
+patientSchema.pre(/^find/, function(next) {
   this.populate({
     path: "user",
     //   select: 'username email'  // Specify the fields you want to select from the referenced User model

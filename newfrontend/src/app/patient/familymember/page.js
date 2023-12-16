@@ -161,6 +161,7 @@ function Familymembers() {
                   patientId={member.patientId}
                   patient={member.patient}
                   setSuccess={setSuccessMessage}
+                  buyerID={member.pkgBuyer}
                 />
               </div>
             ))}

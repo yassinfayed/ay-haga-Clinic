@@ -177,7 +177,7 @@ const DoctorPersonCard = ({
   };
 
   return (
-    <div style={{ width: "120%" }} className="max-w-md">
+    <div style={{ width: "150%" }} className="max-w-md">
       <div
         style={css && { marginRight: "60px" }}
         className="rounded-lg border border-gray-800 px-4 pt-8 pb-10 shadow-lg"
