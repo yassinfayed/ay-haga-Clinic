@@ -1,350 +1,1387 @@
 {
-  "info": {
-    "_postman_id": "688700eb-19b7-494a-a2ef-88ec74391055",
-    "name": "Elha2ny",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "27244315"
-  },
-  "item": [
-    {
-      "name": "Auth",
-      "item": [
-        {
-          "name": "RegisterPatient",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"username\": \"omarDoe\",\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"password\": \"password123\",\r\n  \"passwordConfirm\": \"password123\",\r\n  \"dateOfBirth\": \"1990-01-01\",\r\n  \"gender\": \"male\",\r\n  \"mobileNumber\": \"1234567890\",\r\n  \"emergencyContact\": {\r\n    \"fullName\": \"Jane Doe\",\r\n    \"mobileNumber\": \"9876543210\"\r\n  }\r\n}\r\n",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/user/signup",
-              "host": ["{{URL}}"],
-              "path": ["user", "signup"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "RegisterDr",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{ \"username\": \"amir\",\r\n  \"name\": \"abdullah hatem\",\r\n  \"email\": \"john.dog@example.com\",\r\n  \"password\": \"password123\",\r\n  \"passwordConfirm\": \"password123\",\r\n  \"DateOfbirth\": \"2002-01-01\",\r\n  \"gender\": \"male\",\r\n  \"mobileNumber\": \"1234567890\",\r\n  \"HourlyRate\": \"120\",\r\n  \"educationalbackground\": \"wala ay\",\r\n  \"speciality\": \"wala ay\",\r\n  \"role\": \"doctor\",\r\n  \"affiliation\": \"keke\"\r\n  }",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/user/signup",
-              "host": ["{{URL}}"],
-              "path": ["user", "signup"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Login",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"username\": \"sysAdmin\",\r\n    \"password\": \"pass1234\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/user/login",
-              "host": ["{{URL}}"],
-              "path": ["user", "login"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Add new admin",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"username\": \"sysAdmin\", \r\n    \"password\": \"pass1234\",\r\n    \"passwordConfirm\": \"pass1234\",\r\n    \"role\": \"administrator\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/user/signup",
-              "host": ["{{URL}}"],
-              "path": ["user", "signup"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "familyMembers",
-      "item": [
-        {
-          "name": "addFamilyMem",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n      \"name\": \"Amir\",\r\n      \"nationalId\": \"3021026010fr0377\",\r\n      \"age\": 18,\r\n      \"gender\": \"male\",\r\n      \"relationToPatient\": \"child\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/familyMembers",
-              "host": ["{{URL}}"],
-              "path": ["familyMembers"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{URL}}/familyMembers",
-              "host": ["{{URL}}"],
-              "path": ["familyMembers"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Patients",
-      "item": [
-        {
-          "name": "getMyPat",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{URL}}/patient/view-Patients?name=Johnn",
-              "host": ["{{URL}}"],
-              "path": ["patient", "view-Patients"],
-              "query": [
-                {
-                  "key": "name",
-                  "value": "Johnn"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "getPat",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{URL}}/patient/filter-Patients-Based-On-Upcoming-Appointments",
-              "host": ["{{URL}}"],
-              "path": [
-                "patient",
-                "filter-Patients-Based-On-Upcoming-Appointments"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{URL}}/patient",
-              "host": ["{{URL}}"],
-              "path": ["patient"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{URL}}/user/651de45b65ce623e34a2e9f9",
-              "host": ["{{URL}}"],
-              "path": ["user", "651de45b65ce623e34a2e9f9"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Doctors",
-      "item": [
-        {
-          "name": "adminViewAllDrInfo",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{URL}}/doctor/652009c012ae3a1d40695bfc",
-              "host": ["{{URL}}"],
-              "path": ["doctor", "652009c012ae3a1d40695bfc"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "patviewAllDrs",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{URL}}/doctor/getallDoctors/65206bf8c73d2162648543d8?availableDates[in]=2023-10-13T06:00:00.000Z",
-              "host": ["{{URL}}"],
-              "path": ["doctor", "getallDoctors", "65206bf8c73d2162648543d8"],
-              "query": [
-                {
-                  "key": "availableDates[in]",
-                  "value": "2023-10-13T06:00:00.000Z"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "getOneDoc",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{URL}}/doctor/652009c012ae3a1d40695c00",
-              "host": ["{{URL}}"],
-              "path": ["doctor", "652009c012ae3a1d40695c00"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "updateMe",
-          "request": {
-            "method": "PATCH",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"email\": \"john.dogg@example.commm\"\r\n    \r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/doctor/updatedoctor",
-              "host": ["{{URL}}"],
-              "path": ["doctor", "updatedoctor"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Presc",
-      "item": [
-        {
-          "name": "getMyPresc",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{URL}}/patient/prescription/651ebd0096b878c7981c2a84",
-              "host": ["{{URL}}"],
-              "path": ["patient", "prescription", "651ebd0096b878c7981c2a84"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "New Request",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "auth": {
-          "type": "bearer"
-        },
-        "method": "GET",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"name\": \"Plat Package\",\r\n    \"price\": 100,\r\n    \"doctorDiscount\": 10,\r\n    \"medicineDiscount\": 5,\r\n     \"familyMemberSubDiscount\": 15\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{URL}}/healthPackages",
-          "host": ["{{URL}}"],
-          "path": ["healthPackages"]
-        }
-      },
-      "response": []
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "URL",
-      "value": "http://localhost:8000/api/v1",
-      "type": "string"
-    }
-  ]
+	"info": {
+		"_postman_id": "93ce742a-bea8-49b5-95c4-4772a78535f3",
+		"name": "Elha2ny",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26366023"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "RegisterPatient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"testcross\",\r\n  \"name\": \"bisho4\",\r\n  \"email\": \"unique44322ss7e20@examp3le.com\",\r\n  \"password\": \"Pass1234\",\r\n  \"passwordConfirm\": \"Pass1234\",\r\n  \"dateOfBirth\": \"1990-01-01\",\r\n  \"gender\": \"male\",\r\n  \"mobileNumber\": \"1234567890\",\r\n  \"emergencyContact\": {\r\n    \"fullName\": \"Jane Doe\",\r\n    \"mobileNumber\": \"9876543210\"\r\n  },\r\n  \"healthRecords\": [\"https://picsum.photos/200/300\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/user/signup",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegisterDr",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"username\": \"abdullah2\",\r\n  \"name\": \"abdullah hatem\",\r\n  \"email\": \"abedo@example.com\",\r\n  \"password\": \"pass1234\",\r\n  \"passwordConfirm\": \"pass1234\",\r\n  \"DateOfbirth\": \"1995-01-01\",\r\n  \"gender\": \"male\",\r\n  \"mobileNumber\": \"1234567890\",\r\n  \"HourlyRate\": \"120\",\r\n  \"educationalbackground\": \"wala ay\",\r\n  \"speciality\": \"wala ay\",\r\n  \"role\": \"doctor\",\r\n  \"affiliation\": \"keke\",\r\n  \"availableDates\": [\"2023-12-17T00:00:00.000+00:00\",\"2023-12-20T00:00:00.000+00:00\",\"2023-12-09T00:00:00.000+00:00\"]\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/user/signup",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"drhzm\",\r\n    \"password\": \"11111111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/user/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"sysAdmin\", \r\n    \"password\": \"pass1234\",\r\n    \"passwordConfirm\": \"pass1234\",\r\n    \"role\": \"administrator\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/user/signup",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forget Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/user/forgotPassword",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"forgotPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rest Password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/user/resetPassword",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"resetPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/user/changePassword",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"changePassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/user/logout",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "familyMembers",
+			"item": [
+				{
+					"name": "addFamilyMem",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"name\": \"Amir\",\r\n      \"nationalId\": \"3021026010fr0377\",\r\n      \"age\": 18,\r\n      \"gender\": \"male\",\r\n      \"relationToPatient\": \"child\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/familyMembers",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"familyMembers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View All Family Members",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/familyMembers/view-all-family-members",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"familyMembers",
+								"view-all-family-members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/familyMembers/link",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"familyMembers",
+								"link"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patients",
+			"item": [
+				{
+					"name": "getMyPat",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/patient/view-Patients?status=Upcoming",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"patient",
+								"view-Patients"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "Upcoming"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPat",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/patient/filter-Patients-Based-On-Upcoming-Appointments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"patient",
+								"filter-Patients-Based-On-Upcoming-Appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post upload",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/ABDULLAH/Pictures/Screenshots/Screenshot (542).png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/patient/upload/healthRecords/652da5c7d750751a50d24970",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"patient",
+								"upload",
+								"healthRecords",
+								"652da5c7d750751a50d24970"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Health Packs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/patient/viewHealthPackageSubscription/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"patient",
+								"viewHealthPackageSubscription",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Health Pack",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/patient/upload/healthRecords/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"patient",
+								"upload",
+								"healthRecords",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Health RecordsAll",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Sub",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/patient/cancelSubscription/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"patient",
+								"cancelSubscription",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Prescription",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/patient/prescription",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"patient",
+								"prescription"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Spesific Prescriotion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/patient/prescription/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"patient",
+								"prescription",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/patient/my-details",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"patient",
+								"my-details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Meducal Record",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/patient/upload/medicalRecords",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"patient",
+								"upload",
+								"medicalRecords"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download Health Record",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/patient/download",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"patient",
+								"download"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Document",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/patient/removeDoc",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"patient",
+								"removeDoc"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Doctors",
+			"item": [
+				{
+					"name": "adminViewAllDrInfo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/doctor/652009c012ae3a1d40695bfc",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"doctor",
+								"652009c012ae3a1d40695bfc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patviewAllDrs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/doctor/getAllDoctors?name=Doctor%207&age[gte]=sort==",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"doctor",
+								"getAllDoctors"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Doctor%207"
+								},
+								{
+									"key": "age[gte]",
+									"value": "sort=="
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOneDoc",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/doctor/652009c012ae3a1d40695c00",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"doctor",
+								"652009c012ae3a1d40695c00"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateMe",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"availableDates\": [\r\n    \"2023-10-15T00:00:00Z\",\r\n    \"2023-10-16T00:00:00Z\",\r\n    \"2023-10-17T00:00:00Z\"\r\n  ]\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/doctor/updatedoctor",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"doctor",
+								"updatedoctor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reject Doctor",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/doctor/rejectdoctor/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"doctor",
+								"rejectdoctor",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Doctor",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/doctor/acceptdoctor/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"doctor",
+								"acceptdoctor",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Contact",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/doctor/viewcontract",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"doctor",
+								"viewcontract"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Conrtact",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/doctor/acceptcontract",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"doctor",
+								"acceptcontract"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Avalible Date",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/doctor/addavailabledate",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"doctor",
+								"addavailabledate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Doctor Docs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/doctor/doctorDocs/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"doctor",
+								"doctorDocs",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Spicalities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/doctor/specialities",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"doctor",
+								"specialities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Packages",
+			"item": [
+				{
+					"name": "Get Health Packs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/healthPackages",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"healthPackages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscribe by Stripe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/healthPackages/subscribeStripe/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"healthPackages",
+								"subscribeStripe",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Subscribe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/healthPackages/subscribe/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"healthPackages",
+								"subscribe",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit To Health Pack",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/healthPackages/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"healthPackages",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Health Pack",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/healthPackages/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"healthPackages",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get The Services",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/healthPackages/services",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"healthPackages",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add the services",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/healthPackages/services",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"healthPackages",
+								"services"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Prescrition",
+			"item": [
+				{
+					"name": "Add Prescription",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/prescriptions/addPrescription",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"prescriptions",
+								"addPrescription"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Prescription",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/prescriptions/update/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"prescriptions",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download Prescription",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/prescriptions/download/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"prescriptions",
+								"download",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Prescription",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/prescriptions/check",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"prescriptions",
+								"check"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Appointment",
+			"item": [
+				{
+					"name": "Get Appointment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/appointment/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"appointment",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add New Appointemnt",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/appointment/newAppointment",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"appointment",
+								"newAppointment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request Follow Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/appointment/followUp",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"appointment",
+								"followUp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Appointmnet",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/appointment/cancel/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"appointment",
+								"cancel",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Evaluate Follow Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/prescriptions/evaluateFollowUp/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"prescriptions",
+								"evaluateFollowUp",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Appointment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/prescriptions/delete/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"prescriptions",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Strice Price",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/appointment/reserveStripe/:id/:price",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"appointment",
+								"reserveStripe",
+								":id",
+								":price"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								},
+								{
+									"key": "price",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notification",
+			"item": [
+				{
+					"name": "Get Notification",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/notifications/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"notifications",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit  Notification",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/notifications/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"notifications",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Messaage",
+			"item": [
+				{
+					"name": "Create Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/messages/createMessage",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"messages",
+								"createMessage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Messages by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/messages/getMessages/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"messages",
+								"getMessages",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Send In Chat",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/chat/send",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"chat",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Request Cross",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/cart/sendCross",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"cart",
+								"sendCross"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/order/history/:userId",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"order",
+								"history",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:8000/api/v1",
+			"type": "string"
+		}
+	]
 }

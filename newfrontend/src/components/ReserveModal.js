@@ -290,14 +290,14 @@ function ReserveModal(props) {
 
         {health ? (
           <div className="flex flex-col w-full text-center">
-            <span className="line-through">{hourlyRate.toFixed(2)} USD</span>
+            <span className="line-through">{hourlyRate?.toFixed(2)} USD</span>
             <p className="font-semibold">
               {(hourlyRate - hourlyRate * (health / 100)).toFixed(2)} USD
             </p>
           </div>
         ) : (
           <div className="flex flex-col w-full text-center">
-            <p className="font-semibold">{hourlyRate.toFixed(2)}</p>
+            <p className="font-semibold">{hourlyRate?.toFixed(2)}</p>
           </div>
         )}
         <div className="my-4 text-center">

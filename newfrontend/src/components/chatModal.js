@@ -22,8 +22,8 @@ const ChatPanel = ({ isOpen, handleClose }) => {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [crossMessage,setCrossMessage] = useState("");
-  const [pharmacy,setPharmacy] = useState("");
-  const [clinic,setClinic] = useState("");
+  const [pharmacy,setPharmacy] = useState(false);
+  const [clinic,setClinic] = useState(true);
 
 
   const crossMessages = useSelector((state) => state.crossSocketReducer.messages);
@@ -185,79 +185,128 @@ const selectClinic = () => {
         )}
         </div>
       </div>
-      {clinic ? (
-        <div style={{ height: isOpen ? "400px" : "0px" }} className="flex">
-        <div className="conversation-list">
-          {conversations.map((c) => (
-            <div key={c._id} onClick={() => setCurrentChat(c)}>
-              <Conversation conversation={c} currentUser={user} />
+      {role==="patient" ? ( <>
+          <div style={{ height: isOpen ? "400px" : "0px" }} className="flex">
+          <div className="conversation-list">
+            {conversations.map((c) => (
+              <div key={c._id} onClick={() => setCurrentChat(c)}>
+                <Conversation conversation={c} currentUser={user} />
+              </div>
+            ))}
+          </div>
+          <div className="divider" /> {/* Vertical divider */}
+          <div className="chat-body">
+            <div className="message-area">
+              {currentChat ? (
+                <>
+                  {messages.map((m) => (
+                    <div key={m._id} ref={scrollRef}>
+                      <ChatComponent message={m} own={m.sender === user._id} />
+                    </div>
+                  ))}
+                </>
+              ) : <></>}
             </div>
-          ))}
+            <div className="flex">
+              <input
+                className="w-[20rem] px-2 py-1 border border-gray-700 chatBorder rounded text-black"
+                type="text"
+                placeholder="Type your message..."
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+              />
+              <button className="send-button ml-3" onClick={handleSubmit}>
+                <div className="flex items-center justify-center">
+                  <FaPaperPlane width={25} height={25} />
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="divider" /> {/* Vertical divider */}
-        <div className="chat-body">
-          <div className="message-area">
-            {currentChat ? (
-              <>
-                {messages.map((m) => (
-                  <div key={m._id} ref={scrollRef}>
-                    <ChatComponent message={m} own={m.sender === user._id} />
-                  </div>
-                ))}
-              </>
-            ) : null}
+        </>
+      ) : role==="doctor" ? (
+        clinic ? (
+          <>
+          <div style={{ height: isOpen ? "400px" : "0px" }} className="flex">
+          <div className="conversation-list">
+            {conversations.map((c) => (
+              <div key={c._id} onClick={() => setCurrentChat(c)}>
+                <Conversation conversation={c} currentUser={user} />
+              </div>
+            ))}
+          </div>
+          <div className="divider" /> {/* Vertical divider */}
+          <div className="chat-body">
+            <div className="message-area">
+              {currentChat ? (
+                <>
+                  {messages.map((m) => (
+                    <div key={m._id} ref={scrollRef}>
+                      <ChatComponent message={m} own={m.sender === user._id} />
+                    </div>
+                  ))}
+                </>
+              ) : <></>}
+            </div>
+            
+            <div className="flex">
+              <input
+                className="w-[20rem] px-2 py-1 border border-gray-700 chatBorder rounded text-black"
+                type="text"
+                placeholder="Type your message..."
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+              />
+              <button className="send-button ml-3" onClick={handleSubmit}>
+                <div className="flex items-center justify-center">
+                  <FaPaperPlane width={25} height={25} />
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+        </>
+        ) : (
+          <>
+          <div style={{ height: isOpen ? "400px" : "0px" }} className="chat-body">
+          
+            <div className="message-area">
+            {crossMessages.map((msg) => (
+              <div
+                key={msg.id}
+                className={
+                  JSON.parse(localStorage.getItem("userInfo")).data.user._id ===
+                  msg.sender
+                    ? `message user`
+                    : "message agent"
+                }
+              >
+                {msg.content}
+              </div>
+            ))}
           </div>
           <div className="flex">
-            <input
-              className="w-[20rem] px-2 py-1 border border-gray-700 chatBorder rounded text-black"
-              type="text"
-              placeholder="Type your message..."
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-            />
-            <button className="send-button ml-3" onClick={handleSubmit}>
-              <div className="flex items-center justify-center">
-                <FaPaperPlane width={25} height={25} />
-              </div>
-            </button>
+          <input
+            className="w-[40rem] px-2 py-1 border border-gray-700 chatBorder rounded text-black"
+            type="text"
+            placeholder="Type your message..."
+            value={crossMessage}
+            onChange={(e) => setCrossMessage(e.target.value)}
+          />
+          <button className="send-button ml-3" onClick={handleCrossSendMessage}>
+                <div className="flex items-center justify-center">
+                  <FaPaperPlane width={25} height={25} />
+                </div>
+          </button>
           </div>
+          
         </div>
-      </div>
+        </>
+        )
       ) : (
-        <div style={{ height: isOpen ? "400px" : "0px" }} className="chat-body">
-        
-          <div className="message-area">
-          {crossMessages.map((msg) => (
-            <div
-              key={msg.id}
-              className={
-                JSON.parse(localStorage.getItem("userInfo")).data.user._id ===
-                msg.sender
-                  ? `message user`
-                  : "message agent"
-              }
-            >
-              {msg.content}
-            </div>
-          ))}
-        </div>
-        <div className="flex">
-        <input
-          className="w-[40rem] px-2 py-1 border border-gray-700 chatBorder rounded text-black"
-          type="text"
-          placeholder="Type your message..."
-          value={crossMessage}
-          onChange={(e) => setCrossMessage(e.target.value)}
-        />
-        <button className="send-button ml-3" onClick={handleCrossSendMessage}>
-              <div className="flex items-center justify-center">
-                <FaPaperPlane width={25} height={25} />
-              </div>
-        </button>
-        </div>
-        
-      </div>
+        <></>
       )}
+      
       
     </div>
   );
