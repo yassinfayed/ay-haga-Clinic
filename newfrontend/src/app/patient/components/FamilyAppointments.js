@@ -34,9 +34,12 @@ import {
 } from "@/app/redux/actions/appointmentActions";
 import RescheduleCalendar from "@/components/RescheduleCalendar";
 import { Modal } from "@/components/Modal";
+import PromptMessage from "@/components/PromptMessage";
 
 const FamilyAppointments = ({ memberId, memberName }) => {
   const dispatch = useDispatch();
+  const [cancelOpen, setCancelOpen] = useState(false);
+  const [cancelId, setCancelId] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("");
   const [reschedule, setReschedule] = useState(false);
@@ -124,9 +127,7 @@ const FamilyAppointments = ({ memberId, memberName }) => {
     setAppointmentId(appointmentId);
     // setDoctorID(id)
   };
-  const handleCancel = (id) => {
-    dispatch(cancelAction(id));
-  };
+
   const handleFollowUp = (id) => {
     dispatch(followUpAction(id));
   };
@@ -242,7 +243,20 @@ const FamilyAppointments = ({ memberId, memberName }) => {
       time: dateObj.toLocaleTimeString(),
     };
   };
+  const handleCancel = (id) => {
+    setCancelId(id);
+    setCancelOpen(true);
 
+    //dispatch(cancelAction(id))
+  };
+  const onCancel = () => {
+    dispatch(cancelAction(cancelId));
+    setCancelOpen(false);
+  };
+  const onCloseCancel = () => {
+    setCancelOpen(false);
+    setCancelId(null);
+  };
   return (
     <>
       {followUpSuccess && (
@@ -293,7 +307,14 @@ const FamilyAppointments = ({ memberId, memberName }) => {
           variant="error"
         />
       )}
-
+      <PromptMessage
+        message="are you sure you to cancel this appointment?"
+        visible={cancelOpen}
+        setVisible={setCancelOpen}
+        onConfirm={onCancel}
+        confirmLoading={cancelLoading}
+        onCancel={onCloseCancel}
+      />
       {!reschedule && (
         <>
           <Card className="flex flex-col h-full">
