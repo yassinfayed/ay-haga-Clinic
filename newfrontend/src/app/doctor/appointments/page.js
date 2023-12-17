@@ -36,14 +36,14 @@ const Appointments = () => {
   const {
     loading: rescheduleLoading,
     success: rescheduleSuccess,
-    error:rescheduleError,
+    error: rescheduleError,
     appointment,
     error,
   } = useSelector((state) => state.rescheduleReducer);
   const {
     loading: cancelLoading,
     success: cancelSuccess,
-    error:errorCancel,
+    error: errorCancel,
   } = useSelector((state) => state.cancelReducer);
   const { loading: revokeLoading, success: revokeSuccess } = useSelector(
     (state) => state.doctorEvaluateFollowUpReducer
@@ -265,7 +265,10 @@ const Appointments = () => {
               columns={["Patient Name", "Date", "Status", ""]}
               fields={["patientname", "date", "status", "detailsButton"]}
               rows={appointments?.data?.map((appointment) => ({
-                date: translateDate(new Date(appointment.date))[0] + " @ " + translateDate(new Date(appointment.date))[1],
+                date:
+                  translateDate(new Date(appointment.date))[0] +
+                  " @ " +
+                  translateDate(new Date(appointment.date))[1],
                 patientname: appointment.patientId?.name,
                 status: appointment.status,
                 detailsButton: (
@@ -440,88 +443,92 @@ const Appointments = () => {
             />
           </div>
         </div>
-        <Modal visible={open} setVisible={setOpen}>
-          <div className="p-4 md:p-5 text-center my-[5rem]">
-            <svg
-              className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+        {open && (
+          <Modal visible={open} setVisible={setOpen}>
+            <div className="p-4 md:p-5 text-center my-[5rem]">
+              <svg
+                className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+              <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                Schedule Followup ?
+              </h3>
+              <TextInput
+                type="datetime-local"
+                selected={newDate}
+                onValueChange={(date) => {
+                  setNewDate(date);
+                }}
+                dateFormat="yyyy-MM-dd"
+                placeholderText="Appointment Date"
+                className="w-full"
               />
-            </svg>
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Schedule Followup ?
-            </h3>
-            <TextInput
-              type="datetime-local"
-              selected={newDate}
-              onValueChange={(date) => {
-                setNewDate(date);
-              }}
-              dateFormat="yyyy-MM-dd"
-              placeholderText="Appointment Date"
-              className="w-full"
-            />
-            <Button
-              type="button"
-              className="text-white bg-blue-500 border border-transparent rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mt-5"
-              color="blue"
-              onClick={onFollowUp}
-              loading={followuploading}
-            >
-              Schedule
-            </Button>
-          </div>
-        </Modal>
-        <Modal visible={rescheduleOpen} setVisible={setRescheduleOpen}>
-          <div className="p-4 md:p-5 text-center my-[5rem]">
-            <svg
-              className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              <Button
+                type="button"
+                className="text-white bg-blue-500 border border-transparent rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mt-5"
+                color="blue"
+                onClick={onFollowUp}
+                loading={followuploading}
+              >
+                Schedule
+              </Button>
+            </div>
+          </Modal>
+        )}
+        {rescheduleOpen && (
+          <Modal visible={rescheduleOpen} setVisible={setRescheduleOpen}>
+            <div className="p-4 md:p-5 text-center my-[5rem]">
+              <svg
+                className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+              <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                Chhose a Date if you are sure you want to reschedule
+              </h3>
+              <TextInput
+                type="datetime-local"
+                selected={rescheduleDate}
+                onValueChange={(date) => {
+                  setRescheduleDate(date);
+                }}
+                dateFormat="yyyy-MM-dd"
+                placeholderText="Appointment Date"
+                className="w-full"
               />
-            </svg>
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Chhose a Date if you are sure you want to reschedule
-            </h3>
-            <TextInput
-              type="datetime-local"
-              selected={rescheduleDate}
-              onValueChange={(date) => {
-                setRescheduleDate(date);
-              }}
-              dateFormat="yyyy-MM-dd"
-              placeholderText="Appointment Date"
-              className="w-full"
-            />
-            <Button
-              type="button"
-              className="text-white bg-blue-500 border border-transparent rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mt-5"
-              color="blue"
-              onClick={onReschedule}
-              loading={rescheduleLoading}
-            >
-              Reschedule
-            </Button>
-          </div>
-        </Modal>
+              <Button
+                type="button"
+                className="text-white bg-blue-500 border border-transparent rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mt-5"
+                color="blue"
+                onClick={onReschedule}
+                loading={rescheduleLoading}
+              >
+                Reschedule
+              </Button>
+            </div>
+          </Modal>
+        )}
       </>
     </>
   );

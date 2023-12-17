@@ -187,24 +187,27 @@ const PricingCard = ({ hp, patient, discount }) => {
           confirmLoading={loading}
         />
 
-        <SubscribeModal
-          title={`Subscribe to our ${hp?.name} Health Package`}
-          subheader={``}
-          subscribed={
-            patient?.subscriptionStatus === "subscribed" ||
-            patient?.subscriptionStatus == "cancelled"
-          }
-          visible={show}
-          loading={orderLoading}
-          setVisible={setShow}
-          patient={patient}
-          onHide={() => {
-            setShow(false);
-          }}
-          id={hp?._id}
-          healthPackage={hp}
-        />
+        {show && (
+          <SubscribeModal
+            title={`Subscribe to our ${hp?.name} Health Package`}
+            subheader={``}
+            subscribed={
+              patient?.subscriptionStatus === "subscribed" ||
+              patient?.subscriptionStatus == "cancelled"
+            }
+            visible={show}
+            loading={orderLoading}
+            setVisible={setShow}
+            patient={patient}
+            onHide={() => {
+              setShow(false);
+            }}
+            id={hp?._id}
+            healthPackage={hp}
+          />
+        )}
       </div>
+
       {patient?.package == hp._id &&
         patient?.subscriptionStatus == "cancelled" && (
           <>

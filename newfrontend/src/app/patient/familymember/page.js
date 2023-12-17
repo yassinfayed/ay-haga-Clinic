@@ -31,7 +31,7 @@ function Familymembers() {
   const isLoading = useSelector(
     (state) => state.viewAllFamilyMembersAndPatientsReducer.loading
   );
-  const { error: registerError,success:addSuccess } = useSelector(
+  const { error: registerError, success: addSuccess } = useSelector(
     (state) => state.addFamilyMembersReducer
   );
   const {
@@ -92,15 +92,16 @@ function Familymembers() {
         >
           Add New Family Member
         </Button>
-
-        <Modal visible={modalShow} setVisible={setModalShow} famFlag={true}>
-          <NewOrOldFamily
-            setSuccess={setSuccessMessage}
-            setError={setErrorMessage}
-            visible={modalShow}
-            setVisible={setModalShow}
-          />
-        </Modal>
+        {modalShow && (
+          <Modal visible={modalShow} setVisible={setModalShow} famFlag={true}>
+            <NewOrOldFamily
+              setSuccess={setSuccessMessage}
+              setError={setErrorMessage}
+              visible={modalShow}
+              setVisible={setModalShow}
+            />
+          </Modal>
+        )}
 
         {/* Success and Error Messages */}
         {/* {successMessage && (

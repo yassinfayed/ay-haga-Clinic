@@ -56,13 +56,13 @@ function ReserveCalendar({ id }) {
 
   const prevMonth = () => {
     setCurrentDate(
-      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1),
+      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() - 1)
     );
   };
 
   const nextMonth = () => {
     setCurrentDate(
-      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1),
+      (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1)
     );
   };
 
@@ -113,7 +113,7 @@ function ReserveCalendar({ id }) {
                   .filter((event) => {
                     const eventMonth = new Date(event.formattedDate).getMonth();
                     const eventYear = new Date(
-                      event.formattedDate,
+                      event.formattedDate
                     ).getFullYear();
                     return (
                       eventMonth === currentDate.getMonth() &&
@@ -140,7 +140,7 @@ function ReserveCalendar({ id }) {
                   ))}
             </div>
           </div>
-        </td>,
+        </td>
       );
     }
     // Wrap days in rows
@@ -195,16 +195,18 @@ function ReserveCalendar({ id }) {
         />
       )}
 
-      <ReserveModal
-        visible={reserve}
-        setVisible={setReserve}
-        title="Reservation"
-        id={id}
-        hourlyRate={doctor?.HourlyRate}
-        selectedDate={selectedDate}
-        success={success}
-        reserveloading={loading}
-      ></ReserveModal>
+      {reserve && (
+        <ReserveModal
+          visible={reserve}
+          setVisible={setReserve}
+          title="Reservation"
+          id={id}
+          hourlyRate={doctor?.HourlyRate}
+          selectedDate={selectedDate}
+          success={success}
+          reserveloading={loading}
+        ></ReserveModal>
+      )}
       <div className="container mx-auto mt-10">
         <div className="wrapper rounded shadow w-full ">
           <div className="header flex justify-between border-b p-2">

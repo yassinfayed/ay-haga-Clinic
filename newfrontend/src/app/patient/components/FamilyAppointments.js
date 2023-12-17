@@ -422,20 +422,22 @@ const FamilyAppointments = ({ memberId, memberName }) => {
           </Card>
         </>
       )}
-      <Modal
-        visible={reschedule}
-        setVisible={setReschedule}
-        className="w-full h-full"
-        scroll={true}
-      >
-        {reschedule && (
-          <RescheduleCalendar
-            setCalendar={setReschedule}
-            id={doctorID}
-            appointmentId={appointmentId}
-          ></RescheduleCalendar>
-        )}
-      </Modal>
+      {reschedule && (
+        <Modal
+          visible={reschedule}
+          setVisible={setReschedule}
+          className="w-full h-full"
+          scroll={true}
+        >
+          {reschedule && (
+            <RescheduleCalendar
+              setCalendar={setReschedule}
+              id={doctorID}
+              appointmentId={appointmentId}
+            ></RescheduleCalendar>
+          )}
+        </Modal>
+      )}
     </>
   );
 };
