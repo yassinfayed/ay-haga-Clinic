@@ -1,7 +1,5 @@
 ![Logo](https://flowbite.com/docs/images/logo.svg)
 
-![Mongo DB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)![Expree.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Node.JS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![Redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white) ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Stripe](https://img.shields.io/badge/Stripe-626CD9?style=for-the-badge&logo=Stripe&logoColor=white) ![VS code](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
-
 # Vite Clinics
 
 Vite Clinics is an innovative virtual healthcare platform designed to revolutionize the patient and healthcare provider experience in Egypt. By leveraging the power of digital technology, Vite Clinics facilitates a comprehensive suite of services for both doctors and patients through an accessible online portal. The platform's primary aim is to streamline the process of healthcare delivery by offering a range of functionalities from appointment scheduling to telemedicine consultations.
@@ -12,8 +10,8 @@ The motivation behind Vite Clinics stems from the need to improve healthcare acc
 
 ## Build Status
 
+Passing - All tests successful as of 16/12/2023.
 - The project is currently in development.
-- All core tests are passed
 - The development team is utilizing GitHub for version control
 - To ensure a structured and organized development process, we have adopted the GitFlow workflow.
 
@@ -36,70 +34,51 @@ The motivation behind Vite Clinics stems from the need to improve healthcare acc
 ## Screenshots 🖵
 
 
-<details>
-<summary>Landing Page</summary>
+#### Landing Page
 ![image](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/f0457fe6-fda3-4d57-8d07-fda5d523edc2)
 ![Screenshot 2023-12-16 204206](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/1d4df9df-3d2f-47ee-9357-3610afb2a0f4)
 
-</details>
-
-<details>
-<summary>Login Page</summary>
+#### Login Page
 ![Screenshot 2023-12-16 204239](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/98380a4e-ccbf-48c7-94d7-1b0953690f7b)
 
-</details>
 
-<details>
-<summary>Patient Profile Page</summary>
+#### Patient Profile Page
 ![Screenshot 2023-12-16 204402](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/29dde6b5-6463-4c81-b1ef-71ddd44b283d)
 
-</details>
 
-<details>
-<summary>Family Members' Page</summary>
+#### Family Members' Page
 ![Screenshot 2023-12-16 204510](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/dd7f3709-3ea0-48e9-b5ce-ed2880875c82)
 
-</details>
 
-<details>
-<summary>Doctor's Contract Page</summary>
+#### Doctor's Contract Page
 ![Screenshot 2023-12-16 204844](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/80060872-491a-4072-aae3-d6dc99d4a0bf)
 
-</details>
 
-<details>
-<summary>Doctor's Profile Page</summary>
+#### Doctor's Profile Page
 ![Screenshot 2023-12-16 204906](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/1dc1920c-84a3-438e-bae4-78f5dcb80f86)
 
-</details>
 
-<details>
-<summary>Sign up Page</summary>
+#### Sign up Page
 ![Screenshot 2023-12-16 204953](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/c4b7e758-25ab-437a-8288-452aa3531113)
 
-</details>
 
-<details>
-<summary>Adding A New Family Member</summary>
+#### Adding A New Family Member
 ![Screenshot 2023-12-16 205702](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/6936fbd4-ac8b-498f-b7ba-072ed871b3b9)
 
-</details>
 
-<details>
-<summary>Health Packages Page</summary>
+#### Health Packages Page
 ![Screenshot 2023-12-16 205917](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/97824627-c0b0-41e2-9037-b6bdcd9272dd)
 
-</details>
 
-<details>
-<summary>Manage User Page For Admin</summary>
+#### Manage User Page For Admin
 ![Screenshot 2023-12-16 210337](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/309def71-64db-4687-8916-c69be1027d15)
 ![Screenshot 2023-12-16 210407](https://github.com/advanced-computer-lab-2023/ay-haga-Clinic/assets/105674844/e9be64a9-7aa6-47d2-b31b-f3d56b6e72f1)
 
-</details>
-
 
 ## Tech/Framework Used
+
+
+![Mongo DB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)![Expree.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Node.JS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![Redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white) ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Stripe](https://img.shields.io/badge/Stripe-626CD9?style=for-the-badge&logo=Stripe&logoColor=white) ![VS code](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
 
 ### MERN stack (MongoDB, Express.js, React, Node.js)
 
@@ -110,7 +89,6 @@ The motivation behind Vite Clinics stems from the need to improve healthcare acc
 <details>
     <summary>Other technologies used</summary>
  
-
 - [Mongoose](https://mongoosejs.com/)
 - [Redux](https://redux.js.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
@@ -868,9 +846,10 @@ export const getHealthPackagesReducer = (state = getHealthPackagesInitialState, 
 
 for more details refer to the [postman collection](./Elha2ny.postman_collection.json)
 
-## Running Tests
+## Testing
 
 We used [Postman](./Elha2ny.postman_collection.json) for API testing. We also tested the UI by trying to perform every action, and see the results, also by assessing the design and theme.
+refer to [Postman Collection](./Elha2ny.postman_collection.json) for more...
 
 ## Installation
 
@@ -964,25 +943,6 @@ Backend Dependencies
 }
 ```
 
-Make sure to configure the following environment variables in your `config.env` file in  the backend directory:
-
-- **NODE_ENV**: Set to "development" for the development environment.
-- **PORT**: Port on which the server will run (e.g., 8000).
-- **DATABASE**: MongoDB database connection URI.
-- **DATABASE_PASSWORD**: Password for the MongoDB database.
-- **JWT_SECRET**: Secret key for JWT token generation.
-- **JWT_EXPIRES_IN**: JWT token expiration time (e.g., "90d" for 90 days).
-- **JWT_COOKIES_EXPIRES_IN**: JWT cookie expiration time (e.g., "90").
-- **EMAIL_USERNAME**: SMTP email username.
-- **EMAIL_PASSWORD**: SMTP email password.
-- **EMAIL_PORT**: SMTP email port.
-- **EMAIL_HOST**: SMTP email host.
-- **EMAIL_FROM**: Default "from" email address for outgoing emails.
-- **SENDGRID_USERNAME**: SendGrid API username.
-- **SENDGRID_PASSWORD**: SendGrid API password.
-- **STRIPE_SECRET_KEY**: Stripe secret API key.
-- **STRIPE_WEBHOOK_SECRET**: Stripe webhook secret.
-
 ## How To Use
 
 ```bash
@@ -1012,7 +972,7 @@ Make sure to configure the following environment variables in your `config.env` 
 - **STRIPE_WEBHOOK_SECRET**: Stripe webhook secret.
 </details>
 
-Then open 2 terminals
+#### Then open 2 terminals
 
 write the following in the first one:
 

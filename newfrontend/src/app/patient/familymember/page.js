@@ -31,7 +31,7 @@ function Familymembers() {
   const isLoading = useSelector(
     (state) => state.viewAllFamilyMembersAndPatientsReducer.loading
   );
-  const { error: registerError } = useSelector(
+  const { error: registerError, success: addSuccess } = useSelector(
     (state) => state.addFamilyMembersReducer
   );
   const {
@@ -92,29 +92,38 @@ function Familymembers() {
         >
           Add New Family Member
         </Button>
-
-        <Modal visible={modalShow} setVisible={setModalShow} famFlag={true}>
-          <NewOrOldFamily
-            setSuccess={setSuccessMessage}
-            setError={setErrorMessage}
-            visible={modalShow}
-            setVisible={setModalShow}
-          />
-        </Modal>
+        {modalShow && (
+          <Modal visible={modalShow} setVisible={setModalShow} famFlag={true}>
+            <NewOrOldFamily
+              setSuccess={setSuccessMessage}
+              setError={setErrorMessage}
+              visible={modalShow}
+              setVisible={setModalShow}
+            />
+          </Modal>
+        )}
 
         {/* Success and Error Messages */}
-        {successMessage && (
+        {/* {successMessage && (
           <BottomCallout
             message={successMessage}
             variant="success"
             visible={!!successMessage}
             setVisible={() => setSuccessMessage("")}
           />
-        )}
+        )} */}
         {registerError && (
           <BottomCallout
             message={registerError}
             variant="error"
+            visible={visibleFeedback}
+            setVisible={setVisibleFeedback}
+          />
+        )}
+        {addSuccess && (
+          <BottomCallout
+            message={"Family Member Added Successfully."}
+            variant="success"
             visible={visibleFeedback}
             setVisible={setVisibleFeedback}
           />
@@ -129,7 +138,7 @@ function Familymembers() {
         )}
         {linkSuccess && (
           <BottomCallout
-            message={linkSuccess}
+            message={"Family Member Linked Successfully."}
             variant="success"
             visible={visibleFeedback}
             setVisible={setVisibleFeedback}
