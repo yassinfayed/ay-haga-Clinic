@@ -299,7 +299,7 @@ const DoctorsPage = () => {
                 />
               </svg>
             </div>
-            <ReserveCalendar id={selected?.doctorID}></ReserveCalendar>
+            {selected && <ReserveCalendar id={selected?.doctorID}></ReserveCalendar>}
           </>
         )}
       </>
