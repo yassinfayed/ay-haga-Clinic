@@ -9,7 +9,7 @@ import { formatDateToDDMMYYYY } from "../../../redux/validators";
 import { DateRangePicker } from "@tremor/react";
 import AddPrescription from "../../components/AddPrescription";
 import {
-  createPrescription,
+  createPrescription as createPrescription1,
   updatePrescription,
 } from "@/app/redux/actions/prescriptionsActions";
 import { fetchMedicines } from "@/app/redux/services/getMedicinesFromPharmacy";
@@ -21,16 +21,20 @@ const Prescriptions = ({ params }) => {
     //   dispatch(downloadPharmacistDocs(pharmId));
   };
   // const [followUpFeedback, setFollowUpFeedback] = useState(true);
-  const [createPrescriptionFeedback, setCreatePrescriptionFeedback] = useState(true);
+  const [createPrescriptionFeedback, setCreatePrescriptionFeedback] =
+    useState(true);
 
-  const [updatePrescriptionFeedback, setUpdatePrescriptionFeedback] = useState(true);
+  const [updatePrescriptionFeedback, setUpdatePrescriptionFeedback] =
+    useState(true);
   const { prescription, loading } = useSelector(
     (state) => state.viewAllPrescriptionsReducer
   );
 
-  const { loading: createLoading, prescription: createPrescription, error: createError } = useSelector(
-    (state) => state.createPrescriptionReducer
-  );
+  const {
+    loading: createLoading,
+    prescription: createPrescription,
+    error: createError,
+  } = useSelector((state) => state.createPrescriptionReducer);
 
   const [open, setOpen] = useState(false);
   const [medicines, setMedicines] = useState([
@@ -56,10 +60,11 @@ const Prescriptions = ({ params }) => {
     setFreeze(true);
   };
 
-  const { loading: updateLoading, prescription: updatePrescription, error: updateError
-  } = useSelector(
-    (state) => state.updatePrescriptionReducer
-  );
+  const {
+    loading: updateLoading,
+    prescription: updatePrescription,
+    error: updateError,
+  } = useSelector((state) => state.updatePrescriptionReducer);
   const prescriptionList = useMemo(() => {
     return prescription?.data?.map(
       ({
@@ -101,7 +106,7 @@ const Prescriptions = ({ params }) => {
         medicines: medicines,
         filled_unfilled: false,
       };
-      dispatch(createPrescription(newPrescription));
+      dispatch(createPrescription1(newPrescription));
     }
     setOpen(false);
     setRefresh(!refresh);
@@ -163,7 +168,6 @@ const Prescriptions = ({ params }) => {
 
   return (
     <>
-
       {createError && (
         <BottomCallout
           message="Error creating prescription"
@@ -200,11 +204,20 @@ const Prescriptions = ({ params }) => {
       <>
         <div className="w-full flex flex-row gap-4 mb-4 divide-gray-400">
           <h1 className="font-bold text-xl">Prescriptions</h1>
-          <svg role="button" onClick={() => setOpen(true)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-6 h-6">
-            <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z" clipRule="evenodd" />
+          <svg
+            role="button"
+            onClick={() => setOpen(true)}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="white"
+            className="w-6 h-6"
+          >
+            <path
+              fillRule="evenodd"
+              d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z"
+              clipRule="evenodd"
+            />
           </svg>
-
-
 
           {/* <button
             onClick={() => {
