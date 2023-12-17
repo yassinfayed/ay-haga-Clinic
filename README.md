@@ -12,8 +12,8 @@ The motivation behind Vite Clinics stems from the need to improve healthcare acc
 
 ## Build Status
 
+Passing - All tests successful as of 16/12/2023.
 - The project is currently in development.
-- All core tests are passed
 - The development team is utilizing GitHub for version control
 - To ensure a structured and organized development process, we have adopted the GitFlow workflow.
 
