@@ -5,7 +5,7 @@ const Footer = () => {
 
   const dirs = window.location.href.split('/');
   console.log(dirs);
-  if (dirs.includes("signup") || dirs.includes("guest") || dirs.includes("pharmacistWaiting") || window.location.href === "http://localhost:3000/" || window.location.href === "http://127.0.0.1:3000/") {
+  if (dirs.includes("services") ||dirs.includes("signup") || dirs.includes("guest") || dirs.includes("pharmacistWaiting") || window.location.href === "http://localhost:3000/" || window.location.href === "http://127.0.0.1:3000/") {
     fullFooter = true;
   }
 
