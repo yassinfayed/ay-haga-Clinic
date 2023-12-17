@@ -10,7 +10,7 @@ import { DateRangePicker } from "@tremor/react";
 import AddPrescription from "../../components/AddPrescription";
 import {
   createPrescription as createPrescription1,
-  updatePrescription,
+  updatePrescription as updatePrescription1,
 } from "@/app/redux/actions/prescriptionsActions";
 import { fetchMedicines } from "@/app/redux/services/getMedicinesFromPharmacy";
 
@@ -94,7 +94,7 @@ const Prescriptions = ({ params }) => {
       const newPrescription = {
         medicines: medicines,
       };
-      dispatch(updatePrescription(id, newPrescription));
+      dispatch(updatePrescription1(id, newPrescription));
       setEdited(false);
       setId(null);
     } else {
@@ -243,7 +243,7 @@ const Prescriptions = ({ params }) => {
             <TableComponent
               setSelected={setSelected}
               rows={prescriptionList}
-              columns={["Prescription Date", "Filled/Unfilled"]}
+              columns={["Prescription Date", "Status"]}
               fields={["prescriptionDate", "filled_unfilled"]}
               freeze={freeze}
               filters={<DateRangePicker className="z-10" />}
