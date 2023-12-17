@@ -261,19 +261,19 @@ const handleAccept = (id) => {
               }
               worker={true}
               fields={[
-                "email",
+             
                 "DateOfbirth",
-                "username",
+              
                 "HourlyRate",
-                "affiliation",
+             
                 "speciality"
               ]}
               displayNames={[
-                "Email",
+             
                 "Birth Date",
-                "Username",
+             
                 "Hourly Rate",
-                "Affiliation",
+               
                 "Speciality"
               ]}
             />
