@@ -1012,7 +1012,7 @@ Make sure to configure the following environment variables in your `config.env` 
 - **STRIPE_WEBHOOK_SECRET**: Stripe webhook secret.
 </details>
 
-open 2 terminals
+Then open 2 terminals
 
 write the following in the first one:
 
