@@ -173,7 +173,7 @@ function AddFamily({ setVisible, setSuccess, setError }) {
           </Col>
           <Col>
             <TextInput
-              placeholder="phone Number"
+              placeholder="Phone Number"
               name="mobileNumber"
               type="tel"
               value={formData.mobileNumber}
