@@ -14,6 +14,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { formatDateToDDMMYYYY } from "../../redux/validators";
 import {
+  Button,
   DatePicker,
   DateRangePicker,
   Select,
@@ -213,6 +214,12 @@ const DoctorsPage = () => {
                 className="flex-[2]"
                 placeholder="Filter by available dates"
               />
+              <Button variant="secondary" onClick={()=>{
+                setAvailableDate({})
+                setSpeciality({})
+                setName({})
+
+              }}>Clear Filters</Button>
             </div>
 
             <div className="flex overflow-hidden gap-x-4 gap-y-8">
