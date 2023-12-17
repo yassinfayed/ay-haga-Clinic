@@ -45,7 +45,7 @@ function ReserveCalendar({ id }) {
       return acc;
     }, {});
     setEvents(formattedEvents);
-  }, []);
+  }, [doctor]);
 
   useEffect(() => {
     if (success) dispatch(viewDoctorDetails(id));
@@ -108,7 +108,7 @@ function ReserveCalendar({ id }) {
               <span className="text-white-500">{day}</span>
             </div>
             <div className="bottom flex-grow h-30 py-1 w-full cursor-pointer text-lg">
-              {events[eventKey] &&
+              {events && events[eventKey] &&
                 events[eventKey]
                   .filter((event) => {
                     const eventMonth = new Date(event.formattedDate).getMonth();
