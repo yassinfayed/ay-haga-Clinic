@@ -181,7 +181,7 @@ exports.rescheduleAppointment = catchAsync(async (req, res, next) => {
 
   const indexToRemove = doctor.availableDates.findIndex(
     (availableDate) =>
-      availableDate.getTime() === new Date(req.body.date).getTime()
+      availableDate?.getTime() === new Date(req.body.date)?.getTime()
   );
 
   if (indexToRemove !== -1) {
