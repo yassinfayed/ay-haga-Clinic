@@ -172,7 +172,11 @@ const SignupPharmacist = () => {
       )}
       <div className="min-h-screen flex items-center justify-center bg-gray-900 text-gray-300">
         <div className="max-w-screen-xl m-0 sm:m-10 shadow sm:rounded-lg flex justify-center flex-1">
-        <Lottie animationData={doctorAnimation} loop={true} className='w-[550px] h-[850px]'/>          
+          <Lottie
+            animationData={doctorAnimation}
+            loop={true}
+            className="w-[550px] h-[850px]"
+          />
           <div className="lg:w-2/3 xl:w-2/3 p-6 sm:p-12 transform scale-70">
             <div className="flex flex-col items-center rounded-lg border border-primary-600 px-8 pt-8 pb-12 shadow-lg w-full ">
               <h1 className="text-2xl xl:text-3xl font-extrabold">Sign Up</h1>
@@ -425,7 +429,7 @@ const SignupPharmacist = () => {
 
                   <Divider></Divider>
                   <h1 className="text-2xl xl:text-3xl font-extrabold text-center">
-                    Required Documents
+                    Required Documents (JPEG, PNG , PDF)
                   </h1>
                   <FileUpload
                     variant="secondary"
@@ -448,7 +452,11 @@ const SignupPharmacist = () => {
                   {/* Sign Up Button */}
                   <Button
                     variant="primary"
-                    disabled={files.document1 === null || files.document2 === null || files.document3 === null}
+                    disabled={
+                      files.document1 === null ||
+                      files.document2 === null ||
+                      files.document3 === null
+                    }
                     className="mt-5 tracking-wide font-semibold text-gray-100 w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                     onClick={handleSignUp}
                     loading={registerLoading}
