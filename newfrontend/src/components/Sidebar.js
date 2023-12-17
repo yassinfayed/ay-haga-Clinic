@@ -45,7 +45,7 @@ export default function Sidebar() {
         href: "/patient/prescriptions",
       },
 
-      { icon: "order", label: "Appointments", href: "/patient/appointments" },
+      { icon: "order", label: "My Appointments", href: "/patient/appointments" },
       {
         icon: "health",
         label: "Health Packages",
@@ -62,7 +62,7 @@ export default function Sidebar() {
     ],
     doctor: [
       { icon: "profile", label: "Profile", href: "/doctor/profile" },
-      { icon: "order", label: "Appointments", href: "/doctor/appointments" },
+      { icon: "order", label: "My Appointments", href: "/doctor/appointments" },
 
       { icon: "users", label: "My Patients", href: "/doctor/my-patients" },
       { icon: "video", label: "Video Room", href: "/doctor/video" },
