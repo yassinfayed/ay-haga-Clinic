@@ -377,23 +377,7 @@ const Signup = () => {
                     </Col>
 
                     <Col>
-                      <TextInput
-                        className="w-full px-8 py-4 rounded-lg font-medium   placeholder-gray-500 text-lg  "
-                        type="text"
-                        placeholder="Relation To You*"
-                        name="erelationToPatient"
-                        value={formData.erelationToPatient}
-                        onChange={handleInputChange}
-                        error={
-                          formData.erelationToPatient === "" && registerError
-                        }
-                        errorMessage={
-                          formData.erelationToPatient === "" &&
-                          registerError &&
-                          "Please fill in this field"
-                        }
-                        required
-                      />
+             
                     </Col>
                   </Grid>
                   {/* Sign Up Button */}

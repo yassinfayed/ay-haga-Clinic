@@ -106,7 +106,7 @@ const Patients = () => {
             "Birth Date",
             "Emergency Name",
             "Emergency Number",
-            "Emergency Relation",
+            
           ]}
           fields={[
             "username",
@@ -115,7 +115,7 @@ const Patients = () => {
             "dateOfBirth",
             "eName",
             "eMobileNumber",
-            "eRelation",
+            
           ]}
           freeze={freeze}
           buttons={[
