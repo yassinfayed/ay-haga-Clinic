@@ -19,12 +19,18 @@ const PolicyPage = () => {
         <div className="flex flex-wrap items-center justify-between gap-5 relative">
           {/* replace with clinic logo */}
           <a href="javascript:void(0)">
+          <div className="flex">
             <img
               src="https://flowbite.com/docs/images/logo.svg"
               className="h-8"
               alt="Flowbite Logo"
             />
+         <span className="ms-2 self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+                Vite Clinics
+              </span>
+              </div>
           </a>
+        
           <div className="flex lg:order-1 max-sm:ml-auto">
             <button className="px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-[#007bff] bg-[#007bff] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]">
               <a href="/guest/login">Login</a>

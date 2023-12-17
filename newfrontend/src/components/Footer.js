@@ -5,7 +5,7 @@ const Footer = () => {
 
   const dirs = window.location.href.split('/');
   console.log(dirs);
-  if (dirs.includes("services") ||dirs.includes("signup") || dirs.includes("guest") || dirs.includes("pharmacistWaiting") || window.location.href === "http://localhost:3000/" || window.location.href === "http://127.0.0.1:3000/") {
+  if (dirs.includes("policy") ||dirs.includes("services") ||dirs.includes("signup") || dirs.includes("guest") || dirs.includes("pharmacistWaiting") || window.location.href === "http://localhost:3000/" || window.location.href === "http://127.0.0.1:3000/") {
     fullFooter = true;
   }
 
@@ -24,7 +24,7 @@ const Footer = () => {
                 alt="Flowbite Logo"
               />
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                Clinic
+                Vite Clinics
               </span>
             </a>
             <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
@@ -38,18 +38,13 @@ const Footer = () => {
                   Policy
                 </a>
               </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Contact
-                </a>
-              </li>
             </ul>
           </div>
           <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
           <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
             © 2023{" "}
             <a href="#" className="hover:underline">
-              Clinic
+              Vite Clinics
             </a>
           </span>
           All Rights Reserved
