@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 
 const Header = ({ logoutOnly }) => {
   return (
-    <>
     <header className="shadow-md py-4 px-4 sm:px-10 font-sans-serif min-h-70px">
       {(logoutOnly!=true) ? (<div className="flex flex-wrap items-center justify-between gap-5 relative">
         {/* replace with clinic logo */}
@@ -122,7 +121,6 @@ const Header = ({ logoutOnly }) => {
       </div>
       )}
     </header>
-    </>
   );
 };
 
