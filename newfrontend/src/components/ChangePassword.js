@@ -43,7 +43,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <Card className="prof w-[35rem]">
+    <Card className="prof w-[35rem] h-full flex flex-col items-center justify-center">
       {changeSuccess && (
         <BottomCallout
           message="You have successfully changed your password"
