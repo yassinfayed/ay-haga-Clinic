@@ -88,7 +88,7 @@ const page = () => {
         )}
         {orderSuccess && (
           <BottomCallout
-            message="Subscirbed Successfully"
+            message="Subscribed Successfully"
             variant="success"
             visible={visible}
             setVisible={setVisible}
