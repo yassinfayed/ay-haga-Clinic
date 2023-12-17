@@ -105,7 +105,7 @@ const Appointments = () => {
     return appointments?.data?.map(
       ({ date, doctorId, status, followUp, _id }) => ({
         date: translateDate(new Date(date))[0] + ' @ ' + translateDate(new Date(date))[1],
-        doctorname: doctorId.name,
+        doctorname: doctorId?.name,
         status: status,
         buttons:
           status === "Upcoming" ? (
