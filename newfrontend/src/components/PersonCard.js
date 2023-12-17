@@ -179,7 +179,7 @@ const PersonalCard = ({
   };
 
   return (
-    <div className="max-w-md">
+    <div className="w-full">
       <div className="rounded-lg border border-gray-800 px-4 pt-8 pb-10 shadow-lg">
         <div className="relative mx-auto w-28 rounded-full">
           <span className="absolute right-0 m-3 h-3 w-3 rounded-full bg-green-500 ring-2 ring-green-300 ring-offset-2"></span>
