@@ -153,7 +153,7 @@ const FamilyAppointments = ({ memberId, memberName }) => {
                     variant="secondary"
                     className="mx-7"
                     onClick={(e) => {
-                      handleReschedule(value.doctorId._id, value._id);
+                      handleReschedule(value.doctorId?._id, value._id);
                     }}
                   >
                     Reschedule
