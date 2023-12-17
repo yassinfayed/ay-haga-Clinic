@@ -93,7 +93,7 @@ function ReserveModal(props) {
 
   useEffect(() => {
     if (!loading && init == true && paymentMethod != "Stripe") {
-      // window.location.href = "/patient/appointments";
+      window.location.href = "/patient/appointments";
     }
     setInit(true);
   }, [loading]);
@@ -231,7 +231,9 @@ function ReserveModal(props) {
               }
             >
               Wallet (Available Balance:{" "}
-              {JSON.parse(localStorage.getItem("userInfo")).data?.user.wallet}{" "}
+              {JSON.parse(
+                localStorage.getItem("userInfo")
+              ).data?.user.wallet?.toFixed(2)}{" "}
               USD)
             </SelectItem>
 
