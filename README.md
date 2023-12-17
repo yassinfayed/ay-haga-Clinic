@@ -88,7 +88,6 @@ Passing - All tests successful as of 16/12/2023.
 <details>
     <summary>Other technologies used</summary>
  
-
 - [Mongoose](https://mongoosejs.com/)
 - [Redux](https://redux.js.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
