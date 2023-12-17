@@ -30,16 +30,20 @@ const Appointments = () => {
   const followuploading = useSelector(
     (state) => state.doctorFollowUpReducer.loading
   );
+  const followupSuccess = useSelector(
+    (state) => state.doctorFollowUpReducer.success
+  );
   const {
     loading: rescheduleLoading,
     success: rescheduleSuccess,
+    error:rescheduleError,
     appointment,
     error,
   } = useSelector((state) => state.rescheduleReducer);
   const {
     loading: cancelLoading,
     success: cancelSuccess,
-    errorcancle,
+    error:errorCancel,
   } = useSelector((state) => state.cancelReducer);
   const { loading: revokeLoading, success: revokeSuccess } = useSelector(
     (state) => state.doctorEvaluateFollowUpReducer
@@ -58,7 +62,7 @@ const Appointments = () => {
   const [revokeOpen, setRevokeOpen] = useState(false);
   const [rescheduleFeedback, setRescheduleFeedback] = useState(true);
   const [cancelFeedback, setCancelFeedback] = useState(true);
-
+  const [followUpFeedback, setFollowUpFeedback] = useState(true);
   const formatDateToISOString = (date) => {
     if (!date) return "";
     const utcDate = new Date(
@@ -147,6 +151,14 @@ const Appointments = () => {
   };
   return (
     <>
+      {followupSuccess && (
+        <BottomCallout
+          message="Follow up scheduled successfully."
+          visible={followUpFeedback}
+          setVisible={setFollowUpFeedback}
+          variant="success"
+        />
+      )}
       {revokeSuccess && (
         <BottomCallout
           message="Follow up Revoked."
@@ -163,7 +175,7 @@ const Appointments = () => {
           variant="success"
         />
       )}
-      {error && (
+      {rescheduleError && (
         <BottomCallout
           message={rescheduleError}
           visible={rescheduleFeedback}
@@ -179,9 +191,9 @@ const Appointments = () => {
           variant="success"
         />
       )}
-      {errorcancle && (
+      {errorCancel && (
         <BottomCallout
-          message={cancelError}
+          message={errorCancel}
           visible={cancelFeedback}
           setVisible={setCancelFeedback}
           variant="error"
