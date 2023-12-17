@@ -50,18 +50,18 @@ function Calendar({ id }) {
   const prevMonth = () => {
     const currentDateClone = new Date(currentDate);
     currentDateClone.setMonth(currentDateClone.getMonth() - 1);
-  
+
     // Check if the current month is before the system's current month
-    if(currentDateClone.getMonth() == 11){
+    if (currentDateClone.getMonth() == 11) {
       setCurrentDate(currentDateClone);
     }
     if (currentDateClone < new Date()) {
       return;
     }
-  
+
     setCurrentDate(currentDateClone);
   };
-  
+
 
   const nextMonth = () => {
     setCurrentDate(
@@ -127,12 +127,12 @@ function Calendar({ id }) {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const currentDay = currentDate.getDate(); // Get the current day
-  
+
     const totalDays = daysInMonth(year, month);
     const startingDay = firstDayOfMonth(year, month);
-  
+
     let days = [];
-  
+
     // Add empty cells for the days before the 1st of the month
     for (let i = 0; i < startingDay; i++) {
       days.push(
@@ -141,21 +141,20 @@ function Calendar({ id }) {
         </td>
       );
     }
-  
+
     // Add days of the month
     for (let day = 1; day <= totalDays; day++) {
       const eventKey = `${day}-${currentDate.getMonth()}-${currentDate.getFullYear()}`;
       const isDisabled = currentDate.getMonth() === initialCurrentDay.getMonth() && day < initialCurrentDay.getDate();
 
-  
+
       days.push(
         <td
           key={day}
-           className={`border p-1 h-40 w-10 overflow-auto transition cursor-pointer duration-500 ease ${
-          isDisabled
+          className={`border p-1 h-40 w-10 overflow-auto transition cursor-pointer duration-500 ease ${isDisabled
             ? 'text-gray-400' // Add class to make the text gray for disabled days
             : 'hover:bg-gray-300' // Add hover effect for non-disabled days
-        }`}
+            }`}
           onClick={() => !isDisabled && handleDayClick(day)} // Disable click for disabled days
         >
           <div className=" h-40 mx-auto w-40 mx-auto overflow-hidden">
@@ -190,11 +189,11 @@ function Calendar({ id }) {
         </td>
       );
     }
-  
+
     // Wrap days in rows
     let rows = [];
     let cells = [];
-  
+
     days.forEach((day, index) => {
       if (index % 7 !== 0 || index === 0) {
         cells.push(day);
@@ -204,13 +203,13 @@ function Calendar({ id }) {
         cells.push(day);
       }
     });
-  
+
     // Add the last row
     rows.push(<tr key={days.length / 7}>{cells}</tr>);
-  
+
     // Define an array of day names
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  
+
     // Create header row with day names
     const headerRow = (
       <tr>
@@ -221,7 +220,7 @@ function Calendar({ id }) {
         ))}
       </tr>
     );
-  
+
     return (
       <tbody>
         {headerRow}
@@ -229,7 +228,7 @@ function Calendar({ id }) {
       </tbody>
     );
   };
-  
+
 
   return (
     <>
@@ -250,10 +249,13 @@ function Calendar({ id }) {
                   className="bg-gray-800 text-white p-2 rounded-md focus:outline-none focus:border-blue-500"
                 />
                 <button
+                  disabled={!selectedTime}
                   onClick={handleSubmit}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md ml-2 focus:outline-none focus:shadow-outline-blue"
+                  className="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-md ml-2 focus:outline-none focus:shadow-outline-blue"
                 >
-                  Add slot
+                  <span className="text-white">
+                    Add Slot
+                  </span>
                 </button>
               </div>
             )}
