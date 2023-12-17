@@ -845,9 +845,10 @@ export const getHealthPackagesReducer = (state = getHealthPackagesInitialState, 
 
 for more details refer to the [postman collection](./Elha2ny.postman_collection.json)
 
-## Running Tests
+## Testing
 
 We used [Postman](./Elha2ny.postman_collection.json) for API testing. We also tested the UI by trying to perform every action, and see the results, also by assessing the design and theme.
+refer to [Postman Collection](./Elha2ny.postman_collection.json) for more...
 
 ## Installation
 
