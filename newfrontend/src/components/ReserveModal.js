@@ -93,11 +93,16 @@ function ReserveModal(props) {
 
   useEffect(() => {
     if (!loading && init == true && paymentMethod != "Stripe") {
-      window.location.href = "/patient/appointments";
+      if (pr === "me") {
+        window.location.href = "/patient/appointments";
+      } else {
+        window.location.href = "/patient/familymember";
+      }
     }
     setInit(true);
   }, [loading]);
 
+  const [pr, setPR] = useState("me");
   const handleSubmit = (e) => {
     e.preventDefault();
     // if (
@@ -138,7 +143,9 @@ function ReserveModal(props) {
       );
 
     setFamilyMember(null);
+    setPR(packageReciever);
     setPackageReciever(null);
+
     setPaymentMethod(null);
     setSubmitted(true);
   };

@@ -66,7 +66,7 @@ const LandingPage = () => {
             {/* Service Card 1 */}
             <div className="w-full md:w-1/4 p-4 pb-5">
               <div className="prof rounded-lg shadow-md hover:shadow-lg hover:bg-[#1e2638] transform hover:scale-105 transition duration-300 ease-in-out p-5">
-                <a href="/services">
+                <a href="#">
                 <Image src='/onlineDoctor.svg' height={100} width={100} className='mx-auto my-5'/>
                 <h5 className="text-blue-500 text-lg font-semibold">Online Appointments</h5>
                 <h6 className="mb-2 text-gray-400 font-medium">Hate the clinic commute?</h6>
@@ -76,7 +76,7 @@ const LandingPage = () => {
             </div>
             <div className="w-full md:w-1/4 p-4">
             <div className="prof rounded-lg shadow-md hover:shadow-lg hover:bg-[#1e2638] transform hover:scale-105 transition duration-300 ease-in-out p-5">
-            <a href="/services">
+            <a href="#">
               <Image src='/emergency.svg' height={100} width={100} className='mx-auto my-5'/>
               <h5 className="text-blue-500 text-lg font-semibold">Medical Emergencies</h5>
               <h6 className="mb-2 text-gray-400 font-medium">Got a time-sensitive medical emmergency?</h6>
@@ -86,7 +86,7 @@ const LandingPage = () => {
             </div>
             <div className="w-full md:w-1/4 p-4">
             <div className="prof rounded-lg shadow-md hover:shadow-lg hover:bg-[#1e2638] transform hover:scale-105 transition duration-300 ease-in-out p-5">
-              <a href="/services">
+              <a href="#">
               <Image src='/prescription.svg' height={100} width={100} className='mx-auto my-5'/>
               <h5 className="text-blue-500 text-lg font-semibold">Virtual Diagnosis</h5>
               <h6 className="mb-2 text-gray-400 font-medium">Feeling unwell and need a quick diagnosis? </h6>
@@ -96,7 +96,7 @@ const LandingPage = () => {
             </div>
             <div className="w-full md:w-1/4 p-4">
             <div className="prof rounded-lg shadow-md hover:shadow-lg hover:bg-[#1e2638] transform hover:scale-105 transition duration-300 ease-in-out p-5">
-            <a href="/services">
+            <a href="#">
               <Image src='/heartbeat.svg' height={100} width={100} className='mx-auto my-5'/>
               <h5 className="text-blue-500 text-lg font-semibold">Chronic Disease Management</h5>
               <h6 className="mb-2 text-gray-400 font-medium">Need frequent checkups? Your health is our top priority!</h6>
@@ -108,7 +108,7 @@ const LandingPage = () => {
         </div>
         <div className="flex justify-center">
           <button className="w-1/4 px-4 py-3 my-10 text-lg rounded font-semibold text-white border-2 transform hover:scale-105 border-[#007bff] hover:bg-[#007bff] transition-all ease-in-out duration-300 bg-transparent text-[#007bff]">
-            <a href="/services" class="flex items-center justify-center">
+            <a href="#" class="flex items-center justify-center">
               Explore Health Packages
               <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -207,10 +207,11 @@ const LandingPage = () => {
               fontWeight: "600",}}>
               Sign up and never worry about your healthcare again!
           </h2>
-          <button class="w-1/4 bg-blue-500 hover:bg-blue-700 text-gray-100 text-md font-bold py-3 px-4 rounded-full hover:scale-105 border-2 border-[#007bff] hover:bg-transparent">
-            <a href="/guest/Register" >
+          <button onClick={() => {
+            window.history.pushState({}, '', "/signup/patient");
+            window.location.reload();
+          }} class="w-1/4 bg-blue-500 hover:bg-blue-700 text-gray-100 text-md font-bold py-3 px-4 rounded-full hover:scale-105 border-2 border-[#007bff] hover:bg-transparent">
               <strong>Sign Up Now</strong>
-            </a>
           </button>
         </div>
       </section>

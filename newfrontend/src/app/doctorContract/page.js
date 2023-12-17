@@ -23,7 +23,7 @@ const ContractPage = () => {
   let userInfo;
 
   const doctorContract = useSelector(
-    (state) => state.doctorViewContractReducer.contract,
+    (state) => state.doctorViewContractReducer.contract
   );
   const docStatus = doctor?.employmentContract?.status;
 
@@ -59,7 +59,7 @@ const ContractPage = () => {
 
   return (
     <div>
-    {docStatus === 'Pending' ? (
+      {docStatus === "Pending" ? (
         <div className="container mx-auto my-5 p-16">
           <h1
             style={{
@@ -119,10 +119,7 @@ const ContractPage = () => {
             <p>
               Employee will be compensated an{" "}
               <strong>hourly rate of {doctorContract?.hourlyRate}</strong> which
-              will be subject to a{" "}
-              <strong>
-                {doctorContract?.clinicMarkUp * 100}% clinic markup
-              </strong>
+              will be subject to a <strong>10% clinic markup</strong>
               .
               <br />
               Our employees will have access to{" "}

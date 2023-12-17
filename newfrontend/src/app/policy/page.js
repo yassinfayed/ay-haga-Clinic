@@ -72,14 +72,6 @@ const PolicyPage = () => {
             </li>
             <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
               <a
-                href="/services"
-                className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-15px"
-              >
-                Services
-              </a>
-            </li>
-            <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
-              <a
                 href="/signup/doctor"
                 className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-15px"
               >

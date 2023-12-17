@@ -201,9 +201,9 @@ const DoctorPersonCard = ({
         <p className="text-center text-sm leading-6 text-white-500 hover:text-gray-600">
           {data?.educationalbackground}
         </p>
-        <div className="mt-3 flex flex-wrap justify-between md:space-x-1.2">
+        <div className="mt-3 flex flex-wrap">
           {fields.map((field, index) => (
-            <div key={index} className="flex justify-center items-center py-3 text-sm w-full ">
+            <div key={index} className="flex justify-center items-center py-1 text-sm w-full ">
               <span className="mr-2">{renderIcon(field)}</span>
               {/* <span className="ml-1 mr-1">{data && displayNames[index]}: </span> */}
               <span className="">

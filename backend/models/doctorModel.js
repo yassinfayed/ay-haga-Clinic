@@ -25,20 +25,20 @@ const DoctorSchema = new mongoose.Schema({
   DateOfbirth: {
     type: Date,
     required: [true, "Please tell us your date of birth"],
-    validate: {
-      validator: function (value) {
-        const currentDate = new Date();
-        const minDate = new Date(
-          currentDate.getFullYear() - 25,
-          currentDate.getMonth(),
-          currentDate.getDate(),
-        );
+    // validate: {
+    //   validator: function (value) {
+    //     const currentDate = new Date();
+    //     const minDate = new Date(
+    //       currentDate.getFullYear() - 25,
+    //       currentDate.getMonth(),
+    //       currentDate.getDate(),
+    //     );
 
-        // Check if the date is at least 25 years ago
-        return value <= minDate;
-      },
-      message: "Date of birth should be at least 25 years ago",
-    },
+    //     // Check if the date is at least 25 years ago
+    //     return value <= minDate;
+    //   },
+    //   message: "Date of birth should be at least 25 years ago",
+    // },
   },
   HourlyRate: {
     type: Number,
@@ -124,7 +124,7 @@ const DoctorSchema = new mongoose.Schema({
     },
   },
 });
-DoctorSchema.statics.getAllSpecialities = async function () {
+DoctorSchema.statics.getAllSpecialities = async function() {
   try {
     const doctors = await this.find();
     const allSpecialtiesSet = new Set();
@@ -144,7 +144,7 @@ DoctorSchema.statics.getAllSpecialities = async function () {
   }
 };
 
-DoctorSchema.pre(/^find/, function (next) {
+DoctorSchema.pre(/^find/, function(next) {
   this.populate({
     path: "user",
     //   select: 'username email'  // Specify the fields you want to select from the referenced User model
