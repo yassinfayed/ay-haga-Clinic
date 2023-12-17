@@ -204,7 +204,7 @@ const Prescriptions = () => {
             <TableComponent
               setSelected={setSelected}
               rows={prescriptionList}
-              columns={["Doctor Name", "Prescription Date", "Filled/Unfilled"]}
+              columns={["Doctor Name", "Prescription Date", "Status"]}
               fields={["doctorName", "prescriptionDate", "filled_unfilled"]}
               freeze={freeze}
               filters={<DateRangePicker className="z-10" />}
